@@ -2,12 +2,17 @@ const server = require("express").Router();
 const { Categories } = require("../db.js");
 
 server.post("/products/category", (req, res, next) => {
+  //falta completar atributos
   category = req.body;
-  Categories.create()
+  Categories.findOrCreate()
     .then((category) => {
-      res.json(category);
+      console.log(category);
+      res.status(201).json(category);
     })
-    .catch(error);
+    .catch(next)
+    .catch(() => {
+      return res.status(400).send("Category not created!");
+    });
 });
 
 server.delete("products/category/:id", (req, res, next) => {
@@ -16,9 +21,12 @@ server.delete("products/category/:id", (req, res, next) => {
     where: { id: id },
   })
     .then(() => {
-      res.send("Categoria eliminada");
+      res.send("Category deleted");
     })
-    .catch(error);
+    .catch(next)
+    .catch(() => {
+      return res.status(400).send("Category not found!");
+    });
 });
 
 /*server.put('/products/:idProducto/category/:idCategoria', (req, res, next) => {
