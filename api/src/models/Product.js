@@ -69,7 +69,7 @@ module.exports = (sequelize) => {
         },
         min: {
           args: [0],
-          msg: 'El staock no puede ser menor a "0"'
+          msg: 'El stock no puede ser menor a "0"'
         },
         max: {
           args: [999999999],
