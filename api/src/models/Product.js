@@ -37,7 +37,7 @@ module.exports = (sequelize) => {
         }
       }
     },
-    description: {
+    price: {
       type: S.DECIMAL(9, 2),
       allowNull: false,
       validate: {
