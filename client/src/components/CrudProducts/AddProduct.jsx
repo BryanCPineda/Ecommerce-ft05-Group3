@@ -1,42 +1,56 @@
 import React, { useState } from 'react'
 
-const AddUserForm = (props) => {
-  const initialFormState = { id: null, name: '', username: '' }
-  const [user, setUser] = useState(initialFormState)
+const AddProduct = (props) => {
+  const initialFormState = { id: null, name: '', description: '' , price: null, stock: null}
+  const [prod, setProd] = useState(initialFormState)
 
   const handleInputChange = (event) => {
     const { name, value } = event.target
 
-    setUser({ ...user, [name]: value })
+    setProd({ ...prod, [name]: value })
   }
 
   return (
             <form
                 onSubmit={(event) => {
                     event.preventDefault()
-                    if (!user.name || !user.username) return
+                    if (!prod.name || !prod.description) return
 
-                    props.addUser(user)
-                    setUser(initialFormState)
+                    props.addProduct(prod)
+                    setProd(initialFormState)
                 }}
             >
-            <label>Name</label>
+            <label>Nombre</label>
             <input
                 type="text"
                 name="name"
-                value={user.name}
+                value={prod.name}
                 onChange={handleInputChange}
             />
-            <label>Username</label>
+            <label>Descripción</label>
             <input
                 type="text"
-                name="username"
-                value={user.username}
+                name="description"
+                value={prod.description}
                 onChange={handleInputChange}
             />
-            <button>Add new user</button>
+            <label>Precio</label>
+            <input
+                type="text"
+                name="price"
+                value={prod.price}
+                onChange={handleInputChange}
+            />
+            <label>Stock</label>
+            <input
+                type="text"
+                name="stock"
+                value={prod.stock}
+                onChange={handleInputChange}
+            />
+            <button>Agregar Producto</button>
             </form>
   )
 }
 
-export default AddUserForm
+export default AddProduct
