@@ -19,8 +19,8 @@ server.post('/', (req, res, next) => {
 	.then(product => {
 		res.status(201).send(product);
 	})
-	.catch(()=>{
-		return res.status(400).send('Product not created!');
+	.catch((err)=>{
+		return res.status(400).send(err);
 	})
 });
 //Simply requesting for all products with findAll and catching possible errors.
@@ -29,8 +29,8 @@ server.get('/', (req, res)=>{
 		.then(products=>{
 			res.send(products)
 		})
-		.catch(()=>{
-			return res.status(400).send("Couldn't find products!");
+		.catch((err)=>{
+			return res.status(400).send(err);
 		})
 })
 
@@ -58,8 +58,8 @@ server.get('/search', (req, res)=>{
 	.then((product)=>{
 		res.send(product)
 	})
-	.catch(()=>{
-		return res.status(400).send("Couldn't find any products!");
+	.catch((err)=>{
+		return res.status(400).send(err);
 	})
 })
 
@@ -78,10 +78,34 @@ server.get('/:id', (req, res)=>{
 		.then(product=>{
 				res.json(product)
 		})
-		.catch(()=>{
-			return res.status(400).send("Couldn't find the product!");
+		.catch((err)=>{
+			return res.status(400).send(err); //Catching error from model.
 		})
 })
 
+//This function allow to modify a product receiving the Id by params and the rest of the information by body
+server.put('/:id', (req, res)=>{
+	const id = req.params.id;
+	const { name, description, price, stock } = req.body; // you can change only one property of the product or several of them
+	Product.update( 
+		{	
+			name: name,
+			description: description,
+			price: price,
+			stock: stock 
+		},
+		{	
+			where: {
+				id:id
+			}
+		},
+	)
+		.then(product=>{
+			res.json(product) 
+		})
+		.catch((err)=>{
+			return res.status(400).send(err);
+		})
+})
 
 module.exports = server;
