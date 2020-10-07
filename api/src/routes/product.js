@@ -1,6 +1,6 @@
 const server = require('express').Router();
 const { Sequelize } = require('sequelize');
-const { Product } = require('../db.js');
+const { Product, Categories } = require('../db.js');
 const Op = Sequelize.Op;
 
 // Checking for a match in database and create the product.
@@ -69,11 +69,14 @@ server.get('/:id', (req, res)=>{
 	const id = req.params.id;
 	Product.findOne({
 		where: {
-			id: id
+			id: id,
+		},
+		include: {
+			model: Categories
 		}
 	})
 		.then(product=>{
-				res.send(product)
+				res.json(product)
 		})
 		.catch(()=>{
 			return res.status(400).send("Couldn't find the product!");
