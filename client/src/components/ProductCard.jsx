@@ -2,6 +2,7 @@ import React from "react";
 import { Card, Button } from "react-bootstrap";
 import { FiShoppingCart } from "react-icons/fi";
 import { Link } from 'react-router-dom';
+import Product from "./Product"
 import "./ProductCard.css";
 
 function ProductCard({ name, description, price, stock, image, id }) {
@@ -14,7 +15,9 @@ function ProductCard({ name, description, price, stock, image, id }) {
         <Card.Body>
           <Link to={`/product/${id}`}>
           <div className="d-flex justify-content-around mt-2 mb-3">
-            <Card.Title>{name}</Card.Title>
+            <Card.Title>
+              {name}
+            </Card.Title>
           </div>
           <Card.Text className="border-solid">{description}</Card.Text>
           </Link>
