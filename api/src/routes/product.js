@@ -23,7 +23,7 @@ server.post('/', (req, res, next) => {
 		return res.status(400).send(err);
 	})
 });
-//Simply requesting for all products with findAll and catching possible errors.
+// Simply requesting for all products with findAll and catching possible errors.
 server.get('/', (req, res)=>{
 	Product.findAll()
 		.then(products=>{
@@ -34,22 +34,20 @@ server.get('/', (req, res)=>{
 		})
 })
 
-// Crear ruta que retorne productos segun el keyword de búsqueda
-// GET /search?query={valor}
-// Retorna todos los productos que tengan {valor} en su nombre o descripción.
+// This function get all products that contains in the name or the description the string passed by.
 server.get('/search', (req, res)=>{
 	const producto = req.query.valor;
 	Product.findAndCountAll({
 		where: {
-			[Op.or]:[
+			[Op.or]:[			// The operator function is passed to Sequelize above
 				{
 					name: { 
-						[Op.like]: `%${producto}%` 
+						[Op.like]: `%${producto}%`   // Syntax sugar to find the term passed by wherever its find in the text.
 					}
 				}, 
 				{
 					description: { 
-						[Op.like]: `%${producto}%` 
+						[Op.like]: `%${producto}%` 	// Syntax sugar to find the term passed by wherever its find in the text.
 					}
 				}
 			]
@@ -63,20 +61,19 @@ server.get('/search', (req, res)=>{
 	})
 })
 
-// GET /products/:id
-// Retorna un objeto de tipo producto con todos sus datos. (Incluidas las categorías e imagenes).
+// This function allow us to bring an specific product indicating the id.
 server.get('/:id', (req, res)=>{
 	const id = req.params.id;
 	Product.findOne({
 		where: {
-			id: id,
+			id: id
 		},
-		include: {
+		include: { // Also bring the categories to which it belongs
 			model: Categories
 		}
 	})
 		.then(product=>{
-				res.json(product)
+			res.json(product)
 		})
 		.catch((err)=>{
 			return res.status(400).send(err); //Catching error from model.
@@ -87,8 +84,7 @@ server.get('/:id', (req, res)=>{
 server.put('/:id', (req, res)=>{
 	const id = req.params.id;
 	const { name, description, price, stock } = req.body; // you can change only one property of the product or several of them
-	Product.update( 
-		{	
+	Product.update({	
 			name: name,
 			description: description,
 			price: price,
@@ -98,13 +94,34 @@ server.put('/:id', (req, res)=>{
 			where: {
 				id:id
 			}
-		},
-	)
-		.then(product=>{
-			res.json(product) 
+	})
+	.then((confirmation)=>{
+		if(confirmation === 0){   // checking if the id passed its correct
+			return res.send('Product not found!')
+		}
+		return res.send('Product Updated')
+	})
+	.catch((err)=>{
+		return res.status(400).send(err);
+	})
+})
+
+//This function allow to delete a product receiving the Id by params
+server.delete('/:id', (req, res)=>{
+	const id = req.params.id;
+	Product.destroy({	
+		where: {
+			id:id
+		}
+	})
+		.then((confirmation)=>{
+			if(confirmation === 0){   // checking if the id passed its correct
+				return res.send('Product not found!')
+			}
+			return res.send('Product Deleted')
 		})
-		.catch((err)=>{
-			return res.status(400).send(err);
+		.catch((error)=>{
+			return res.status(400).send(error);
 		})
 })
 
