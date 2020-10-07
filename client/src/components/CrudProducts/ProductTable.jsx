@@ -1,7 +1,9 @@
 import React from 'react'
-
+import {Row, Col, Container, Table, Button} from 'react-bootstrap'
+import "bootstrap/dist/css/bootstrap.min.css";
 const ProductTable = (props) => (
-  <table>
+  <Container fluid>
+  <Table responsive="sm" striped bordered hover variant="dark">
     <thead>
       <tr>
         <th>Nombre</th>
@@ -20,20 +22,20 @@ const ProductTable = (props) => (
             <td>{prod.price}</td>
             <td>{prod.stock}</td>
             <td>
-                <button
+                <Button variant='primary' size="sm"
                     onClick={() => {
                         props.editRow(prod)
                     }}
                     className="button muted-button"
                     >
                     Editar
-                    </button>
-                <button
+                    </Button>
+                <Button variant='danger' size="sm"
                     onClick={() => props.deleteUser(prod.id)}
                     className="button muted-button"
                     >
                     Borrar
-                </button>
+                </Button>
             </td>
           </tr>
         ))
@@ -43,7 +45,13 @@ const ProductTable = (props) => (
         </tr>
       )}
     </tbody>
-  </table>
+  </Table>
+  </Container>
+
+  
 )
+
+
+
 
 export default ProductTable

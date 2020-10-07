@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import ProductTable from './ProductTable'
 import AddProduct from './AddProduct'
 import EditProduct from './EditProduct'
+import {Container, Row, Col, Modal, Button} from 'react-bootstrap'
 
 const CrudShow = () => {
     const productData = [
@@ -14,6 +15,18 @@ const CrudShow = () => {
       const [editing, setEditing] = useState(false)
       const initialFormState = { id: null, name: '', description: '' , price: null, stock: null}
       const [currentProduct, setCurrentProduct] = useState(initialFormState)
+      // ventana modal edit product---------------
+      const [show, setShow] = useState(false);
+
+      const handleClose = () => setShow(false);
+    //   const handleShow = () => setShow(true);
+      //----------------------------------------
+       // ventana modal add product
+       const [addShow, setAddShow] = useState(false);
+
+       const handleCloseAdd = () => setAddShow(false);
+    //    const handleShowAdd = () => setAddShow(true);
+       //----------------------------------------
     
       const addProduct = (prod) => {
         prod.id = prods.length + 1
@@ -26,7 +39,7 @@ const CrudShow = () => {
 
       const editRow = (prod) => {
         setEditing(true)
-      
+        setShow(true)
         setCurrentProduct({ id: prod.id, name: prod.name, description: prod.description, price: prod.price, stock: prod.stock })
       }
 
@@ -37,31 +50,68 @@ const CrudShow = () => {
       }
       
   return (
-    <div className="container">
-      <div className="flex-row">
-      <div className="flex-large">
-        {editing ? (
-                <div>
-                <h2>Editar Producto</h2>
-                <EditProduct
-                    setEditing={setEditing}
-                    currentProduct={currentProduct}
-                    updateProd={updateProd}
-                />
-                </div>
-            ) : (
-                <div>
-                <h2>Agregar Producto</h2>
-                <AddProduct addProduct={addProduct} />
-                </div>
-            )}
-        </div>
-        <div className="flex-large">
-          <h2>Listado de Productos</h2>
-          <ProductTable prods={prods} deleteUser={deleteUser} editRow={editRow}/>
-        </div>
-      </div>
-    </div>
+    <Container fluid>
+        <Row>
+            <Col>
+                {editing ? (
+                        <Modal show={show} onHide={handleClose}>
+                        <Modal.Header closeButton>
+                          <Modal.Title>Editar Producto</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <EditProduct
+                                    setEditing={setEditing}
+                                    currentProduct={currentProduct}
+                                    updateProd={updateProd}
+                                />
+                        </Modal.Body>
+                      </Modal>
+                        
+                        // <div>
+                        // <h2>Editar Producto</h2>
+                        //     <EditProduct
+                        //         setEditing={setEditing}
+                        //         currentProduct={currentProduct}
+                        //         updateProd={updateProd}
+                        //     />
+                        // </div>
+                    ) : (
+                        <Modal show={addShow} onHide={handleCloseAdd}>
+                        <Modal.Header closeButton>
+                          <Modal.Title>Agregar Producto</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <AddProduct addProduct={addProduct} onHide={handleCloseAdd}/>
+                        </Modal.Body>
+                      </Modal>
+                        // <div>
+                        // <h2>Agregar Producto</h2>
+                        // <AddProduct addProduct={addProduct} />
+                        // </div>
+                    )}
+            </Col>
+        </Row>
+        <Row>
+            <Col>
+            <h4>Listado de Productos</h4>
+            <ProductTable prods={prods} deleteUser={deleteUser} editRow={editRow}/>
+            </Col>
+        </Row>
+        <Row>
+            <Col></Col>
+            <Col></Col>
+            <Col></Col>
+            <Col>
+                <Button 
+                onClick={()=>
+                    setAddShow(true)
+                }
+                >
+                    Agregar Producto
+                </Button>
+            </Col>
+        </Row>
+    </Container>
   )
 }
 
