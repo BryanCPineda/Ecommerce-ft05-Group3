@@ -5,7 +5,7 @@ import {Card,Button} from "react-bootstrap"
 
 
 //Creacion del  componente producto
-export default function ProductCard(){
+export default function ProductCard2(){
     const onClick= function(e){
         e.preventDefault();
         alert("Product Added to cart")

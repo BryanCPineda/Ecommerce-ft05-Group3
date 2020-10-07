@@ -1,11 +1,12 @@
 import React from 'react';
-import ProductCard from "./components/ProductCard";
+import ProductCard2 from "./components/ProductCard2";
 import './App.css';
 
 
 function App() {
   return (<div>
-    <ProductCard/> 
+    
+    <ProductCard2/>
   </div>)
 }
 
