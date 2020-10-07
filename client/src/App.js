@@ -1,5 +1,8 @@
+
 import React from "react";
 import "./App.css";
+
+import ProductCard2 from "./components/ProductCard2";
 
 
 import SearchBar from './components/SearchBar/SearchBar.jsx';
@@ -11,12 +14,16 @@ import FormCategories from './components/FormCategories/FormCategories';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 
+
+
 function App() {
+
+
   return (
     <div>
 
       <SearchBar />
-      
+      <ProductCard2/>
       <Router>
         {"aca va la navbar"}
         <Switch>
@@ -28,6 +35,7 @@ function App() {
 
     </div>
   );
+
 }
 
 export default App;
