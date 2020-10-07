@@ -5,11 +5,11 @@ const S = Sequelize;
 module.exports = (sequelize) => {
   // defino el modelo
   sequelize.define('product', {
-    id:{
+    id: {
       type: S.INTEGER,
-      allowNull: false,
       primaryKey: true,
-      autoImplement: true
+      autoIncrement: true,
+      allowNull: false
     },
     name: {
       type: S.STRING,
