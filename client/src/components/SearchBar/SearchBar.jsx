@@ -5,21 +5,17 @@ import {Navbar, Nav, NavDropdown, Form, FormControl, Button} from "react-bootstr
 
 export default function SearchBar (){
 
-  const [input, setInput]= useState({
-    producto:""
-  });
+  const [search, setSearch]=useState("")
 
-  const handleInputChange=(e)=>{
-    e.preventDefault(e)
-    setInput({
-      ...input,
-      [e.target.name]:e.target.value
-    })
+  
+
+  const handleChange=(e)=>{
+    setSearch(e.target.value)
   }
 
-  const handleOnSubmit=(e)=>{
-    e.preventDefault(e)
-    setInput("")
+  const handleSubmit=(e)=>{
+    e.preventDefault();
+    setSearch(alert("Stock de "+search+" agotado"))
   }
 
   return (
@@ -38,9 +34,10 @@ export default function SearchBar (){
           <NavDropdown.Item href="#action/categoriascompletas">Ver más Categorías</NavDropdown.Item>
         </NavDropdown>
       </Nav>
-      <Form inline onSubmit={handleOnSubmit}>
-         <FormControl value={input.producto} name="producto" onChange={handleInputChange} placeholder="Buscar Producto" type="text" className="mr-sm-2"/>
-         <Button variant="outline-primary" >Buscar</Button>
+      <Form onSubmit={handleSubmit} inline >
+        
+         <input value={search} name="producto" type="text" placeholder="Buscar Producto" onChange={handleChange}></input>
+         <Button type="submit" variant="outline-primary" >Buscar</Button>
       </Form>
   
     </Navbar.Collapse>
