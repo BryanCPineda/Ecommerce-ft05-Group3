@@ -1,7 +1,8 @@
+
 import React from "react";
 import "./App.css";
 import logo from './logo.svg';
-
+import ProductCard2 from "./components/ProductCard2";
 
 import SearchBar from './components/SearchBar/SearchBar.jsx';
 
@@ -13,12 +14,16 @@ import HomeScreen from "./components/HomeScreen";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 
+
+
 function App() {
+
+
   return (
     <div>
 
       <SearchBar />
-      
+      <ProductCard2/>
       <Router>
         {"aca va la navbar"}
         <Switch>
@@ -29,6 +34,7 @@ function App() {
 
     </div>
   );
+
 }
 
 export default App;
