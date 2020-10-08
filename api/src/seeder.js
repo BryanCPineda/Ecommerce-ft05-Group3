@@ -138,9 +138,6 @@ function  imageSeeder(){
             image: "Image 55",
             productId: 5
         },  
-
-
-
     ])
 
 }
