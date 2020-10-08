@@ -6,9 +6,9 @@ import {Container, Row, Col, Modal, Button} from 'react-bootstrap'
 
 const CrudShow = () => {
     const productData = [
-        { id: 1, name: 'Producto 1', description: 'Este producto es el producto 1', price: 320.00 , stock: 10 },
-        { id: 2, name: 'Producto 2', description: 'Este producto es el producto 2', price: 480.00 , stock: 12  },
-        { id: 3, name: 'Producto 3', description: 'Este producto es el producto 3', price: 512.00 , stock: 14  },
+        { id: 1, name: 'Producto 1', description: 'Este producto es el producto 1', price: 320.00 , stock: 10 , img: ''},
+        { id: 2, name: 'Producto 2', description: 'Este producto es el producto 2', price: 480.00 , stock: 12 , img: '' },
+        { id: 3, name: 'Producto 3', description: 'Este producto es el producto 3', price: 512.00 , stock: 14 , img: '' },
       ]
     
       const [prods, setProds] = useState(productData)

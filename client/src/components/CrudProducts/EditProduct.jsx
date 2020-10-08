@@ -61,6 +61,18 @@ const EditProduct = (props) => {
                 </Form.Row>
                 <br />
                 <Form.Row>
+                    <Form.Label column="sm" lg={2}>
+                        Stock
+                    </Form.Label>
+                    <Col>
+                    <Form.Control type="text"
+                        name="img"
+                        value={prod.img}
+                        onChange={handleInputChange} />
+                    </Col>
+                </Form.Row>
+                <br />
+                <Form.Row>
                     <Button
                         // onClick={() => props.setEditing(false)}
                         // className="button muted-button"

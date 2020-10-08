@@ -1,13 +1,15 @@
 import React, { useState } from 'react'
-import {Form, Col, Button} from 'react-bootstrap'
+import {Form, Col, Button, Card} from 'react-bootstrap'
+import AddImages from './AddImages'
 
 const AddProduct = (props) => {
-  const initialFormState = { id: null, name: '', description: '' , price: null, stock: null}
+  const initialFormState = { id: null, name: '', description: '' , price: null, stock: null, img: ''}
   const [prod, setProd] = useState(initialFormState)
+  const [imagen, setImagen] =useState([]);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target
-
+    console.log('aaa', value)
     setProd({ ...prod, [name]: value })
   }
 
@@ -61,6 +63,23 @@ const AddProduct = (props) => {
                     </Col>
                 </Form.Row>
                 <br />
+                <br />
+                <Form.Row>
+                    <Form.Label column="sm" lg={2}>
+                        Imagen
+                    </Form.Label>
+                    <Col>
+                    <Card>
+                        <Card.Body>
+                            <AddImages img={setImagen}/>
+                        </Card.Body>
+                        <Form.Control type="text"
+                        name="img"
+                        value={imagen}
+                        onChange={handleInputChange} />
+                    </Card>
+                    </Col>
+                </Form.Row>
                 <Form.Row>
                     <Button
                         // onClick={() => props.setEditing(false)}
@@ -70,7 +89,13 @@ const AddProduct = (props) => {
 
                             props.addProduct(prod)
                             props.onHide(false)
-                            setProd(initialFormState)
+                            // setProd(initialFormState)
+                            setProd({ ...prod, img: imagen })
+                            console.log(imagen)
+                            console.log('I',prod)
+                            let prod2 = prod
+                            prod2.img = imagen
+                            console.log('II',prod2)
                         }}
                     >Agregar Producto</Button>
                 </Form.Row>
