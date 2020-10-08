@@ -7,7 +7,6 @@ import ProductCard2 from "./components/ProductCard2";
 
 
 
-
 import "bootstrap/dist/css/bootstrap.min.css";
 import HomeScreen from "./components/HomeScreen";
 import FormCategories from './components/FormCategories/FormCategories';
