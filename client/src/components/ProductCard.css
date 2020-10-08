@@ -1,0 +1,45 @@
+.product-card {
+    padding: 0;
+    flex: 0 1 34rem;
+    margin: 1rem;
+    height: 28rem;
+    width: 16rem;
+    margin-left: 2rem;
+    margin-top: 3rem;
+    margin-bottom: 2rem;
+}
+
+.border-solid {
+    padding-bottom: 15px;
+    border-bottom: 1px #c0c0c0 solid;
+}
+
+.border-card {
+    border-radius: 20px;
+}
+
+.border-buttom {
+    height: 2.5rem;
+    width: 8rem;
+    border-radius: 5px;
+    background-color: #7F00FF;
+    color: white;
+    border: none;
+}
+
+
+.image {
+    margin-top: 1rem;
+    height: 200px;
+    transition: transform .2s;
+}
+
+.image:hover {
+    transform: scale(1.2);
+}
+
+.button-heart {
+    padding: 0;
+    border: none;
+    background: none;   
+}

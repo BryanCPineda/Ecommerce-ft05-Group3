@@ -1,0 +1,10 @@
+.products {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+.catalogo {
+  margin-top: -250px;
+  
+}
