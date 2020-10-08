@@ -1,11 +1,10 @@
 const server = require("express").Router();
-const { Sequelize, where } = require("sequelize");
+const { Sequelize } = require("sequelize");
 const { Product, Categories, Image } = require("../db.js");
 const Op = Sequelize.Op;
 
 // Checking for a match in database and create the product.
 // Of succeed, it create the product, return 201 status and product information, else return error and status 400!
-
 server.post('/', (req, res, next) => {
 	const {name, description, price, stock} = req.body;
 	Product.findOrCreate({
@@ -20,13 +19,13 @@ server.post('/', (req, res, next) => {
 		res.status(201).send(product);
 	})
 	.catch((err)=>{
-		return res.status(400).send(err);
+		return res.status(400).send({message: err});
 	})
 });
 // Simply requesting for all products with findAll and catching possible errors.
 server.get('/', (req, res)=>{
 
-	Product.findAndCountAll({
+	Product.findAndCountAll({         // This function brings all the products and the it count'em.
 		include:[
 				{
 					model: Image
@@ -41,7 +40,7 @@ server.get('/', (req, res)=>{
 			res.send(products)
 		})
 		.catch(()=>{
-			return res.status(400).send("Couldn't find products!");
+			return res.status(400).send({message: err});
 		})
 })
 // This function get all products that contains in the name or the description the string passed by.
@@ -68,7 +67,7 @@ server.post('/search', (req, res)=>{
 		res.send(product)
 	})
 	.catch((err)=>{
-		return res.status(400).send(err);
+		return res.status(400).send({message: err});
 	})
 })
 
@@ -83,6 +82,7 @@ server.get('/:id', (req, res)=>{
 			{
 				model: Image
 				//se puede añadir un where para condicionar las busquedas
+				//NO ENTENDI ESTO!
 			},
 			{
 				model: Categories
@@ -93,7 +93,7 @@ server.get('/:id', (req, res)=>{
 			res.json(product)
 		})
 		.catch((err)=>{
-			return res.status(400).send(err); //Catching error from model.
+			return res.status(400).send({message: err}); //Catching error from model.
 		})
 })
 
@@ -119,7 +119,7 @@ server.put('/:id', (req, res)=>{
 		return res.send('Product Updated')
 	})
 	.catch((err)=>{
-		return res.status(400).send(err);
+		return res.status(400).send({message: err});
 	})
 })
 
@@ -137,14 +137,13 @@ server.delete('/:id', (req, res)=>{
 			}
 			return res.send('Product Deleted')
 		})
-		.catch((error)=>{
-			return res.status(400).send(error);
+		.catch((err)=>{
+			return res.status(400).send({message: err});
 		})
 })
 
 server.post("/:idProducto/category/:idCategoria", (req, res, next) => {
   //add the category to the product
-
   const { idProducto, idCategoria } = req.params;
   const { description, name } = req.body;
 
@@ -161,7 +160,7 @@ server.post("/:idProducto/category/:idCategoria", (req, res, next) => {
       res.status(201).json(product);
     })
     .catch((err) => {
-      return res.status(400).send(err);
+      return res.status(400).send({message: err});
     });
 });
 
@@ -186,7 +185,7 @@ server.delete("/:idProducto/category/:idCategoria", (req, res, next) => {
       return res.status(400).send("Category not found!");
     })
     .catch((err) => {
-      return res.status(400).send(err);
+      return res.status(400).send({message: err});
     }); //.catch((err) => next({status:404, message:'Not found'}))  *******  <-----ignore this, its for future references *******
 });
 
