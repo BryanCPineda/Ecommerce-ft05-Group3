@@ -13,7 +13,6 @@ server.post('/', (req, res, next) => {
 				description: description,
 				price: price,
 				stock: stock,
-				image: 'don\'t forget to make it'
 		}
 	})
 	.then(product => {
