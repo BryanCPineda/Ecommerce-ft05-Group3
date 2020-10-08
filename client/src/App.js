@@ -5,7 +5,7 @@ import "./App.css";
 import ProductCard2 from "./components/ProductCard2";
 
 
-import SearchBar from './components/SearchBar/SearchBar.jsx';
+
 
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -22,10 +22,10 @@ function App() {
   return (
     <div>
 
-      <SearchBar />
-      <ProductCard2/>
+      
+      {/* <ProductCard2/> */}
       <Router>
-        {"aca va la navbar"}
+        
         <Switch>
           <Route exact path="/" component={HomeScreen} />
           <Route exact path="/admin/createCategories" component={FormCategories} />
