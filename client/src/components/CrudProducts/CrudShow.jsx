@@ -1,18 +1,39 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Axios from 'axios'
 import ProductTable from './ProductTable'
 import AddProduct from './AddProduct'
 import EditProduct from './EditProduct'
 import {Container, Row, Col, Modal, Button} from 'react-bootstrap'
+import data from '../../data'
 
 const CrudShow = () => {
-    const productData = [
-        { id: 1, name: 'Producto 1', description: 'Este producto es el producto 1', price: 320.00 , stock: 10 , img: ''},
-        { id: 2, name: 'Producto 2', description: 'Este producto es el producto 2', price: 480.00 , stock: 12 , img: '' },
-        { id: 3, name: 'Producto 3', description: 'Este producto es el producto 3', price: 512.00 , stock: 14 , img: '' },
-      ]
-    
-      const [prods, setProds] = useState(productData)
+    // const productData = [
+    //     { id: 1, name: 'Producto 1', description: 'Este producto es el producto 1', price: 320.00 , stock: 10 , img: ''},
+    //     { id: 2, name: 'Producto 2', description: 'Este producto es el producto 2', price: 480.00 , stock: 12 , img: '' },
+    //     { id: 3, name: 'Producto 3', description: 'Este producto es el producto 3', price: 512.00 , stock: 14 , img: '' },
+    //   ]
+    let dataProd = []
+    // traer productos de la base de datos --------------------
+    const getProductosDB = () => {
+          Axios.get('http://localhost:4000/products')
+          .then(res => res.data)
+          .then(res => {
+              console.log('respuesta', res.rows)
+              dataProd=res.rows
+              setProds(dataProd)
+              
+          })}
+      
+      const [prods, setProds] = useState(dataProd)
+      useEffect(() => {
+            getProductosDB()
+            setProds(dataProd) 
+            console.log('prod', dataProd)
+      
+        }, [])
+
+
+      
       const [editing, setEditing] = useState(false)
       const initialFormState = { id: null, name: '', description: '' , price: null, stock: null}
       const [currentProduct, setCurrentProduct] = useState(initialFormState)
@@ -50,15 +71,6 @@ const CrudShow = () => {
         setProds(prods.map((prod) => (prod.id === id ? updatedProd : prod)))
       }
 
-      // traer productos de la base de datos --------------------
-      const getProductosDB = () => {
-                
-                Axios.get('http://localhost:4000/products')
-                .then(res => res.data)
-                .then(res => {
-                    console.log('res', res)
-                })
-      }
       
   return (
     <Container fluid>
@@ -105,7 +117,6 @@ const CrudShow = () => {
         <Row>
             <Col>
             <h4>Listado de Productos</h4>
-            {getProductosDB()}
             <ProductTable prods={prods} deleteUser={deleteUser} editRow={editRow}/>
             </Col>
         </Row>
