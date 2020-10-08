@@ -11,9 +11,8 @@ const router = Router();
 // i.e: router.use('/auth', authRouter);
 // router.use('/auth', authRouter);
 
-
-router.use("/products", productRouter);
-router.use('/products/category', categoriesRouter);
+router.use('/products', productRouter);
+router.use('/category', categoriesRouter);
 router.use("/image", imageRouter);
 
 
