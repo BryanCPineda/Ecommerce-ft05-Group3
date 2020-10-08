@@ -3,10 +3,6 @@ const { Sequelize, where } = require("sequelize");
 const { Product, Categories } = require("../db.js");
 const Op = Sequelize.Op;
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 5eebeea3982181357c8033a9564f9f412d7fdae1
 // Checking for a match in database and create the product.
 // Of succeed, it create the product, return 201 status and product information, else return error and status 400!
 
