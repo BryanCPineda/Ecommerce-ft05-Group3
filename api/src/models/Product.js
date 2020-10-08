@@ -77,10 +77,6 @@ module.exports = (sequelize) => {
           msg: "El stock no puede contener más de 9 dígitos delante de la coma."
         }
       }
-    },
-    image: {
-      type: S.STRING,
-      allowNull: true,
     }
   });
 };
