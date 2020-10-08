@@ -19,11 +19,11 @@
 //     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 const server = require('./src/app.js');
 const { conn } = require('./src/db.js');
-const Product = require('/src/models/Product.js');
-const Categories = require('/src/models/Categories.js');
+// const Product = require('/src/models/Product.js');
+// const Categories = require('/src/models/Categories.js');
 
-Product.belongsToMany(Categories, { through: 'product_categories' });
-Categories.belongsToMany(Product, { through: 'product_categories' });
+// Product.belongsToMany(Categories, { through: 'product_categories' });
+// Categories.belongsToMany(Product, { through: 'product_categories' });
 
 // Syncing all the models at once.
 conn.sync({ force: true }).then(() => {

@@ -1,0 +1,20 @@
+.table-container {
+    background-color: white;
+    box-shadow: 5px 5px 5px #D4D4D4;
+}
+
+.button-bootstrap {
+    border: none;
+}
+.button-bootstrap:focus {
+    border: none;
+    outline: none; 
+}
+
+h2 {
+    color: black;
+}
+
+.modal {
+    border-radius: 20px;
+}

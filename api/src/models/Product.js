@@ -8,6 +8,7 @@ module.exports = (sequelize) => {
     id: {
       type: S.INTEGER,
       primaryKey: true,
+
       autoIncrement: true,
       allowNull: false
     },
@@ -19,7 +20,7 @@ module.exports = (sequelize) => {
           msg: 'Este campo no puede estar vacío'
         },
         len: {
-          arrs: [[5, 40]],
+          args: [5, 40],
           msg: 'El nombre debe tener entre 5 y 40 caracteres'
         }
       }
@@ -32,7 +33,7 @@ module.exports = (sequelize) => {
           msg: 'Este campo no puede estar vacío'
         },
         len: {
-          arrs: [[20, 255]],
+          args: [20, 255],
           msg: 'La descripción debe tener entre 20 y 255 caracteres'
         }
       }
