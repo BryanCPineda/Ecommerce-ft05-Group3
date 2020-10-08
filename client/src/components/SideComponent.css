@@ -1,0 +1,34 @@
+.categories {
+    border-bottom: 1px #c0c0c0 solid;
+    color: #464646;
+    padding-bottom: 1rem;
+    margin-bottom: 2rem;
+    width: 230px;
+    margin-left: 3rem;
+    /*tocar el width y margin para el border bottom*/
+}
+
+.button-select {
+    border: none;
+    border-radius: 100%;
+    background-color: #ececec;
+    display: flex;
+    align-items: center;
+}
+
+.title-price {
+    border-bottom: 1px #c0c0c0 solid;
+    padding-bottom: 1rem;
+    margin-bottom: 2rem;
+    width: 230px;
+    margin-left: 3rem;
+    /*tocar el width y margin para el border bottom*/
+}
+
+.sideComponent {
+    background-color: white;
+}
+
+body {
+    background-color: #dedede;
+}

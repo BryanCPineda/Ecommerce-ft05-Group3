@@ -1,6 +1,7 @@
 const server = require("express").Router();
 const { Categories } = require("../db.js");
 
+
 server.get('/', (req, res, next) => {
   Categories.findAll()
   .then((categories) => {
@@ -9,6 +10,7 @@ server.get('/', (req, res, next) => {
 })
 
 server.post("/", (req, res, next) => { /* this route is for creating new categories :B */
+
   const { name, description } = req.body;   
   Categories.findOrCreate({
     where: {name:name, description:description}
@@ -16,7 +18,9 @@ server.post("/", (req, res, next) => { /* this route is for creating new categor
     .then((category) => {
       res.status(201).json(category);
     })
-    .catch(next)
+    .catch(() => {
+      return res.status(400).send("Category not created!");
+    });
 });
 
 server.delete("/:id", (req, res, next) => {  /* this one is for deleting existing rouTes ;) */
@@ -42,7 +46,10 @@ server.put('/:id', (req, res, next) => { /* and this other one is for modifying 
     if(result){
       return res.status(202).send('Element updated')
      }return res.status(400).send("Category not found!")   
-  }).catch(next)
+  })
+    .catch(() => {
+     return res.status(400).send("Category not found!");
+    });
 });
 
 module.exports = server;
