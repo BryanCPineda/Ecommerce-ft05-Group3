@@ -20,7 +20,7 @@ server.post('/', (req, res, next) => {
 		res.status(201).send(product);
 	})
 	.catch((err)=>{
-		return res.status(400).send(err);
+		return res.status(400).send({message: err});
 	})
 });
 // Simply requesting for all products with findAll and catching possible errors.
@@ -41,7 +41,7 @@ server.get('/', (req, res)=>{
 			res.send(products)
 		})
 		.catch(()=>{
-			return res.status(400).send("Couldn't find products!");
+			return res.status(400).send({message: err});
 		})
 })
 // This function get all products that contains in the name or the description the string passed by.
@@ -68,7 +68,7 @@ server.post('/search', (req, res)=>{
 		res.send(product)
 	})
 	.catch((err)=>{
-		return res.status(400).send(err);
+		return res.status(400).send({message: err});
 	})
 })
 
@@ -93,7 +93,7 @@ server.get('/:id', (req, res)=>{
 			res.json(product)
 		})
 		.catch((err)=>{
-			return res.status(400).send(err); //Catching error from model.
+			return res.status(400).send({message: err}); //Catching error from model.
 		})
 })
 
@@ -119,7 +119,7 @@ server.put('/:id', (req, res)=>{
 		return res.send('Product Updated')
 	})
 	.catch((err)=>{
-		return res.status(400).send(err);
+		return res.status(400).send({message: err});
 	})
 })
 
@@ -137,8 +137,8 @@ server.delete('/:id', (req, res)=>{
 			}
 			return res.send('Product Deleted')
 		})
-		.catch((error)=>{
-			return res.status(400).send(error);
+		.catch((err)=>{
+			return res.status(400).send({message: err});
 		})
 })
 
@@ -161,7 +161,7 @@ server.post("/:idProducto/category/:idCategoria", (req, res, next) => {
       res.status(201).json(product);
     })
     .catch((err) => {
-      return res.status(400).send(err);
+      return res.status(400).send({message: err});
     });
 });
 
@@ -186,7 +186,7 @@ server.delete("/:idProducto/category/:idCategoria", (req, res, next) => {
       return res.status(400).send("Category not found!");
     })
     .catch((err) => {
-      return res.status(400).send(err);
+      return res.status(400).send({message: err});
     }); //.catch((err) => next({status:404, message:'Not found'}))  *******  <-----ignore this, its for future references *******
 });
 
