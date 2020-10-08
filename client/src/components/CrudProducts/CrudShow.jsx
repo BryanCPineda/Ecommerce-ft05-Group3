@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import Axios from 'axios'
 import ProductTable from './ProductTable'
 import AddProduct from './AddProduct'
 import EditProduct from './EditProduct'
@@ -48,6 +49,16 @@ const CrudShow = () => {
       
         setProds(prods.map((prod) => (prod.id === id ? updatedProd : prod)))
       }
+
+      // traer productos de la base de datos --------------------
+      const getProductosDB = () => {
+                
+                Axios.get('http://localhost:4000/products')
+                .then(res => res.data)
+                .then(res => {
+                    console.log('res', res)
+                })
+      }
       
   return (
     <Container fluid>
@@ -94,6 +105,7 @@ const CrudShow = () => {
         <Row>
             <Col>
             <h4>Listado de Productos</h4>
+            {getProductosDB()}
             <ProductTable prods={prods} deleteUser={deleteUser} editRow={editRow}/>
             </Col>
         </Row>

@@ -7,6 +7,24 @@ const AddProduct = (props) => {
   const [prod, setProd] = useState(initialFormState)
   const [imagen, setImagen] =useState([]);
 
+<<<<<<< HEAD
+=======
+  const agregarProductosDB = (prod) => {
+    const prodEnviar = {
+        name: prod.name,
+        description: prod.description,
+        price: 100,
+        stock: 10
+    }
+            
+            Axios.post('http://localhost:4000/products', prodEnviar)
+            .then(res => res.data)
+            .then(res => {
+                console.log('res', res)
+            })
+  }
+
+>>>>>>> 45d553a... se agrega axios
   const handleInputChange = (event) => {
     const { name, value } = event.target
     console.log('aaa', value)
