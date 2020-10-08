@@ -7,7 +7,7 @@ server.get('/', (req, res, next) => {
   .then((categories) => {
     res.status(200).json(categories);
   }).catch((err)=>{
-    return res.status(400).send({data: err})
+    return res.send({data: err}).status(400)
   })
 })
 
@@ -22,7 +22,7 @@ server.post("/", (req, res, next) => { /* this route is for creating new categor
     })
 
     .catch((err)=>{
-      return res.status(400).send({data: err})
+      return res.send({data: err}).status(400)
     })
 
 });
@@ -37,7 +37,7 @@ server.delete("/:id", (req, res, next) => {  /* this one is for deleting existin
       return res.send("Category deleted")
       }return res.status(400).send("Category not found!");
     }).catch((err)=>{
-      return res.status(400).send({data: err})
+      return res.send({data: err}).status(400)
     })
 });
 
@@ -54,7 +54,7 @@ server.put('/:id', (req, res, next) => { /* and this other one is for modifying 
 
      }return res.status(400).send("Category not found!")   
   }).catch((err)=>{
-    return res.status(400).send({data: err})
+    return res.send({data: err}).status(400)
   })
 
 });
