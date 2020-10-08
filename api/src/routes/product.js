@@ -25,7 +25,7 @@ server.post('/', (req, res, next) => {
 });
 // Simply requesting for all products with findAll and catching possible errors.
 server.get('/', (req, res)=>{
-	Product.findAll()
+	Product.findAndCountAll()      // This function brings all the products and the it count'em.
 		.then(products=>{
 			res.send(products)
 		})
@@ -37,9 +37,9 @@ server.get('/', (req, res)=>{
 // This function get all products that contains in the name or the description the string passed by.
 server.get('/search', (req, res)=>{
 	const producto = req.query.valor;
-	Product.findAndCountAll({
+	Product.findAndCountAll({ // This function brings all the products and the it count'em.
 		where: {
-			[Op.or]:[			// The operator function is passed to Sequelize above
+			[Op.or]:[			      // The operator function is passed to Sequelize above
 				{
 					name: { 
 						[Op.like]: `%${producto}%`   // Syntax sugar to find the term passed by wherever its find in the text.
@@ -96,7 +96,7 @@ server.put('/:id', (req, res)=>{
 			}
 	})
 	.then((confirmation)=>{
-		if(confirmation === 0){   // checking if the id passed its correct
+		if(confirmation[0] === 0){   // checking if the id passed its correct
 			return res.send('Product not found!')
 		}
 		return res.send('Product Updated')
