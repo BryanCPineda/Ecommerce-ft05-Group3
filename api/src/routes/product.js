@@ -19,7 +19,7 @@ server.post('/', (req, res, next) => {
 		res.status(201).send(product);
 	})
 	.catch((err)=>{
-		return res.status(400).send({message: err});
+		return res.send({data: err}).status(400); // Show proper error in DevTool to the FrontEnd guys.
 	})
 });
 // Simply requesting for all products with findAll and catching possible errors.
@@ -40,7 +40,7 @@ server.get('/', (req, res)=>{
 			res.send(products)
 		})
 		.catch(()=>{
-			return res.status(400).send({message: err});
+      return res.send({data: err}).status(400); // Show proper error in DevTool to the FrontEnd guys.
 		})
 })
 // This function get all products that contains in the name or the description the string passed by.
@@ -67,7 +67,7 @@ server.post('/search', (req, res)=>{
 		res.send(product)
 	})
 	.catch((err)=>{
-		return res.status(400).send({message: err});
+		return res.send({data: err}).status(400); // Show proper error in DevTool to the FrontEnd guys.
 	})
 })
 
@@ -90,10 +90,10 @@ server.get('/:id', (req, res)=>{
 	]
 	})
 		.then(product=>{
-			res.json(product)
+			res.json(product);
 		})
 		.catch((err)=>{
-			return res.status(400).send({message: err}); //Catching error from model.
+      return res.send({data: err}).status(400); // Show proper error in DevTool to the FrontEnd guys.
 		})
 })
 
@@ -114,12 +114,12 @@ server.put('/:id', (req, res)=>{
 	})
 	.then((confirmation)=>{
 		if(confirmation[0] === 0){   // checking if the id passed its correct
-			return res.send('Product not found!')
+			return res.send({data: 'Product not found!'}).status(400);   // Show proper error in DevTool to the FrontEnd guys.
 		}
-		return res.send('Product Updated')
+		return res.send('Product Updated');
 	})
 	.catch((err)=>{
-		return res.status(400).send({message: err});
+		return res.send({data: err}).status(400); // Show proper error in DevTool to the FrontEnd guys.
 	})
 })
 
@@ -133,12 +133,12 @@ server.delete('/:id', (req, res)=>{
 	})
 		.then((confirmation)=>{
 			if(confirmation === 0){   // checking if the id passed its correct
-				return res.send('Product not found!')
+				return res.send({data: 'Product not found!'}).status(400);    // Show proper error in DevTool to the FrontEnd guys.
 			}
-			return res.send('Product Deleted')
+			return res.send('Product Deleted');
 		})
 		.catch((err)=>{
-			return res.status(400).send({message: err});
+      return res.send({data: err}).status(400); // Show proper error in DevTool to the FrontEnd guys.
 		})
 })
 
@@ -160,7 +160,7 @@ server.post("/:idProducto/category/:idCategoria", (req, res, next) => {
       res.status(201).json(product);
     })
     .catch((err) => {
-      return res.status(400).send({message: err});
+      return res.send({data: err}).status(400); // Show proper error in DevTool to the FrontEnd guys.
     });
 });
 
@@ -182,10 +182,10 @@ server.delete("/:idProducto/category/:idCategoria", (req, res, next) => {
       if (result) {
         return res.send("Category deleted");
       }
-      return res.status(400).send("Category not found!");
+      return res.send({data:"Category not found!"}).status(400);  // Show proper error in DevTool to the FrontEnd guys.
     })
     .catch((err) => {
-      return res.status(400).send({message: err});
+      return res.send({data: err}).status(400); // Show proper error in DevTool to the FrontEnd guys.
     }); //.catch((err) => next({status:404, message:'Not found'}))  *******  <-----ignore this, its for future references *******
 });
 

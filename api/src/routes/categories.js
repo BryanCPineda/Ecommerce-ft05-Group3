@@ -30,7 +30,7 @@ server.delete("/:id", (req, res, next) => {  /* this one is for deleting existin
   }, /* {force:true} */) /*  ===== IGNORE THIS /// FOR FUTURE REFERENCES-->this is an atribute we use if we want to do a hard delete instead of a soft one ====*/
     .then((result) => {
       if(result){
-       return res.send("Category deleted")
+      return res.send("Category deleted")
       }return res.status(400).send("Category not found!");
     }).catch(next)
 });
@@ -45,10 +45,10 @@ server.put('/:id', (req, res, next) => { /* and this other one is for modifying 
     const result=value[0]
     if(result){
       return res.status(202).send('Element updated')
-     }return res.status(400).send("Category not found!")   
+    }return res.status(400).send("Category not found!")   
   })
     .catch(() => {
-     return res.status(400).send("Category not found!");
+    return res.status(400).send("Category not found!");
     });
 });
 
