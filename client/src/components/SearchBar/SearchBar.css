@@ -1,0 +1,41 @@
+.button {
+    border: none;
+    height: 2.5rem;
+    width: 5rem;
+    background-color: #8a2be2;
+    color: white;
+    border-radius: 5px;
+}
+
+.search {
+    border-radius: 10px;
+    border: 2px solid #c0c0c0;
+    padding: 20px; 
+    width: 200px;
+    height: 15px;
+    color: white;
+    background-color: transparent;   
+}
+
+.navigation {
+    background: #8E2DE2;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #8E2DE2, #4A00E0);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #8E2DE2, #4A00E0); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    height: 400px;
+    color: white;
+}
+
+
+::-webkit-input-placeholder {
+    color:    white;
+}
+
+.brand {
+    margin-left: -4rem;
+}
+
+.image-brand {
+    margin-bottom: 1rem;
+    margin-left: 2rem;
+    height: 10rem;
+}
