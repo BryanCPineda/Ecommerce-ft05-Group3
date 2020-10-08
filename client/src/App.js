@@ -16,13 +16,13 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 
 
-function App() {
+function App({id}) {
 
 
   return (
     <div>
       <SearchBar />
-      <ProductCard2/>
+      {/* <ProductCard2/> */}
       <Router>
         {"aca va la navbar"}
         <Switch>

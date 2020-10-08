@@ -8,6 +8,7 @@ import "./ProductCard.css";
 function ProductCard({ name, description, price, stock, image, id }) {
   return (
     <div className="product-card d-flex justify-content-center">
+    
       <Card style={{ width: "18rem" }} className="border-card">
         <div className="border-img">
           <Card.Img variant="top" src={image} className="image" />
