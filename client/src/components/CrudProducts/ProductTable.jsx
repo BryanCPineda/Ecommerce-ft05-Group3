@@ -10,6 +10,7 @@ const ProductTable = (props) => (
         <th>Descripcion</th>
         <th>Precio</th>
         <th>Stock</th>
+        <th>Imagenes</th>
         <th>Acciones</th>
       </tr>
     </thead>
@@ -21,6 +22,7 @@ const ProductTable = (props) => (
             <td>{prod.description}</td>
             <td>{prod.price}</td>
             <td>{prod.stock}</td>
+            <td><img src={prod.img} height='50px'/></td>
             <td>
                 <Button variant='primary' size="sm"
                     onClick={() => {
@@ -41,7 +43,7 @@ const ProductTable = (props) => (
         ))
       ) : (
         <tr>
-          <td colSpan={3}>No prods</td>
+          <td colSpan={6}>No prods</td>
         </tr>
       )}
     </tbody>
