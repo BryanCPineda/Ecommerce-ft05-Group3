@@ -1,11 +1,27 @@
 import React, { useState } from 'react'
 import {Form, Col, Button, Card} from 'react-bootstrap'
 import AddImages from './AddImages'
+import Axios from 'axios'
 
 const AddProduct = (props) => {
   const initialFormState = { id: null, name: '', description: '' , price: null, stock: null, img: ''}
   const [prod, setProd] = useState(initialFormState)
   const [imagen, setImagen] =useState([]);
+
+  const agregarProductosDB = (prod) => {
+    const prodEnviar = {
+        name: prod.name,
+        description: prod.description,
+        price: prod.price,
+        stock: prod.stock
+    }
+            
+            Axios.post('http://localhost:4000/products', prodEnviar)
+            .then(res => res.data)
+            .then(res => {
+                console.log('res', res)
+            })
+  }
 
   const handleInputChange = (event) => {
     const { name, value } = event.target
@@ -91,11 +107,11 @@ const AddProduct = (props) => {
                             props.onHide(false)
                             // setProd(initialFormState)
                             setProd({ ...prod, img: imagen })
-                            console.log(imagen)
-                            console.log('I',prod)
-                            let prod2 = prod
-                            prod2.img = imagen
-                            console.log('II',prod2)
+                            console.log('I',prod)   
+                            agregarProductosDB(prod) ;          // estado seteado
+                            // let prod2 = prod
+                            // prod2.img = imagen
+                            // console.log('II',prod2)
                         }}
                     >Agregar Producto</Button>
                 </Form.Row>

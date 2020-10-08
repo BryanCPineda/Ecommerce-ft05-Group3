@@ -3,7 +3,7 @@ import React from "react";
 import "./App.css";
 
 import ProductCard2 from "./components/ProductCard2";
-
+import CrudShow from './components/CrudProducts/CrudShow'
 
 import SearchBar from './components/SearchBar/SearchBar.jsx';
 
@@ -21,8 +21,8 @@ function App() {
 
   return (
     <div>
-
-      <SearchBar />
+      <CrudShow />
+      {/* <SearchBar />
       <ProductCard2/>
       <Router>
         {"aca va la navbar"}
@@ -31,7 +31,7 @@ function App() {
           <Route exact path="/admin/createCategories" component={FormCategories} />
         </Switch>
         {"aca va el footer"}
-      </Router>
+      </Router> */}
 
     </div>
   );
