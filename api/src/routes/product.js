@@ -1,6 +1,6 @@
 const server = require("express").Router();
 const { Sequelize, where } = require("sequelize");
-const { Product, Categories } = require("../db.js");
+const { Product, Categories, Image } = require("../db.js");
 const Op = Sequelize.Op;
 
 // Checking for a match in database and create the product.
@@ -45,8 +45,9 @@ server.get('/', (req, res)=>{
 		})
 })
 // This function get all products that contains in the name or the description the string passed by.
-server.get('/search', (req, res)=>{
+server.post('/search', (req, res)=>{
 	const producto = req.query.valor;
+	console.log(producto)
 	Product.findAndCountAll({ // This function brings all the products and the it count'em.
 		where: {
 			[Op.or]:[			      // The operator function is passed to Sequelize above
@@ -78,9 +79,15 @@ server.get('/:id', (req, res)=>{
 		where: {
 			id: id
 		},
-		include: { // Also bring the categories to which it belongs
-			model: Categories
-		}
+		include:[
+			{
+				model: Image
+				//se puede añadir un where para condicionar las busquedas
+			},
+			{
+				model: Categories
+			}
+	]
 	})
 		.then(product=>{
 			res.json(product)
@@ -153,8 +160,8 @@ server.post("/:idProducto/category/:idCategoria", (req, res, next) => {
     .then((product) => {
       res.status(201).json(product);
     })
-    .catch(() => {
-      return res.status(400).send("Category not added!");
+    .catch((err) => {
+      return res.status(400).send(err);
     });
 });
 
