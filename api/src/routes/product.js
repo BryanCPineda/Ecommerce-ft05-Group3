@@ -88,6 +88,7 @@ server.post("/:idProducto/category/:idCategoria", (req, res, next) => {
 
   const { idProducto, idCategoria } = req.params;
   const { description, name } = req.body;
+
   Categories.findOrCreate({
     where: { id: idCategoria, name: name, description: description },
     include: {
@@ -98,10 +99,10 @@ server.post("/:idProducto/category/:idCategoria", (req, res, next) => {
     },
   })
     .then((product) => {
-      res.status(201).send(product);
+      res.status(201).json(product);
     })
     .catch(() => {
-      return res.status(400).send("Product not created!");
+      return res.status(400).send("Category not added!");
     });
 });
 
@@ -125,8 +126,9 @@ server.delete("/:idProducto/category/:idCategoria", (req, res, next) => {
       }
       return res.status(400).send("Category not found!");
     })
-    .catch(next);
-  //.catch((err) => next({status:404, message:'Not found'}))  *******  <-----ignore this, its for future references *******
+    .catch((err) => {
+      return res.status(400).send(err);
+    }); //.catch((err) => next({status:404, message:'Not found'}))  *******  <-----ignore this, its for future references *******
 });
 
 module.exports = server;
