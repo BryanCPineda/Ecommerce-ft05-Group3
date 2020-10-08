@@ -3,6 +3,7 @@ const { Sequelize } = require('sequelize');
 const { Product, Categories } = require('../db.js');
 const Op = Sequelize.Op;
 
+
 // Checking for a match in database and create the product.
 // Of succeed, it create the product, return 201 status and product information, else return error and status 400!
 server.post('/', (req, res, next) => {
@@ -24,15 +25,25 @@ server.post('/', (req, res, next) => {
 });
 // Simply requesting for all products with findAll and catching possible errors.
 server.get('/', (req, res)=>{
-	Product.findAndCountAll()      // This function brings all the products and the it count'em.
+
+	Product.findAndCountAll({
+		include:[
+				{
+					model: Image
+					//se puede añadir un where para condicionar las busquedas
+				},
+				{
+					model: Categories
+				}
+		]
+	})
 		.then(products=>{
 			res.send(products)
 		})
-		.catch((err)=>{
-			return res.status(400).send(err);
+		.catch(()=>{
+			return res.status(400).send("Couldn't find products!");
 		})
 })
-
 // This function get all products that contains in the name or the description the string passed by.
 server.get('/search', (req, res)=>{
 	const producto = req.query.valor;
