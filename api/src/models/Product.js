@@ -8,6 +8,10 @@ module.exports = (sequelize) => {
     id: {
       type: S.INTEGER,
       primaryKey: true,
+<<<<<<< HEAD
+=======
+
+>>>>>>> 5eebeea3982181357c8033a9564f9f412d7fdae1
       autoIncrement: true,
       allowNull: false
     },
@@ -19,7 +23,7 @@ module.exports = (sequelize) => {
           msg: 'Este campo no puede estar vacío'
         },
         len: {
-          arrs: [[5, 40]],
+          args: [5, 40],
           msg: 'El nombre debe tener entre 5 y 40 caracteres'
         }
       }
@@ -32,7 +36,7 @@ module.exports = (sequelize) => {
           msg: 'Este campo no puede estar vacío'
         },
         len: {
-          arrs: [[20, 255]],
+          args: [20, 255],
           msg: 'La descripción debe tener entre 20 y 255 caracteres'
         }
       }
@@ -76,10 +80,6 @@ module.exports = (sequelize) => {
           msg: "El stock no puede contener más de 9 dígitos delante de la coma."
         }
       }
-    },
-    image: {
-      type: S.STRING,
-      allowNull: true,
     }
   });
 };
