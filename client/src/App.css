@@ -2,6 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
 
 html, body {
+  background-color: gainsboro;
     font-family: 'Lato', sans-serif;
     padding: 0;
     margin: 0;
@@ -9,9 +10,9 @@ html, body {
   
   #root {
     height: 100vh;
+    background-color: gainsboro;
   }
   
   * {
     box-sizing: border-box;
   }
-
