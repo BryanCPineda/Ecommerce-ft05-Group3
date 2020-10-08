@@ -10,6 +10,6 @@ const router = Router();
 // i.e: router.use('/auth', authRouter);
 // router.use('/auth', authRouter);
 router.use('/products', productRouter);
-router.use('/products/category', categoriesRouter);
+router.use('/category', categoriesRouter);
 
 module.exports = router;
