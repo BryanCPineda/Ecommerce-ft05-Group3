@@ -29,13 +29,13 @@ function Catalogo({productSearch}) {
         .then((res) => setCategories(res));
     }, []);
   
-    console.log(categories)
-    console.log(products)
+    //console.log(categories)
+    //console.log(products)
 
   const productsArray = data.products.map(ele => ele)
 
   let sortProductsByPrice = productsArray.map(ele => ele.price)
-  console.log(sortProductsByPrice)
+  //console.log(sortProductsByPrice)
 
  
 
@@ -52,11 +52,11 @@ function Catalogo({productSearch}) {
   }
 
   const orderProducts = (e) => {
-    console.log(e.target.value)
+  //  console.log(e.target.value)
     let sort = e.target.value
     setOrder(sort)
     let sortProducts = products.slice()
-    console.log(sortProducts)
+//    console.log(sortProducts)
     if (sort === "-") {
       sortProducts.sort((a, b) => (a.id > b.id ? 1 : -1));
     } 
@@ -73,6 +73,7 @@ function Catalogo({productSearch}) {
         <Filter categories={categories} order={order} filterProducts={filterProducts} orderProducts={orderProducts} />
       </div> */}
         <Row >   
+        {console.log("product search ==== ",productSearch)}
         {productSearch.length > 0 ?
         productSearch.map((ele, id) => (
           <Col lg={6} xl={4} className="d-flex flex-nowrap">
@@ -88,17 +89,20 @@ function Catalogo({productSearch}) {
         )) 
         : 
         products.map((ele, id) => (
+          
             <div className="column-productcard">
+            {console.log(ele.images && ele.images[0])}
           <ProductCard
             id={id}
             name={ele.name}
             description={ele.description.slice(0,50) + "..."}
             price={ele.price}
             stock={ele.stock}
-            images={ele.images}
+            images={ele.images[0]}
           />
           </div>
-        ))}
+        ))
+        }
         </Row>
         </Col>
         <Col xs={0} xl={1} ></Col>
