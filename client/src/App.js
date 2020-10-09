@@ -26,7 +26,10 @@ function App() {
     e.preventDefault();
     axios.get(`http://localhost:4000/products/search?valor=${search.search}`, )
       .then(res => res.data)
-      .then(res => console.log('res', res))
+      .then(res => {
+        setProductSearch(res.rows)
+        }
+        )
   }
 
 
@@ -41,7 +44,7 @@ function App() {
           <Route exact path="/"
             render={() => <Catalogo productSearch={productSearch} />} 
             />
-          <Route exact path="/admin/createCategories" component={FormCategories} />
+          <Route exact path="/admin/categories" component={FormCategories} />
           <Route exact path="/admin/product" component={CrudShow} />
         </Switch>
       </Router>

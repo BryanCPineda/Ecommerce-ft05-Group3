@@ -10,7 +10,7 @@ function ProductCard({ name, description, price, stock, images, id }) {
     <div className="product-card">
       <Card style={{ width: "18rem" }} className="border-card">
         <div className="img">
-          <Card.Img variant="top" src={images[0]} className="image" />
+          <Card.Img variant="top" src={images && images.image} className="image" />
         </div>
         <Card.Body>
           <Link to={`/product/${id}`}>

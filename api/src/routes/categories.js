@@ -1,7 +1,6 @@
 const server = require("express").Router();
 const { Categories } = require("../db.js");
 
-
 server.get('/', (req, res, next) => {
   Categories.findAll()
   .then((categories) => {
@@ -20,7 +19,6 @@ server.post("/", (req, res, next) => { /* this route is for creating new categor
     .then((category) => {
       res.status(201).json(category);
     })
-
     .catch((err)=>{
       return res.send({data: err}).status(400)
     })
@@ -52,7 +50,7 @@ server.put('/:id', (req, res, next) => { /* and this other one is for modifying 
     if(result){
       return res.status(202).send('Element updated')
 
-     }return res.status(400).send("Category not found!")   
+    }return res.status(400).send("Category not found!")   
   }).catch((err)=>{
     return res.send({data: err}).status(400)
   })
