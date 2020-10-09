@@ -96,7 +96,7 @@ function categoriesSeeder(){
     Categories.bulkCreate([
         {
             name: 'Entrenamiento Funcional',
-            description: 'description category 1',
+            description: 'Se usan artículos variados propios, de otras actividades, e inclusive elementos no deportivos. Siempre utilizados de tal forma que prevalezca un entrenamiento integral. Ejemplo de ellos son la escalera de coordinación, sogas, TRX, entre otros.',
         },
         {
             name: 'Musculación',

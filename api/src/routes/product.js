@@ -187,21 +187,32 @@ server.delete("/:idProducto/category/:idCategoria", (req, res, next) => {
 // Retorna todos los productos de {nombreCat} Categoría.
 server.get('/category/:category', (req, res)=>{
 	const category = req.params.category;
-	Categories.findOne({         // This function brings all the products from an specific category. 
-		include:{
-			model:Product
-		}, 
-		where:{
-			categories: category
-		} 
-	})
-	.then(products=>{
-		console.log('PROMISE', category)
-			res.send(products)
-		})
-		.catch((err)=>{
-      return res.send({data: err}).status(400); // Show proper error in DevTool to the FrontEnd guys.
-		})
+  Categories.findOne({
+    where:{
+      name: category
+    }
+  })
+  .then(cat=>{
+    let catId = cat.id;
+    return Product.findAll({         // This function brings all the products from an specific category. 
+      include: 
+        { 
+          model: Categories, 
+          where: {
+            id: catId
+          }, 
+          attribute: ['id', 'name']
+        },
+      
+    })
+  })
+  .then(products=>{
+    console.log('PROMISE', products)
+    res.send(products)
+  })
+  .catch((err)=>{
+    return res.send({data: err}).status(400); // Show proper error in DevTool to the FrontEnd guys.
+  })
 })
 
 module.exports = server;
