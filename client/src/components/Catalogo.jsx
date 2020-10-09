@@ -83,7 +83,7 @@ function Catalogo({productSearch}) {
             description={ele.description.slice(0,50) + "..."}
             price={ele.price}
             stock={ele.stock}
-            images={ele.images}
+            images={ele.images[0]}
           />
           </Col>
         )) 

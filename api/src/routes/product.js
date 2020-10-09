@@ -63,7 +63,16 @@ server.get("/search", (req, res) => {
           },
         },
       ],
-    },
+	},
+	include: [
+		{
+		  model: Image,
+		  //se puede añadir un where para condicionar las busquedas
+		},
+		{
+		  model: Categories,
+		},
+	  ]
   })
     .then((product) => {
       res.send(product);
