@@ -46,7 +46,6 @@ server.get("/", (req, res) => {
 // This function get all products that contains in the name or the description the string passed by.
 server.get("/search", (req, res) => {
   const producto = req.query.valor;
-  console.log(producto);
   Product.findAndCountAll({
     // This function brings all the products and the it count'em.
     where: {
@@ -137,8 +136,7 @@ server.delete("/:id", (req, res) => {
     },
   })
     .then((confirmation) => {
-      if (confirmation === 0) {
-        // checking if the id passed its correct
+      if (confirmation === 0) {            // checking if the id passed its correct
         return res.send({ data: "Product not found!" }).status(400); // Show proper error in DevTool to the FrontEnd guys.
       }
       return res.send("Product Deleted");
@@ -151,7 +149,6 @@ server.delete("/:id", (req, res) => {
 server.post("/:idProducto/category/:idCategoria", (req, res, next) => {
   //add the category to the product
   const { idProducto, idCategoria } = req.params;
-
   Product.findByPk(idProducto).then((singleProduct) => {
     Categories.findByPk(idCategoria)
       .then((newcategory) => {
@@ -185,5 +182,35 @@ server.delete("/:idProducto/category/:idCategoria", (req, res, next) => {
       });
   });
 });
+
+// GET /products/categoria/:nombreCat
+// Retorna todos los productos de {nombreCat} Categoría.
+server.get('/category/:category', (req, res)=>{
+	const category = req.params.category;
+  Categories.findOne({
+    where:{
+      name: category
+    }
+  })
+  .then(cat=>{
+    let catId = cat.id;
+    return Product.findAll({         // This function brings all the products from an specific category. 
+      include: { 
+        model: Categories, 
+        where: {
+          id: catId
+        }, 
+        attribute: ['id', 'name']
+      }
+    })
+  })
+  .then(products=>{
+    console.log('PROMISE', products)
+    res.send(products)
+  })
+  .catch((err)=>{
+    return res.send({data: err}).status(400); // Show proper error in DevTool to the FrontEnd guys.
+  })
+})
 
 module.exports = server;
