@@ -3,6 +3,7 @@ import {Row, Col, Container, Table, Button, Card, Modal} from 'react-bootstrap'
 import "bootstrap/dist/css/bootstrap.min.css";
 import AddImages from './AddImages'
 import Axios from 'axios'
+import './ProductCrud.css'
 
 const ProductTable = (props) => { 
   console.log(props.prods)
@@ -54,7 +55,7 @@ const ProductTable = (props) => {
   
   return (
   <Container fluid>
-  <Table responsive="sm" striped bordered hover variant="light">
+  <Table responsive="sm" striped bordered hover variant="light" className="table-container">
     <thead>
       <tr>
         <th>Nombre</th>
@@ -74,7 +75,8 @@ const ProductTable = (props) => {
             <td>{prod.price}</td>
             <td>{prod.stock}</td>
             <td>{prod.images && prod.images.map(e =>  (<img src={e.image} height='50px'/>))} </td>
-            <td>
+            <td className="d-flex holaa flex-wrap">
+              <div className="d-flex mb-2 mr-2">
                 <Button variant='primary' size="sm"
                     onClick={() => {
                         props.editRow(prod)
@@ -89,7 +91,9 @@ const ProductTable = (props) => {
                     >
                     Borrar
                 </Button>
-                <Button variant='primary' size="sm"
+                </div>
+                <div className="">
+                <Button size="sm"
                     onClick={() => {
                       setShow(true)
                       setIdProd(prod.id)
@@ -97,10 +101,11 @@ const ProductTable = (props) => {
                     // funcion para guardar las imagenes
                     // agregarImagenDB(prod.id)
                     }}
-                    className="button muted-button"
+                    className="button muted-button add-images align-items"
                     >
                     Agregar/Editar Imagenes
                 </Button>
+                </div>
                     <Modal show={show} onHide={handleClose}>
                       <Modal.Header closeButton>
                         <Modal.Title>Carga de Imagenes</Modal.Title>

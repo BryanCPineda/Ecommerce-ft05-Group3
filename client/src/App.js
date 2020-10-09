@@ -11,13 +11,8 @@ import Catalogo from "./components/Catalogo";
 import CrudShow from "./components/CrudProducts/CrudShow";
 
 
-
-
-
 function App() {
-
-  const [productSearch, setProductSearch] = useState([])
-
+  
   const [search, setSearch] = useState("")
 
 
@@ -34,6 +29,8 @@ function App() {
       .then(res => console.log('res', res))
   }
 
+
+  const productSearch = search
 
   return (
     <div>

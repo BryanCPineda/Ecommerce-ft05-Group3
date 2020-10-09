@@ -80,7 +80,7 @@ const EditProduct = (props) => {
                             props.updateProd(prod.id, prod)
                         }}
                     >Editar Producto</Button>
-                    <Button variant='danger'
+                    <Button 
                         onClick={() => props.setEditing(false)}
                         className="button muted-button"
                     >
