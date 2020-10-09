@@ -1,24 +1,31 @@
 import React from "react";
 import { useState,useEffect } from "react";
+import axios from "axios"
 import data from "../data"
 import "../components/Product.css";
 
 
 export default function Product(props){
-    console.log(props)
-    let mapeo = data.products.filter(ele => ele.id == props.match.params.id )
-    // console.log(props.match.params.id)
-    console.log(mapeo)
+//    console.log(props)
+     let mapeo = data.products.filter(ele => ele.id == props.match.params.id )
+    
+    
 
     const [product,setProduct]=useState({});
     function mostrarProducto(prod){
-     
+    axios.get("http://localhost:4000/products/" + mapeo[0].id)
+    .then(res=>
+        res.data
+    )
+    .then(res=>
+        setProduct(res)
+    )
     }
-    useEffect(() => {
+    
     
     mostrarProducto()
         
-      });
+      
     return( 
          <div>
 {/*             
@@ -32,7 +39,7 @@ export default function Product(props){
         //      <h7>{mapeo[0].stock}</h7> 
         //      </div> */}
 
-    <h1>{mapeo[0].name}</h1>
+          <h1>{product.image}</h1>
             
          </div>
     )

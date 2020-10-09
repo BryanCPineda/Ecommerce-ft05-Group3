@@ -2,7 +2,9 @@ import React, {useState} from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import ProductCard from "./ProductCard";
 import Filter from './Filter';
+import SideComponent from './SideComponent';
 import data from "../data";
+import './Catalogo.css'
 
 function Catalogo() {
 
@@ -41,13 +43,16 @@ function Catalogo() {
   }
 
   return (
-    <Container >
-      <div > 
+      <Row md={12} className="catalogo">
+        <Col xs={0} xl={1} ></Col>
+        <Col xs={2} ><SideComponent data={data} /></Col>
+        <Col >
+      {/* <div > 
         <Filter categories={categories} order={order} filterProducts={filterProducts} orderProducts={orderProducts} />
-      </div>
+      </div> */}
         <Row >   
         {productsArray.map((ele, id) => (
-            <Col xs={4} >
+            <Col lg={6} xl={4} className="d-flex flex-nowrap">
           <ProductCard
             id={ele.id}
             name={ele.name}
@@ -59,7 +64,9 @@ function Catalogo() {
           </Col>
         ))}
         </Row>
-    </Container>
+        </Col>
+        <Col xs={0} xl={1} ></Col>
+        </Row>
   );
 }
 

@@ -1,8 +1,7 @@
 
 import React from "react";
 import "./App.css";
-import logo from './logo.svg';
-import ProductCard2 from "./components/ProductCard2";
+
 import SearchBar from './components/SearchBar/SearchBar.jsx';
 import Product from "./components/Product"
 
@@ -11,6 +10,7 @@ import Product from "./components/Product"
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import HomeScreen from "./components/HomeScreen";
+import FormCategories from './components/FormCategories/FormCategories';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import data from "./data"
 
@@ -25,7 +25,7 @@ function App() {
       <SearchBar />
       {/* <ProductCard2/> */}
       <Router>
-        {"aca va la navbar"}
+        
         <Switch>
           <Route exact path="/" component={HomeScreen} />
           <Route path="/product/:id" component={Product}/>

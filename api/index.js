@@ -19,14 +19,17 @@
 //     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 const server = require('./src/app.js');
 const { conn } = require('./src/db.js');
-// const Product = require('/src/models/Product.js');
-// const Categories = require('/src/models/Categories.js');
 
-// Product.belongsToMany(Categories, { through: 'product_categories' });
-// Categories.belongsToMany(Product, { through: 'product_categories' });
+const { productsSeeder, categoriesSeeder , imageSeeder, categoy_productSederr } = require('./src/seeder.js')
 
 // Syncing all the models at once.
 conn.sync({ force: true }).then(() => {
+
+  productsSeeder();
+  categoriesSeeder();
+  imageSeeder();
+  categoy_productSederr();
+  
   server.listen(4000, () => {
     console.log('%s listening at 4000'); // eslint-disable-line no-console
   });
