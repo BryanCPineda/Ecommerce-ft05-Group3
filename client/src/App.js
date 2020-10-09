@@ -11,6 +11,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import HomeScreen from "./components/HomeScreen";
 import FormCategories from './components/FormCategories/FormCategories';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import CrudShow from "./components/CrudProducts/CrudShow";
 
 
 
@@ -28,6 +29,7 @@ function App() {
         <Switch>
           <Route exact path="/" component={HomeScreen} />
           <Route exact path="/admin/createCategories" component={FormCategories} />
+          <Route exact path="/admin/product" component={CrudShow} />
         </Switch>
         {"aca va el footer"}
       </Router>

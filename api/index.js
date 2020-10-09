@@ -27,7 +27,7 @@ conn.sync({ force: true }).then(() => {
 
   productsSeeder();
   categoriesSeeder();
-  imageSeeder();
+  // imageSeeder();
   categoy_productSederr();
   
   server.listen(4000, () => {
