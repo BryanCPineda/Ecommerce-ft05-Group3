@@ -8,3 +8,9 @@
   margin-top: -250px;
   
 }
+
+.column-productcard {
+  width: 20rem;
+  display: flex;
+  flex-wrap: wrap;
+}

@@ -1,21 +1,43 @@
-import React, {useState} from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Row, Col } from "react-bootstrap";
 import ProductCard from "./ProductCard";
 import Filter from './Filter';
 import SideComponent from './SideComponent';
 import data from "../data";
+import axios from 'axios';
 import './Catalogo.css'
 
-function Catalogo() {
+
+function Catalogo({productSearch}) {
+
+  const [products, setProducts] = useState([])
+  const [categories, setCategories] = useState([])
+  const [order, setOrder] = useState("")
+
+    useEffect(() => {
+      axios
+        .get("http://localhost:4000/products")
+        .then((res) => res.data)
+        .then((res) => setProducts(res.rows));
+    }, []);
+
+
+    useEffect(() => {
+      axios
+        .get("http://localhost:4000/category")
+        .then((res) => res.data)
+        .then((res) => setCategories(res));
+    }, []);
+  
+    console.log(categories)
+    console.log(products)
 
   const productsArray = data.products.map(ele => ele)
 
   let sortProductsByPrice = productsArray.map(ele => ele.price)
   console.log(sortProductsByPrice)
 
-  const [products, setProducts] = useState(productsArray)
-  const [categories, setCategories] = useState("")
-  const [order, setOrder] = useState("")
+ 
 
   const filterProducts = (e) => {
     if(!e.target.value) {
@@ -45,23 +67,37 @@ function Catalogo() {
   return (
       <Row md={12} className="catalogo">
         <Col xs={0} xl={1} ></Col>
-        <Col xs={2} ><SideComponent data={data} /></Col>
+        <Col xs={2} ><SideComponent categories={categories} /></Col>
         <Col >
       {/* <div > 
         <Filter categories={categories} order={order} filterProducts={filterProducts} orderProducts={orderProducts} />
       </div> */}
         <Row >   
-        {productsArray.map((ele, id) => (
-            <Col lg={6} xl={4} className="d-flex flex-nowrap">
+        {productSearch.length > 0 ?
+        productSearch.map((ele, id) => (
+          <Col lg={6} xl={4} className="d-flex flex-nowrap">
           <ProductCard
             id={id}
             name={ele.name}
-            description={ele.description}
+            description={ele.description.slice(0,50) + "..."}
             price={ele.price}
             stock={ele.stock}
-            image={ele.image}
+            images={ele.images}
           />
           </Col>
+        )) 
+        : 
+        products.map((ele, id) => (
+            <div className="column-productcard">
+          <ProductCard
+            id={id}
+            name={ele.name}
+            description={ele.description.slice(0,50) + "..."}
+            price={ele.price}
+            stock={ele.stock}
+            images={ele.images}
+          />
+          </div>
         ))}
         </Row>
         </Col>
