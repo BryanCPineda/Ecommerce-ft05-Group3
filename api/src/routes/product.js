@@ -44,7 +44,7 @@ server.get("/", (req, res) => {
     });
 });
 // This function get all products that contains in the name or the description the string passed by.
-server.post("/search", (req, res) => {
+server.get("/search", (req, res) => {
   const producto = req.query.valor;
   console.log(producto);
   Product.findAndCountAll({
