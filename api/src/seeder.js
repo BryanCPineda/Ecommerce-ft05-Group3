@@ -169,9 +169,37 @@ function imageSeeder(){
 
 }
 
+function categoy_productSederr(){
+    
+
+    for (let i = 1; i < 6; i++) {
+        Product.findByPk(i)
+            .then((product)=>{
+                Categories.findByPk(i)
+                    .then((category)=>{
+                        product.addCategory(category)
+                    })
+            })
+          
+    }
+
+    for (let i = 1; i < 6; i++) {
+        Product.findByPk(i)
+            .then((product)=>{
+                Categories.findByPk(5-i)
+                    .then((category)=>{
+                        product.addCategory(category)
+                    })
+            })
+        
+    }
+    
+}
+
 
 module.exports = {
     productsSeeder,
     categoriesSeeder,
-    imageSeeder
+    imageSeeder,
+    categoy_productSederr
 }
