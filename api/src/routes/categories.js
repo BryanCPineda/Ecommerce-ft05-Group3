@@ -19,7 +19,6 @@ server.post("/", (req, res, next) => { /* this route is for creating new categor
     .then((category) => {
       res.status(201).json(category);
     })
-
     .catch((err)=>{
       return res.send({data: err}).status(400)
     })
