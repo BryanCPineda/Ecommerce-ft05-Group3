@@ -27,7 +27,7 @@ conn.sync({ force: true }).then(() => {
 
   productsSeeder();
   categoriesSeeder();
-  imageSeeder();
+  // imageSeeder();
 
   server.listen(4000, () => {
     console.log('%s listening at 4000'); // eslint-disable-line no-console

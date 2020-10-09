@@ -1,14 +1,13 @@
 import React, { useState } from 'react'
 import {Form, Col, Button, Card} from 'react-bootstrap'
 import AddImages from './AddImages'
+import Axios from 'axios'
 
 const AddProduct = (props) => {
   const initialFormState = { id: null, name: '', description: '' , price: null, stock: null, img: ''}
   const [prod, setProd] = useState(initialFormState)
   const [imagen, setImagen] =useState([]);
 
-<<<<<<< HEAD
-=======
   const agregarProductosDB = (prod) => {
     const prodEnviar = {
         name: prod.name,
@@ -24,7 +23,6 @@ const AddProduct = (props) => {
             })
   }
 
->>>>>>> 45d553a... se agrega axios
   const handleInputChange = (event) => {
     const { name, value } = event.target
     console.log('aaa', value)

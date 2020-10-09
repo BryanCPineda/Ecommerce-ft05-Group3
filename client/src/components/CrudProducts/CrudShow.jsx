@@ -4,38 +4,48 @@ import ProductTable from './ProductTable'
 import AddProduct from './AddProduct'
 import EditProduct from './EditProduct'
 import {Container, Row, Col, Modal, Button} from 'react-bootstrap'
-import data from '../../data'
 
 const CrudShow = () => {
-    // const productData = [
-    //     { id: 1, name: 'Producto 1', description: 'Este producto es el producto 1', price: 320.00 , stock: 10 , img: ''},
-    //     { id: 2, name: 'Producto 2', description: 'Este producto es el producto 2', price: 480.00 , stock: 12 , img: '' },
-    //     { id: 3, name: 'Producto 3', description: 'Este producto es el producto 3', price: 512.00 , stock: 14 , img: '' },
-    //   ]
-    let dataProd = []
-    // traer productos de la base de datos --------------------
-    const getProductosDB = () => {
-          Axios.get('http://localhost:4000/products')
-          .then(res => res.data)
-          .then(res => {
-              console.log('respuesta', res.rows)
-              dataProd=res.rows
-              setProds(dataProd)
-              
-          })}
-      
-      const [prods, setProds] = useState(dataProd)
-      useEffect(() => {
-            getProductosDB()
-            setProds(dataProd) 
-            console.log('prod', dataProd)
-      
-        }, [])
 
+    const initialFormState = { id: null, name: '', description: '' , price: null, stock: null, images: ''}
+    const [prods, setProds] = useState(initialFormState)
+
+        // traer productos de la base de datos --------------------
+    async function getProductosDB() {
+          const res = await Axios.get('http://localhost:4000/products')
+          console.log('resasync',res.data.rows)
+          setProds(res.data.rows)
+        }
+
+    // editar un producto de la base de datos
+      async function editProductsDB(prod) {
+            const prodEnviar = {
+              name: prod.name,
+              description: prod.description,
+              price: prod.price,
+              stock: prod.stock
+          }
+          console.log('entro',prod)
+            const res = await Axios.put('http://localhost:4000/products/'+prod.id, prodEnviar)
+            console.log('resasync Edit',res)
+            // setProds(res.data.rows)
+          }
+
+    // borrar un producto de la base de datos
+    async function deleteProductsDB(id) {
+    console.log('delete',id)
+      const res = await Axios.delete('http://localhost:4000/products/'+id)
+      console.log('resasync delete',res)
+      // setProds(res.data.rows)
+    }
+      
+      // hook que carga la informacion dentro de la base de datos
+        useEffect(() => {
+          getProductosDB();
+        },[]);
 
       
       const [editing, setEditing] = useState(false)
-      const initialFormState = { id: null, name: '', description: '' , price: null, stock: null}
       const [currentProduct, setCurrentProduct] = useState(initialFormState)
       // ventana modal edit product---------------
       const [show, setShow] = useState(false);
@@ -55,20 +65,28 @@ const CrudShow = () => {
         setProds([...prods, prod])
       }
 
+      const addImages = (prod) => {
+        setCurrentProduct({ id: prod.id, name: prod.name, description: prod.description, price: prod.price, stock: prod.stock, images: prod.images })
+        console.log('imagessss',)
+      }
+
       const deleteUser = (id) => {
+        deleteProductsDB(id)
         setProds(prods.filter((prod) => prod.id !== id))
       }
 
       const editRow = (prod) => {
         setEditing(true)
         setShow(true)
-        setCurrentProduct({ id: prod.id, name: prod.name, description: prod.description, price: prod.price, stock: prod.stock })
+        setCurrentProduct({ id: prod.id, name: prod.name, description: prod.description, price: prod.price, stock: prod.stock, images: prod.images })
       }
 
       const updateProd = (id, updatedProd) => {
         setEditing(false)
-      
-        setProds(prods.map((prod) => (prod.id === id ? updatedProd : prod)))
+        
+        const prodUpdate = prods.map((prod) => (prod.id === id ? updatedProd : prod))
+        setProds(prodUpdate)
+        editProductsDB(updatedProd)
       }
 
       
@@ -89,15 +107,6 @@ const CrudShow = () => {
                                 />
                         </Modal.Body>
                       </Modal>
-                        
-                        // <div>
-                        // <h2>Editar Producto</h2>
-                        //     <EditProduct
-                        //         setEditing={setEditing}
-                        //         currentProduct={currentProduct}
-                        //         updateProd={updateProd}
-                        //     />
-                        // </div>
                     ) : (
                         <Modal show={addShow} onHide={handleCloseAdd}>
                         <Modal.Header closeButton>
@@ -107,17 +116,13 @@ const CrudShow = () => {
                             <AddProduct addProduct={addProduct} onHide={handleCloseAdd}/>
                         </Modal.Body>
                       </Modal>
-                        // <div>
-                        // <h2>Agregar Producto</h2>
-                        // <AddProduct addProduct={addProduct} />
-                        // </div>
                     )}
             </Col>
         </Row>
         <Row>
             <Col>
             <h4>Listado de Productos</h4>
-            <ProductTable prods={prods} deleteUser={deleteUser} editRow={editRow}/>
+            <ProductTable prods={prods} addImages={addImages} deleteUser={deleteUser} editRow={editRow}/>
             </Col>
         </Row>
         <Row>

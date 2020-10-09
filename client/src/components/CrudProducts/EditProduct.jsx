@@ -6,7 +6,6 @@ const EditProduct = (props) => {
 
   const handleInputChange = (event) => {
     const { name, value } = event.target
-    console.log('val', name, value)
     setProd({ ...prod, [name]: value })
   }
 
@@ -60,7 +59,7 @@ const EditProduct = (props) => {
                     </Col>
                 </Form.Row>
                 <br />
-                <Form.Row>
+                {/* <Form.Row>
                     <Form.Label column="sm" lg={2}>
                         Stock
                     </Form.Label>
@@ -71,7 +70,7 @@ const EditProduct = (props) => {
                         onChange={handleInputChange} />
                     </Col>
                 </Form.Row>
-                <br />
+                <br /> */}
                 <Form.Row>
                     <Button
                         // onClick={() => props.setEditing(false)}
