@@ -13,7 +13,7 @@ const router = Router();
 
 
 router.use("/products", productRouter);
-router.use('/products/category', categoriesRouter);
+router.use("/category", categoriesRouter);
 router.use("/image", imageRouter);
 
 
