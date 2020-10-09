@@ -75,10 +75,11 @@ function Catalogo({productSearch}) {
         <Row >   
         {console.log("product search ==== ",productSearch)}
         {productSearch.length > 0 ?
-        productSearch.map((ele, id) => (
+        productSearch.map((ele, index) => (
           <Col lg={6} xl={4} className="d-flex flex-nowrap">
-          <ProductCard
-            id={id}
+          <ProductCard 
+            key={index}
+            id={ele.id}
             name={ele.name}
             description={ele.description.slice(0,50) + "..."}
             price={ele.price}
@@ -88,12 +89,13 @@ function Catalogo({productSearch}) {
           </Col>
         )) 
         : 
-        products.map((ele, id) => (
+        products.map((ele, index) => (
           
             <div className="column-productcard">
             {console.log(ele.images && ele.images[0])}
           <ProductCard
-            id={id}
+            key={index}
+            id={ele.id}
             name={ele.name}
             description={ele.description.slice(0,50) + "..."}
             price={ele.price}
