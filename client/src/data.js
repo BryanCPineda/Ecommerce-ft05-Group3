@@ -19,11 +19,11 @@ const data = {
         image: "./images/imagen2.jpg",
       }, {
         id: 3,
-        name: "pesas",
-        category: "Force",
-        description: "es una pesa para poder realizar ejercicios de fuerza",
-        price: 50,
-        stock: 5,
+        name: "lalalalalala",
+        category: "hola",
+        description: "chau",
+        price: 5000,
+        stock: 55555,
         image: "./images/imagen1.jpg",
       },
       {

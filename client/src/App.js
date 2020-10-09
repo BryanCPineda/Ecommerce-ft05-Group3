@@ -12,13 +12,14 @@ import Product from "./components/Product"
 import "bootstrap/dist/css/bootstrap.min.css";
 import HomeScreen from "./components/HomeScreen";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import data from "./data"
 
 
 
+function App() {
 
-function App({id}) {
-
-
+  // let mapeo = data.products.map(ele => ele.id == props.match.params.id)
+  //  console.log()
   return (
     <div>
       <SearchBar />

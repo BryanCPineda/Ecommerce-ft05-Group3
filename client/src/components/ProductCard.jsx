@@ -15,6 +15,7 @@ function ProductCard({ name, description, price, stock, image, id }) {
         </div>
         <Card.Body>
           <Link to={`/product/${id}`}>
+            {console.log(id)}
           <div className="d-flex justify-content-around mt-2 mb-3">
             <Card.Title>
               {name}

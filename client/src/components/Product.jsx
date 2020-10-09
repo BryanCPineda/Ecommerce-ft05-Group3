@@ -1,5 +1,5 @@
 import React from "react";
-import { propTypes } from "react-bootstrap/esm/Image";
+import { useState,useEffect } from "react";
 import data from "../data"
 import "../components/Product.css";
 
@@ -9,8 +9,16 @@ export default function Product(props){
     let mapeo = data.products.filter(ele => ele.id == props.match.params.id )
     // console.log(props.match.params.id)
     console.log(mapeo)
+
+    const [product,setProduct]=useState({});
+    function mostrarProducto(prod){
+     
+    }
+    useEffect(() => {
     
-    
+    mostrarProducto()
+        
+      });
     return( 
          <div>
 {/*             
