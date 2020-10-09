@@ -189,4 +189,26 @@ server.delete("/:idProducto/category/:idCategoria", (req, res, next) => {
     }); //.catch((err) => next({status:404, message:'Not found'}))  *******  <-----ignore this, its for future references *******
 });
 
+// GET /products/categoria/:nombreCat
+// Retorna todos los productos de {nombreCat} Categoría.
+server.get('/:category', (req, res)=>{
+	const category = req.params.category;
+	Product.findAll({         // This function brings all the products from an specific category. 
+		include:[
+			{
+				model: Categories
+			}
+		], 
+		where:{
+			
+		}
+	})
+		.then(products=>{
+			res.send(products)
+		})
+		.catch(()=>{
+      return res.send({data: err}).status(400); // Show proper error in DevTool to the FrontEnd guys.
+		})
+})
+
 module.exports = server;
