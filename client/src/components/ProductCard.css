@@ -1,13 +1,14 @@
 .product-card {
-    padding: 0;
-    flex: 0 1 34rem;
-    margin: 1rem;
-    height: 28rem;
-    width: 16rem;
-    margin-left: 2rem;
+    height: 32rem;
+    width: 19rem;
+    padding: 1rem;
+    margin-left: 1rem;
     margin-top: 3rem;
     margin-bottom: 2rem;
+    display: flex;
+    justify-content: center;
 }
+
 
 .border-solid {
     padding-bottom: 15px;
@@ -42,4 +43,8 @@
     padding: 0;
     border: none;
     background: none;   
+}
+
+.price-cart-stock {
+   
 }

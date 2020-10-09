@@ -16,7 +16,7 @@ function Filter({ order, categories, filterProducts, orderProducts }) {
       </Form>
       <Form className="ml-5">
         <Form.Group controlId="exampleForm.ControlSelect1" className="d-flex">
-          <Form.Label className="mr-2 align-self-center">Filter by categoies</Form.Label>
+          <Form.Label className="mr-2 align-self-center">Filter by categories</Form.Label>
           <Form.Control as="select" value={categories} onChange={filterProducts}>
             <option >-</option>
             <option value="Force">Force</option>

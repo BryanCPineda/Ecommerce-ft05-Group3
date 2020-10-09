@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AddCategoryForm from "./AddCategoryFrom";
 import EditCategoryForm from "./EditCategoryForm";
 import { Modal, Table, Row, Col, Button } from "react-bootstrap";
+import axios from 'axios';
 import './FormCategories.css'
 
 function FormCategories() {
@@ -25,7 +26,7 @@ function FormCategories() {
 
   const initialFormState = { id: null, name: "", description: "" };
 
-  const [categories, setCategories] = useState(CategoriesData);
+  const [categories, setCategories] = useState([]);
   const [currentCategory, setCurrentCategory] = useState(initialFormState);
   const [editing, setEditing] = useState(false);
 
@@ -39,24 +40,50 @@ function FormCategories() {
   const handleShowUpdate = () => setUpdateShow(true);
   //----------------Modal------------------//
 
+  useEffect(() => {
+    axios
+      .get("http://localhost:4000/category")
+      .then((res) => res.data)
+      .then((res) => setCategories(res));
+  }, []);
+
+
   const addCategory = (category) => {
     category.id = categories.length + 1;
-    setCategories([...categories, category]);
+    setCategories([...categories, category]);  //traemos todo de categorias y añadimos 1
+
+    const newCategory = {
+      name: category.name,
+      description: category.description           //creo la categorias que voy a enviar con los datos de category
+    }
+
+    axios.post('http://localhost:4000/category', newCategory)  //se la envio a la db mediante un post
+      .then(res => res.data)
+      .then(res => {
+        console.log('res', res)
+      })
   };
 
-  const deleteCategory = (id) => {
-    setCategories(categories.filter((element) => element.id !== id));
-  };
+    const deleteCategory = (id) => {
+      setCategories(categories.filter((element) => element.id !== id));
+
+      axios
+        .delete(`http://localhost:4000/category/${id}`)      //le asigno el id que me pide la ruta para que lo elimine
+        .then((res) => res.data)
+        .then((res) => {
+          console.log("res", res);
+        });
+    };
 
   const editRow = (category) => {
     setEditing(true);
-    setUpdateShow(true);
+    setUpdateShow(true);          //para que se abra el modal
 
     setCurrentCategory({
       id: category.id,
-      name: category.name,
-      description: category.username,
-    });
+      name: category.name,                //con esto cuando abrimos el modal nos aparecen los datos que ya estan cargados
+      description: category.description,    //el objetivo de esto es que el usuario no tenga que cargar todo de nuevo
+    });                                      //sino que pueda borrar y cambiar lo que desee actualizar     
   };
 
   const updateCategory = (id, updateCategory) => {
@@ -67,15 +94,27 @@ function FormCategories() {
         element.id === id ? updateCategory : element
       )
     );
+
+    const newCategory = {
+      name: updateCategory.name,
+      description: updateCategory.description
+    }
+
+    axios
+        .put(`http://localhost:4000/category/${id}`, newCategory)
+        .then((res) => res.data)
+        .then((res) => {
+          console.log("res", res);
+        });
   };
 
   return (
-    <Row style={{backgroundColor: '#FAFAFA'}}>
+    <Row  className="table-categories">
       <Col xs={2}></Col>
       <Col>
       <div className="d-flex justify-content-between mb-4 mt-4">
-      <h2>Categories</h2>
-        <Button style={{backgroundColor: '#7F00FF'}} className="button-bootstrap mr-2" variant="primary" onClick={handleShowAdd}>
+      <h2 style={{color: 'white'}}>Categories</h2>
+        <Button style={{backgroundColor: '#8a2be2'}} className="button-bootstrap mr-2" variant="primary" onClick={handleShowAdd}>
           Add Category
         </Button>
       </div>

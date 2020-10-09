@@ -3,17 +3,16 @@ import { MdKeyboardArrowRight } from 'react-icons/md';
 import { Form } from 'react-bootstrap';
 import './SideComponent.css';
 
-function SideComponent({data}) {
-    console.log(data)
+function SideComponent({categories}) {
     return (
       <div className="sideComponent">
         <h2 className="d-flex justify-content-center mt-5 categories p-4">
           Categories
         </h2>
-        {data.products.map((element) => (
+        {categories.map((element) => (
           <Form key={element.id}>
             <div className="d-flex justify-content-between mt-4">
-              <Form.Label className="ml-4">{element.category}</Form.Label>
+              <Form.Label className="ml-4">{element.name}</Form.Label>
               <button className="mr-4 button-select">
                 <MdKeyboardArrowRight />
               </button>

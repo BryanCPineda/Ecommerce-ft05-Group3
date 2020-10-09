@@ -3,17 +3,18 @@ import { Card } from "react-bootstrap";
 import { FiShoppingCart } from "react-icons/fi";
 import { Link } from 'react-router-dom';
 import "./ProductCard.css";
+import { Row, Col } from 'react-bootstrap'
 
-function ProductCard({ name, description, price, stock, image, id }) {
+function ProductCard({ name, description, price, stock, images, id }) {
   return (
-    <div className="product-card d-flex justify-content-center">
+    <div className="product-card">
       <Card style={{ width: "18rem" }} className="border-card">
         <div className="img">
-          <Card.Img variant="top" src={image} className="image" />
+          <Card.Img variant="top" src={images[0]} className="image" />
         </div>
         <Card.Body>
           <Link to={`/product/${id}`}>
-          <div className="d-flex justify-content-around mt-2 mb-3">
+          <div className="d-flex justify-content-around mt-1">
             <Card.Title style={{color: 'black'}}>{name}</Card.Title>
           </div>
           <Card.Text style={{color: 'black'}} className="border-solid">{description}</Card.Text>
@@ -32,6 +33,7 @@ function ProductCard({ name, description, price, stock, image, id }) {
           </div>
         </Card.Body>
       </Card>
+    
     </div>
   );
 }
