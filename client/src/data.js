@@ -68,7 +68,15 @@ const data = {
         price: 10,
         stock: 10,
         image: "./images/imagen2.jpg",
-      },
+      },{
+        id: 9,
+        name: "pesas",
+        category: "Force",
+        description: "es una pesa para poder realizar ejercicios de fuerza",
+        price: 50,
+        stock: 5,
+        image: "./images/imagen1.jpg",
+      }
     ],
   };
 

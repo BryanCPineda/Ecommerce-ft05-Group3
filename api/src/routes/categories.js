@@ -2,32 +2,43 @@ const server = require("express").Router();
 const { Categories } = require("../db.js");
 
 
+server.get('/', (req, res, next) => {
+  Categories.findAll()
+  .then((categories) => {
+    res.status(200).json(categories);
+  }).catch((err)=>{
+    return res.send({data: err}).status(400)
+  })
+})
+
 server.post("/", (req, res, next) => { /* this route is for creating new categories :B */
-  //falta completar atributos
+
   const { name, description } = req.body;   
   Categories.findOrCreate({
     where: {name:name, description:description}
   })
     .then((category) => {
-      console.log(category);
       res.status(201).json(category);
     })
-    .catch(() => {
-      return res.status(400).send("Category not created!");
-    });
+
+    .catch((err)=>{
+      return res.send({data: err}).status(400)
+    })
+
 });
 
 server.delete("/:id", (req, res, next) => {  /* this one is for deleting existing rouTes ;) */
   const { id } = req.params;
   Categories.destroy({
     where: { id: id },
-  }, /* {force:true} */) 
+  }, /* {force:true} */) /*  ===== IGNORE THIS /// FOR FUTURE REFERENCES-->this is an atribute we use if we want to do a hard delete instead of a soft one ====*/
     .then((result) => {
       if(result){
-       return res.send("Category deleted")
+      return res.send("Category deleted")
       }return res.status(400).send("Category not found!");
-    }).catch(next)
-    //.catch((err) => next({status:404, message:'Not found'}))  *******  <-----ignore this, its for future references *******
+    }).catch((err)=>{
+      return res.send({data: err}).status(400)
+    })
 });
 
 server.put('/:id', (req, res, next) => { /* and this other one is for modifying our existing routes :O */
@@ -40,11 +51,12 @@ server.put('/:id', (req, res, next) => { /* and this other one is for modifying 
     const result=value[0]
     if(result){
       return res.status(202).send('Element updated')
+
      }return res.status(400).send("Category not found!")   
+  }).catch((err)=>{
+    return res.send({data: err}).status(400)
   })
-    .catch(() => {
-     return res.status(400).send("Category not found!");
-    });
+
 });
 
 module.exports = server;

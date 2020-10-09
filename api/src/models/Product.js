@@ -1,4 +1,4 @@
-const { Sequelize, INTEGER } = require('sequelize');
+const { Sequelize } = require('sequelize');
 const S = Sequelize;
 // Exportamos una funcion que define el modelo
 // Luego le injectamos la conexion a sequelize.
@@ -25,7 +25,7 @@ module.exports = (sequelize) => {
       }
     },
     description: {
-      type: S.STRING,
+      type: S.TEXT,
       allowNull: false,
       validate: {
         notNull: {
