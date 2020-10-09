@@ -49,7 +49,7 @@ function Catalogo() {
         {productsArray.map((ele, id) => (
             <Col xs={4} >
           <ProductCard
-            id={id}
+            id={ele.id}
             name={ele.name}
             description={ele.description}
             price={ele.price}
