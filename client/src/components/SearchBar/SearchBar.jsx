@@ -1,15 +1,16 @@
 import React from "react";
-import { Navbar, Nav, Form } from "react-bootstrap";
+import { Form } from "react-bootstrap";
+import { Link } from 'react-router-dom';
 import "./SearchBar.css";
 
 export default function SearchBar({ handleChange, handleSubmit }) {
   return (
     <div className="d-flex justify-content-around navigation">
+      <Link to="/">
       <div className="mt-3 brand">
-        <Navbar expand="lg" className="ml-5">
           <img className="image-brand" src={"./images/brand4.png"}></img>
-        </Navbar>
       </div>
+      </Link>
       <div className="mt-4">
         <Form onSubmit={handleSubmit} inline>
           <input

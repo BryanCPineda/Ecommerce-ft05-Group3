@@ -77,17 +77,17 @@ const ProductTable = (props) => {
             <td>{prod.images && prod.images.map(e =>  (<img src={e.image} height='50px'/>))} </td>
             <td className="d-flex holaa flex-wrap">
               <div className="d-flex mb-2 mr-2">
-                <Button variant='primary' size="sm"
+                <Button size="sm"
                     onClick={() => {
                         props.editRow(prod)
                     }}
-                    className="button muted-button"
+                    className="button muted-button mr-1 nohover button-bootstrap"
                     >
                     Editar
                     </Button>
-                <Button variant='danger' size="sm"
+                <Button size="sm"
                     onClick={() => props.deleteUser(prod.id)}
-                    className="button muted-button"
+                    className="button muted-button ml-1 nohover button-bootstrap"
                     >
                     Borrar
                 </Button>
@@ -101,7 +101,8 @@ const ProductTable = (props) => {
                     // funcion para guardar las imagenes
                     // agregarImagenDB(prod.id)
                     }}
-                    className="button muted-button add-images align-items"
+                    style={{backgroundColor: '#8a2be2'}}
+                    className="muted-button nohover add-images block button-bootstrap"
                     >
                     Agregar/Editar Imagenes
                 </Button>

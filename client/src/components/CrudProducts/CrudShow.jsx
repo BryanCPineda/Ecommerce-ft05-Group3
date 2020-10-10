@@ -97,7 +97,7 @@ const CrudShow = () => {
           <Col >
                 {editing ? (
                         <Modal show={show} onHide={handleClose}>
-                        <Modal.Header closeButton>
+                        <Modal.Header closeButton style={{backgroundColor: '#7F00FF', color: 'white'}}>
                           <Modal.Title>Editar Producto</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
@@ -110,7 +110,7 @@ const CrudShow = () => {
                       </Modal>
                     ) : (
                         <Modal show={addShow} onHide={handleCloseAdd}>
-                        <Modal.Header closeButton>
+                        <Modal.Header closeButton style={{backgroundColor: '#7F00FF', color: 'white'}}>
                           <Modal.Title>Agregar Producto</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
@@ -121,7 +121,9 @@ const CrudShow = () => {
             <h4 className="table-categories mb-4" style={{color: 'white'}}>Listado de Productos</h4>
             <ProductTable prods={prods} addImages={addImages} deleteUser={deleteUser} editRow={editRow}/>
 
-                <Button 
+                <Button
+                className="button button-bootstrap"
+                style={{width: '10rem'}} 
                 onClick={()=>
                     setAddShow(true)
                 }

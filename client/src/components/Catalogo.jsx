@@ -12,6 +12,7 @@ function Catalogo({productSearch}) {
 
   const [products, setProducts] = useState([])
   const [categories, setCategories] = useState([])
+  const [productsByCategories, setProductsByCategories] = useState([])
   const [order, setOrder] = useState("")
 
     useEffect(() => {
@@ -29,8 +30,6 @@ function Catalogo({productSearch}) {
         .then((res) => setCategories(res));
     }, []);
   
-    //console.log(categories)
-    //console.log(products)
 
   const productsArray = data.products.map(ele => ele)
 
@@ -50,30 +49,50 @@ function Catalogo({productSearch}) {
     }
     //FILTRA POR RUTAS DE BACK
   }
-
+console.log(products)
   const orderProducts = (e) => {
-  //  console.log(e.target.value)
-    let sort = e.target.value
-    setOrder(sort)
-    let sortProducts = products.slice()
-//    console.log(sortProducts)
-    if (sort === "-") {
-      sortProducts.sort((a, b) => (a.id > b.id ? 1 : -1));
-    } 
-    //TERMINAR
-    setProducts(sortProducts)
+//   //  console.log(e.target.value)
+//   let sort = e.target.value
+//     setOrder({
+//       [e.target.name]: sort
+//     })
+//     let sortProducts = products.slice()
+// //    console.log(sortProducts)
+//     if (sort === "") {
+//       sortProducts.sort((a, b) => (a.id > b.id ? 1 : -1));
+//     }
+//     let obj = {};
+//     let arr = []
+//     sortProducts.forEach(ele => arr.push(ele.price))
+//     const arrPrices = arr.forEach(e => obj[e] = "")
+    
+//     if(order === "lowest") {
+//       return setProducts(arrPrices)
+//     }
+//     else {
+//       const arrPricesReverse = arrPrices.reverse()
+//       return setProducts(arrPricesReverse)
+//     }
+//     //TERMINAR
   }
+
+  const productsFromCategories = (categoryName) => {
+    axios
+      .get(`http://localhost:4000/products/category/${categoryName}`)
+      .then((res) => res.data)
+      .then((res) =>  setProductsByCategories(res));
+  };
 
   return (
       <Row md={12} className="catalogo">
         <Col xs={0} xl={1} ></Col>
-        <Col xs={2} ><SideComponent categories={categories} /></Col>
+        <Col xs={2} ><SideComponent categories={categories} productsFromCategories={productsFromCategories}
+         productsByCategories={productsByCategories} order={order} orderProducts={orderProducts}/></Col>
         <Col >
       {/* <div > 
         <Filter categories={categories} order={order} filterProducts={filterProducts} orderProducts={orderProducts} />
       </div> */}
         <Row >   
-        {console.log("product search ==== ",productSearch)}
         {productSearch.length > 0 ?
         productSearch.map((ele, index) => (
           <Col lg={6} xl={4} className="d-flex flex-nowrap">
@@ -92,7 +111,6 @@ function Catalogo({productSearch}) {
         products.map((ele, index) => (
           
             <div className="column-productcard">
-            {console.log(ele.images && ele.images[0])}
           <ProductCard
             key={index}
             id={ele.id}

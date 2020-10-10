@@ -1,4 +1,16 @@
 .add-images{
-    width: 8rem;
     height: 3rem;
+}
+
+.button-bootstrap {
+    border: none;
+}
+.button-bootstrap:focus {
+    border: none;
+    outline: none; 
+    background-color: #8a2be2;
+}
+
+.button-bootstrap:hover {
+    background-color: #8a2be2;
 }

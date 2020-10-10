@@ -24,8 +24,18 @@
 
 .sideComponent {
     background-color: white;
+    border-radius: 15px;
 }
 
 body {
     background-color: #dedede;
+}
+
+.lowest {
+    position: relative;
+    right: 2px
+}
+
+.highest {
+
 }

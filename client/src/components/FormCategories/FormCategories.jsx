@@ -49,9 +49,7 @@ function FormCategories() {
 
 
   const addCategory = (category) => {
-    category.id = categories.length + 1;
-    setCategories([...categories, category]);  //traemos todo de categorias y añadimos 1
-
+     
     const newCategory = {
       name: category.name,
       description: category.description           //creo la categorias que voy a enviar con los datos de category
@@ -62,6 +60,9 @@ function FormCategories() {
       .then(res => {
         console.log('res', res)
       })
+
+      category.id = categories.length + 1;
+    setCategories([...categories, category]);        //traemos todo de categorias y añadimos 1
   };
 
     const deleteCategory = (id) => {
@@ -87,13 +88,6 @@ function FormCategories() {
   };
 
   const updateCategory = (id, updateCategory) => {
-    setEditing(false);
-
-    setCategories(
-      categories.map((element) =>
-        element.id === id ? updateCategory : element
-      )
-    );
 
     const newCategory = {
       name: updateCategory.name,
@@ -106,6 +100,15 @@ function FormCategories() {
         .then((res) => {
           console.log("res", res);
         });
+
+
+        setEditing(false);
+
+    setCategories(
+      categories.map((element) =>
+        element.id === id ? updateCategory : element
+      )
+    );
   };
 
   return (
@@ -151,8 +154,8 @@ function FormCategories() {
                     <div className="d-flex justify-content-around">
                     <Button
                       onClick={() => editRow(element)}
-                      className="button muted-button button-bootstrap"
-                      style={{backgroundColor: '#7F00FF'}}
+                      className="button muted-button button-bootstrap mr-1"
+                      style={{backgroundColor: '#8a2be2'}}
                     >
                       Edit
                     </Button>
@@ -172,8 +175,8 @@ function FormCategories() {
                     )}
                     <Button
                       onClick={() => deleteCategory(element.id)}
-                      className="button muted-button button-bootstrap"
-                      style={{backgroundColor: '#7F00FF'}}
+                      className="button muted-button button-bootstrap ml-1"
+                      style={{backgroundColor: '#8a2be2'}}
                     >
                       Delete
                     </Button>
