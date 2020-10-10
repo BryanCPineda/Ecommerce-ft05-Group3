@@ -22,7 +22,10 @@ function App() {
     setSearch({
       [e.target.name]: e.target.value
     })
-    handleSubmit(e);    
+    handleSubmit(e);
+    if(search === '') {
+      return handleSubmit(e);
+    }    
   }
 
   const handleSubmit=(e)=>{
@@ -40,13 +43,11 @@ function App() {
       {/* <ProductCard2/> */}
       <Router>
       <SearchBar handleSubmit={handleSubmit} handleChange={handleChange}/>
-        <Switch>
           <Route exact path="/"
             render={() => <Catalogo productSearch={productSearch} />} 
             />
           <Route exact path="/admin/categories" component={FormCategories} />
           <Route exact path="/admin/product" component={CrudShow} />
-        </Switch>
       </Router>
 
     </div>

@@ -63,6 +63,10 @@
     margin-top: 2rem;
 }
 
+.title-card:hover {
+    text-decoration: none;
+}
+
 .description-card {
     padding-bottom: 15px;
     border-bottom: 1px #c0c0c0 solid;

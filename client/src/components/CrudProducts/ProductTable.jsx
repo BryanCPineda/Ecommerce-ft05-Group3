@@ -54,7 +54,8 @@ const ProductTable = (props) => {
   },[imageUp]);
   
   return (
-  <Container fluid>
+  <Row >
+    <Col>
   <Table responsive="sm" striped bordered hover variant="light" className="table-container">
     <thead>
       <tr>
@@ -63,6 +64,7 @@ const ProductTable = (props) => {
         <th>Precio</th>
         <th>Stock</th>
         <th>Imagenes</th>
+        <th>Categorias</th>
         <th>Acciones</th>
       </tr>
     </thead>
@@ -75,7 +77,8 @@ const ProductTable = (props) => {
             <td>{prod.price}</td>
             <td>{prod.stock}</td>
             <td>{prod.images && prod.images.map(e =>  (<img src={e.image} height='50px'/>))} </td>
-            <td className="d-flex holaa flex-wrap">
+            <td>{prod.categories && prod.categories.map(category => <div>{category.name}</div>)}</td>
+            <td className="d-flex flex-wrap">
               <div className="d-flex mb-2 mr-2">
                 <Button size="sm"
                     onClick={() => {
@@ -137,7 +140,8 @@ const ProductTable = (props) => {
       )}
     </tbody>
   </Table>
-  </Container>
+  </Col>
+  </Row>
 
   
 )}

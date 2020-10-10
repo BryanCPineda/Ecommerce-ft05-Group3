@@ -53,12 +53,12 @@ server.get("/search", (req, res) => {
         // The operator function is passed to Sequelize above
         {
           name: {
-            [Op.like]: `%${producto}%`, // Syntax sugar to find the term passed by wherever its find in the text.
+            [Op.iLike]: "%" + producto + "%", // Syntax sugar to find the term passed by wherever its find in the text.
           },
         },
         {
           description: {
-            [Op.like]: `%${producto}%`, // Syntax sugar to find the term passed by wherever its find in the text.
+            [Op.iLike]: "%" + producto + "%", // Syntax sugar to find the term passed by wherever its find in the text.
           },
         },
       ],
@@ -204,13 +204,13 @@ server.get('/category/:category', (req, res)=>{
   .then(cat=>{
     let catId = cat.id;
     return Product.findAll({         // This function brings all the products from an specific category. 
-      include: { 
+      include: [{ 
         model: Categories, 
         where: {
           id: catId
         }, 
         attribute: ['id', 'name']
-      }
+      }]
     })
   })
   .then(products=>{
