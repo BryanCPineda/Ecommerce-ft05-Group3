@@ -96,10 +96,11 @@ const AddProduct = (props) => {
                     </Card>
                     </Col>
                 </Form.Row>
-                <Form.Row>
+                <Form.Row className="d-flex justify-content-end mt-2">
                     <Button
                         // onClick={() => props.setEditing(false)}
-                        // className="button muted-button"
+                        className="button muted-button "
+                        style={{width: '10rem'}}
                         onClick={() => {
                             if (!prod.name || !prod.description) return
 

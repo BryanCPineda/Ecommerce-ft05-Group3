@@ -11,20 +11,18 @@ import Catalogo from "./components/Catalogo";
 import CrudShow from "./components/CrudProducts/CrudShow";
 
 
-
-
-
 function App() {
 
   const [productSearch, setProductSearch] = useState([])
-
+  
   const [search, setSearch] = useState("")
 
 
   const handleChange=(e)=>{
     setSearch({
       [e.target.name]: e.target.value
-    })    
+    })
+    handleSubmit(e);    
   }
 
   const handleSubmit=(e)=>{
@@ -34,9 +32,8 @@ function App() {
       .then(res => {
         setProductSearch(res.rows)
         }
-        )
+      )
   }
-
 
   return (
     <div>

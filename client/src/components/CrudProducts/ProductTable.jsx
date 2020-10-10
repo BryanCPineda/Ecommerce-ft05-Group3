@@ -3,6 +3,7 @@ import {Row, Col, Container, Table, Button, Card, Modal} from 'react-bootstrap'
 import "bootstrap/dist/css/bootstrap.min.css";
 import AddImages from './AddImages'
 import Axios from 'axios'
+import './ProductCrud.css'
 
 const ProductTable = (props) => { 
   console.log(props.prods)
@@ -54,7 +55,7 @@ const ProductTable = (props) => {
   
   return (
   <Container fluid>
-  <Table responsive="sm" striped bordered hover variant="light">
+  <Table responsive="sm" striped bordered hover variant="light" className="table-container">
     <thead>
       <tr>
         <th>Nombre</th>
@@ -74,22 +75,25 @@ const ProductTable = (props) => {
             <td>{prod.price}</td>
             <td>{prod.stock}</td>
             <td>{prod.images && prod.images.map(e =>  (<img src={e.image} height='50px'/>))} </td>
-            <td>
-                <Button variant='primary' size="sm"
+            <td className="d-flex holaa flex-wrap">
+              <div className="d-flex mb-2 mr-2">
+                <Button size="sm"
                     onClick={() => {
                         props.editRow(prod)
                     }}
-                    className="button muted-button"
+                    className="button muted-button mr-1 nohover button-bootstrap"
                     >
                     Editar
                     </Button>
-                <Button variant='danger' size="sm"
+                <Button size="sm"
                     onClick={() => props.deleteUser(prod.id)}
-                    className="button muted-button"
+                    className="button muted-button ml-1 nohover button-bootstrap"
                     >
                     Borrar
                 </Button>
-                <Button variant='primary' size="sm"
+                </div>
+                <div className="">
+                <Button size="sm"
                     onClick={() => {
                       setShow(true)
                       setIdProd(prod.id)
@@ -97,10 +101,12 @@ const ProductTable = (props) => {
                     // funcion para guardar las imagenes
                     // agregarImagenDB(prod.id)
                     }}
-                    className="button muted-button"
+                    style={{backgroundColor: '#8a2be2'}}
+                    className="muted-button nohover add-images block button-bootstrap"
                     >
                     Agregar/Editar Imagenes
                 </Button>
+                </div>
                     <Modal show={show} onHide={handleClose}>
                       <Modal.Header closeButton>
                         <Modal.Title>Carga de Imagenes</Modal.Title>

@@ -4,6 +4,7 @@ import ProductTable from './ProductTable'
 import AddProduct from './AddProduct'
 import EditProduct from './EditProduct'
 import {Container, Row, Col, Modal, Button} from 'react-bootstrap'
+import './ProductCrud.css'
 
 const CrudShow = () => {
 
@@ -91,12 +92,12 @@ const CrudShow = () => {
 
       
   return (
-    <Container fluid>
-        <Row>
-            <Col>
+        <Row >
+          <Col xs={2}></Col>
+          <Col >
                 {editing ? (
                         <Modal show={show} onHide={handleClose}>
-                        <Modal.Header closeButton>
+                        <Modal.Header closeButton style={{backgroundColor: '#7F00FF', color: 'white'}}>
                           <Modal.Title>Editar Producto</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
@@ -109,7 +110,7 @@ const CrudShow = () => {
                       </Modal>
                     ) : (
                         <Modal show={addShow} onHide={handleCloseAdd}>
-                        <Modal.Header closeButton>
+                        <Modal.Header closeButton style={{backgroundColor: '#7F00FF', color: 'white'}}>
                           <Modal.Title>Agregar Producto</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
@@ -117,29 +118,21 @@ const CrudShow = () => {
                         </Modal.Body>
                       </Modal>
                     )}
-            </Col>
-        </Row>
-        <Row>
-            <Col>
-            <h4>Listado de Productos</h4>
+            <h4 className="table-categories mb-4" style={{color: 'white'}}>Listado de Productos</h4>
             <ProductTable prods={prods} addImages={addImages} deleteUser={deleteUser} editRow={editRow}/>
-            </Col>
-        </Row>
-        <Row>
-            <Col></Col>
-            <Col></Col>
-            <Col></Col>
-            <Col>
-                <Button 
+
+                <Button
+                className="button button-bootstrap"
+                style={{width: '10rem'}} 
                 onClick={()=>
                     setAddShow(true)
                 }
                 >
                     Agregar Producto
                 </Button>
-            </Col>
+                </Col>
+                <Col xs={2}></Col>
         </Row>
-    </Container>
   )
 }
 
