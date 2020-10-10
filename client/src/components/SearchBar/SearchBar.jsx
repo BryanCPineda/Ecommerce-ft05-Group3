@@ -5,10 +5,10 @@ import "./SearchBar.css";
 
 export default function SearchBar({ handleChange, handleSubmit }) {
   return (
-    <div className="d-flex justify-content-around navigation">
+    <div className="navigation">
       <Link to="/">
       <div className="mt-3 brand">
-          <img className="image-brand" src={"./images/brand4.png"}></img>
+          <img className="image-brand" src={"/images/brand4.png"}></img>
       </div>
       </Link>
       <div className="mt-4">
@@ -30,7 +30,7 @@ export default function SearchBar({ handleChange, handleSubmit }) {
           </button>
         </Form>
       </div>
-      <div className="mt-4 mr-4">
+      <div className="mt-4 sign">
         <button className="button mr-3">Sign in</button>
         <button className="button mr-5 mt-3 sign-up">Sign up</button>
       </div>

@@ -13,7 +13,8 @@ function Catalogo({productSearch}) {
   const [products, setProducts] = useState([])
   const [categories, setCategories] = useState([])
   const [productsByCategories, setProductsByCategories] = useState([])
-  const [order, setOrder] = useState("")
+  const [lower, setLower] = useState([])
+  const [highest, setHighest] = useState([])
 
     useEffect(() => {
       axios
@@ -29,6 +30,14 @@ function Catalogo({productSearch}) {
         .then((res) => res.data)
         .then((res) => setCategories(res));
     }, []);
+
+    useEffect(() => {
+      orderByLowerPrice();
+    }, [])
+
+    useEffect(() => {
+      orderByHighPrice();
+    }, [])
   
 
   const productsArray = data.products.map(ele => ele)
@@ -49,32 +58,19 @@ function Catalogo({productSearch}) {
     }
     //FILTRA POR RUTAS DE BACK
   }
-console.log(products)
-  const orderProducts = (e) => {
-//   //  console.log(e.target.value)
-//   let sort = e.target.value
-//     setOrder({
-//       [e.target.name]: sort
-//     })
-//     let sortProducts = products.slice()
-// //    console.log(sortProducts)
-//     if (sort === "") {
-//       sortProducts.sort((a, b) => (a.id > b.id ? 1 : -1));
-//     }
-//     let obj = {};
-//     let arr = []
-//     sortProducts.forEach(ele => arr.push(ele.price))
-//     const arrPrices = arr.forEach(e => obj[e] = "")
-    
-//     if(order === "lowest") {
-//       return setProducts(arrPrices)
-//     }
-//     else {
-//       const arrPricesReverse = arrPrices.reverse()
-//       return setProducts(arrPricesReverse)
-//     }
-//     //TERMINAR
-  }
+
+  const orderByLowerPrice = () => {
+    console.log('lower')
+    let lowPrice = products.sort((a, b) => a.price - b.price);
+    setLower(lowPrice);
+  };
+
+  const orderByHighPrice = () => {
+    console.log('higher')
+    let highPrice = products.sort((a, b) => b.price - a.price);
+    setHighest(highPrice);
+  };
+
 
   const productsFromCategories = (categoryName) => {
     axios
@@ -87,7 +83,8 @@ console.log(products)
       <Row md={12} className="catalogo">
         <Col xs={0} xl={1} ></Col>
         <Col xs={2} ><SideComponent categories={categories} productsFromCategories={productsFromCategories}
-         productsByCategories={productsByCategories} order={order} orderProducts={orderProducts}/></Col>
+         productsByCategories={productsByCategories} 
+          orderByLowerPrice={orderByLowerPrice} orderByHighPrice={orderByHighPrice}/></Col>
         <Col >
       {/* <div > 
         <Filter categories={categories} order={order} filterProducts={filterProducts} orderProducts={orderProducts} />
@@ -95,7 +92,7 @@ console.log(products)
         <Row >   
         {productSearch.length > 0 ?
         productSearch.map((ele, index) => (
-          <Col lg={6} xl={4} className="d-flex flex-nowrap">
+          <div className="column-productcard">
           <ProductCard 
             key={index}
             id={ele.id}
@@ -105,7 +102,37 @@ console.log(products)
             stock={ele.stock}
             images={ele.images[0]}
           />
-          </Col>
+          </div>
+        ))
+        :
+        lower.length > 0 ? 
+        lower.map((ele, index) => ( 
+          <div className="column-productcard">
+          <ProductCard 
+            key={index}
+            id={ele.id}
+            name={ele.name}
+            description={ele.description.slice(0,50) + "..."}
+            price={ele.price}
+            stock={ele.stock}
+            images={ele.images[0]}
+          />
+          </div>
+        )) 
+        :
+        highest.length > 0 ? 
+        highest.map((ele, index) => ( 
+          <div className="column-productcard">
+          <ProductCard 
+            key={index}
+            id={ele.id}
+            name={ele.name}
+            description={ele.description.slice(0,50) + "..."}
+            price={ele.price}
+            stock={ele.stock}
+            images={ele.images[0]}
+          />
+          </div>
         )) 
         : 
         products.map((ele, index) => (
