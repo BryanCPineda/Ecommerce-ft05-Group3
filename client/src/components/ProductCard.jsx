@@ -18,7 +18,7 @@ function ProductCard({ name, description, price, stock, images, id }) {
       <div className="d-flex justify-content-around stock-price-cart">
         <div>
           <p
-            className="price-card mt-2"
+            className="price-card"
             style={{ color: "black", border: "none" }}
           >
             ${price}

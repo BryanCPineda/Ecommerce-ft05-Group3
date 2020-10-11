@@ -24,7 +24,6 @@
 
 .sideComponent {
     background-color: white;
-    border-radius: 15px;
 }
 
 body {
@@ -42,3 +41,7 @@ body {
     border: none;
     background-color: transparent;
 }
+
+.input-sidebar {
+}
+

@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 
 .product-card {
-    height: 30rem;
+    height: 28rem;
     width: 19rem;
     padding: 1rem;
     margin-left: 1rem;
@@ -9,7 +9,6 @@
     margin-bottom: 2rem;
     position: relative;
     background-color: white;
-    border-radius: 20px;
 }
 
 .border-card {
@@ -30,11 +29,11 @@
     margin-top: 1rem;
     height: 15rem;
     transition: transform .2s;
-    background-color: brown;
+    background-color: #8a2be2;
 }
 
 .image:hover {
-    transform: scale(1.2);
+    transform: scale(1.1);
 }
 
 .button-heart {
@@ -56,11 +55,12 @@
 .title-card {
     display: relative;
     font-family: 'Roboto';
-    font-size: 25px;
+    font-size: 20px;
     width: 15rem;
     text-align: center;
     margin-left: 7px;
-    margin-top: 2rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .title-card:hover {
