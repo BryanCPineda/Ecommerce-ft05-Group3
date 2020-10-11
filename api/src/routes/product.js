@@ -33,7 +33,6 @@ server.get("/", (req, res) => {
       },
       {
         model: Categories,
-        attributes: ['name']   // Includes only this especific column
       },
     ],
   })
@@ -71,7 +70,6 @@ server.get("/search", (req, res) => {
 		},
 		{
       model: Categories,
-      attributes: ['name']   // Includes only this especific column
 		},
 	  ]
   })
@@ -94,11 +92,9 @@ server.get("/:id", (req, res) => {
       {
         model: Image,
         //se puede añadir un where para condicionar las busquedas
-        //NO ENTENDI ESTO!
       },
       {
         model: Categories,
-        attributes: ['name']  // Includes only this especific column
       },
     ],
   })
@@ -211,8 +207,7 @@ server.get('/category/:category', (req, res)=>{
         model: Categories, 
         where: {
           id: catId
-        }, 
-        attributes: ['id', 'name']   // Includes only this especific columns
+        },
       }]
     })
   })
