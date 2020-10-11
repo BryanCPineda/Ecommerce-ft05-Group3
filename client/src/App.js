@@ -10,52 +10,52 @@ import axios from 'axios';
 import Catalogo from "./components/Catalogo";
 import CrudShow from "./components/CrudProducts/CrudShow";
 import Product from "./components/Products";
-
+import LandingPage from './components/LandingPage';
 
 
 
 function App() {
+  const [productSearch, setProductSearch] = useState([]);
 
-  const [productSearch, setProductSearch] = useState([])
+  const [search, setSearch] = useState("");
 
-  const [search, setSearch] = useState("")
-
-
-  const handleChange=(e)=>{
+  const handleChange = (e) => {
     setSearch({
-      [e.target.name]: e.target.value
-    })    
-  }
+      [e.target.name]: e.target.value,
+    });
+    handleSubmit(e);
+    if (search === "") {
+      return handleSubmit(e);
+    }
+  };
 
-  const handleSubmit=(e)=>{
+  const handleSubmit = (e) => {
     e.preventDefault();
-    axios.get(`http://localhost:4000/products/search?valor=${search.search}`, )
-      .then(res => res.data)
-      .then(res => {
-        setProductSearch(res.rows)
-        }
-        )
-  }
-
+    axios
+      .get(`http://localhost:4000/products/search?valor=${search.search}`)
+      .then((res) => res.data)
+      .then((res) => {
+        setProductSearch(res.rows);
+      });
+  };
 
   return (
     <div>
       {/* <ProductCard2/> */}
       <Router>
-      <SearchBar handleSubmit={handleSubmit} handleChange={handleChange}/>
-        <Switch>
-          <Route exact path="/"
-            render={() => <Catalogo productSearch={productSearch} />} 
-            />
-          <Route exact path="/admin/categories" component={FormCategories} />
-          <Route exact path="/admin/product" component={CrudShow} />
-          <Route exact path="/product/:id" component={Product} />
-        </Switch>
-      </Router>
 
+        <Route path="/catalogo" render={() => <SearchBar handleSubmit={handleSubmit} handleChange={handleChange} />}/>
+        <Route exact path="/" component={LandingPage} />
+        <Route path="/catalogo"
+          render={() => <Catalogo productSearch={productSearch} />}
+        />
+        <Route exact path="/admin/categories" component={FormCategories} />
+        <Route exact path="/admin/product" component={CrudShow} />
+        <Route exact path="/product/:id" component={Product} />
+
+      </Router>
     </div>
   );
-
 }
 
 export default App;

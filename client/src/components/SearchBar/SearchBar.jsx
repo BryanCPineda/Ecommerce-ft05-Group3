@@ -1,17 +1,18 @@
 import React from "react";
-import { Navbar, Nav, Form } from "react-bootstrap";
+import { Form } from "react-bootstrap";
+import { Link } from 'react-router-dom';
 import "./SearchBar.css";
 
 export default function SearchBar({ handleChange, handleSubmit }) {
   return (
-    <div className="d-flex justify-content-around navigation">
+    <div className="navigation">
+      <Link to="/">
       <div className="mt-3 brand">
-        <Navbar expand="lg" className="ml-5">
-          <img className="image-brand" src={"./images/brand4.png"}></img>
-        </Navbar>
+          <img className="image-brand" src={"/images/brand4.png"}></img>
       </div>
+      </Link>
       <div className="mt-4">
-        <Form onSubmit={handleSubmit} inline>
+        <Form  inline>
           <input
             className="search mr-2 mt-3"
             name="search"
@@ -23,13 +24,13 @@ export default function SearchBar({ handleChange, handleSubmit }) {
             className="button mt-3"
             type="submit"
             variant="outline-primary"
-            onClick={handleSubmit}
+            
           >
             Search
           </button>
         </Form>
       </div>
-      <div className="mt-4 mr-4">
+      <div className="mt-4 sign">
         <button className="button mr-3">Sign in</button>
         <button className="button mr-5 mt-3 sign-up">Sign up</button>
       </div>

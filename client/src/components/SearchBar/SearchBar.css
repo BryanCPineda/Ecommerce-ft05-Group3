@@ -23,6 +23,8 @@
     background: linear-gradient(to right, #8E2DE2, #4A00E0); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     height: 400px;
     color: white;
+    display: flex;
+    justify-content: space-evenly;
 }
 
 
@@ -31,7 +33,9 @@
 }
 
 .brand {
-    margin-left: -4rem;
+}
+
+.sign {
 }
 
 .image-brand {

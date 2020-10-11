@@ -71,18 +71,18 @@ const EditProduct = (props) => {
                     </Col>
                 </Form.Row>
                 <br /> */}
-                <Form.Row>
+                <Form.Row className="d-flex justify-content-end">
                     <Button
                         // onClick={() => props.setEditing(false)}
-                        // className="button muted-button"
+                        className="button muted-button"
                         onClick={(event) => {
                             event.preventDefault()
                             props.updateProd(prod.id, prod)
                         }}
-                    >Editar Producto</Button>
-                    <Button variant='danger'
+                    >Editar</Button>
+                    <Button 
                         onClick={() => props.setEditing(false)}
-                        className="button muted-button"
+                        className="button muted-button ml-2"
                     >
                         Cancel
                     </Button>

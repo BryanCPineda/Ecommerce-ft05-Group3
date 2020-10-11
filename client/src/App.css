@@ -1,8 +1,9 @@
 
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 
+
 html, body {
-    font-family: 'Lato', sans-serif;
+    font-family: 'Roboto', sans-serif;
     padding: 0;
     margin: 0;
   }
@@ -14,4 +15,3 @@ html, body {
   * {
     box-sizing: border-box;
   }
-

@@ -29,3 +29,19 @@
 body {
     background-color: #dedede;
 }
+
+.lowest {
+    position: relative;
+    right: 2px;
+    border: none;
+    background-color: transparent;
+}
+
+.highest {
+    border: none;
+    background-color: transparent;
+}
+
+.input-sidebar {
+}
+
