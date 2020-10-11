@@ -7,7 +7,6 @@ import Pagination from './Pagination';
 import data from "../data";
 import axios from 'axios';
 import './Catalogo.css';
-import Footer from './Footer';
 
 
 function Catalogo({productSearch}) {
@@ -191,12 +190,11 @@ function Catalogo({productSearch}) {
         }
         </Row>
         <div className="d-flex justify-content-center mt-5">
-        <Pagination productsPerPage={productsPerPage} totalProducts={products.length} paginate={paginate}/>
+        {/* <Pagination productsPerPage={productsPerPage} totalProducts={products.length} paginate={paginate}/> */}
         </div>
         
         </Col>
         <Col xs={0} xl={1} ></Col>
-        <Footer />
         </Row>
   );
 }

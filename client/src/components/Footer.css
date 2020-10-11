@@ -1,4 +1,14 @@
 .footer-container {
     background-color: #222222;
     width: 100%;
+    color: white;
+    margin-top: 100px;
+}
+
+.footer-content {
+    padding-bottom: 4rem;
+    border-bottom: 2px gray solid;
+    width: 70%;
+    display: flex;
+    justify-content: space-around;
 }

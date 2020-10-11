@@ -6,7 +6,7 @@ import "./SearchBar.css";
 export default function SearchBar({ handleChange, handleSubmit }) {
   return (
     <div className="navigation">
-      <Link to="/">
+      <Link to="/user/catalogo">
       <div className="mt-3 brand">
           <img className="image-brand" src={"/images/brand4.png"}></img>
       </div>
