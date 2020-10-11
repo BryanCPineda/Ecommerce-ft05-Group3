@@ -1,5 +1,4 @@
 import React from "react";
-import { Card } from "react-bootstrap";
 import { FiShoppingCart } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import "./ProductCard.css";
@@ -10,7 +9,7 @@ function ProductCard({ name, description, price, stock, images, id }) {
       <div className="img d-flex justify-content-center">
         <img variant="top" style={{width: '19rem'}} src={images && images.image} className="image"></img>
       </div>
-      <Link to={`/product/${id}`} className="title-card"> 
+      <Link to={`/user/product/${id}`} className="title-card"> 
         <div className="title-card">
           <p style={{ color: "black" }}>{name}</p>
         </div>
@@ -18,7 +17,7 @@ function ProductCard({ name, description, price, stock, images, id }) {
       <div className="d-flex justify-content-around stock-price-cart">
         <div>
           <p
-            className="price-card mt-2"
+            className="price-card"
             style={{ color: "black", border: "none" }}
           >
             ${price}

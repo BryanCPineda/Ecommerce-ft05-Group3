@@ -6,13 +6,13 @@ import "./SearchBar.css";
 export default function SearchBar({ handleChange, handleSubmit }) {
   return (
     <div className="navigation">
-      <Link to="/">
+      <Link to="/user/catalogo">
       <div className="mt-3 brand">
           <img className="image-brand" src={"/images/brand4.png"}></img>
       </div>
       </Link>
       <div className="mt-4">
-        <Form onSubmit={handleSubmit} inline>
+        <Form  inline>
           <input
             className="search mr-2 mt-3"
             name="search"
@@ -24,7 +24,7 @@ export default function SearchBar({ handleChange, handleSubmit }) {
             className="button mt-3"
             type="submit"
             variant="outline-primary"
-            onClick={handleSubmit}
+            
           >
             Search
           </button>

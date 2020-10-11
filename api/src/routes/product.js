@@ -28,7 +28,7 @@ server.get("/", (req, res) => {
     // This function brings all the products and the it count'em.
     include: [
       {
-        model: Image,
+        model: Image
         //se puede añadir un where para condicionar las busquedas
       },
       {
@@ -69,7 +69,7 @@ server.get("/search", (req, res) => {
 		  //se puede añadir un where para condicionar las busquedas
 		},
 		{
-		  model: Categories,
+      model: Categories,
 		},
 	  ]
   })
@@ -92,7 +92,6 @@ server.get("/:id", (req, res) => {
       {
         model: Image,
         //se puede añadir un where para condicionar las busquedas
-        //NO ENTENDI ESTO!
       },
       {
         model: Categories,
@@ -208,8 +207,7 @@ server.get('/category/:category', (req, res)=>{
         model: Categories, 
         where: {
           id: catId
-        }, 
-        attribute: ['id', 'name']
+        },
       }]
     })
   })
