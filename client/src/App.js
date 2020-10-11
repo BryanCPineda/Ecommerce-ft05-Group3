@@ -9,6 +9,7 @@ import SearchBar from "./components/SearchBar/SearchBar";
 import axios from 'axios';
 import Catalogo from "./components/Catalogo";
 import CrudShow from "./components/CrudProducts/CrudShow";
+import AdminProducts from "./components/AdminProducts/AdminProducts";
 
 
 function App() {
@@ -47,7 +48,8 @@ function App() {
             render={() => <Catalogo productSearch={productSearch} />} 
             />
           <Route exact path="/admin/categories" component={FormCategories} />
-          <Route exact path="/admin/product" component={CrudShow} />
+          <Route exact path="/admin/product" component={AdminProducts} />
+          <Route exact path="/admin/producto" component={CrudShow} />
       </Router>
 
     </div>
