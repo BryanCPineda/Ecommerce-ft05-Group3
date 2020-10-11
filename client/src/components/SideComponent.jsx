@@ -1,14 +1,12 @@
 import React from "react";
-import { MdKeyboardArrowRight } from "react-icons/md";
-import { Form } from "react-bootstrap";
 import "./SideComponent.css";
 import { AiOutlineArrowDown } from "react-icons/ai";
 import { AiOutlineArrowUp } from "react-icons/ai";
+import { Form } from 'react-bootstrap';
 
 function SideComponent({
   categories,
   productsFromCategories,
-  productsByCategories,
   orderByLowerPrice,
   orderByHighPrice,
 }) {
@@ -17,25 +15,11 @@ function SideComponent({
       <h2 className="d-flex justify-content-center mt-5 categories p-4">
         Categories
       </h2>
-      {console.log(productsByCategories)}
-      {productsByCategories.length > 0
-        ? productsByCategories.map((element) => (
-            <Form>
+      {categories && categories.map((element, index) => (
+            <Form key={index} value={categories} onChange={productsFromCategories}>
               <div className="d-flex justify-content-between mt-4">
-                <Form.Label className="ml-4">{element.name}</Form.Label>
-              </div>
-            </Form>
-          ))
-        : categories.map((element) => (
-            <Form key={element.id}>
-              <div className="d-flex justify-content-between mt-4">
-                <Form.Label className="ml-4">{element.name}</Form.Label>
-                <button
-                  className="mr-4 button-select"
-                  onClick={() => productsFromCategories(element.name)}
-                >
-                  <MdKeyboardArrowRight />
-                </button>
+                <Form.Label className="ml-3">{element.name}</Form.Label>
+                <Form.Check className="input-sidebar mr-2" value={element.name} type="checkbox" />
               </div>
             </Form>
           ))}

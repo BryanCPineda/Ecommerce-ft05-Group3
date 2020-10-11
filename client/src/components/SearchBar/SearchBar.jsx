@@ -12,7 +12,7 @@ export default function SearchBar({ handleChange, handleSubmit }) {
       </div>
       </Link>
       <div className="mt-4">
-        <Form onSubmit={handleSubmit} inline>
+        <Form  inline>
           <input
             className="search mr-2 mt-3"
             name="search"
@@ -24,7 +24,7 @@ export default function SearchBar({ handleChange, handleSubmit }) {
             className="button mt-3"
             type="submit"
             variant="outline-primary"
-            onClick={handleSubmit}
+            
           >
             Search
           </button>
