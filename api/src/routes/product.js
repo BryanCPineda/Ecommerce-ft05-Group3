@@ -46,7 +46,7 @@ server.get("/", (req, res) => {
 // This function get all products that contains in the name or the description the string passed by.
 server.get("/search", (req, res) => {
   const producto = req.query.valor;
-  Product.findAll({
+  Product.findAndCountAll({
     // This function brings all the products and the it count'em.
     where: {
       [Op.or]: [
