@@ -4,6 +4,8 @@ import EditCategoryForm from "./EditCategoryForm";
 import { Modal, Table, Row, Col, Button } from "react-bootstrap";
 import axios from 'axios';
 import './FormCategories.css'
+import { FiTrash2 } from 'react-icons/fi';
+import { FiEdit3 } from 'react-icons/fi';
 
 function FormCategories() {
   const CategoriesData = [
@@ -137,10 +139,10 @@ function FormCategories() {
         <Table  bordered hover style={{backgroundColor: 'white'}} className="table-container" >
           <thead>
             <tr >
-              <th>id</th>
-              <th>Name</th>
-              <th>Description</th>
-              <th>Actions</th>
+              <th className="text-center">id</th>
+              <th className="text-center">Name</th>
+              <th className="text-center">Description</th>
+              <th className="text-center">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -154,10 +156,10 @@ function FormCategories() {
                     <div className="d-flex justify-content-around">
                     <Button
                       onClick={() => editRow(element)}
-                      className="button muted-button button-bootstrap mr-1"
+                      className="button-bootstrap mr-1"
                       style={{backgroundColor: '#8a2be2'}}
                     >
-                      Edit
+                      <FiEdit3 />
                     </Button>
                     {editing && (
                       <Modal show={updateShow} onHide={handleCloseUpdate}>
@@ -175,10 +177,10 @@ function FormCategories() {
                     )}
                     <Button
                       onClick={() => deleteCategory(element.id)}
-                      className="button muted-button button-bootstrap ml-1"
+                      className="button-bootstrap ml-1"
                       style={{backgroundColor: '#8a2be2'}}
                     >
-                      Delete
+                      <FiTrash2 />
                     </Button>
                     </div>
                   </td>

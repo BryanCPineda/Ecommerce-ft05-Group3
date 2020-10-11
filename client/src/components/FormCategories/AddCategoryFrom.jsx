@@ -6,16 +6,37 @@ const AddUserForm = ({ addCategory, handleCloseAdd }) => {
 
   const [category, setCategory] = useState(initialFormState);
 
+  const [errors, setErrors] = useState({ nameError: "", descriptionError: "" })
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setCategory({ ...category, [name]: value });
   };
 
+  const validate = () => {
+    let nameError = "";
+    let descriptionError = "";
+
+    if(category.name.length < 3 || category.name > 30) {
+      nameError = "Name must have at least 3 characters and max 30"
+    }
+    if(category.description.length < 10 || category.description.length > 80) {
+      descriptionError = "Description must have at least 10 characters and max 80"
+    }
+    if(nameError || descriptionError) {
+      setErrors({ nameError, descriptionError });
+      return false;
+    }
+    return true;
+  }
+
   const onSubmitAdd = (e) => {
     e.preventDefault();
-    if (!category.name || !category.description) return;
-    addCategory(category);
-    setCategory(initialFormState);
+    const isValid = validate();
+    if (isValid) {
+      addCategory(category);
+      setCategory(initialFormState);
+    }
   };
 
   return (
@@ -30,6 +51,7 @@ const AddUserForm = ({ addCategory, handleCloseAdd }) => {
             value={category.name}
             onChange={handleInputChange}
           />
+          {errors.nameError && <div className="mt-2" style={{color: 'red', fontSize: 14}}>{errors.nameError}</div>}
         </Form.Group>
         <Form.Group controlId="formBasicDescription">
           <Form.Label>Description</Form.Label>
@@ -40,6 +62,7 @@ const AddUserForm = ({ addCategory, handleCloseAdd }) => {
             value={category.description}
             onChange={handleInputChange}
           />
+          {errors.descriptionError && <div className="mt-2" style={{color: 'red', fontSize: 14}}>{errors.descriptionError}</div>}
         </Form.Group>
         <div className="d-flex justify-content-end">
         <Button variant="primary" onClick={handleCloseAdd} style={{backgroundColor: '#7F00FF'}} className="button-bootstrap">

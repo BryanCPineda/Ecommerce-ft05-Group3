@@ -8,7 +8,7 @@ export default function SearchBar({ handleChange, handleSubmit }) {
     <div className="navigation">
       <Link to="/user/catalogo">
       <div className="mt-3 brand">
-          <img className="image-brand" src={"/images/brand4.png"}></img>
+          <img className="image-brand" src={"/images/brand4.png"} alt="logo"></img>
       </div>
       </Link>
       <div className="mt-4">
