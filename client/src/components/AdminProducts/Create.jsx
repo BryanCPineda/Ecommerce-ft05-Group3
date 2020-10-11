@@ -54,10 +54,20 @@ function Create({ show, handleClose, createProduct }) {
                                 <Button variant="secondary" onClick={handleClose}>
                                         Cancelar
               </Button>
-                                <Button variant="primary" onClick={() => createProduct()(state)}>
+                                <Button variant="primary" onClick={() => {
+                                                                                createProduct()(state)
+                                                                                setState({
+                                                                                        images: '',
+                                                                                        name: '',
+                                                                                        description: '',
+                                                                                        stock: '',
+                                                                                        price: ''
+                                                                                })
+                                                                                }}>
                                         Añadir
               </Button>
                         </Modal.Footer>
+                
                 </Modal >
         );
 }

@@ -15,6 +15,7 @@ function Catalogo({productSearch}) {
   const [productsByCategories, setProductsByCategories] = useState([])
   const [lower, setLower] = useState([])
   const [highest, setHighest] = useState([])
+  const [selected, setSelected] = useState(false)
 
     useEffect(() => {
       axios
@@ -31,13 +32,9 @@ function Catalogo({productSearch}) {
         .then((res) => setCategories(res));
     }, []);
 
-    useEffect(() => {
-      orderByLowerPrice();
-    }, [])
+    useEffect(() => setLower(""))
 
-    useEffect(() => {
-      orderByHighPrice();
-    }, [])
+    useEffect(() => setHighest(""))
   
 
   const productsArray = data.products.map(ele => ele)
@@ -45,49 +42,62 @@ function Catalogo({productSearch}) {
   let sortProductsByPrice = productsArray.map(ele => ele.price)
   //console.log(sortProductsByPrice)
 
- 
-
-  const filterProducts = (e) => {
-    if(!e.target.value) {
-      setCategories(e.target.value)
-      setProducts(productsArray)
-    }
-    else {
-      setCategories(e.target.value)
-      setProducts(productsArray)
-    }
-    //FILTRA POR RUTAS DE BACK
-  }
+  console.log(productsByCategories) 
 
   const orderByLowerPrice = () => {
     console.log('lower')
-    let lowPrice = products.sort((a, b) => a.price - b.price);
+    if(productSearch.length > 0) {
+      let lowPrice = productSearch.sort((a, b) => a.price - b.price);
+      setLower(lowPrice);
+    }
+    else if(productsByCategories.length > 0) {
+      let lowPrice = productsByCategories.sort((a, b) => a.price - b.price);
+      setLower(lowPrice);
+    }
+    else {
+      let lowPrice = products.sort((a, b) => a.price - b.price);
     setLower(lowPrice);
+    } 
   };
 
   const orderByHighPrice = () => {
-    console.log('higher')
-    let highPrice = products.sort((a, b) => b.price - a.price);
-    setHighest(highPrice);
+    if(productSearch.length > 0) {
+      let lowPrice = productSearch.sort((a, b) => b.price - a.price);
+      setLower(lowPrice);
+    }
+    else if(productsByCategories.length > 0) {
+      let lowPrice = productsByCategories.sort((a, b) => b.price - a.price);
+      setLower(lowPrice);
+    }
+    else {
+      let lowPrice = products.sort((a, b) => b.price - a.price);
+    setLower(lowPrice);
+    } 
   };
 
-
-  const productsFromCategories = (categoryName) => {
+  const productsFromCategories = (e) => {
+    console.log(e.target.value)
+    setSelected(e.target.value)
     axios
-      .get(`http://localhost:4000/products/category/${categoryName}`)
+      .get(`http://localhost:4000/products/category/${e.target.value}`)
       .then((res) => res.data)
-      .then((res) =>  setProductsByCategories(res));
-  };
+      .then((res) => {
+        if(!res)
+        return;
+        else  setProductsByCategories(productsByCategories.concat(res))
+      });
+  }
+
 
   return (
       <Row md={12} className="catalogo">
         <Col xs={0} xl={1} ></Col>
-        <Col xs={2} ><SideComponent categories={categories} productsFromCategories={productsFromCategories}
-         productsByCategories={productsByCategories} 
-          orderByLowerPrice={orderByLowerPrice} orderByHighPrice={orderByHighPrice}/></Col>
+        <Col xs={2} ><SideComponent categories={categories} productsFromCategories={productsFromCategories} 
+        orderByLowerPrice={orderByLowerPrice} orderByHighPrice={orderByHighPrice}
+         selected={selected} productsFromCategories={productsFromCategories} selected={selected}/></Col>
         <Col >
       {/* <div > 
-        <Filter categories={categories} order={order} filterProducts={filterProducts} orderProducts={orderProducts} />
+        <Filter categories={categories} productsFromCategories={productsFromCategories} />
       </div> */}
         <Row >   
         {productSearch.length > 0 ?
@@ -104,6 +114,21 @@ function Catalogo({productSearch}) {
           />
           </div>
         ))
+        :
+        productsByCategories &&
+        productsByCategories.length > 0 ?
+        productsByCategories.map((ele, index) => (
+          <div className="column-productcard">
+          <ProductCard 
+            key={index}
+            id={ele.id}
+            name={ele.name}
+            description={ele.description.slice(0,50) + "..."}
+            price={ele.price}
+            stock={ele.stock}
+          />
+          </div>
+          ))
         :
         lower.length > 0 ? 
         lower.map((ele, index) => ( 

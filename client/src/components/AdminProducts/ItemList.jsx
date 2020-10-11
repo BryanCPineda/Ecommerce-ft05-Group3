@@ -137,10 +137,10 @@ function ItemList({ product}) {
         // switchLoading(true);
         return (id, attributes) => {
             for (let item of attributes.categories) {
-                addCategoryToProduct(item, id);
+            //    addCategoryToProduct(item, id);
             }
             for (let item of attributes.categoriesToDelete) {
-                deleteCategoryToProduct(item, id);
+            //   deleteCategoryToProduct(item, id);
             }
             updateProduct(id, attributes).then(() => {
                 document.location.reload();

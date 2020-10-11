@@ -1,25 +1,26 @@
 import React, { useEffect, useState,  Component } from 'react';
 import { Modal, Button, Form, Row, Col, InputGroup, FormGroup,  FormControl } from 'react-bootstrap';
 import { FiMaximize2, FiTrash2, FiPlus } from 'react-icons/fi';
-
-
+import { Multiselect }  from  'multiselect-react-dropdown';
+import Axios from 'axios';
 
 function Edit({ allCategories, updateProduct, show, product, handleClose }) {
     const { id, images, name, description, stock, price, categories } = product;
     const [state, setState] = useState({
         images: images ? images.map(item => item.id) : [],
+        id,
         name,
         description,
         stock,
         price,
         categories: categories ? categories.map(item => item.id) : [],
         categoriesToDelete: []
-    });
-
-
+    }); 
+    
     useEffect(() => {
         setState({
             images: images ? images.map(item => item.id) : [],
+            id,
             name,
             description,
             stock,
@@ -27,7 +28,10 @@ function Edit({ allCategories, updateProduct, show, product, handleClose }) {
             categories: categories ? categories.map(item => item.id) : [],
             categoriesToDelete: []
         });
-    }, [product, product.categories, categories,name, description,price,stock,images]);
+        
+    }, [product, product.categories, id, categories,name, description,price,stock,images]);
+
+
 
     const handleInput = (e) => {
         setState({
@@ -52,7 +56,7 @@ function Edit({ allCategories, updateProduct, show, product, handleClose }) {
             [e.target.name]: value,
             categoriesToDelete: toDelete
         })
-        console.log('estado categories', state)
+       
     }
 
     const addImage = () => {
@@ -85,6 +89,26 @@ function Edit({ allCategories, updateProduct, show, product, handleClose }) {
             })
         }
     }
+
+   const onSelect = (selectedList, selectedItem)=> {
+               addCategoryToProduct(selectedItem.id, product.id)
+              
+    }
+
+    const onRemove = (selectedList, removedItem) => {
+                deleteCategoryToProduct(removedItem.id, product.id)
+    }
+
+
+    async function addCategoryToProduct(cat, id) {        
+        const res = await Axios.post('http://localhost:4000/products/'+id+'/category/'+cat)
+        }
+ 
+    async function deleteCategoryToProduct(cat, id) {
+        const res = await Axios.delete('http://localhost:4000/products/'+id+'/category/'+cat)
+        }
+
+
     return (
         <Modal size="lg" show={show} onHide={handleClose}>
             <Modal.Header className="border-0 bg-dark2" closeButton>
@@ -121,14 +145,14 @@ function Edit({ allCategories, updateProduct, show, product, handleClose }) {
                     </Row>
                     <Form.Group>
                         <Form.Label>Categorías</Form.Label>
-                        <Form.Control as="select" multiple custom onChange={handleCategories} value={state.categories} name="categories" placeholder="Nombre">
-                            {/* {console.log('allcategories', allCategories, 'categories', state.categories)} */}
-                            {allCategories && allCategories.map((item, index) => (
-                                <option key={index} value={item.id}>{item.name}</option>
-                            ))}
-                        </Form.Control>
-                    </Form.Group>
+                    </Form.Group>                     
+                                        <Form.Group>    
+                                            <Multiselect options={allCategories} displayValue="name" placeholder="Categorias" closeOnSelect={false}
+                                            onSelect={onSelect} onRemove={onRemove} selectedValues={categories}>       </Multiselect>
+                                        </Form.Group>
 
+
+                     
                     <Form.Group>
                         <Form.Label>Descripción</Form.Label>
                         <Form.Control as="textarea" onChange={handleInput} value={state.description} name="description" rows="5" placeholder="Descripción" />

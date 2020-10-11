@@ -39,7 +39,6 @@ function AdminProducts() {
              products = res.data
              
              setState({
-                ...state,
                 products: res.data.rows,
                 totalProducts: res.data.rows.length,
             })
@@ -62,7 +61,8 @@ function AdminProducts() {
                 return attributes => {
                         createProduct(attributes)
                                 .then(() => {
-                                        getProducts()
+                                        getProducts();
+                                
                                 })
                 }
         }
