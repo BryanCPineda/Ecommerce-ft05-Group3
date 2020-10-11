@@ -89,7 +89,7 @@ console.log(prods,'aaaaaaaaaaaaaa')
 
       
   return (
-        <Row className="list-products">
+        <Row className="list-products crud-products-container">
           <Col xs={2}></Col>
           <Col>
                 {editing ? (

@@ -11,6 +11,9 @@ import Catalogo from "./components/Catalogo";
 import CrudShow from "./components/CrudProducts/CrudShow";
 import Product from "./components/Products";
 import LandingPage from './components/LandingPage';
+import PrductsMati from './components/ProductsMati';
+import Footer from './components/Footer';
+import NavbarAdmin from './components/NavbarAdmin';
 
 
 
@@ -44,15 +47,16 @@ function App() {
       {/* <ProductCard2/> */}
       <Router>
 
-        <Route path="/catalogo" render={() => <SearchBar handleSubmit={handleSubmit} handleChange={handleChange} />}/>
+        <Route path="/user" render={() => <SearchBar handleSubmit={handleSubmit} handleChange={handleChange} />}/>
+        <Route path="/admin" component={NavbarAdmin} />
         <Route exact path="/" component={LandingPage} />
-        <Route path="/catalogo"
+        <Route path="/user/catalogo"
           render={() => <Catalogo productSearch={productSearch} />}
         />
         <Route exact path="/admin/categories" component={FormCategories} />
         <Route exact path="/admin/product" component={CrudShow} />
-        <Route exact path="/product/:id" component={Product} />
-
+        <Route exact path="/user/product/:id" component={PrductsMati} />
+        <Route path="/user" component={Footer} />
       </Router>
     </div>
   );

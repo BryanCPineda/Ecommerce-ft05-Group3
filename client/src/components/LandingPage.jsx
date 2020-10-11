@@ -12,7 +12,7 @@ function LandingPage() {
             <p className="landing-sign-up">Sign up</p>
             <p className="title-cyber">Cyber Fitness</p>
             <p className="subtitle-shop">Online Shopping</p>
-            <Link to="/catalogo">
+            <Link to="/user/catalogo">
             <button className="get-started">Get started</button>
             </Link>
             </div>

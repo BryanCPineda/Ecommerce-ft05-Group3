@@ -3,9 +3,10 @@ import { Row, Col } from "react-bootstrap";
 import ProductCard from "./ProductCard";
 import Filter from './Filter';
 import SideComponent from './SideComponent';
+import Pagination from './Pagination';
 import data from "../data";
 import axios from 'axios';
-import './Catalogo.css'
+import './Catalogo.css';
 
 
 function Catalogo({productSearch}) {
@@ -16,6 +17,12 @@ function Catalogo({productSearch}) {
   const [lower, setLower] = useState([])
   const [highest, setHighest] = useState([])
   const [selected, setSelected] = useState(false)
+
+  /*------------------Pagination---------------------*/
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [productsPerPage] = useState(9);
+
 
     useEffect(() => {
       axios
@@ -76,18 +83,23 @@ function Catalogo({productSearch}) {
   };
 
   const productsFromCategories = (e) => {
-    console.log(e.target.value)
-    setSelected(e.target.value)
+    setSelected(true)
     axios
       .get(`http://localhost:4000/products/category/${e.target.value}`)
       .then((res) => res.data)
       .then((res) => {
         if(!res)
         return;
-        else  setProductsByCategories(productsByCategories.concat(res))
+        else setProductsByCategories(productsByCategories.concat(res))
+        
       });
   }
 
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
       <Row md={12} className="catalogo">
@@ -99,7 +111,8 @@ function Catalogo({productSearch}) {
       {/* <div > 
         <Filter categories={categories} productsFromCategories={productsFromCategories} />
       </div> */}
-        <Row >   
+        <Row >
+             
         {productSearch.length > 0 ?
         productSearch.map((ele, index) => (
           <div className="column-productcard">
@@ -126,6 +139,7 @@ function Catalogo({productSearch}) {
             description={ele.description.slice(0,50) + "..."}
             price={ele.price}
             stock={ele.stock}
+            // images={ele.images[0]}
           />
           </div>
           ))
@@ -160,8 +174,7 @@ function Catalogo({productSearch}) {
           </div>
         )) 
         : 
-        products.map((ele, index) => (
-          
+        currentProducts.map((ele, index) => (
             <div className="column-productcard">
           <ProductCard
             key={index}
@@ -176,6 +189,10 @@ function Catalogo({productSearch}) {
         ))
         }
         </Row>
+        <div className="d-flex justify-content-center mt-5">
+        {/* <Pagination productsPerPage={productsPerPage} totalProducts={products.length} paginate={paginate}/> */}
+        </div>
+        
         </Col>
         <Col xs={0} xl={1} ></Col>
         </Row>

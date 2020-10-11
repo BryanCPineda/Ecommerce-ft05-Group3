@@ -65,3 +65,74 @@
     bottom: 200px;
     left: 500px;
 }
+
+
+/*-----Para bryan-----*/
+
+/* .landing {
+    background-color: #592a9c;
+    height: 100vh;
+    position: fixed;
+}
+
+.landing-container {
+    width: 90%;
+    height: 80vh;
+    position: relative;
+    left: 100px;
+    top: 100px;
+    box-shadow: 1px 10px 50px 20px#8a2be2;
+}
+
+.card-image {
+    position: relative;
+    bottom: 700px;
+    left: 100px;
+}
+
+.content-container {
+    position: relative;
+    bottom: 1350px;
+    left: 1050px;
+}
+
+.title-cyber {
+    font-size: 5rem;
+    color: white;
+}
+
+.subtitle-shop {
+    font-size: 3rem;
+    color: white;
+    margin-top: 2px;
+}
+
+.get-started {
+    border: none;
+    height: 4rem;
+    width: 22rem;
+    background-color: #8a2be2;
+    border-radius: 50px;
+    color: white;
+    font-size: 2rem;
+}
+
+.get-started:hover {
+    background-color: #8029d0;
+}
+
+.landing-sign-in {
+    color: white;
+    font-size: 20px;
+    position: relative;
+    bottom: 80px;
+    left: 300px;
+}
+
+.landing-sign-up {
+    color: white;
+    font-size: 20px;
+    position: relative;
+    bottom: 127px;
+    left: 400px;
+} */
