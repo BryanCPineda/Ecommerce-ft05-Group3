@@ -9,7 +9,9 @@ import SearchBar from "./components/SearchBar/SearchBar";
 import axios from 'axios';
 import Catalogo from "./components/Catalogo";
 import CrudShow from "./components/CrudProducts/CrudShow";
+import Product from "./components/Products";
 import LandingPage from './components/LandingPage';
+
 
 
 function App() {
@@ -41,6 +43,7 @@ function App() {
     <div>
       {/* <ProductCard2/> */}
       <Router>
+
         <Route path="/catalogo" render={() => <SearchBar handleSubmit={handleSubmit} handleChange={handleChange} />}/>
         <Route exact path="/" component={LandingPage} />
         <Route path="/catalogo"
@@ -48,6 +51,8 @@ function App() {
         />
         <Route exact path="/admin/categories" component={FormCategories} />
         <Route exact path="/admin/product" component={CrudShow} />
+        <Route exact path="/product/:id" component={Product} />
+
       </Router>
     </div>
   );

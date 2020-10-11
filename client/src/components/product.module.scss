@@ -1,0 +1,43 @@
+.cover-image {
+    height: 400px;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+  }
+  
+  .main-img-cover {
+    height: 400px;
+    overflow: hidden;
+    display: flex;
+  }
+  .main-img-cover img {
+    margin: auto;
+    max-width: 300px;
+  }
+  .bootstrap-carousel {
+    height: 400px;
+    max-width: 600px;
+  }
+  
+  .cover-image img {
+    margin: auto;
+    height: 100%;
+  }
+  
+  h1 {
+    opacity: 0.5;
+  }
+  
+  .price {
+    font-size: 22pt;
+    font-weight: 200;
+    opacity: 0.9;
+  }
+  
+  .card-price {
+    min-height: 400px;
+  }
+  
+  .text-muted {
+    opacity: 0.2;
+  }
