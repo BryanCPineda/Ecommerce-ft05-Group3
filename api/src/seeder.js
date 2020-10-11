@@ -1,10 +1,10 @@
-const { Product, Categories, Image } = require("./db.js");
+const { Product, Categories, Image } = require("./db.js"); // requiring models from Database
 
-function productsSeeder()
+function productsSeeder()   //This function create several products
 {
-    Product.bulkCreate([
+    Product.bulkCreate([ 
         {
-            name: 'Theraband Nivel de resistencia 3',
+            name: 'Theraband Resistencia 3',
             description: 'Las bandas de resistencia conocidas como TheraBand por el fabricante pionero, ayudan a los usuarios a rehabilitar lesiones, mejorar la vida funcional, mejorar el rendimiento deportivo. Las TheraBand son fáciles de usar, convenientes, portables y son una alternativa eficaz a las pesas libres y las máquinas de pesas. Se pueden usar en la clínica, en el hogar o en movimiento. Están disponibles en diferentes niveles codificados por colores de resistencia progresiva según el fabricante, lo que nos posibilita una  documentación fácil del progreso de un nivel al siguiente y ayuda al practicante a progresar a medida que se fortalece.',
             price: 9.99,
             stock: 111,
@@ -16,8 +16,8 @@ function productsSeeder()
             stock: 100,
         },
         {
-            name: 'Mancuerna circular engomada 5 Kgs',
-            description: 'Par de Mancuernas recubiertas de Neoprene de 5 Kgs',
+            name: 'Mancuerna engomada 5 Kgs',
+            description: 'Par de Mancuernas circulares recubiertas de Neoprene de 5 Kgs',
             price: 33.99,
             stock: 53,
         },
@@ -46,7 +46,7 @@ function productsSeeder()
             stock: 25,
         },
         {
-            name: 'Cinta motorizada con inclinación "FITAGE GC-273"',
+            name: 'Cinta motorizada "FITAGE GC-273"',
             description: 'Una cinta segura, sólida, con un motor de potencia pico 4hpp preparado para correr a 16 km/h reales. 3 niveles de inclinación y diseño ergonómico. MODELO 2020 con Space Just Automático. MOTOR DC: 4.0 hpp. ANCHO DE BANDA: 42 cm. LARGO DE BANDA: 125 cm. INCLINACIÓN: Manual de 3 niveles. PESO MÁXIMO: 120 kg.',
             price: 35.90,
             stock: 15,
@@ -58,8 +58,8 @@ function productsSeeder()
             stock: 12,
         },
         {
-            name: 'Steps plásticos con superficie de goma',
-            description: 'Marca	GMP. Modelo	Profesional largo. Cantidad de steps para gimnasia 1. Otras características:  Altura 15 cm . Largo x Ancho: 110 cm x 37 cm. Con superficie antideslizante de caucho',
+            name: 'Steps superficie de goma',
+            description: 'Marca	GMP. Modelo	Profesional largo. Cantidad de steps para gimnasia 1. Otras características:  Altura 15 cm. Largo x Ancho: 110 cm x 37 cm. Con superficie antideslizante de caucho',
             price: 14.50,
             stock: 112,
         },
@@ -70,30 +70,30 @@ function productsSeeder()
             stock: 112,
         },
         {
-            name: 'Chaleco Rompevientos Running Kalenji Ventilacion',
-            description: 'Chaleco rompeviento running kalenji by decathlon con capucha. Tejido principal: 100% Poliéster, Tejido de la espalda: 100% Poliéster',
+            name: 'Chaleco Running Kalenji',
+            description: 'Chaleco rompeviento running Kalenji by decathlon con capucha y Ventilacion. Tejido principal: 100% Poliéster, Tejido de la espalda: 100% Poliéster',
             price: 24.50,
             stock: 14,
         },
         {
-            name: 'Botella Termo Deportivo Engomado Erece Sport 750ml ',
+            name: 'Botella Termo 750ml ',
             description: 'Termo Erece original 750 ml acero inoxidable doble capa siliconado, modelo sport con cepillo de limpieza, posee gancho para colgarla donde prefieras. Viene en caja. Colores modernos (rojo, azul noche, naranja, verde manzana y violeta) muy buena calidad frio caliente varias horas. Medida ideal para transportar. Engomado antideslizante.',
             price: 24.50,
             stock: 14,
         },
         {
-            name: 'Bandas De Suspension Fitness, TRX',
+            name: 'Bandas De Suspension, TRX',
             description: 'Bandas de suspension profesional para gym fitness entrenamiento funcional etc... Excelente calidad. Incluye bolsa antitraspirante y adaptador para puerta.',
             price: 21.99,
             stock: 54,
         }
     ])
-
+console.log(Product.lenght)
 }
 
-function categoriesSeeder(){
+function categoriesSeeder(){ //This function create several categories
 
-    Categories.bulkCreate([
+    Categories.bulkCreate([ 
         {
             name: 'Entrenamiento Funcional',
             description: 'Se usan artículos variados propios, de otras actividades, e inclusive elementos no deportivos. Siempre utilizados de tal forma que prevalezca un entrenamiento integral. Ejemplo de ellos son la escalera de coordinación, sogas, TRX, entre otros.',
@@ -126,7 +126,7 @@ function categoriesSeeder(){
     ])
 
 }
-function imageSeeder(){    
+function imageSeeder(){    //This function create several images
 
     Image.bulkCreate([
         {
@@ -169,10 +169,10 @@ function imageSeeder(){
 
 }
 
-function categoy_productSederr(){
+function categoy_productSederr(){ // This function create several relationships between categories and products
     
 
-    for (let i = 1; i < 6; i++) {
+    for (let i = 1; i < 14; i++) {
         Product.findByPk(i)
             .then((product)=>{
                 Categories.findByPk(i)
@@ -182,7 +182,7 @@ function categoy_productSederr(){
             })
     }
 
-    for (let i = 1; i < 6; i++) {
+    for (let i = 1; i < 7; i++) {
         Product.findByPk(i)
             .then((product)=>{
                 Categories.findByPk(5-i)
@@ -196,7 +196,7 @@ function categoy_productSederr(){
 }
 
 
-module.exports = {
+module.exports = { // exporting the functions
     productsSeeder,
     categoriesSeeder,
     imageSeeder,

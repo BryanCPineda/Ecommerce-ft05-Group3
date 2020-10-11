@@ -28,11 +28,12 @@ server.get("/", (req, res) => {
     // This function brings all the products and the it count'em.
     include: [
       {
-        model: Image,
+        model: Image
         //se puede añadir un where para condicionar las busquedas
       },
       {
         model: Categories,
+        attributes: ['name']   // Includes only this especific column
       },
     ],
   })
@@ -46,7 +47,7 @@ server.get("/", (req, res) => {
 // This function get all products that contains in the name or the description the string passed by.
 server.get("/search", (req, res) => {
   const producto = req.query.valor;
-  Product.findAndCountAll({
+  Product.findAll({
     // This function brings all the products and the it count'em.
     where: {
       [Op.or]: [
@@ -69,7 +70,8 @@ server.get("/search", (req, res) => {
 		  //se puede añadir un where para condicionar las busquedas
 		},
 		{
-		  model: Categories,
+      model: Categories,
+      attributes: ['name']   // Includes only this especific column
 		},
 	  ]
   })
@@ -96,6 +98,7 @@ server.get("/:id", (req, res) => {
       },
       {
         model: Categories,
+        attributes: ['name']  // Includes only this especific column
       },
     ],
   })
@@ -209,7 +212,7 @@ server.get('/category/:category', (req, res)=>{
         where: {
           id: catId
         }, 
-        attribute: ['id', 'name']
+        attributes: ['id', 'name']   // Includes only this especific columns
       }]
     })
   })
