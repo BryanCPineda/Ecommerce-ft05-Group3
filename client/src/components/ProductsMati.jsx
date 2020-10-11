@@ -20,7 +20,7 @@ function ProductsMati(props) {
 
   useEffect(() => {
     mostrarProducto();
-  }, []);
+  });
 
   return (
     <div>
@@ -64,7 +64,7 @@ function ProductsMati(props) {
             <div className="d-flex justify-content-center">
               {product.categories &&
                 product.categories.map((ele) => (
-                  <p className="mr-4">{ele.name}</p>
+                  <p className="mr-4 h6">{ele.name}</p>
                 ))}
             </div>
             <div className="d-flex justify-content-start">

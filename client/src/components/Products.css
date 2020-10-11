@@ -13,9 +13,8 @@
     height: 100px;
     box-shadow: gray;
     margin-left: 30%;
-    
-    
 }
+
 .Boton{
     background-color: blue;
     color:white;
@@ -39,6 +38,7 @@
 
 .Descripción{
     color: grey;
-    margin-left: 5px
+    margin-left: 5px;
+    font-size: 30px;
 }
 
