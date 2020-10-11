@@ -92,7 +92,6 @@ function Catalogo({productSearch}) {
         products.map((ele, index) => (
           
             <div className="column-productcard">
-            {console.log(ele.images && ele.images[0])}
           <ProductCard
             key={index}
             id={ele.id}

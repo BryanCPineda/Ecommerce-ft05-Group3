@@ -9,7 +9,7 @@ import SearchBar from "./components/SearchBar/SearchBar";
 import axios from 'axios';
 import Catalogo from "./components/Catalogo";
 import CrudShow from "./components/CrudProducts/CrudShow";
-
+import Product from "./components/Products";
 
 
 
@@ -49,6 +49,7 @@ function App() {
             />
           <Route exact path="/admin/categories" component={FormCategories} />
           <Route exact path="/admin/product" component={CrudShow} />
+          <Route exact path="/product/:id" component={Product} />
         </Switch>
       </Router>
 
