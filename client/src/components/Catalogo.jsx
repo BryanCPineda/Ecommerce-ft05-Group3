@@ -71,6 +71,7 @@ function Catalogo({productSearch}) {
   };
 
   const productsFromCategories = (e) => {
+    console.log(e.target.value)
     setSelected(!selected)
     if(!selected) {
       axios
@@ -109,9 +110,8 @@ function Catalogo({productSearch}) {
         <Row >
         {productSearch.length > 0 ?
         productSearch.map((ele, index) => (
-          <div className="column-productcard">
+          <div key={index} className="column-productcard">
           <ProductCard 
-            key={index}
             id={ele.id}
             name={ele.name}
             description={ele.description.slice(0,50) + "..."}
@@ -125,9 +125,8 @@ function Catalogo({productSearch}) {
         productsByCategories &&
         productsByCategories.length > 0 ?
         productsByCategories.map((ele, index) => (
-          <div className="column-productcard">
+          <div key={index} className="column-productcard">
           <ProductCard 
-            key={index}
             id={ele.id}
             name={ele.name}
             description={ele.description.slice(0,50) + "..."}
@@ -140,9 +139,8 @@ function Catalogo({productSearch}) {
         :
         orderByPrice.length > 0 ? 
         orderByPrice.map((ele, index) => ( 
-          <div className="column-productcard">
-          <ProductCard 
-            key={index}
+          <div key={index} className="column-productcard">
+          <ProductCard   
             id={ele.id}
             name={ele.name}
             description={ele.description.slice(0,50) + "..."}
@@ -156,7 +154,6 @@ function Catalogo({productSearch}) {
         products.map((ele, index) => (
             <div key={index} className="column-productcard">
           <ProductCard
-            key={index}
             id={ele.id}
             name={ele.name}
             description={ele.description.slice(0,50) + "..."}
