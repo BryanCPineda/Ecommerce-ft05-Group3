@@ -18,7 +18,7 @@ function SideComponent({
       {categories && categories.map((element, index) => (
             <Form key={index} value={categories} onChange={productsFromCategories}>
               <div className="d-flex justify-content-between mt-4">
-                <Form.Label className="ml-3">{element.name}</Form.Label>
+                <Form.Label className="label-side-bar ml-3">{element.name}</Form.Label>
                 <Form.Check className="input-sidebar mr-2" value={element.name} type="checkbox" />
               </div>
             </Form>
