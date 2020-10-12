@@ -22,11 +22,11 @@ server.post('/', (req, res)=> {                   // This route add an image to 
 })
 
 
-server.delete('/', (req, res) =>{                  // This route delete an product's image
-    const imageId = req.body.imageId;
+server.delete('/:id', (req, res) =>{                  // This route delete an product's image
+    const { id } = req.params;
     Image.destroy({                                // Deleting the image by the received id
         where:{
-            id: imageId
+            id: id
         }
     }).then(()=>{
         res.status(200).send("Image was deleted!")

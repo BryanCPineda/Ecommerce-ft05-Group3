@@ -4,16 +4,12 @@ import AddImages from './AddImages'
 import React, { useState, useEffect } from 'react'
 import Axios from 'axios'
 import { Link } from 'react-router-dom'
-// import ConfirmDelete from './ConfirmDelete';
 import { Button, Modal, Card, Badge } from 'react-bootstrap'
-// import { switchLoading } from '../../actions/global';
-import { FiTrash2, FiEdit3, FiExternalLink } from 'react-icons/fi';
-// import { deleteProduct, updateProduct, getProducts, addCategoryToProduct, deleteCategoryToProduct } from '../../actions/products';
-// import { getProducts, deleteProduct, updateProduct, addCategoryToProduct, deleteCategoryToProduct } from '../../actions/products';
+import { FiTrash2, FiEdit3 } from 'react-icons/fi';
+
 
 
 function ItemList({ product}) {
-    //product, deleteProduct, updateProduct, getProducts, allCategories, addCategoryToProduct, deleteCategoryToProduct
     const { id, name, categories, stock, price, images } = product;
 
     const [categorias, setCategorias] = useState('')
@@ -23,7 +19,7 @@ function ItemList({ product}) {
         deleting: false
     });
 
-    //----------------------------agregar imagenes
+    //----------------------------este codigo maneja el agregado de imagenes------------------
     const [show, setShow] = useState(false);
     const [imagen, setImagen] = useState([])
     const [imageUp, setImageUp] = useState(false)
@@ -43,7 +39,7 @@ function ItemList({ product}) {
             productId: id,
             image: imagen
         }
-        console.log('img',imgEnviar)
+ 
                 const res = await Axios.post('http://localhost:4000/image', imgEnviar) 
     
             return (  console.log('image',res ))
@@ -58,22 +54,29 @@ function ItemList({ product}) {
       }
       },[imageUp]);
 
-    //---------------------------------------
+    //------------------------------este codigo maneja el agregado de imagenes---------
 
+    //----------borrar imagenes---------------------
+    const handleDeleteImages = (id) =>{
+        deleteImageToProduct(id)
+    }
 
+    async function deleteImageToProduct(id) {
+        const imageId = id
+        const res = await Axios.delete('http://localhost:4000/image/'+id)
+            window.alert('Imagen borrada: ', res)
+             document.location.reload();         
+    }
+
+    //------------------------------------------------
     async function deleteProduct(id) {
-        console.log('delete',id)
           const res = await Axios.delete('http://localhost:4000/products/'+id)
-          console.log('res delete', res)
 
         }
 
-        // server.post("/:idProducto/category/:idCategoria", (req, res, next) => {
-        //     //add the category to the product
-        //     const { idProducto, idCategoria } = req.params;
-        async function addCategoryToProduct(cat, id) {
+    async function addCategoryToProduct(cat, id) {
                         
-            const res = await Axios.post('http://localhost:4000/products/'+id+'/category/'+cat)
+        const res = await Axios.post('http://localhost:4000/products/'+id+'/category/'+cat)
                             console.log('rescreate', res.data)
             }
     
@@ -84,9 +87,9 @@ function ItemList({ product}) {
 
         async function deleteCategoryToProduct(cat, id) {
                         
-                const res = await Axios.delete('http://localhost:4000/products/'+id+'/category/'+cat)
-                                // window.alert('resdelete', res.data)    
-                                document.location.reload();         
+            const res = await Axios.delete('http://localhost:4000/products/'+id+'/category/'+cat)
+  
+                 document.location.reload();         
         }
 
 
@@ -104,7 +107,7 @@ function ItemList({ product}) {
         }
 
     const imagenes = images && images.map(e => e.image)
-    console.log(name, '---',imagenes)
+    console.log(name, '---',images)
 
     async function getCategories() {
         const res = await Axios.get('http://localhost:4000/category')
@@ -112,8 +115,6 @@ function ItemList({ product}) {
         setCategorias(res.data)
         
     }
-
-    const handleImage = () => {}
 
     const handleEditing = () => {
         setState({
@@ -137,10 +138,10 @@ function ItemList({ product}) {
         // switchLoading(true);
         return (id, attributes) => {
             for (let item of attributes.categories) {
-                addCategoryToProduct(item, id);
+            //    addCategoryToProduct(item, id);
             }
             for (let item of attributes.categoriesToDelete) {
-                deleteCategoryToProduct(item, id);
+            //   deleteCategoryToProduct(item, id);
             }
             updateProduct(id, attributes).then(() => {
                 document.location.reload();
@@ -157,20 +158,31 @@ function ItemList({ product}) {
 
     return (
         <tr className="text-center">
-            {/* <ConfirmDelete deleteProduct={handleDelete} product={{ id, name, image }} show={state.deleting} handleClose={handleDeleting} /> */}
             <Edit allCategories={categorias} updateProduct={handleUpdate} show={state.editing} product={product} handleClose={handleEditing} />
-            <td className="align-middle" width="70">
-                {imagenes && imagenes.map(e => <img alt={'Imagen del producto' + name} width="64" className="img-thumbnail" src={e} />)}
+            <td className="align-middle" width="150">
+                {console.log('imagenes', imagenes)}
+                {images && images.map(e => 
+                 <span className='d-flex' className="align-middle"> <img alt={'Imagen del producto' + name} width="64" className="img-thumbnail" src={e.image} />
+                <Button size="sm" 
+                style={{backgroundColor: '#767474', color: '#ffffff', border: '#767474',
+                    padding: '0px 5px 0px 5px', margin: '2px'}}
+                    className="m-1"
+                    onClick={() => handleDeleteImages(e.id)}
+               >x</Button >
+               </span>
+                )}
             </td>
             <td className="align-middle">{name}</td>
             <td className="align-middle" style={{ maxWidth: "100px" }}>{categories && categories.length > 0 ? categories.map(category => (
-                // <span key={category.id} className="badge badge-dark" style={{ margin: "3px" }}>{category.name}</span>
-                <Badge variant="light">{category.name}   <Button size="sm" variant='dark'onClick={() => handleDeleteCategories(category.id)}>x</Button ></Badge>
+                <Badge variant="light">{category.name}   <Button size="sm" 
+                style={{backgroundColor: '#767474', color: '#ffffff', border: '#767474',
+                    padding: '0px 5px 0px 5px'}}
+                    className="m-1"
+                onClick={() => handleDeleteCategories(category.id)}>x</Button ></Badge>
             )) : <span>Sin categorías</span>}</td>
             <td className="align-middle">{stock}</td>
             <td className="align-middle">{price}</td>
             <td className="align-middle">
-                {/* <Link to={"/productos/" + id} className="m-1 btn btn-light btn-sm" title="Ver en el catálogo"><FiExternalLink /></Link> */}
                 <Button size="sm" onClick={handleEditing} className="m-1" title="Modificar" variant="light"><FiEdit3 /></Button>
                 <Button size="sm" onClick={handleDelete} className="m-1" title="Borrar" variant="dark"><FiTrash2 /></Button>
                 <Button size="sm"
@@ -178,7 +190,8 @@ function ItemList({ product}) {
                       setShow(true)
 
                     }}
-                    style={{backgroundColor: '#8a2be2', color: '#000000'}}
+                    style={{backgroundColor: '#A855DE', color: '#ffffff', border: '#8a2be2',
+                    padding: '5px 10px 5px 10px'}}
                     className="m-1" 
                     >
                     + Imagenes

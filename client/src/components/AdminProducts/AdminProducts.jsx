@@ -39,7 +39,6 @@ function AdminProducts() {
              products = res.data
              
              setState({
-                ...state,
                 products: res.data.rows,
                 totalProducts: res.data.rows.length,
             })
@@ -62,7 +61,8 @@ function AdminProducts() {
                 return attributes => {
                         createProduct(attributes)
                                 .then(() => {
-                                        getProducts()
+                                        getProducts();
+                                
                                 })
                 }
         }
@@ -82,7 +82,14 @@ function AdminProducts() {
                                 <Col>
                                         <div className="d-flex p-2 justify-content-between aling-items-center">
                                                 <h1>Productos</h1>
-                                                <span><Button onClick={handleCreating} variant="info"><FiPlus /> Añadir producto</Button></span>
+                                                <span>
+                                                        <Button onClick={handleCreating}  
+                                                        style={{backgroundColor: '#A855DE', color: '#ffffff', border: '#8a2be2',
+                                                        padding: '5px 10px 5px 10px'}}
+                                                        className="m-1" 
+                                                        >
+                                                        <FiPlus /> Añadir producto</Button>
+                                                </span>
                                         </div>
                                 </Col>
                         </Row>
