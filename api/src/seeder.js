@@ -10,8 +10,8 @@ function productsSeeder()   //This function create several products
             stock: 111,
         },
         {
-            name: 'Banda Circular Resistencia media',
-            description: 'La banda circular es una opción similar a la Theraband pero con diferentes aplicaciones. Esta permite realizar ejercicios de fuerza sin necesidad de mantener el agarre ocupado en la misma, lo que posibilita incluso usar dicho agarre en otros implementos superficies etc. Tambien tienen diferentes tamaños, colores y resistencias segun el fabricante',
+            name: 'Banda Circular',
+            description: 'La banda circular de Resistencia media es una opción similar a la Theraband pero con diferentes aplicaciones. Esta permite realizar ejercicios de fuerza sin necesidad de mantener el agarre ocupado en la misma, lo que posibilita incluso usar dicho agarre en otros implementos superficies etc. Tambien tienen diferentes tamaños, colores y resistencias segun el fabricante',
             price: 12.99,
             stock: 100,
         },
@@ -46,8 +46,8 @@ function productsSeeder()   //This function create several products
             stock: 25,
         },
         {
-            name: 'Cinta motorizada "FITAGE GC-273"',
-            description: 'Una cinta segura, sólida, con un motor de potencia pico 4hpp preparado para correr a 16 km/h reales. 3 niveles de inclinación y diseño ergonómico. MODELO 2020 con Space Just Automático. MOTOR DC: 4.0 hpp. ANCHO DE BANDA: 42 cm. LARGO DE BANDA: 125 cm. INCLINACIÓN: Manual de 3 niveles. PESO MÁXIMO: 120 kg.',
+            name: 'Cinta motorizada',
+            description: 'La "FITAGE GC-273" es una cinta segura, sólida, con un motor de potencia pico 4hpp preparado para correr a 16 km/h reales. 3 niveles de inclinación y diseño ergonómico. MODELO 2020 con Space Just Automático. MOTOR DC: 4.0 hpp. ANCHO DE BANDA: 42 cm. LARGO DE BANDA: 125 cm. INCLINACIÓN: Manual de 3 niveles. PESO MÁXIMO: 120 kg.',
             price: 35.90,
             stock: 15,
         },
@@ -88,7 +88,6 @@ function productsSeeder()   //This function create several products
             stock: 54,
         }
     ])
-console.log(Product.lenght)
 }
 
 function categoriesSeeder(){ //This function create several categories
