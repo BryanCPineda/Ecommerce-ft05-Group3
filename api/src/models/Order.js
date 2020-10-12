@@ -45,7 +45,7 @@ module.exports = (sequelize) => {
           }
       },
       state: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         defaultValue: 'Cart'
       }
     })
