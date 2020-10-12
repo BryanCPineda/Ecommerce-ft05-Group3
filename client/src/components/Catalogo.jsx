@@ -14,7 +14,6 @@ function Catalogo({productSearch}) {
   const [categories, setCategories] = useState([])
   const [productsByCategories, setProductsByCategories] = useState([])
   const [priceOrder, serPriceOrder] = useState([])
-  const [selected, setSelected] = useState(false)
 
   /*------------------Pagination---------------------*/
 
@@ -74,12 +73,12 @@ function Catalogo({productSearch}) {
     };
 
   const productsFromCategories = (e) => { 
-     if(e == "todos los productos") return  setProductsByCategories([]);
+     if(e === "todos los productos") return  setProductsByCategories([]);
       axios
       .get(`http://localhost:4000/products/category/${e}`)
       .then((res) => res.data)
       .then((res) => {
-        if(res.length == 0)  return setProductsByCategories(-1);
+        if(res.length === 0)  return setProductsByCategories(-1);
         setProductsByCategories([]);
         setProductsByCategories(res);
       });
@@ -96,11 +95,8 @@ function Catalogo({productSearch}) {
         <Col xs={0} xl={1} ></Col>
         <Col xs={2} ><SideComponent categories={categories} orderByLowerPrice={orderByLowerPrice} 
         orderByHighPrice={orderByHighPrice}
-        selected={selected} productsFromCategories={productsFromCategories}/></Col>
+        productsFromCategories={productsFromCategories}/></Col>
         <Col >
-      {/* <div > 
-        <Filter categories={categories} productsFromCategories={productsFromCategories} />
-      </div> */}
         <Row >
         {productSearch.length > 0 ?
         productSearch.map((ele, index) => (
@@ -116,9 +112,8 @@ function Catalogo({productSearch}) {
           </div>
         ))
         :
-        (productsByCategories) && (productsByCategories == -1) ?
-          <h1>NO HAY PRODUCTOS PARA ESTA CATEGORIA</h1>
-
+        (productsByCategories) && (productsByCategories === -1) ?
+          <div className="d-flex justify-content-center"><h1>No products to display</h1></div>
         :
 
         productsByCategories.length > 0 ? 
