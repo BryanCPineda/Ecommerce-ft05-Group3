@@ -20,7 +20,7 @@ function ProductsMati(props) {
 
   useEffect(() => {
     mostrarProducto();
-  }, []);
+  },[]);
 
   return (
     <div>

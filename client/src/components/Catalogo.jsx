@@ -22,12 +22,15 @@ function Catalogo({productSearch}) {
   // const [currentPage, setCurrentPage] = useState(1);
   // const [productsPerPage] = useState(9);
 
+  const getProducts = () =>{
+    axios
+    .get("http://localhost:4000/products")
+    .then((res) => res.data)
+    .then((res) => setProducts(res.rows));
+  }
 
     useEffect(() => {
-      axios
-        .get("http://localhost:4000/products")
-        .then((res) => res.data)
-        .then((res) => setProducts(res.rows));
+         getProducts();
     }, []);
 
 
@@ -72,29 +75,20 @@ function Catalogo({productSearch}) {
     } 
   };
 
-  const productsFromCategories = (e) => {
-    if(e.target.checked) {
+  const productsFromCategories = (e) => { 
+     if(e == "todos los productos") return  setProductsByCategories([]);
       axios
-      .get(`http://localhost:4000/products/category/${e.target.value}`)
+      .get(`http://localhost:4000/products/category/${e}`)
       .then((res) => res.data)
       .then((res) => {
-        if(productsByCategories.length > 0 && productsByCategories.length !== products.length) {
-          setProductsByCategories(productsByCategories.concat(res))
-        } else if (productsByCategories.length === products.length) {
-          setProductsByCategories(res)
-        }
-        else {
-          setProductsByCategories(res)
-        }
-      })
-    } else {
-      axios.get("http://localhost:4000/products")
-        .then((res) => res.data)
-        .then((res) => setProductsByCategories(res.rows));
-    }
-  };
-
-
+        if(res.length == 0)  return setProductsByCategories(-1);
+        setProductsByCategories([]);
+        setProductsByCategories(res);
+     
+      });
+    
+  }
+  
   // const indexOfLastProduct = currentPage * productsPerPage;
   // const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   // const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
@@ -126,8 +120,12 @@ function Catalogo({productSearch}) {
           </div>
         ))
         :
-        productsByCategories &&
-        productsByCategories.length > 0 ?
+        (productsByCategories) && (productsByCategories == -1) ?
+          <h1>NO HAY PRODUCTOS PARA ESTA CATEGORIA</h1>
+
+        :
+
+        productsByCategories.length > 0 ? 
         productsByCategories.map((ele, index) => (
           <div key={index} className="column-productcard">
           <ProductCard 

@@ -18,6 +18,10 @@ module.exports = (sequelize) => {
         notNull: {
           msg: 'Este campo no puede estar vacío'
         },
+        len: {
+         // args: [5, 40],
+          msg: 'El nombre debe tener entre 5 y 40 caracteres'
+        }
       }
     },
     description: {
@@ -27,6 +31,10 @@ module.exports = (sequelize) => {
         notNull: {
           msg: 'Este campo no puede estar vacío'
         },
+        len: {
+          //args: [20, 255],
+          msg: 'La descripción debe tener entre 20 y 255 caracteres'
+        }
       }
     },
     price: {
