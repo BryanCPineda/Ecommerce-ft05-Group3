@@ -8,12 +8,12 @@ function List({ products }) {
         <Table striped bordered hover responsive size="sm" variant="light">
             <thead>
                 <tr className="text-center">
-                    <th>Imagen</th>
-                    <th>Título</th>
-                    <th>Categorías</th>
+                    <th>Images</th>
+                    <th>Title</th>
+                    <th>Categories</th>
                     <th>Stock</th>
-                    <th>Precio</th>
-                    <th>Acciones</th>
+                    <th>Price</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>

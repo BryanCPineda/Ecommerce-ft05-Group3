@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 
 const EditCategoryForm = ({ setEditing, currentCategory, updateCategory }) => {
-  const initialFormState = { id: null, name: "", description: "" };
-
   const [category, setCategory] = useState(currentCategory);
 
   const [errors, setErrors] = useState({ nameError: "", descriptionError: "" })

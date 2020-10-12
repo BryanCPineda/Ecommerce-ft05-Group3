@@ -4,7 +4,6 @@ import ProductCard from "./ProductCard";
 import Filter from './Filter';
 import SideComponent from './SideComponent';
 import Pagination from './Pagination';
-import data from "../data";
 import axios from 'axios';
 import './Catalogo.css';
 
@@ -14,7 +13,7 @@ function Catalogo({productSearch}) {
   const [products, setProducts] = useState([])
   const [categories, setCategories] = useState([])
   const [productsByCategories, setProductsByCategories] = useState([])
-  const [orderByPrice, setOrderByProce] = useState([])
+  const [priceOrder, serPriceOrder] = useState([])
   const [selected, setSelected] = useState(false)
 
   /*------------------Pagination---------------------*/
@@ -41,40 +40,40 @@ function Catalogo({productSearch}) {
         .then((res) => setCategories(res));
     }, []);
 
-    useEffect(() => setOrderByProce(""))
+    useEffect(() => serPriceOrder(""))
 
-  const orderByLowerPrice = () => {
-    if(productSearch.length > 0) {
-      let orderPrice = productSearch.sort((a, b) => a.price - b.price);
-      setOrderByProce(orderPrice);
-    }
-    else if(productsByCategories.length > 0) {
-      let orderPrice = productsByCategories.sort((a, b) => a.price - b.price);
-      setOrderByProce(orderPrice);
-    }
-    else {
-      let orderPrice = products.sort((a, b) => a.price - b.price);
-      setOrderByProce(orderPrice);
-    } 
-  };
+    const orderByLowerPrice = () => {
+      console.log('lower')
+      if(productSearch.length > 0) {
+        let orderPrice = productSearch.sort((a, b) => a.price - b.price);
+        serPriceOrder(orderPrice);
+      }
+      else if(productsByCategories.length > 0) {
+        let orderPrice = productsByCategories.sort((a, b) => a.price - b.price);
+        serPriceOrder(orderPrice);
+      }
+      else {
+        let orderPrice = products.sort((a, b) => a.price - b.price);
+        serPriceOrder(orderPrice);
+      } 
+    };
+  
+    const orderByHighPrice = () => {
+      if(productSearch.length > 0) {
+        let orderPrice = productSearch.sort((a, b) => b.price - a.price);
+        serPriceOrder(orderPrice);
+      }
+      else if(productsByCategories.length > 0) {
+        let orderPrice = productsByCategories.sort((a, b) => b.price - a.price);
+        serPriceOrder(orderPrice);
+      }
+      else {
+        let orderPrice = products.sort((a, b) => b.price - a.price);
+        serPriceOrder(orderPrice);
+      } 
+    };
 
-  const orderByHighPrice = () => {
-    if(productSearch.length > 0) {
-      let orderPrice = productSearch.sort((a, b) => b.price - a.price);
-      setOrderByProce(orderPrice);
-    }
-    else if(productsByCategories.length > 0) {
-      let orderPrice = productsByCategories.sort((a, b) => b.price - a.price);
-      setOrderByProce(orderPrice);
-    }
-    else {
-      let orderPrice = products.sort((a, b) => b.price - a.price);
-      setOrderByProce(orderPrice);
-    } 
-  };
-
-  const productsFromCategories = (e) => {
-    
+  const productsFromCategories = (e) => { 
      if(e == "todos los productos") return  setProductsByCategories([]);
       axios
       .get(`http://localhost:4000/products/category/${e}`)
@@ -83,9 +82,7 @@ function Catalogo({productSearch}) {
         if(res.length == 0)  return setProductsByCategories(-1);
         setProductsByCategories([]);
         setProductsByCategories(res);
-     
       });
-    
   }
 
   // const indexOfLastProduct = currentPage * productsPerPage;
@@ -107,9 +104,8 @@ function Catalogo({productSearch}) {
         <Row >
         {productSearch.length > 0 ?
         productSearch.map((ele, index) => (
-          <div className="column-productcard">
+          <div key={index} className="column-productcard">
           <ProductCard 
-            key={index}
             id={ele.id}
             name={ele.name}
             description={ele.description.slice(0,50) + "..."}
@@ -127,9 +123,8 @@ function Catalogo({productSearch}) {
 
         productsByCategories.length > 0 ? 
         productsByCategories.map((ele, index) => (
-          <div className="column-productcard">
+          <div key={index} className="column-productcard">
           <ProductCard 
-            key={index}
             id={ele.id}
             name={ele.name}
             description={ele.description.slice(0,50) + "..."}
@@ -140,11 +135,10 @@ function Catalogo({productSearch}) {
           </div>
           ))
         :
-        orderByPrice.length > 0 ? 
-        orderByPrice.map((ele, index) => ( 
-          <div className="column-productcard">
-          <ProductCard 
-            key={index}
+        priceOrder.length > 0 ? 
+        priceOrder.map((ele, index) => ( 
+          <div key={index} className="column-productcard">
+          <ProductCard   
             id={ele.id}
             name={ele.name}
             description={ele.description.slice(0,50) + "..."}
@@ -158,7 +152,6 @@ function Catalogo({productSearch}) {
         products.map((ele, index) => (
             <div key={index} className="column-productcard">
           <ProductCard
-            key={index}
             id={ele.id}
             name={ele.name}
             description={ele.description.slice(0,50) + "..."}

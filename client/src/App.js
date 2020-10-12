@@ -50,7 +50,7 @@ function App() {
           render={() => <Catalogo productSearch={productSearch} />}
         />
         <Route exact path="/admin/categories" component={FormCategories} />
-        <Route exact path="/admin/producto" component={CrudShow} />
+        {/* <Route exact path="/admin/producto" component={CrudShow} /> */}
         <Route exact path="/admin/product" component={AdminProducts} />
         <Route exact path="/user/product/:id" component={PrductsMati} />
         <Route path="/user" component={Footer} />

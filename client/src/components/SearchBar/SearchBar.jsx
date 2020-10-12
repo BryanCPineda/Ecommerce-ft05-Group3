@@ -38,7 +38,3 @@ export default function SearchBar({ handleChange, handleSubmit }) {
   );
 };
 
-{/* <Form inline>
-    <FormControl type="text" placeholder="Producto" className="mr-sm-2" />
-    <Button variant="outline-primary" >Buscar</Button>
-  </Form> */}

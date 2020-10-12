@@ -8,23 +8,6 @@ import { FiTrash2 } from 'react-icons/fi';
 import { FiEdit3 } from 'react-icons/fi';
 
 function FormCategories() {
-  const CategoriesData = [
-    {
-      id: 1,
-      name: "Fuerza",
-      description: "Articulos relacionados a entrenamiento de fuerza",
-    },
-    {
-      id: 2,
-      name: "Cardio",
-      description: "Articulos relacionados a entrenamiento de cardio",
-    },
-    {
-      id: 3,
-      name: "Suplementos",
-      description: "Suplementos dieteticos para potenciar el entrenamiento",
-    },
-  ];
 
   const initialFormState = { id: null, name: "", description: "" };
 

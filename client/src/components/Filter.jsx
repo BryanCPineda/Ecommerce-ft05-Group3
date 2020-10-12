@@ -7,8 +7,8 @@ function Filter({ categories, productsFromCategories }) {
       <Form className="ml-5">
         <Form.Group controlId="exampleForm.ControlSelect1" className="d-flex">
           <Form.Label className="mr-2 align-self-center">Filter by categories</Form.Label>
-          <Form.Control as="select" value={categories} onChange={productsFromCategories}>
-            <option >-</option>
+          <Form.Control as="select" value={categories} onChange={productsFromCategories} >
+            <option value="-">-</option>
             {categories && categories.map((ele, index) => (
               <option key={index} value={ele.name}>{ele.name}</option>
             ))}

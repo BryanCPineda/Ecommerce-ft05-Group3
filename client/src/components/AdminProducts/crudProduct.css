@@ -1,0 +1,17 @@
+.button-create {
+    border-radius: 5px;
+    background-color: #8a2be2;
+    color: white;
+    height: 40px;
+    border: none;
+}
+.button-create:focus {
+    border-radius: 10;
+    background-color: #4A00E0;
+    border: none
+}
+.button-create:hover {
+    border-radius: 10;
+    background-color: #4A00E0;
+    border: none
+}

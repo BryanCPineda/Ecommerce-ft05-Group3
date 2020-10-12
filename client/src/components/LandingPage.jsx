@@ -5,8 +5,8 @@ import { Link } from 'react-router-dom';
 function LandingPage() {
   return (
     <div className="landing">
-        <img className="landing-container" src={"/images/bg.jpg"}></img>
-            <img className="card-image" src={"/images/imagen.png"}></img>
+        <img className="landing-container" src={"/images/bg.jpg"} alt="fondo"></img>
+            <img className="card-image" src={"/images/imagen.png"} alt="logo"></img>
             <div className="content-container">
             <p className="landing-sign-in">Sign in</p>
             <p className="landing-sign-up">Sign up</p>
