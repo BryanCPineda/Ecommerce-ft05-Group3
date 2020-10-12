@@ -13,8 +13,7 @@ function Catalogo({productSearch}) {
   const [products, setProducts] = useState([])
   const [categories, setCategories] = useState([])
   const [productsByCategories, setProductsByCategories] = useState([])
-  const [lower, setLower] = useState([])
-  const [higher, setHigher] = useState([])
+  const [priceOrder, serPriceOrder] = useState([])
   const [selected, setSelected] = useState(false)
 
   /*------------------Pagination---------------------*/
@@ -41,39 +40,38 @@ function Catalogo({productSearch}) {
         .then((res) => setCategories(res));
     }, []);
 
-    useEffect(() => orderByLowerPrice(""), [])
+    useEffect(() => serPriceOrder(""))
 
-    useEffect(() => orderByHighPrice(""), [])
-
-  const orderByLowerPrice = () => {
-    if(productSearch.length > 0) {
-      let highPrice = productSearch.sort((a, b) => a.price - b.price);
-      setHigher(highPrice);
-    }
-    else if(productsByCategories.length > 0) {
-      let highPrice = productsByCategories.sort((a, b) => a.price - b.price);
-      setHigher(highPrice);
-    }
-    else {
-      let highPrice = products.sort((a, b) => a.price - b.price);
-      setHigher(highPrice);
-    } 
-  };
-
-  const orderByHighPrice = () => {
-    if(productSearch.length > 0) {
-      let lowPrice = productSearch.sort((a, b) => b.price - a.price);
-      setLower(lowPrice);
-    }
-    else if(productsByCategories.length > 0) {
-      let lowPrice = productsByCategories.sort((a, b) => b.price - a.price);
-      setLower(lowPrice);
-    }
-    else {
-      let lowPrice = products.sort((a, b) => b.price - a.price);
-      setLower(lowPrice);
-    } 
-  };
+    const orderByLowerPrice = () => {
+      console.log('lower')
+      if(productSearch.length > 0) {
+        let orderPrice = productSearch.sort((a, b) => a.price - b.price);
+        serPriceOrder(orderPrice);
+      }
+      else if(productsByCategories.length > 0) {
+        let orderPrice = productsByCategories.sort((a, b) => a.price - b.price);
+        serPriceOrder(orderPrice);
+      }
+      else {
+        let orderPrice = products.sort((a, b) => a.price - b.price);
+        serPriceOrder(orderPrice);
+      } 
+    };
+  
+    const orderByHighPrice = () => {
+      if(productSearch.length > 0) {
+        let orderPrice = productSearch.sort((a, b) => b.price - a.price);
+        serPriceOrder(orderPrice);
+      }
+      else if(productsByCategories.length > 0) {
+        let orderPrice = productsByCategories.sort((a, b) => b.price - a.price);
+        serPriceOrder(orderPrice);
+      }
+      else {
+        let orderPrice = products.sort((a, b) => b.price - a.price);
+        serPriceOrder(orderPrice);
+      } 
+    };
 
   const productsFromCategories = (e) => { 
      if(e == "todos los productos") return  setProductsByCategories([]);
@@ -84,11 +82,9 @@ function Catalogo({productSearch}) {
         if(res.length == 0)  return setProductsByCategories(-1);
         setProductsByCategories([]);
         setProductsByCategories(res);
-     
       });
-    
   }
-  
+
   // const indexOfLastProduct = currentPage * productsPerPage;
   // const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   // const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
@@ -139,22 +135,8 @@ function Catalogo({productSearch}) {
           </div>
           ))
         :
-        lower.length > 0 ? 
-        lower.map((ele, index) => ( 
-          <div key={index} className="column-productcard">
-          <ProductCard   
-            id={ele.id}
-            name={ele.name}
-            description={ele.description.slice(0,50) + "..."}
-            price={ele.price}
-            stock={ele.stock}
-            images={ele.images[0]}
-          />
-          </div>
-        )) 
-        :
-        higher.length > 0 ? 
-        higher.map((ele, index) => ( 
+        priceOrder.length > 0 ? 
+        priceOrder.map((ele, index) => ( 
           <div key={index} className="column-productcard">
           <ProductCard   
             id={ele.id}

@@ -179,12 +179,12 @@ function ItemList({ product}) {
                     padding: '0px 5px 0px 5px'}}
                     className="m-1"
                 onClick={() => handleDeleteCategories(category.id)}>x</Button ></Badge>
-            )) : <span>Sin categorías</span>}</td>
+            )) : <span>There are not categories</span>}</td>
             <td className="align-middle">{stock}</td>
             <td className="align-middle">{price}</td>
             <td className="align-middle">
-                <Button size="sm" onClick={handleEditing} className="m-1" title="Modificar" variant="light"><FiEdit3 /></Button>
-                <Button size="sm" onClick={handleDelete} className="m-1" title="Borrar" variant="dark"><FiTrash2 /></Button>
+                <Button size="sm" onClick={handleEditing} className="m-1" style={{backgroundColor: '#A855DE', color: 'white'}} title="Modificar" variant="light"><FiEdit3 /></Button>
+                <Button size="sm" onClick={handleDelete} className="m-1" style={{backgroundColor: '#A855DE'}} title="Borrar" variant="dark"><FiTrash2 /></Button>
                 <Button size="sm"
                     onClick={() => {
                       setShow(true)
@@ -194,13 +194,13 @@ function ItemList({ product}) {
                     padding: '5px 10px 5px 10px'}}
                     className="m-1" 
                     >
-                    + Imagenes
+                    + Images
                 </Button>
 
                 {/* Agregar imagenes ------------------------------------------ */}
                 <Modal show={show} onHide={handleClose}>
-                      <Modal.Header closeButton>
-                        <Modal.Title>Carga de Imagenes</Modal.Title>
+                      <Modal.Header style={{backgroundColor: '#8a2be2'}} closeButton>
+                        <Modal.Title style={{color: 'white'}} >Upload Images</Modal.Title>
                       </Modal.Header>
                       <Modal.Body>
                           <Card>
@@ -210,10 +210,10 @@ function ItemList({ product}) {
                           </Card>
                       </Modal.Body>
                       <Modal.Footer>
-                        <Button variant="secondary" onClick={handleCloseCancel}>
+                        <Button className="button-create" onClick={handleCloseCancel}>
                           Cancel
                         </Button>
-                        <Button variant="primary" onClick={handleClose}>
+                        <Button className="button-create" onClick={handleClose}>
                           Save Changes
                         </Button>
                       </Modal.Footer>

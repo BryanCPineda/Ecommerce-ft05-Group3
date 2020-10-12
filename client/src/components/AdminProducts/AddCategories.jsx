@@ -63,7 +63,7 @@ const AddCategories = ({ show, product, handleClose }) => {
         <div>
              <Modal showCat={show} onHide={handleClose}>
                       <Modal.Header closeButton>
-                        <Modal.Title>Añadir Categorias</Modal.Title>
+                        <Modal.Title>Add Categories</Modal.Title>
                       </Modal.Header>
                       <Modal.Body>
                       <Form.Control as="select" multiple custom onChange={handleCategories} value={state.categories} name="categories" placeholder="Nombre">

@@ -5,7 +5,7 @@ import { Container, Row, Col, Button, ButtonGroup } from "react-bootstrap";
 import { FiPlus } from "react-icons/fi";
 import Create from "./Create";
 import List from "./List";
-
+import './crudProduct.css';
 
 
 function AdminProducts() {
@@ -88,7 +88,7 @@ function AdminProducts() {
       <Row>
         <Col>
           <div className="d-flex p-2 justify-content-between aling-items-center">
-            <h1 style={{color: 'white'}}>Productos</h1>
+            <h1 style={{color: 'white'}}>Products</h1>
             <span>
               <Button
                 onClick={handleCreating}
@@ -100,7 +100,7 @@ function AdminProducts() {
                 }}
                 className="m-1"
               >
-                <FiPlus /> Añadir producto
+                <FiPlus /> Add new Product
               </Button>
             </span>
           </div>

@@ -6,14 +6,18 @@
     /*tocar el width y margin para el border bottom*/
 }
 
-.button-select {
+.button-side {
+    border-radius: 5px;
+    background-color: #8a2be2;
+    color: white;
+    height: 40px;
     border: none;
-    border-radius: 100%;
-    background-color: #ececec;
-    display: flex;
-    align-items: center;
-    height: 30px;
 }
+.button-side:focus {
+    border-radius: 10;
+    background-color: #4A00E0;
+}
+
 
 .title-price {
     border-bottom: 1px #c0c0c0 solid;

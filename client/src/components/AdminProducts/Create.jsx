@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button, Form, Row, Col, InputGroup } from "react-bootstrap";
 import { FiMaximize2, FiTrash2, FiPlus } from "react-icons/fi";
+import './crudProduct.css';
 
 function Create({ show, handleClose, createProduct }) {
   const [state, setState] = useState({
@@ -75,13 +76,13 @@ function Create({ show, handleClose, createProduct }) {
 
   return (
     <Modal show={show} onHide={handleClose}>
-      <Modal.Header className="border-0 bg-dark2" closeButton>
-        <Modal.Title>Añadir producto</Modal.Title>
+      <Modal.Header style={{backgroundColor: '#8a2be2'}} className="border-0 bg-dark2" closeButton>
+        <Modal.Title style={{color: 'white'}}>Add Product</Modal.Title>
       </Modal.Header>
       <Modal.Body className="bg-dark2">
         <form>
           <Form.Group>
-            <Form.Label>Nombre</Form.Label>
+            <Form.Label>Name</Form.Label>
             <Form.Control
               onChange={handleInput}
               value={state.name}
@@ -97,7 +98,7 @@ function Create({ show, handleClose, createProduct }) {
           <Row>
             <Col>
               <Form.Group>
-                <Form.Label>Precio</Form.Label>
+                <Form.Label>Price</Form.Label>
                 <Form.Control
                   onChange={handleInput}
                   value={state.price * 1}
@@ -132,7 +133,7 @@ function Create({ show, handleClose, createProduct }) {
             </Col>
           </Row>
           <Form.Group>
-            <Form.Label>Descripción</Form.Label>
+            <Form.Label>Description</Form.Label>
             <Form.Control
               as="textarea"
               onChange={handleInput}
@@ -150,11 +151,11 @@ function Create({ show, handleClose, createProduct }) {
         </form>
       </Modal.Body>
       <Modal.Footer className="border-0 bg-dark2">
-        <Button variant="secondary" onClick={handleClose}>
-          Cancelar
+        <Button className="button-create" onClick={handleClose}>
+          Cancel
         </Button>
-        <Button variant="primary" onClick={handleSumbitCreate}>
-          Añadir
+        <Button className="button-create" onClick={handleSumbitCreate}>
+          Add
         </Button>
       </Modal.Footer>
     </Modal>

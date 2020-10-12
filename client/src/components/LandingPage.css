@@ -1,4 +1,4 @@
-.landing {
+/* .landing {
     background-color: #592a9c;
     height: 100vh;
     position: fixed;
@@ -64,12 +64,12 @@
     position: relative;
     bottom: 200px;
     left: 500px;
-}
+} */
 
-
-/*-----Para bryan-----*/
-
-/* .landing {
+/* 
+-----Para bryan----- */
+ 
+ .landing {
     background-color: #592a9c;
     height: 100vh;
     position: fixed;
@@ -135,4 +135,4 @@
     position: relative;
     bottom: 127px;
     left: 400px;
-} */
+}

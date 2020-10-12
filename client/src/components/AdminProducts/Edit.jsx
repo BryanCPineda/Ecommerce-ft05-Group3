@@ -12,6 +12,7 @@ import {
 import { FiMaximize2, FiTrash2, FiPlus } from "react-icons/fi";
 import { Multiselect } from "multiselect-react-dropdown";
 import Axios from "axios";
+import './crudProduct.css';
 
 function Edit({ allCategories, updateProduct, show, product, handleClose }) {
   const { id, images, name, description, stock, price, categories } = product;
@@ -171,8 +172,8 @@ function Edit({ allCategories, updateProduct, show, product, handleClose }) {
 
   return (
     <Modal size="lg" show={show} onHide={handleClose}>
-      <Modal.Header className="border-0 bg-dark2" closeButton>
-        <Modal.Title>Modificar producto</Modal.Title>
+      <Modal.Header style={{backgroundColor: '#8a2be2'}} className="border-0 bg-dark2" closeButton>
+        <Modal.Title style={{color: 'white'}}>Edit Product</Modal.Title>
       </Modal.Header>
       <Modal.Body className="bg-dark2">
         <form>
@@ -186,7 +187,7 @@ function Edit({ allCategories, updateProduct, show, product, handleClose }) {
                                                 ))}
                                         </Row> */}
           <Form.Group>
-            <Form.Label>Nombre</Form.Label>
+            <Form.Label>Name</Form.Label>
             <Form.Control
               onChange={handleInput}
               value={state.name}
@@ -202,7 +203,7 @@ function Edit({ allCategories, updateProduct, show, product, handleClose }) {
           <Row>
             <Col>
               <Form.Group>
-                <Form.Label>Precio</Form.Label>
+                <Form.Label>Price</Form.Label>
                 <Form.Control
                   onChange={handleInput}
                   value={state.price * 1}
@@ -237,7 +238,7 @@ function Edit({ allCategories, updateProduct, show, product, handleClose }) {
             </Col>
           </Row>
           <Form.Group>
-            <Form.Label>Categorías</Form.Label>
+            <Form.Label>Categories</Form.Label>
           </Form.Group>
           <Form.Group>
             <Multiselect
@@ -259,7 +260,7 @@ function Edit({ allCategories, updateProduct, show, product, handleClose }) {
           </Form.Group>
 
           <Form.Group>
-            <Form.Label>Descripción</Form.Label>
+            <Form.Label>Description</Form.Label>
             <Form.Control
               as="textarea"
               onChange={handleInput}
@@ -294,11 +295,11 @@ function Edit({ allCategories, updateProduct, show, product, handleClose }) {
         </form>
       </Modal.Body>
       <Modal.Footer className="border-0 bg-dark2">
-        <Button variant="danger" onClick={handleClose}>
-          Cancelar
+        <Button className="button-create" onClick={handleClose}>
+          Cancel
         </Button>
-        <Button variant="warning" onClick={handleOnUpdate}>
-          Modificar
+        <Button className="button-create" onClick={handleOnUpdate}>
+          Edit
         </Button>
       </Modal.Footer>
     </Modal>
