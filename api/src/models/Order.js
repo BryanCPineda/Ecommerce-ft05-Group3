@@ -45,8 +45,9 @@ module.exports = (sequelize) => {
           }
       },
       state: {
-        type: DataTypes.STRING,
-        defaultValue: 'Cart'
+        type: DataTypes.ENUM({
+            values: ['carrito', 'creada', 'procesando', 'cancelada', 'completa']
+          })
       }
     })
 }
