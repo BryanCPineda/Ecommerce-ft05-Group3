@@ -4,7 +4,6 @@ import ProductCard from "./ProductCard";
 import Filter from './Filter';
 import SideComponent from './SideComponent';
 import Pagination from './Pagination';
-import data from "../data";
 import axios from 'axios';
 import './Catalogo.css';
 
@@ -14,7 +13,7 @@ function Catalogo({productSearch}) {
   const [products, setProducts] = useState([])
   const [categories, setCategories] = useState([])
   const [productsByCategories, setProductsByCategories] = useState([])
-  const [orderByPrice, setOrderByProce] = useState([])
+  const [orderByPrice, setOrderByPrice] = useState([])
   const [selected, setSelected] = useState(false)
 
   /*------------------Pagination---------------------*/
@@ -36,37 +35,37 @@ function Catalogo({productSearch}) {
         .get("http://localhost:4000/category")
         .then((res) => res.data)
         .then((res) => setCategories(res));
-    }, []);
+    }, [categories]);
 
-    useEffect(() => setOrderByProce(""))
+    useEffect(() => setOrderByPrice(""), [])
 
   const orderByLowerPrice = () => {
     if(productSearch.length > 0) {
       let orderPrice = productSearch.sort((a, b) => a.price - b.price);
-      setOrderByProce(orderPrice);
+      setOrderByPrice(orderPrice);
     }
     else if(productsByCategories.length > 0) {
       let orderPrice = productsByCategories.sort((a, b) => a.price - b.price);
-      setOrderByProce(orderPrice);
+      setOrderByPrice(orderPrice);
     }
     else {
       let orderPrice = products.sort((a, b) => a.price - b.price);
-      setOrderByProce(orderPrice);
+      setOrderByPrice(orderPrice);
     } 
   };
 
   const orderByHighPrice = () => {
     if(productSearch.length > 0) {
       let orderPrice = productSearch.sort((a, b) => b.price - a.price);
-      setOrderByProce(orderPrice);
+      setOrderByPrice(orderPrice);
     }
     else if(productsByCategories.length > 0) {
       let orderPrice = productsByCategories.sort((a, b) => b.price - a.price);
-      setOrderByProce(orderPrice);
+      setOrderByPrice(orderPrice);
     }
     else {
       let orderPrice = products.sort((a, b) => b.price - a.price);
-      setOrderByProce(orderPrice);
+      setOrderByPrice(orderPrice);
     } 
   };
 
@@ -91,6 +90,13 @@ function Catalogo({productSearch}) {
     }
   }
 
+  const bringAllCategories = () => {
+    axios
+        .get("http://localhost:4000/category")
+        .then((res) => res.data)
+        .then((res) => setCategories(res));
+  }
+
   // const indexOfLastProduct = currentPage * productsPerPage;
   // const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   // const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
@@ -101,7 +107,7 @@ function Catalogo({productSearch}) {
       <Row md={12} className="catalogo">
         <Col xs={0} xl={1} ></Col>
         <Col xs={2} ><SideComponent categories={categories} orderByLowerPrice={orderByLowerPrice} 
-        orderByHighPrice={orderByHighPrice}
+        orderByHighPrice={orderByHighPrice} bringAllCategories={bringAllCategories}
         selected={selected} productsFromCategories={productsFromCategories}/></Col>
         <Col >
       {/* <div > 

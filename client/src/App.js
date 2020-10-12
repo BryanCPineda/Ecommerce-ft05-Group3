@@ -1,15 +1,13 @@
 import React,{useState} from "react";
 import "./App.css";
-import ProductCard2 from "./components/ProductCard2";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import FormCategories from './components/FormCategories/FormCategories';
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import SearchBar from "./components/SearchBar/SearchBar";
 import axios from 'axios';
 import Catalogo from "./components/Catalogo";
 import CrudShow from "./components/CrudProducts/CrudShow";
-import Product from "./components/Products";
 import LandingPage from './components/LandingPage';
 import PrductsMati from './components/ProductsMati';
 import Footer from './components/Footer';

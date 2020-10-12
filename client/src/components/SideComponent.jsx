@@ -9,13 +9,15 @@ function SideComponent({
   productsFromCategories,
   orderByLowerPrice,
   orderByHighPrice,
-  selected
+  selected,
+  bringAllCategories
 }) {
   return (
     <div className="sideComponent">
       <h2 className="d-flex justify-content-center mt-5 categories p-4">
         Categories
       </h2>
+      <button onClick={bringAllCategories}>traer</button>
       {categories && categories.map((element, index) => (
             <Form key={index} value={categories} onChange={productsFromCategories}>
               <div className="d-flex justify-content-between mt-4">
