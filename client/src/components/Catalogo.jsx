@@ -13,7 +13,8 @@ function Catalogo({productSearch}) {
   const [products, setProducts] = useState([])
   const [categories, setCategories] = useState([])
   const [productsByCategories, setProductsByCategories] = useState([])
-  const [orderByPrice, setOrderByPrice] = useState([])
+  const [lower, setLower] = useState([])
+  const [higher, setHigher] = useState([])
   const [selected, setSelected] = useState(false)
 
   /*------------------Pagination---------------------*/
@@ -35,67 +36,64 @@ function Catalogo({productSearch}) {
         .get("http://localhost:4000/category")
         .then((res) => res.data)
         .then((res) => setCategories(res));
-    }, [categories]);
+    }, []);
 
-    useEffect(() => setOrderByPrice(""), [])
+    useEffect(() => orderByLowerPrice(""), [])
+
+    useEffect(() => orderByHighPrice(""), [])
 
   const orderByLowerPrice = () => {
     if(productSearch.length > 0) {
-      let orderPrice = productSearch.sort((a, b) => a.price - b.price);
-      setOrderByPrice(orderPrice);
+      let highPrice = productSearch.sort((a, b) => a.price - b.price);
+      setHigher(highPrice);
     }
     else if(productsByCategories.length > 0) {
-      let orderPrice = productsByCategories.sort((a, b) => a.price - b.price);
-      setOrderByPrice(orderPrice);
+      let highPrice = productsByCategories.sort((a, b) => a.price - b.price);
+      setHigher(highPrice);
     }
     else {
-      let orderPrice = products.sort((a, b) => a.price - b.price);
-      setOrderByPrice(orderPrice);
+      let highPrice = products.sort((a, b) => a.price - b.price);
+      setHigher(highPrice);
     } 
   };
 
   const orderByHighPrice = () => {
     if(productSearch.length > 0) {
-      let orderPrice = productSearch.sort((a, b) => b.price - a.price);
-      setOrderByPrice(orderPrice);
+      let lowPrice = productSearch.sort((a, b) => b.price - a.price);
+      setLower(lowPrice);
     }
     else if(productsByCategories.length > 0) {
-      let orderPrice = productsByCategories.sort((a, b) => b.price - a.price);
-      setOrderByPrice(orderPrice);
+      let lowPrice = productsByCategories.sort((a, b) => b.price - a.price);
+      setLower(lowPrice);
     }
     else {
-      let orderPrice = products.sort((a, b) => b.price - a.price);
-      setOrderByPrice(orderPrice);
+      let lowPrice = products.sort((a, b) => b.price - a.price);
+      setLower(lowPrice);
     } 
   };
 
   const productsFromCategories = (e) => {
-    console.log(e.target.value)
-    setSelected(!selected)
-    if(!selected) {
+    if(e.target.checked) {
       axios
       .get(`http://localhost:4000/products/category/${e.target.value}`)
       .then((res) => res.data)
       .then((res) => {
-        if(!res)
-        return;
-        else if(productsByCategories.length > 0 && res[0].id === productsByCategories[0].id) {
-            console.log("entre al repetido")
-           return;
+        if(productsByCategories.length > 0 && productsByCategories.length !== products.length) {
+          setProductsByCategories(productsByCategories.concat(res))
+        } else if (productsByCategories.length === products.length) {
+          setProductsByCategories(res)
         }
-        else setProductsByCategories(productsByCategories.concat(res))
-          setSelected(!selected)
-          console.log("entre al nuevo", productsByCategories)
-      });
-    }
-  }
-
-  const bringAllCategories = () => {
-    axios
-        .get("http://localhost:4000/category")
+        else {
+          setProductsByCategories(res)
+        }
+      })
+    } else {
+      axios.get("http://localhost:4000/products")
         .then((res) => res.data)
-        .then((res) => setCategories(res));
-  }
+        .then((res) => setProductsByCategories(res.rows));
+    }
+  };
+
 
   // const indexOfLastProduct = currentPage * productsPerPage;
   // const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
@@ -107,7 +105,7 @@ function Catalogo({productSearch}) {
       <Row md={12} className="catalogo">
         <Col xs={0} xl={1} ></Col>
         <Col xs={2} ><SideComponent categories={categories} orderByLowerPrice={orderByLowerPrice} 
-        orderByHighPrice={orderByHighPrice} bringAllCategories={bringAllCategories}
+        orderByHighPrice={orderByHighPrice}
         selected={selected} productsFromCategories={productsFromCategories}/></Col>
         <Col >
       {/* <div > 
@@ -143,8 +141,22 @@ function Catalogo({productSearch}) {
           </div>
           ))
         :
-        orderByPrice.length > 0 ? 
-        orderByPrice.map((ele, index) => ( 
+        lower.length > 0 ? 
+        lower.map((ele, index) => ( 
+          <div key={index} className="column-productcard">
+          <ProductCard   
+            id={ele.id}
+            name={ele.name}
+            description={ele.description.slice(0,50) + "..."}
+            price={ele.price}
+            stock={ele.stock}
+            images={ele.images[0]}
+          />
+          </div>
+        )) 
+        :
+        higher.length > 0 ? 
+        higher.map((ele, index) => ( 
           <div key={index} className="column-productcard">
           <ProductCard   
             id={ele.id}

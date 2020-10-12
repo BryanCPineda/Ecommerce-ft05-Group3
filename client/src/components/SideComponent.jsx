@@ -10,19 +10,19 @@ function SideComponent({
   orderByLowerPrice,
   orderByHighPrice,
   selected,
-  bringAllCategories
 }) {
   return (
     <div className="sideComponent">
       <h2 className="d-flex justify-content-center mt-5 categories p-4">
         Categories
       </h2>
-      <button onClick={bringAllCategories}>traer</button>
+      {/* <button onClick={console.log("entree")}>traer</button> */}
       {categories && categories.map((element, index) => (
             <Form key={index} value={categories} onChange={productsFromCategories}>
               <div className="d-flex justify-content-between mt-4">
                 <Form.Label className="label-side-bar ml-3">{element.name}</Form.Label>
-                <input className="input-sidebar mr-2" value={element.name} type="checkbox"></input>
+                <input className="input-sidebar mr-2" value={element.name} 
+                type="checkbox" id={element.id} data-ref={element.id} checked={element.selected}></input>
               </div>
             </Form>
           ))}
