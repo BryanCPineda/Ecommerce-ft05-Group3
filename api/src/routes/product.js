@@ -203,12 +203,18 @@ server.get('/category/:category', (req, res)=>{
   .then(cat=>{
     let catId = cat.id;
     return Product.findAll({         // This function brings all the products from an specific category. 
-      include: [{ 
-        model: Categories, 
-        where: {
-          id: catId
+      include: [
+        {
+          model: Image,
+          //se puede añadir un where para condicionar las busquedas
         },
-      }]
+        {
+          model: Categories,
+          where:{
+            id: catId
+          }
+        },
+      ],
     })
   })
   .then(products=>{
