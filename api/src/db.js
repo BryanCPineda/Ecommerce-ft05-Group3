@@ -45,8 +45,9 @@ Categories.belongsToMany(Product, { through: "category_product" });
 Product.hasMany(Image,{foreignKey:'productId'});
 OrderLine.hasMany(Product,{foreignKey:'productId'});
 
+
 Order.belongsTo(User, {foreignKey: 'userId'});
-OrderLine.belongsTo(Order, {foreignKey: 'userId'});
+OrderLine.belongsTo(Order, {foreignKey: 'orderId'});
 
 
 module.exports = {
