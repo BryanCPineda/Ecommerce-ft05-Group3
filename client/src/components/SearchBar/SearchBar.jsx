@@ -24,7 +24,7 @@ export default function SearchBar({ handleChange, handleSubmit }) {
             className="button mt-3"
             type="submit"
             variant="outline-primary"
-            
+            onClick={handleSubmit}
           >
             Search
           </button>

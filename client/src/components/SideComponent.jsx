@@ -2,7 +2,8 @@ import React from "react";
 import "./SideComponent.css";
 import { AiOutlineArrowDown } from "react-icons/ai";
 import { AiOutlineArrowUp } from "react-icons/ai";
-import { Form } from 'react-bootstrap';
+import {FiChevronRight} from 'react-icons/fi'
+import { Form , Button} from 'react-bootstrap';
 
 function SideComponent({
   categories,
@@ -16,18 +17,22 @@ function SideComponent({
       <h2 className="d-flex justify-content-center mt-5 categories p-4">
         Categories
       </h2>
-      <button type="button" style={{backgroundColor: '#4A00E0', color: 'white', height: '50px'}}  
-      className="btn ml-3" onClick={()=> productsFromCategories("todos los productos")}>ALL PRODUCTS </button>
-      {categories && categories.map((element, index) => (
-            <Form key={index} value={categories} onChange={productsFromCategories}>
-              <div  class="btn-group-vertical" className="d-flex justify-content-between mt-4">
-                {/*<Form.Label className="label-side-bar ml-3">{element.name}</Form.Label>*/}
-                <button type="button" 
-                className="ml-3 button-side" onClick={()=>productsFromCategories(element.name)}>{element.name}</button>
-                {/*<input className="input-sidebar mr-2" value={element.name} type="checkbox"></input>*/}
-              </div>
-            </Form>
-          ))}
+      <div className='all-content'><span >All Products</span><Button variant="outline-light" style={{padding: '1px'}}  
+          className='button-side' onClick={()=> productsFromCategories("todos los productos")}><FiChevronRight /> </Button>
+      </div>
+      <div className='side-content'>
+          
+          {categories && categories.map((element, index) => (
+                <Form key={index} value={categories} onChange={productsFromCategories}>
+                  <div  class="btn-group-vertical" className="d-flex justify-content-between mt-4">
+                    {/*<Form.Label className="label-side-bar ml-3">{element.name}</Form.Label>*/}
+                    <span>{element.name}</span><Button variant="outline-light" className='button-side' style={{padding: '1px'}}  
+                    onClick={()=>productsFromCategories(element.name)}><FiChevronRight /> </Button>
+                    {/*<input className="input-sidebar mr-2" value={element.name} type="checkbox"></input>*/}
+                  </div>
+                </Form>
+              ))}
+      </div>
       <div className="mt-5">
         <h5 className="d-flex justify-content-center title-price">
           Order by Price
