@@ -21,11 +21,11 @@ function App() {
   const [search, setSearch] = useState("");
 
   const handleChange = (e) => {
-    setSearch({
-      [e.target.name]: e.target.value,
-    });
+    setSearch(e.target.value);
     handleSubmit(e);
-    if (search === "") {
+    console.log(search)
+    if (e.target.value.length === 1) {
+      setSearch("")
       return handleSubmit(e);
     }
   };
@@ -33,7 +33,7 @@ function App() {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .get(`http://localhost:4000/products/search?valor=${search.search}`)
+      .get(`http://localhost:4000/products/search?valor=${search}`)
       .then((res) => res.data)
       .then((res) => {
         setProductSearch(res.rows);

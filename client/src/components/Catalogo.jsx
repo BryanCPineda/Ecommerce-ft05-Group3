@@ -113,19 +113,20 @@ function Catalogo({productSearch}) {
         ))
         :
         (productsByCategories) && (productsByCategories === -1) ?
-          <div className="d-flex justify-content-center"><h1>No products to display</h1></div>
+          <div><h1 className="no-products" >No products to display</h1></div>
         :
 
         productsByCategories.length > 0 ? 
         productsByCategories.map((ele, index) => (
           <div key={index} className="column-productcard">
+        {  console.log(ele)}
           <ProductCard 
             id={ele.id}
             name={ele.name}
             description={ele.description.slice(0,50) + "..."}
             price={ele.price}
             stock={ele.stock}
-            // images={ele.images[0]}
+            images={ele.images && ele.images[0]}
           />
           </div>
           ))
