@@ -1,9 +1,9 @@
-const { Sequelize, BOOLEAN } = require('sequelize');
+const { Sequelize } = require('sequelize');
 const S = Sequelize;
 
 // Exporting the function that define the Users model, inside connect with sequelize
 module.exports = (sequelize)=>{
-  sequelize.define('user', {
+  sequelize.define('users', {
     id: {
       type: S.INTEGER,
       allowNull: false,
