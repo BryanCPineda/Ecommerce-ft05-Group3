@@ -14,40 +14,20 @@ import PrductsMati from './components/ProductsMati';
 import Footer from './components/Footer';
 import NavbarAdmin from './components/NavbarAdmin';
 
+import store from './store';
+import { Provider } from 'react-redux';
 
 function App() {
-  const [productSearch, setProductSearch] = useState([]);
-
-  const [search, setSearch] = useState("");
-
-  const handleChange = (e) => {
-    setSearch(e.target.value);
-    handleSubmit(e);
-    console.log(search)
-    if (e.target.value.length === 1) {
-      setSearch("")
-      return handleSubmit(e);
-    }
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    axios
-      .get(`http://localhost:4000/products/search?valor=${search}`)
-      .then((res) => res.data)
-      .then((res) => {
-        setProductSearch(res.rows);
-      });
-  };
-
+  
   return (
     <div>
+      <Provider store={store}>
       <Router> 
-        <Route path="/user" render={() => <SearchBar handleSubmit={handleSubmit} handleChange={handleChange} />}/>
+        <Route path="/user" render={() => <SearchBar />}/>
         <Route path="/admin" component={NavbarAdmin} />
         <Route exact path="/" component={LandingPage} />
         <Route path="/user/catalogo"
-          render={() => <Catalogo productSearch={productSearch} />}
+          render={() => <Catalogo />}
         />
         <Route exact path="/admin/categories" component={FormCategories} />
         {/* <Route exact path="/admin/producto" component={CrudShow} /> */}
@@ -55,6 +35,7 @@ function App() {
         <Route exact path="/user/product/:id" component={PrductsMati} />
         <Route path="/user" component={Footer} />
       </Router>
+      </Provider>
     </div>
   );
 }
