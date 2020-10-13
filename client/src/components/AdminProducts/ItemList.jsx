@@ -1,6 +1,7 @@
 import Edit from './Edit';
 import AddImages from './AddImages'
 // import { connect } from 'react-redux';
+import swal from 'sweetalert'
 import React, { useState, useEffect } from 'react'
 import Axios from 'axios'
 import { Link } from 'react-router-dom'
@@ -59,18 +60,25 @@ function ItemList({ product}) {
     //----------borrar imagenes---------------------
     const handleDeleteImages = (id) =>{
         deleteImageToProduct(id)
+        document.location.reload(); 
     }
 
     async function deleteImageToProduct(id) {
         const imageId = id
         const res = await Axios.delete('http://localhost:4000/image/'+id)
-            window.alert('Imagen borrada: ', res)
-             document.location.reload();         
+        
+         
     }
 
     //------------------------------------------------
     async function deleteProduct(id) {
+          const imagesToDelete = images.map(e => e)
           const res = await Axios.delete('http://localhost:4000/products/'+id)
+          
+          
+            imagesToDelete.map(e => {
+                deleteImageToProduct(e.id)
+            })
 
         }
 
@@ -104,6 +112,7 @@ function ItemList({ product}) {
         }
             const res = await Axios.put('http://localhost:4000/products/'+id, prodEnviar)
             console.log('respuesta update', res)
+            
         }
 
     const imagenes = images && images.map(e => e.image)
@@ -125,11 +134,27 @@ function ItemList({ product}) {
 
 
     const handleDelete = () => {
+        // alerta de borrado
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted, you will not be able to recover this Product!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+          })
+          .then((willDelete) => {
+            if (willDelete) {
+                deleteProduct(id).then(() => {
+                    swal("Your Product has been deleted!", {
+                        icon: "success",
+                      })
+                    .then(() => document.location.reload())
+                });
+              
+            } 
+          })
 
-            deleteProduct(id).then(() => {
-                window.alert('producto borrado')
-                document.location.reload();
-            });
+            
 
     }
 
@@ -144,7 +169,9 @@ function ItemList({ product}) {
             //   deleteCategoryToProduct(item, id);
             }
             updateProduct(id, attributes).then(() => {
-                document.location.reload();
+                swal("Product Updated!", "", "success")
+                .then(() => document.location.reload())
+                
             });
 
         }

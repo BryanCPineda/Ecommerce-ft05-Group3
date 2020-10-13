@@ -2,38 +2,70 @@ import React, { useEffect, useState } from "react";
 import "./SideComponent.css";
 import { AiOutlineArrowDown } from "react-icons/ai";
 import { AiOutlineArrowUp } from "react-icons/ai";
-import { Form } from 'react-bootstrap';
+import {FiChevronRight} from 'react-icons/fi'
+import { Form , Button} from 'react-bootstrap';
 import { connect } from 'react-redux';
 
 /*----------------redux------------------*/
-import { getAllCategories, getProductsFromCategories, getAllProducts } from '../actions/catalogoActions';
+import { getAllCategories } from '../actions/catalogoActions';
 
-function SideComponent(props) {
+function SideComponent({
+  orderByHighPrice,
+  orderByLowerPrice,
+  getAllCategories,
+  handleProductsFromCategories,
+  categories
+}) {
 
   useEffect(() => {
-    props.getAllCategories();
+    getAllCategories();
   }, []);
-
-  console.log(props)
 
   return (
     <div className="sideComponent">
       <h2 className="d-flex justify-content-center mt-5 categories p-4">
         Categories
       </h2>
-      <button type="button" style={{backgroundColor: '#4A00E0', color: 'white'}}  
-      className="btn ml-3" onClick={()=> props.handleProductsFromCategories("todos los productos")}>ALL PRODUCTS </button>
-      {props.categories && props.categories.map((element, index) => (
-            <Form key={index} value={props.categories} onChange={props.handleProductsFromCategories}>
-              <div  class="btn-group-vertical" className="d-flex justify-content-between mt-4">
-                {/*<Form.Label className="label-side-bar ml-3">{element.name}</Form.Label>*/}
-                <button type="button" 
-                className="ml-5 button-side" onClick={() => props.handleProductsFromCategories(element.name)}>{element.name}</button>
-                {/*<input className="input-sidebar mr-2" value={element.name} type="checkbox"></input>*/}
+      <div className="all-content">
+        <span>All Products</span>
+        <Button
+          variant="outline-light"
+          style={{ padding: "1px" }}
+          className="button-side"
+          onClick={() =>
+            handleProductsFromCategories("todos los productos")
+          }
+        >
+          <FiChevronRight />{" "}
+        </Button>
+      </div>
+      <div className="side-content">
+        {categories &&
+          categories.map((element, index) => (
+            <Form
+              key={index}
+              value={categories}
+              onChange={handleProductsFromCategories}
+            >
+              <div
+                className="btn-group-vertical"
+                className="d-flex justify-content-between mt-4"
+              >
+                <span>{element.name}</span>
+                <Button
+                  variant="outline-light"
+                  className="button-side"
+                  onClick={() =>
+                    handleProductsFromCategories(element.name)
+                  }
+                >
+                  <FiChevronRight />{" "}
+                </Button>
               </div>
             </Form>
           ))}
-      {/* <div className="mt-5">
+      </div>
+      <div className="mt-5">
         <h5 className="d-flex justify-content-center title-price">
           Order by Price
         </h5>
@@ -59,7 +91,7 @@ function SideComponent(props) {
             </button>
           </div>
         </div>
-      </div> */}
+      </div>
     </div>
   );
 }
@@ -74,8 +106,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getAllCategories: () => dispatch(getAllCategories()),
-    getProductsFromCategories: (e) => dispatch(getProductsFromCategories(e)),
-    getAllProducts: () => dispatch(getAllProducts()),
   }
 }
 
