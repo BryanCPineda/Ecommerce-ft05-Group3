@@ -1,7 +1,7 @@
 const server = require("express").Router();
 const { Order } = require("../db.js");
 
-server.get('/orders', (req, res, next) => {
+server.get('/', (req, res, next) => {
 const state = req.query.status;   
   Order.findAll({
     where: {
