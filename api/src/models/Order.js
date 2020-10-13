@@ -10,19 +10,23 @@ module.exports = (sequelize) => {
       primaryKey: true,
       autoIncrement: true
     },
-      quantity: {
-        type: DataTypes.INTEGER,
-        defaultValue: 0,
-        validate: {
-            min: {
-              args: [1],
-              msg: 'La cantidad no puede ser menor que 1'
-            },
-            max: {
-              args: [1000],
-              msg: "La cantidad no puede ser mayor a 1000"
-            }
-          }
+    totalPrice: {
+      type: DataTypes.DECIMAL(9, 2),
+      allowNull: false,
+      validate: {     
+        isDecimal: true,
+        min: {
+          args: [0]       
+        },
+        max: {
+          args: [999999999]           
+        }
       }
+    },
+    state: {
+      type: DataTypes.ENUM({
+          values: ['Cart', 'Creada', 'Procesando', 'Cancelada', 'Completa']
+        })
+    }
     })
 }
