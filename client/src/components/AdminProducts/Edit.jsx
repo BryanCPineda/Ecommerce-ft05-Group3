@@ -9,6 +9,7 @@ import {
   FormGroup,
   FormControl,
 } from "react-bootstrap";
+import swal from 'sweetalert';
 import { FiMaximize2, FiTrash2, FiPlus } from "react-icons/fi";
 import { Multiselect } from "multiselect-react-dropdown";
 import Axios from "axios";
@@ -120,35 +121,35 @@ function Edit({ allCategories, updateProduct, show, product, handleClose }) {
     });
   };
 
-  const addImage = () => {
-    if (state.images.length < 10) {
-      setState({
-        ...state,
-        images: state.images.concat(""),
-      });
-    }
-  };
+//   const addImage = () => {
+//     if (state.images.length < 10) {
+//       setState({
+//         ...state,
+//         images: state.images.concat(""),
+//       });
+//     }
+//   };
 
-  const updateImage = (e, index) => {
-    let images = state.images;
-    images[index] = e.target.value;
+//   const updateImage = (e, index) => {
+//     let images = state.images;
+//     images[index] = e.target.value;
 
-    setState({
-      ...state,
-      images,
-    });
-  };
+//     setState({
+//       ...state,
+//       images,
+//     });
+//   };
 
-  const removeImage = (index) => {
-    if (state.images.length > 1) {
-      let images = state.images;
-      images.splice(index, 1);
-      setState({
-        ...state,
-        images,
-      });
-    }
-  };
+//   const removeImage = (index) => {
+//     if (state.images.length > 1) {
+//       let images = state.images;
+//       images.splice(index, 1);
+//       setState({
+//         ...state,
+//         images,
+//       });
+//     }
+//   };
 
   const onSelect = (selectedList, selectedItem) => {
     addCategoryToProduct(selectedItem.id, product.id);
@@ -177,15 +178,6 @@ function Edit({ allCategories, updateProduct, show, product, handleClose }) {
       </Modal.Header>
       <Modal.Body className="bg-dark2">
         <form>
-          {/* <input type="hidden" name="iamges[]" />
-                                        <Row className="overflow-auto clearfix">
-                                                {JSON.parse(images).map((img, index) => (
-                                                        <Col sm="3">
-                                                                <Button className="position-absolute" size="sm" variant="danger" >&times;</Button>
-                                                                <img className="shadow img-thumbnail m-2 img-fluid" src={img} />
-                                                        </Col>
-                                                ))}
-                                        </Row> */}
           <Form.Group>
             <Form.Label>Name</Form.Label>
             <Form.Control
@@ -275,23 +267,6 @@ function Edit({ allCategories, updateProduct, show, product, handleClose }) {
               </div>
             )}
           </Form.Group>
-          {/* <Form.Group>
-                        <Form.Label>Imágenes {state.images.length}/10</Form.Label>
-                        {state.images.map((item, index) => (
-                            <Form.Group key={index}>
-                                <InputGroup>npm install mdbreact
-                                    <InputGroup.Prepend>
-                                        <Button size="sm" variant="light"><FiMaximize2 /></Button>
-                                    </InputGroup.Prepend>
-                                    <Form.Control key={index} onChange={(e) => updateImage(e, index)} value={item} name="images" />
-                                    <InputGroup.Append>
-                                        <Button onClick={() => removeImage(index)} variant="danger" size="sm"><FiTrash2 /></Button>
-                                    </InputGroup.Append>
-                                </InputGroup>
-                            </Form.Group>
-                        ))}
-                        {state.images.length < 10 && <Button size="sm" onClick={addImage}><FiPlus /> Añadir imagen</Button>}
-                    </Form.Group> */}
         </form>
       </Modal.Body>
       <Modal.Footer className="border-0 bg-dark2">
