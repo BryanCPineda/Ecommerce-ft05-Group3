@@ -6,16 +6,35 @@
     /*tocar el width y margin para el border bottom*/
 }
 
+.side-content {
+    display: flex;
+    flex-direction: column;
+    margin: 2rem;
+}
+.all-content {
+    display: flex;
+    justify-content: space-between;
+    margin: 2rem;
+}
+
 .button-side {
-    border-radius: 5px;
-    background-color: #8a2be2;
+    border-radius: 25%;
+    background-color: white;
+    color: #885ce0;
+    /* height: 50px; */
+    padding: 2px 0px 2px 0px;
+    border: 1px;
+}
+
+.button-side:hover {
     color: white;
-    height: 50px;
-    border: none;
+    background-color: #885ce0;
 }
 .button-side:focus {
     border-radius: 10;
-    background-color: #4A00E0;
+    background-color: #885ce0;
+    color: white;
+    
 }
 
 
