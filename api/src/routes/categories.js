@@ -60,7 +60,7 @@ server.put("/:id", (req, res, next) => {
     { where: { id: id } }
   )
     .then((value) => {
-      const result = value[return0];
+      const result = value[0];
       if (result) {
         return res
           .status(202)
