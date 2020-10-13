@@ -8,8 +8,8 @@ function Create({ show, handleClose, createProduct }) {
     images: "",
     name: "",
     description: "",
-    stock: "",
-    price: "",
+    stock: '',
+    price: '',
   });
 
   const [errors, setErrors] = useState({
@@ -35,7 +35,7 @@ function Create({ show, handleClose, createProduct }) {
         let priceError = "";
         let stockError = "";
         let categoriesError = "";
-        let imagesError = "";
+        // let imagesError = "";
     
         if(state.name.length < 5 || state.name.length > 40) {
           nameError = "Name must have at least 5 characters and max 40"
@@ -49,30 +49,31 @@ function Create({ show, handleClose, createProduct }) {
         if (state.stock <= 0 || state.stock > 100000000) {
           stockError = "Invalid content";
         }
-        if (!state.images) {
-          imagesError = "Cannot be empty";
-        }
+        // if (!state.images) {
+        //   imagesError = "Cannot be empty";
+        // }
 
-        if(nameError || descriptionError || priceError || stockError || imagesError){
-          setErrors({ nameError, descriptionError, priceError, stockError, imagesError });
+        if(nameError || descriptionError || priceError || stockError){
+          setErrors({ nameError, descriptionError, priceError, stockError});
           return false;
         }
         return true;
       }
 
   const handleSumbitCreate = () => {
-    // const isValid = validate();
-    // if (isValid) {
-      createProduct()(state);
+    const isValid = validate();
+    if (isValid) {
+      const productoCreado = state
       setState({
         images: "",
         name: "",
         description: "",
-        stock: "",
-        price: "",
-      });
-    // }
-  };
+        stock: '',
+        price: '',
+      })
+      createProduct()(productoCreado);
+    }
+  }
 
   return (
     <Modal show={show} onHide={handleClose}>
@@ -101,7 +102,7 @@ function Create({ show, handleClose, createProduct }) {
                 <Form.Label>Price</Form.Label>
                 <Form.Control
                   onChange={handleInput}
-                  value={state.price * 1}
+                  value={state.price}
                   type="number"
                   name="price"
                   step="any"
@@ -119,7 +120,7 @@ function Create({ show, handleClose, createProduct }) {
                 <Form.Label>Stock</Form.Label>
                 <Form.Control
                   onChange={handleInput}
-                  value={state.stock * 1}
+                  value={state.stock}
                   type="number"
                   name="stock"
                   placeholder="Stock"
@@ -151,7 +152,14 @@ function Create({ show, handleClose, createProduct }) {
         </form>
       </Modal.Body>
       <Modal.Footer className="border-0 bg-dark2">
-        <Button className="button-create" onClick={handleClose}>
+        <Button className="button-create" onClick={() =>{
+                handleClose();
+                setState( {images: "",
+                name: "",
+                description: "",
+                stock: '',
+                price: ''})
+        }}>
           Cancel
         </Button>
         <Button className="button-create" onClick={handleSumbitCreate}>

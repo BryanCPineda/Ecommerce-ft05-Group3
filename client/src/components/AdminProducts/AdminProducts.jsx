@@ -3,6 +3,7 @@ import Axios from "axios";
 //components
 import { Container, Row, Col, Button, ButtonGroup } from "react-bootstrap";
 import { FiPlus } from "react-icons/fi";
+import swal from 'sweetalert'
 import Create from "./Create";
 import List from "./List";
 import './crudProduct.css';
@@ -41,15 +42,26 @@ function AdminProducts() {
     };
 
     const res = await Axios.post("http://localhost:4000/products", prodEnviar);
+
   }
 
   // Traer productos de la base de datos -------------
   async function getProducts() {
     const res = await Axios.get("http://localhost:4000/products");
-    products = res.data;
+    products = res.data
+    console.log('products', products)
+    const prod2 = products.rows.sort(function (a, b) {
+        if (a.id > b.id) {
+          return 1;
+        }
+        if (a.id < b.id) {
+          return -1;
+        }
+        return 0;
+      });
 
     setState({
-      products: res.data.rows,
+      products: prod2,
       totalProducts: res.data.rows.length,
     });
   }
@@ -68,7 +80,9 @@ function AdminProducts() {
     handleCreating();
     return (attributes) => {
       createProduct(attributes).then(() => {
-        getProducts();
+        swal("Product Created!", "", "success")
+        .then(() => getProducts())
+        
       });
     };
   };
