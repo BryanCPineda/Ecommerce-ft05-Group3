@@ -1,9 +1,9 @@
-const { Sequelize, BOOLEAN } = require('sequelize');
+const { Sequelize } = require('sequelize');
 const S = Sequelize;
 
 // Exporting the function that define the Users model, inside connect with sequelize
 module.exports = (sequelize)=>{
-  sequelize.define('user', {
+  sequelize.define('users', {
     id: {
       type: S.INTEGER,
       allowNull: false,
@@ -17,7 +17,10 @@ module.exports = (sequelize)=>{
         notNull: {
           msg: 'Name is mandatory'
         },
-        len: [2, 20],
+        len: {
+          args: [2, 30],
+          msg: 'Name field must to be at least 2 characters long.'
+        },
         isAlpha: true
     },
     lastName: {
@@ -27,7 +30,10 @@ module.exports = (sequelize)=>{
         notNull: {
           msg: 'Lastname is mandatory'
         }},
-      len: [2, 40],
+      len: {
+        args: [2, 50],
+        msg: 'Lastname field must to be at least 2 characters long.'
+      },
       isAlpha: true
     }
     },
