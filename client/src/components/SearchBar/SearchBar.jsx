@@ -1,9 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import { Form } from "react-bootstrap";
 import { Link } from 'react-router-dom';
 import "./SearchBar.css";
+import { connect } from 'react-redux';
 
-export default function SearchBar({ handleChange, handleSubmit }) {
+/*-------------redux-------------*/
+import { getProductsFromSearch } from '../../actions/catalogoActions';
+
+function SearchBar(props) {
+
+  const [search, setSearch] = useState("");
+
+  const handleChange = (e) => {
+    setSearch(e.target.value)
+    handleOnSubmit(e)
+    if (e.target.value.length === 1) {
+      setSearch("")
+      return props.getProductsFromSearch(e.target.value)
+    }
+  };
+
+  const handleOnSubmit = (e) => {
+    e.preventDefault()
+    props.getProductsFromSearch(search);
+  }
+
   return (
     <div className="navigation">
       <Link to="/user/catalogo">
@@ -24,7 +45,7 @@ export default function SearchBar({ handleChange, handleSubmit }) {
             className="button mt-3"
             type="submit"
             variant="outline-primary"
-            
+            onClick={handleOnSubmit}
           >
             Search
           </button>
@@ -38,3 +59,16 @@ export default function SearchBar({ handleChange, handleSubmit }) {
   );
 };
 
+const mapStateToProps = (state) => {
+  return {
+    productsFromSearch: state.catalogo.productsFromSearch,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getProductsFromSearch: (search) => dispatch(getProductsFromSearch(search)),
+  }
+}
+
+export default connect( mapStateToProps, mapDispatchToProps )(SearchBar)
