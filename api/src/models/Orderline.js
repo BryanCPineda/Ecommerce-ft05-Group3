@@ -15,20 +15,19 @@ module.exports = (sequelize) => {
       allowNull: false,
       validate: {
         notNull: {
-          msg: "Se requiere un precio",
+          msg: "Price is mandatory",
         },
         isDecimal: {
           msg:
-            'El precio debe contener sus decimales (centavos), de ser un precio exacto puede incluir "00"',
+            'Price must have decimals(cents), if it is an exact price could be "00"',
         },
         min: {
           args: [0],
-          msg: "El precio no puede ser menor que 0,00",
+          msg: "Price can't be less then 0,00",
         },
         max: {
           args: [999999999],
-          msg:
-            "El precio no puede contener más de 9 dígitos delante de la coma.",
+          msg: "Price can't have more then 9 digits.",
         },
       },
     },
@@ -38,11 +37,11 @@ module.exports = (sequelize) => {
       validate: {
         min: {
           args: [1],
-          msg: "La cantidad no puede ser menor que 1",
+          msg: "Quantity can't be less then 1",
         },
         max: {
           args: [1000],
-          msg: "La cantidad no puede ser mayor a 1000",
+          msg: "Quantity can't be more then 1000",
         },
       },
     },
