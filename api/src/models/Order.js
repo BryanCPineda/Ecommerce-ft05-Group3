@@ -46,7 +46,7 @@ module.exports = (sequelize) => {
       },
       state: {
         type: DataTypes.ENUM({
-            values: ['Carrito', 'Creada', 'Procesando', 'Cancelada', 'Completa']
+            values: ['Cart', 'Creada', 'Procesando', 'Cancelada', 'Completa']
           })
       }
     })
