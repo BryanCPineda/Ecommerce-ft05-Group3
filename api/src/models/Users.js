@@ -28,7 +28,7 @@ module.exports = (sequelize)=>{
       allowNull: false,
       validate:{
         notNull: {
-          msg: 'Lastname is mandatory'
+          msg: 'Lastname is mandatory.'
         }},
       len: {
         args: [2, 50],
@@ -43,13 +43,26 @@ module.exports = (sequelize)=>{
       unique: true,
       validate: {
         notNull: {
-          msg: 'Email is mandatory'
+          msg: 'Email is mandatory.'
         },
         isEmail: {
           args: true,
           msg: 'This email format is invalid.'
         },
         len:[5, 50]
+      }
+    },
+    password: {
+      type: S.STRING,
+      allowNull: false,
+      validate:{
+        notNull: {
+          msg: 'Password is mandatory.'
+        }, 
+        len:{
+          args: [8, 50],
+          msg: 'Password must have at least 8 characters.'
+        }
       }
     },
     userType: {
