@@ -35,6 +35,7 @@ const { Categories } = sequelize.models;
 const { Image } = sequelize.models;
 const { Order } = sequelize.models;
 const { User } = sequelize.models;
+const { Orderline } = sequelize.models;
 
 
 // Aca vendrian las relaciones
