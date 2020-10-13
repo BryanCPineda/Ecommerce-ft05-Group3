@@ -17,7 +17,10 @@ module.exports = (sequelize)=>{
         notNull: {
           msg: 'Name is mandatory'
         },
-        len: [2, 20],
+        len: {
+          args: [2, 30],
+          msg: 'Name field must to be at least 2 characters long.'
+        },
         isAlpha: true
     },
     lastName: {
@@ -25,9 +28,12 @@ module.exports = (sequelize)=>{
       allowNull: false,
       validate:{
         notNull: {
-          msg: 'Lastname is mandatory'
+          msg: 'Lastname is mandatory.'
         }},
-      len: [2, 40],
+      len: {
+        args: [2, 50],
+        msg: 'Lastname field must to be at least 2 characters long.'
+      },
       isAlpha: true
     }
     },
@@ -37,13 +43,26 @@ module.exports = (sequelize)=>{
       unique: true,
       validate: {
         notNull: {
-          msg: 'Email is mandatory'
+          msg: 'Email is mandatory.'
         },
         isEmail: {
           args: true,
           msg: 'This email format is invalid.'
         },
         len:[5, 50]
+      }
+    },
+    password: {
+      type: S.STRING,
+      allowNull: false,
+      validate:{
+        notNull: {
+          msg: 'Password is mandatory.'
+        }, 
+        len:{
+          args: [8, 50],
+          msg: 'Password must have at least 8 characters.'
+        }
       }
     },
     userType: {
@@ -56,6 +75,23 @@ module.exports = (sequelize)=>{
           msg: 'The type of user must be defined'
         }
       }
+    },
+    adress:{
+      type: S.STRING,
+      allowNull: false,
+      validate: {
+        notNull:{
+          msg: 'Postal adress is mandatory.'
+        },
+        len: {
+          args: [5, 60],
+          msg: 'Adress field must to be at least 2 characters long.'
+        }
+      }
+    },
+    image: {
+      type: S.TEXT,
+      allowNull: true,
     }
   })
 }

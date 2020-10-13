@@ -14,3 +14,9 @@
   display: flex;
   flex-wrap: wrap;
 }
+
+.no-products {
+  color: white;
+  margin-top: 4rem;
+  margin-left: 10rem;
+}
