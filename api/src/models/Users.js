@@ -17,7 +17,8 @@ module.exports = (sequelize)=>{
         notNull: {
           msg: 'Name is mandatory'
         },
-        len: [2, 20]
+        len: [2, 20],
+        isAlpha: true
     },
     lastName: {
       type: S.STRING,
@@ -26,30 +27,33 @@ module.exports = (sequelize)=>{
         notNull: {
           msg: 'Lastname is mandatory'
         }},
-        len: [2, 40]
-      }
+      len: [2, 40],
+      isAlpha: true
+    }
     },
     email: {
       type: S.STRING,
       allowNull: false,
+      unique: true,
       validate: {
-        notNull:{
+        notNull: {
           msg: 'Email is mandatory'
         },
-        isEmail: true,
+        isEmail: {
+          args: true,
+          msg: 'This email format is invalid.'
+        },
         len:[5, 50]
       }
     },
     userType: {
-      type: S.INTEGER,
+      type: S.ENUM,
       allowNull: false,
-      defaultValue: 0,
+      defaultValue: 'client',
+      values: ['client', 'admin'],
       validate: {
-        min: {
-          args: [0],
-        },
-        max: {
-          args: [1],
+        notNull: {
+          msg: 'The type of user must be defined'
         }
       }
     }
