@@ -43,11 +43,6 @@ module.exports = (sequelize) => {
               msg: "La cantidad no puede ser mayor a 1000"
             }
           }
-      },
-      state: {
-        type: DataTypes.ENUM({
-            values: ['Cart', 'Creada', 'Procesando', 'Cancelada', 'Completa']
-          })
       }
     })
 }
