@@ -75,6 +75,23 @@ module.exports = (sequelize)=>{
           msg: 'The type of user must be defined'
         }
       }
+    },
+    adress:{
+      type: S.STRING,
+      allowNull: false,
+      validate: {
+        notNull:{
+          msg: 'Postal adress is mandatory.'
+        },
+        len: {
+          args: [5, 60],
+          msg: 'Adress field must to be at least 2 characters long.'
+        }
+      }
+    },
+    image: {
+      type: S.TEXT,
+      allowNull: true,
     }
   })
 }
