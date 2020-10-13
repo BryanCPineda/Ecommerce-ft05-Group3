@@ -32,12 +32,17 @@ sequelize.define("orderline", {
       },
     },
   },
-  Quantity: {
+  quantity: {
     type: S.INTEGER,
-    allowNull: false,
+    defaultValue: 0,
     validate: {
-      notNull: {
-        msg: "Se requiere una cantidad",
+      min: {
+        args: [1],
+        msg: "La cantidad no puede ser menor que 1",
+      },
+      max: {
+        args: [1000],
+        msg: "La cantidad no puede ser mayor a 1000",
       },
     },
   },
