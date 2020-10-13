@@ -23,7 +23,7 @@ module.exports = (sequelize) => {
         },
         min: {
           args: [0],
-          msg: "Price can't be less then 0,00",
+          msg: "Price can't be less than 0,00",
         },
         max: {
           args: [999999999],
@@ -37,11 +37,11 @@ module.exports = (sequelize) => {
       validate: {
         min: {
           args: [1],
-          msg: "Quantity can't be less then 1",
+          msg: "Quantity can't be less than 1",
         },
         max: {
           args: [1000],
-          msg: "Quantity can't be more then 1000",
+          msg: "Quantity can't be more than 1000",
         },
       },
     },
