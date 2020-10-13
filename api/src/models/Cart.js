@@ -9,6 +9,11 @@ module.exports = (sequelize) => {
       allowNull:false,
       primaryKey: true,
       autoIncrement: true
-    }
+    },
+      state: {
+        type: DataTypes.ENUM({
+            values: ['Cart', 'Creada', 'Procesando', 'Cancelada', 'Completa']
+          })
+      }
 })
 }
