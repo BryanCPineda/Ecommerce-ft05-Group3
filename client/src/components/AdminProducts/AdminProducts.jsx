@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from "react";
-import Axios from "axios";
-//components
 import { Container, Row, Col, Button, ButtonGroup } from "react-bootstrap";
 import { FiPlus } from "react-icons/fi";
+import swal from 'sweetalert'
 import Create from "./Create";
 import List from "./List";
 import './crudProduct.css';
 
+//-------------- Redux ------------------------
+import { connect } from 'react-redux';
+import { getProducts, createProduct } from '../../actions/product';
 
-function AdminProducts() {
+
+function AdminProducts({products, getProducts, createProduct}) {
+
   const initialFormState = [
     {
       id: null,
@@ -20,66 +24,50 @@ function AdminProducts() {
       categories: "",
     },
   ];
+
   const [state, setState] = useState({
     creating: false,
-    products: initialFormState,
+    products: products,
     totalProducts: 0,
   });
-  let products = "";
 
-  
 
-  // Agregar un producto---------------------------
-  async function createProduct(prod) {
-    const prodEnviar = {
-      name: prod.name,
-      description: prod.description,
-      price: prod.price,
-      stock: prod.stock,
-      categories: "",
-      images: "",
-    };
-
-    const res = await Axios.post("http://localhost:4000/products", prodEnviar);
-  }
-
-  // Traer productos de la base de datos -------------
-  async function getProducts() {
-    const res = await Axios.get("http://localhost:4000/products");
-    products = res.data;
-
-    setState({
-      products: res.data.rows,
-      totalProducts: res.data.rows.length,
-    });
-  }
-  // Trear las categorias de la base de datos----------
 
   const handleCreating = () => {
     setState({
       ...state,
       creating: !state.creating,
     });
-    // creating: !state.creating
+
   };
 
   const handleCreate = () => {
-    // switchLoading(true);
+
     handleCreating();
     return (attributes) => {
       createProduct(attributes).then(() => {
-        getProducts();
+        swal("Product Created!", "", "success")
+        .then(() => getProducts())
+        
       });
     };
   };
+  
 
   useEffect(() => {
     getProducts();
-  }, []);
+
+  }, [getProducts]);
+
+  useEffect(() => {
+        setState({
+            ...state,
+            products: products,
+          });
+      }, [products]);
 
   return (
     <Container fluid className="table-categories">
-      {/* <Loading /> */}
       <Create
         show={state.creating}
         createProduct={handleCreate}
@@ -109,9 +97,28 @@ function AdminProducts() {
       <Row>
         <Col>
           {state.products.length > 0 && <List products={state.products} />}
+          {console.log('state.products', state.products)}
         </Col>
       </Row>
     </Container>
   );
 }
-export default AdminProducts;
+
+function mapStateToProps(state) {
+        return {
+                products: state.productReducer.products,
+        }
+}
+
+
+function mapDispatchToProps(dispatch) {
+        return {
+                getProducts: () => dispatch(getProducts()),
+                createProduct: (prod) => dispatch(createProduct(prod)),
+        }
+}
+
+export default connect(
+        mapStateToProps,
+        mapDispatchToProps
+)(AdminProducts);

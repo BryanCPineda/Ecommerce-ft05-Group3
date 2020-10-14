@@ -1,4 +1,4 @@
-/* .landing {
+.landing {
     background-color: #592a9c;
     height: 100vh;
     position: fixed;
@@ -64,12 +64,12 @@
     position: relative;
     bottom: 200px;
     left: 500px;
-} */
+}
 
 /* 
------Para bryan----- */
+--------------------------------------------Para bryan----------------------------------------------- */
  
- .landing {
+ /* .landing {
     background-color: #592a9c;
     height: 100vh;
     position: fixed;
@@ -135,4 +135,76 @@
     position: relative;
     bottom: 127px;
     left: 400px;
+} */
+
+
+/*--------------------------------------------------Compu-Mati------------------------------------------------*/
+
+/* .landing {
+    background-color: #592a9c;
+    height: 100vh;
+    position: fixed;
 }
+
+.landing-container {
+    width: 85%;
+    height: 75vh;
+    position: relative;
+    left: 100px;
+    top: 100px;
+    box-shadow: 1px 10px 50px 20px#8a2be2;
+}
+
+.card-image {
+    position: relative;
+    bottom: 400px;
+    left: 100px;
+    width: 50%;
+}
+
+.content-container {
+    position: relative;
+    bottom: 950px;
+    left: 850px;
+}
+
+.title-cyber {
+    font-size: 5rem;
+    color: white;
+}
+
+.subtitle-shop {
+    font-size: 3rem;
+    color: white;
+    margin-top: 2px;
+}
+
+.get-started {
+    border: none;
+    height: 4rem;
+    width: 22rem;
+    background-color: #8a2be2;
+    border-radius: 50px;
+    color: white;
+    font-size: 2rem;
+}
+
+.get-started:hover {
+    background-color: #8029d0;
+}
+
+.landing-sign-in {
+    color: white;
+    font-size: 20px;
+    position: relative;
+    left: 300px;
+    top: 37px;
+}
+
+.landing-sign-up {
+    color: white;
+    font-size: 20px;
+    position: relative;
+    bottom: 10px;
+    left: 400px;
+} */

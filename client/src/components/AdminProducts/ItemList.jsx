@@ -1,15 +1,19 @@
 import Edit from './Edit';
 import AddImages from './AddImages'
 // import { connect } from 'react-redux';
+import swal from 'sweetalert'
 import React, { useState, useEffect } from 'react'
-import Axios from 'axios'
-import { Link } from 'react-router-dom'
 import { Button, Modal, Card, Badge } from 'react-bootstrap'
 import { FiTrash2, FiEdit3 } from 'react-icons/fi';
 
+//-------------- Redux ------------------------
+import { connect } from 'react-redux';
+import { getProducts, updateProduct, deleteProduct, deleteImageToProduct, deleteCategoryToProduct, agregarImagen, addCategoryToProduct } from '../../actions/product';
+import { getCategories } from '../../actions/categories'
 
 
-function ItemList({ product}) {
+
+function ItemList({ product, updateProduct, deleteProduct, deleteImageToProduct, deleteCategoryToProduct, agregarImagen, allcategories, getCategories, addCategoryToProduct}) {
     const { id, name, categories, stock, price, images } = product;
 
     const [categorias, setCategorias] = useState('')
@@ -26,7 +30,6 @@ function ItemList({ product}) {
     const handleClose = () => {
         setShow(false)
         setImageUp(true)
-        console.log('setImageUp')
       }
 
     const handleCloseCancel = () => {
@@ -34,21 +37,9 @@ function ItemList({ product}) {
       }
     const handleShow = () => setShow(true);
 
-    async function agregarImagenDB(){
-        const imgEnviar = {
-            productId: id,
-            image: imagen
-        }
- 
-                const res = await Axios.post('http://localhost:4000/image', imgEnviar) 
-    
-            return (  console.log('image',res ))
-        
-      } 
-
       useEffect(() => {
         if (imageUp){
-        agregarImagenDB();
+        agregarImagen(id, imagen);
         setImageUp(false)
         window.location.reload()
       }
@@ -59,62 +50,19 @@ function ItemList({ product}) {
     //----------borrar imagenes---------------------
     const handleDeleteImages = (id) =>{
         deleteImageToProduct(id)
+        document.location.reload(); 
     }
 
-    async function deleteImageToProduct(id) {
-        const imageId = id
-        const res = await Axios.delete('http://localhost:4000/image/'+id)
-            window.alert('Imagen borrada: ', res)
-             document.location.reload();         
-    }
-
-    //------------------------------------------------
-    async function deleteProduct(id) {
-          const res = await Axios.delete('http://localhost:4000/products/'+id)
-
-        }
-
-    async function addCategoryToProduct(cat, id) {
-                        
-        const res = await Axios.post('http://localhost:4000/products/'+id+'/category/'+cat)
-                            console.log('rescreate', res.data)
-            }
-    
     
         const handleDeleteCategories = (idCat) =>{
             deleteCategoryToProduct(idCat, id)
+            document.location.reload();   
         }
 
-        async function deleteCategoryToProduct(cat, id) {
-                        
-            const res = await Axios.delete('http://localhost:4000/products/'+id+'/category/'+cat)
-  
-                 document.location.reload();         
-        }
-
-
-        async function updateProduct(id, prod) {
-            const prodEnviar = {
-                name: prod.name,
-                description: prod.description,
-                price: prod.price,
-                stock: prod.stock,
-                categories:'',
-                images: ''
-        }
-            const res = await Axios.put('http://localhost:4000/products/'+id, prodEnviar)
-            console.log('respuesta update', res)
-        }
 
     const imagenes = images && images.map(e => e.image)
-    console.log(name, '---',images)
 
-    async function getCategories() {
-        const res = await Axios.get('http://localhost:4000/category')
-        //  console.log('resasync_cat', res.data)
-        setCategorias(res.data)
-        
-    }
+
 
     const handleEditing = () => {
         setState({
@@ -125,11 +73,33 @@ function ItemList({ product}) {
 
 
     const handleDelete = () => {
+        // alerta de borrado
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted, you will not be able to recover this Product!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+          })
+          .then((willDelete) => {
+            if (willDelete) {
+                const imagesToDelete = images.map(e => e)
+                deleteProduct(id).then(() => {
 
-            deleteProduct(id).then(() => {
-                window.alert('producto borrado')
-                document.location.reload();
-            });
+                    imagesToDelete.map(e => {
+                        deleteImageToProduct(e.id)
+                    })
+
+                    swal("Your Product has been deleted!", {
+                        icon: "success",
+                      })
+                    .then(() => document.location.reload())
+                });
+              
+            } 
+          })
+
+            
 
     }
 
@@ -144,7 +114,9 @@ function ItemList({ product}) {
             //   deleteCategoryToProduct(item, id);
             }
             updateProduct(id, attributes).then(() => {
-                document.location.reload();
+                swal("Product Updated!", "", "success")
+                .then(() => document.location.reload())
+                
             });
 
         }
@@ -156,11 +128,16 @@ function ItemList({ product}) {
  
     }, [])
 
+    useEffect(() => {
+
+        setCategorias(allcategories)
+
+    }, [allcategories])
+
     return (
         <tr className="text-center">
             <Edit allCategories={categorias} updateProduct={handleUpdate} show={state.editing} product={product} handleClose={handleEditing} />
             <td className="align-middle" width="150">
-                {console.log('imagenes', imagenes)}
                 {images && images.map(e => 
                  <span className='d-flex' className="align-middle"> <img alt={'Imagen del producto' + name} width="64" className="img-thumbnail" src={e.image} />
                 <Button size="sm" 
@@ -224,4 +201,29 @@ function ItemList({ product}) {
     );
 }
 
-export default ItemList
+
+function mapStateToProps(state) {
+    return {
+            products: state.productReducer.products,
+            allcategories: state.categoriesReducer.categories
+    }
+}
+
+
+function mapDispatchToProps(dispatch) {
+    return {
+            getProducts: () => dispatch(getProducts()),
+            updateProduct: (id, prod) => dispatch(updateProduct(id, prod)),
+            deleteProduct: (id) => dispatch(deleteProduct(id)),
+            deleteImageToProduct: (id) => dispatch(deleteImageToProduct(id)),
+            deleteCategoryToProduct: (idCat, id) => dispatch(deleteCategoryToProduct(idCat, id)),
+            agregarImagen: (id, imagen) => dispatch(agregarImagen(id, imagen)),
+            getCategories: () => dispatch(getCategories()),
+            addCategoryToProduct: (cat, id) => dispatch(addCategoryToProduct(cat, id) )
+    }
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(ItemList);
