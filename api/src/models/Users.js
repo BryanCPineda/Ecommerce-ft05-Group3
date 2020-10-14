@@ -22,7 +22,7 @@ module.exports = (sequelize)=>{
           msg: 'Name field must to be at least 2 characters long.'
         },
         isAlpha: true
-    },
+    }},
     lastName: {
       type: S.STRING,
       allowNull: false,
@@ -35,8 +35,7 @@ module.exports = (sequelize)=>{
           args: [2, 50],
           msg: 'Lastname field must to be at least 2 characters long.'
         },
-      }
-    },
+      },
     email: {
       type: S.STRING,
       allowNull: false,
