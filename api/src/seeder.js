@@ -1,4 +1,4 @@
-const { Product, Categories, Image } = require("./db.js"); // requiring models from Database
+const { Product, Categories, Image, Users } = require("./db.js"); // requiring models from Database
 
 function productsSeeder()   //This function create several products
 {
@@ -91,6 +91,20 @@ function productsSeeder()   //This function create several products
             description: 'Bandas de suspension profesional para gym fitness entrenamiento funcional etc... Excelente calidad. Incluye bolsa antitraspirante y adaptador para puerta.',
             price: 21.99,
             stock: 54,
+        }
+    ])
+}
+
+function usersSeeder(){
+    Users.bulkCreate([
+        {
+            name: 'lianel',
+            lastName: 'artiles',
+            email: 'larts@gmail.es',
+            password: '132456789',
+            userType: 'admin',
+            adress: 'mataderos',
+            image: 'asdgadsg4'
         }
     ])
 }
@@ -204,5 +218,6 @@ module.exports = { // exporting the functions
     productsSeeder,
     categoriesSeeder,
     imageSeeder,
-    categoy_productSederr
+    categoy_productSederr,
+    usersSeeder
 }
