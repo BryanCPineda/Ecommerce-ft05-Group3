@@ -3,7 +3,9 @@ import {
   GET_ALL_PRODUCTS,
   GET_ALL_CATEGORIES,
   PRODUCTS_FROM_CATEGORIES,
-  PRODUCTS_FROM_SEARCH
+  PRODUCTS_FROM_SEARCH,
+  ORDER_LOWER_PRICE,
+  ORDER_HIGHER_PRICE
 } from "../constants/catalogoConstants";
 import axios from 'axios';
 
@@ -35,4 +37,12 @@ export const getProductsFromSearch = (search) => (dispatch) => {
     .then((res) => {
       dispatch({ type: PRODUCTS_FROM_SEARCH, payload: res.data.rows });
     });
+};
+
+export const orderByLowerPrice = () => (dispatch) => {
+  dispatch({ type: ORDER_LOWER_PRICE });
+};
+
+export const orderByHigherPrice = () => (dispatch) => {
+  dispatch({ type: ORDER_HIGHER_PRICE });
 };

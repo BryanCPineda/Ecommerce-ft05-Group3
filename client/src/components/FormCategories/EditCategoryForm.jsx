@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 
-const EditCategoryForm = ({ setEditing, currentCategory, updateCategory }) => {
+const EditCategoryForm = ({ setEditing, currentCategory, editCategory }) => {
   const [category, setCategory] = useState(currentCategory);
 
   const [errors, setErrors] = useState({ nameError: "", descriptionError: "" })
@@ -32,7 +32,7 @@ const EditCategoryForm = ({ setEditing, currentCategory, updateCategory }) => {
     e.preventDefault();
     const isValid = validate();
     if (isValid) {
-      updateCategory(category.id, category);
+      editCategory(category.id, category);
     }
   };
 
