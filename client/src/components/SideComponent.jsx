@@ -7,14 +7,21 @@ import { Form , Button} from 'react-bootstrap';
 import { connect } from 'react-redux';
 
 /*----------------redux------------------*/
-import { getAllCategories } from '../actions/catalogoActions';
+import {
+  getAllCategories,
+  getAllProducts,
+  getProductsFromCategories,
+  orderByHigherPrice,
+  orderByLowerPrice,
+} from "../actions/catalogoActions";
 
 function SideComponent({
-  orderByHighPrice,
-  orderByLowerPrice,
   getAllCategories,
-  handleProductsFromCategories,
-  categories
+  getAllProducts,
+  getProductsFromCategories,
+  categories,
+  orderByHigherPrice,
+  orderByLowerPrice,
 }) {
 
   useEffect(() => {
@@ -33,7 +40,7 @@ function SideComponent({
           style={{ padding: "1px" }}
           className="button-side"
           onClick={() =>
-            handleProductsFromCategories("todos los productos")
+            getAllProducts()
           }
         >
           <FiChevronRight />{" "}
@@ -45,8 +52,7 @@ function SideComponent({
             <Form
               key={index}
               value={categories}
-              onChange={handleProductsFromCategories}
-            >
+              >
               <div
                 className="btn-group-vertical"
                 className="d-flex justify-content-between mt-4"
@@ -56,7 +62,7 @@ function SideComponent({
                   variant="outline-light"
                   className="button-side"
                   onClick={() =>
-                    handleProductsFromCategories(element.name)
+                    getProductsFromCategories(element.name)
                   }
                 >
                   <FiChevronRight />{" "}
@@ -75,7 +81,7 @@ function SideComponent({
             <button
               className="ml-3 d-flex align-self-center mb-3 highest"
               type="checkbox"
-              onClick={orderByHighPrice}
+              onClick={() => orderByHigherPrice()}
             >
               <AiOutlineArrowUp />
             </button>
@@ -85,7 +91,7 @@ function SideComponent({
             <button
               className="ml-3 d-flex align-self-center mb-1 lowest"
               type="checkbox"
-              onClick={orderByLowerPrice}
+              onClick={() => orderByLowerPrice()}
             >
               <AiOutlineArrowDown />
             </button>
@@ -106,6 +112,10 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getAllCategories: () => dispatch(getAllCategories()),
+    getAllProducts: () => dispatch(getAllProducts()),
+    getProductsFromCategories: (e) => dispatch(getProductsFromCategories(e)),
+    orderByLowerPrice: () => dispatch(orderByLowerPrice()),
+    orderByHigherPrice: () => dispatch(orderByHigherPrice()),
   }
 }
 

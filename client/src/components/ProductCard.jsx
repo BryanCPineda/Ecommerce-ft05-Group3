@@ -7,7 +7,7 @@ function ProductCard({ name, description, price, stock, images, id }) {
   return (
     <div className="product-card card-container">
       <div className="img d-flex justify-content-center">
-        <img variant="top" style={{width: '19rem'}} src={images && images.image} alt="producto" className="image"></img>
+        <img variant="top" style={{width: '19rem'}} src={images && images.image} alt="product" className="image"></img>
       </div>
       <Link to={`/user/product/${id}`} className="title-card"> 
         <div className="title-card">

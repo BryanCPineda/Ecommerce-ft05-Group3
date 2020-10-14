@@ -8,7 +8,6 @@ import {
 const initialState = {
     allCategories: [],
     newCategory: {},
-    deletedCategory: {}
   };
   
   export default (state = initialState, action) => {
@@ -21,17 +20,19 @@ const initialState = {
       case CREATE_CATEGORY:
         return {
           ...state,
-          newCategory: action.payload,
+          allCategories: [...state.allCategories, action.payload]
         };
       case DELETE_CATEGORY:
         return {
           ...state,
-          deletedCategory: action.payload,
+          allCategories: state.allCategories.filter(category => category.id !== action.payload)
         };
       case UPDATE_CATEGORY:
         return {
           ...state,
-          newCategory: action.payload,
+          allCategories: state.allCategories.map((content, id) =>
+            content.id === action.payload.id ? 
+            {...content, name: action.payload.newCategory.name, description: action.payload.newCategory.description } : content)
         };
       default:
         return state;
