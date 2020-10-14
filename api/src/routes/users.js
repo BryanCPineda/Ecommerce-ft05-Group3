@@ -1,13 +1,16 @@
 const server = require("express").Router();
-const { Product, Categories, Image, Users } = require("../db.js");
+const { Product, Categories, Image, Users,  } = require("../db.js");
 
 server.post('/', (res, req)=>{
-  const { name, lastName, email } = req.body;
+  console.log('REQUEST', req.body)
+  const { name, lastName, email, image, adress} = req.body;
   Users.findOrCreate({
     where: {
       name: name,
       lastName: lastName,
-      email: email
+      email: email,
+      adress: adress,
+      image: image
     }
   })
   .then(user=>{
