@@ -18,7 +18,7 @@ module.exports = (sequelize) => {
           msg: 'Este campo no puede estar vacío'
         },
         len: {
-          args: [3, 30],
+      //    args: [3, 30],
           msg: 'El nombre debe tener entre 3 y 30 caracteres'
         }
       }
@@ -31,7 +31,7 @@ module.exports = (sequelize) => {
           msg: 'Este campo no puede estar vacío'
         },
         len: {
-          args: [10, 80],
+       //   args: [10, 80],
           msg: 'La descripcion debe tener entre 10 y 80 caracteres'
         }
       }

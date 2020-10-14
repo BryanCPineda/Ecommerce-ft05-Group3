@@ -3,7 +3,7 @@ const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
   
-  sequelize.define('Order', {
+  sequelize.define('order', {
     id: {
       type: DataTypes.INTEGER,
       allowNull:false,
@@ -23,7 +23,7 @@ module.exports = (sequelize) => {
         }
       }
     },
-    state: {
+    status: {
       type: DataTypes.ENUM({
           values: ['Cart', 'Created', 'Processing', 'Canceled', 'Complete']
         })

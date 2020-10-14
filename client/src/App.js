@@ -7,12 +7,12 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import SearchBar from "./components/SearchBar/SearchBar";
 import axios from 'axios';
 import Catalogo from "./components/Catalogo";
-import CrudShow from "./components/CrudProducts/CrudShow";
 import AdminProducts from "./components/AdminProducts/AdminProducts";
 import LandingPage from './components/LandingPage';
 import PrductsMati from './components/ProductsMati';
 import Footer from './components/Footer';
 import NavbarAdmin from './components/NavbarAdmin';
+import AdminOrders from './components/Admin/adminOrders';
 
 import store from './store';
 import { Provider } from 'react-redux';
@@ -32,6 +32,7 @@ function App() {
         <Route exact path="/admin/categories" component={FormCategories} />
         {/* <Route exact path="/admin/producto" component={CrudShow} /> */}
         <Route exact path="/admin/product" component={AdminProducts} />
+        <Route exact path="/admin/orders"  component={AdminOrders} />
         <Route exact path="/user/product/:id" component={PrductsMati} />
         <Route path="/user" component={Footer} />
       </Router>
