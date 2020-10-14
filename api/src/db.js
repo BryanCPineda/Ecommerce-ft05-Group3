@@ -50,7 +50,6 @@ Users.hasMany(Order, { foreignKey: 'userId' });
 
 Order.belongsTo(Users, {foreignKey: 'userId'});
 
-
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
   conn: sequelize,     // para importart la conexión { conn } = require('./db.js');
