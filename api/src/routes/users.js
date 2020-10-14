@@ -1,22 +1,36 @@
 const server = require("express").Router();
 const { Product, Categories, Image, Users,  } = require("../db.js");
+const { Sequelize } = require('sequelize')
 
-server.post('/', (res, req)=>{
+server.post('/', (req, res)=>{
+  const { name, lastName, email, password, userType, image, adress } = req.body;
   console.log('REQUEST', req.body)
-  const { name, lastName, email, image, adress} = req.body;
-  Users.findOrCreate({
-    where: {
-      name: name,
-      lastName: lastName,
-      email: email,
-      adress: adress,
-      image: image
+  Users.findOne({
+    where:{
+      email: email
     }
   })
   .then(user=>{
-    res.send(user)
+    if(!user){
+      return Users.create({
+        name: name,
+        lastName: lastName,
+        email: email,
+        password: password,
+        userType: userType,
+        adress: adress,
+        image: image
+      })
+    }
+    return res.send('This user already exists, choose a diferent one!').status(100);
   })
-  .catch((err) => {
-    return res.send({ data: err }).status(400); // Show proper error in DevTool to the FrontEnd guys.
+  .then(user=>{
+    console.log('USERCREATED', user)
+    return res.send(user)
+  })
+  .catch(() => {
+    // res.send({ data: err }).status(400); // Show proper error in DevTool to the FrontEnd guys.
   });
 })
+
+module.exports = server;
