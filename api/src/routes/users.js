@@ -3,7 +3,7 @@ const { Product, Categories, Image, Users,  } = require("../db.js");
 const { Sequelize } = require('sequelize')
 
 server.get('/', (req, res, next) => { 
-    Users.findAll()
+    Users.findAll({ attributes: ['id', 'name', 'lastName', 'email', 'userType', 'adress']})
     .then((users) => {
       res.status(200).json(users);
     }).catch((err)=>{
@@ -37,8 +37,8 @@ server.post('/', (req, res)=>{
     console.log('USERCREATED', user)
     return res.send(user)
   })
-  .catch(() => {
-    // res.send({ data: err }).status(400); // Show proper error in DevTool to the FrontEnd guys.
+  .catch((err) => {
+    res.send({ data: err }).status(400); // Show proper error in DevTool to the FrontEnd guys.
   });
 })
 
