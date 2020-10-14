@@ -1,21 +1,19 @@
-import React, { useEffect, useState, Component } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Modal,
   Button,
   Form,
   Row,
-  Col,
-  InputGroup,
-  FormGroup,
-  FormControl,
+  Col
 } from "react-bootstrap";
-import swal from 'sweetalert';
-import { FiMaximize2, FiTrash2, FiPlus } from "react-icons/fi";
 import { Multiselect } from "multiselect-react-dropdown";
-import Axios from "axios";
 import './crudProduct.css';
 
-function Edit({ allCategories, updateProduct, show, product, handleClose }) {
+//-------------- Redux ------------------------
+import { connect } from 'react-redux';
+import { addCategoryToProduct, deleteCategoryToProduct } from '../../actions/product';
+
+function Edit({ allCategories, updateProduct, show, product, handleClose, addCategoryToProduct, deleteCategoryToProduct }) {
   const { id, images, name, description, stock, price, categories } = product;
   const [state, setState] = useState({
     images: images ? images.map((item) => item.id) : [],
@@ -121,36 +119,6 @@ function Edit({ allCategories, updateProduct, show, product, handleClose }) {
     });
   };
 
-//   const addImage = () => {
-//     if (state.images.length < 10) {
-//       setState({
-//         ...state,
-//         images: state.images.concat(""),
-//       });
-//     }
-//   };
-
-//   const updateImage = (e, index) => {
-//     let images = state.images;
-//     images[index] = e.target.value;
-
-//     setState({
-//       ...state,
-//       images,
-//     });
-//   };
-
-//   const removeImage = (index) => {
-//     if (state.images.length > 1) {
-//       let images = state.images;
-//       images.splice(index, 1);
-//       setState({
-//         ...state,
-//         images,
-//       });
-//     }
-//   };
-
   const onSelect = (selectedList, selectedItem) => {
     addCategoryToProduct(selectedItem.id, product.id);
   };
@@ -158,18 +126,6 @@ function Edit({ allCategories, updateProduct, show, product, handleClose }) {
   const onRemove = (selectedList, removedItem) => {
     deleteCategoryToProduct(removedItem.id, product.id);
   };
-
-  async function addCategoryToProduct(cat, id) {
-    const res = await Axios.post(
-      "http://localhost:4000/products/" + id + "/category/" + cat
-    );
-  }
-
-  async function deleteCategoryToProduct(cat, id) {
-    const res = await Axios.delete(
-      "http://localhost:4000/products/" + id + "/category/" + cat
-    );
-  }
 
   return (
     <Modal size="lg" show={show} onHide={handleClose}>
@@ -281,4 +237,21 @@ function Edit({ allCategories, updateProduct, show, product, handleClose }) {
   );
 }
 
-export default Edit;
+function mapStateToProps(state) {
+    return {
+            products: state.productReducer.products,
+    }
+}
+
+
+function mapDispatchToProps(dispatch) {
+    return {
+            addCategoryToProduct: (cat, id) => dispatch(addCategoryToProduct(cat, id) ),
+            deleteCategoryToProduct: (cat, id) => dispatch(deleteCategoryToProduct(cat, id) )
+    }
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Edit);
