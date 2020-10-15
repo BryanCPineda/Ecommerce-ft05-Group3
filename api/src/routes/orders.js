@@ -15,5 +15,28 @@ const state = req.query.status;
   })
 })
 
+<<<<<<< HEAD
+=======
+server.put('/:id', (req, res, next) => {
+  const {state} = req.body
+  const {id} = req.params
+  Order.update(
+    {
+      state: state
+    }, 
+    { where: { id: id } }
+  )
+    .then((value) => {
+      const result = value[0];
+      if (result) {
+        return res.status(202).send("Element updated");
+      }
+      return res.status(400).send("Order not found!");
+    })
+    .catch((err) => {
+      return res.send({ data: err }).status(400);
+    });
+})
+>>>>>>> master
 
 module.exports = server;

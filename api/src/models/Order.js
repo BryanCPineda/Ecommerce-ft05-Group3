@@ -24,12 +24,19 @@ module.exports = (sequelize) => {
         }
       }
     },
+<<<<<<< HEAD
     status: {
       type: DataTypes.ENUM({
           values: ['Cart', 'Created', 'Processing', 'Canceled', 'Complete'],
           allowNull: false,
           defaultValue: "Cart"
         })
+=======
+    state: {
+      type: DataTypes.ENUM,
+      defaultValue: 'Cart',
+      values: ['Cart', 'Created', 'Processing', 'Canceled', 'Complete']
+>>>>>>> master
     }
     })
 }
