@@ -5,6 +5,7 @@ import crudCategories from './crudCategoriesReducer';
 
 import productReducer from './product'
 import categoriesReducer from './categories'
+import userReducer from './usersReducer';
 
 export default combineReducers({
     auth: authReducer,
@@ -13,6 +14,8 @@ export default combineReducers({
     crudCategories: crudCategories,
 
     productReducer: productReducer,
-    categoriesReducer: categoriesReducer
+    categoriesReducer: categoriesReducer,
+
+    userReducer: userReducer
 
 });

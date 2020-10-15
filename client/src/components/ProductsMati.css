@@ -24,6 +24,17 @@
     font-size: 20px;
 }
 
+.RO-products-button {
+    border: 1px solid #8a2be2;
+    height: 55px;
+    width: 400px;
+    color: #8a2be2;
+    background-color: white;
+    font-size: 20px;
+    margin-left: 2rem;
+    margin-top: 1rem;
+    border-radius: 8px;
+}
 .products-button {
     border: none;
     height: 55px;

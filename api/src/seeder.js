@@ -15,7 +15,7 @@ function productsSeeder()   //This function create several products
             description: 'La banda circular de Resistencia media es una opción similar a la Theraband pero con diferentes aplicaciones. Esta permite realizar ejercicios de fuerza sin necesidad de mantener el agarre ocupado en la misma', 
             //lo que posibilita incluso usar dicho agarre en otros implementos superficies etc. Tambien tienen diferentes tamaños, colores y resistencias segun el fabricante',
             price: 12.99,
-            stock: 100,
+            stock: 0,
         },
         {
             name: 'Mancuerna engomada 5 Kgs',
@@ -34,7 +34,7 @@ function productsSeeder()   //This function create several products
             name: 'Soga de salto con contador',
             description: 'Soga para saltar con contador Digital, material PVC, de logitud 274 cm',
             price: 55.50,
-            stock: 61,
+            stock: 0,
         },
         {
             name: 'Mat Yoga/Pilates 6 mm',
