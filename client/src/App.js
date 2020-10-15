@@ -13,6 +13,7 @@ import LandingPage from './components/LandingPage';
 import PrductsMati from './components/ProductsMati';
 import Footer from './components/Footer';
 import NavbarAdmin from './components/NavbarAdmin';
+import userRegister from './components/Users/userRegister';
 
 import store from './store';
 import { Provider } from 'react-redux';
@@ -24,6 +25,7 @@ function App() {
       <Provider store={store}>
       <Router> 
         <Route path="/user" render={() => <SearchBar />}/>
+        <Route path="/Register" component={userRegister} />
         <Route path="/admin" component={NavbarAdmin} />
         <Route exact path="/" component={LandingPage} />
         <Route path="/user/catalogo"
