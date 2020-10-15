@@ -104,6 +104,7 @@ server.post("/:idUser/cart", async (req, res) => {
     const product = await Product.findByPk(productId);
     product.stock = product.stock - quantity;
     const productSave = await product.save();
+
     const orderLine = await Orderline.create({
       price: product.price,
       quantity: quantity,
@@ -118,52 +119,91 @@ server.post("/:idUser/cart", async (req, res) => {
   }
 });
 
-// server.delete("/:idUser/cart", async (req, res) => {
-//   try {
-//     const { idUser } = req.params;
-//     const { productId } = req.body;
-//     const orderUser = await Order.findOne({ where: { userId: idUser, state: 'Cart' }})
-  
-//     const product = await Product.findByPk(productId);
-//     product.stock = product.stock - quantity;
-//     const productSave = await product.save();
-
-//     const orderDeleted = await orderUser.destroy()
-//     console.log(orderDeleted, "aaaa")
-//     res.status(200).send("Cart is empty")
-//   } catch (error) {
-//     return res.status(400).send({ data: error });
-//   }
-// });
-
-server.delete("/:idUser/cart", (req, res) => {
-  const idUser = req.params.idUser;
-
-  Order.findOne({ where: { userId: idUser, state: "Cart" } }).then((order) => {
-    if (!order) {
+//Vaciar el carrito
+server.delete("/:idUser/cart", async (req, res) => {
+  try {
+    const { idUser } = req.params;
+    const orderUser = await Order.findOne({ where: { userId: idUser, state: 'Cart' }})
+    if(!orderUser) {
       res.send("La orden para el usuario  " + idUser + ",no fue encontrada");
       return;
     }
-    let orderId = order.id;
-    Orderline.findAll({
-      where: {
-        orderId: orderId,
-      },
-    }).then(() => {
-      Orderline.destroy({
-        where: {
-          orderId: orderId,
-        },
-      })
-        .then(() => {
-          return res.send("Se ha vaciado la orden");
-        })
-        .catch((error) => {
-          return res.send(error).status(500);
-        });
+
+    const orderLine = await Orderline.findAll({
+      where: { orderId: orderUser.dataValues.id },
     });
-  });
+
+    for(let i=0; i < orderLine.length; i++) {
+      const product = await Product.findByPk(orderLine[i].dataValues.productId)
+      product.stock = product.stock + orderLine[i].dataValues.quantity;
+      const productSave = await product.save();
+    }
+
+    const orderDeleted = await orderUser.destroy()
+    res.status(200).send("Cart is empty")
+  } catch (error) {
+    return res.status(400).send({ data: error });
+  }
 });
+
+//Quitar un item del carrito
+server.delete("/:idUser/cart/:itemId", async (req, res) => {
+  try {
+    const { idUser, itemId } = req.params;
+    const orderUser = await Order.findOne({ where: { userId: idUser, state: 'Cart' }})
+    if(!orderUser) {
+      res.send("La orden para el usuario  " + idUser + ",no fue encontrada");
+      return;
+    }
+  
+    const orderLine = await Orderline.findOne({
+      where: { orderId: orderUser.dataValues.id },
+    });
+
+    const product = await Product.findByPk(orderLine.dataValues.productId);
+    product.stock = product.stock + orderLine.dataValues.quantity;
+    const productSave = await product.save();
+    
+    if(orderLine) {
+      const orderDeleted = await orderLine.destroy({ where: { productId: itemId}})
+      res.status(200).send("Item Deleted")
+    } else {
+      res.status(400).send("Orderline does no exists")
+    }
+    
+  } catch (error) {
+    return res.status(400).send({ data: error });
+  }
+});
+
+// server.delete("/:idUser/cart", (req, res) => {
+//   const idUser = req.params.idUser;
+
+//   Order.findOne({ where: { userId: idUser, state: "Cart" } }).then((order) => {
+//     if (!order) {
+//       res.send("La orden para el usuario  " + idUser + ",no fue encontrada");
+//       return;
+//     }
+//     let orderId = order.id;
+//     Orderline.findAll({
+//       where: {
+//         orderId: orderId,
+//       },
+//     }).then(() => {
+//       Orderline.destroy({
+//         where: {
+//           orderId: orderId,
+//         },
+//       })
+//         .then(() => {
+//           return res.send("Se ha vaciado la orden");
+//         })
+//         .catch((error) => {
+//           return res.send(error).status(500);
+//         });
+//     });
+//   });
+// });
 
 // server.put("/:idUser/cart")
 
