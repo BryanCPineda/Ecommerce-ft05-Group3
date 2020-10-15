@@ -15,6 +15,7 @@ import Footer from "./components/Footer";
 import NavbarAdmin from "./components/NavbarAdmin";
 import Cart from "./components/Cart/Cart";
 
+
 import store from "./store";
 import { Provider } from "react-redux";
 
@@ -34,6 +35,7 @@ function App() {
           <Route path="/user" component={Footer} />
           <Route path="/user/cart" component={Cart} />
         </Router>
+
       </Provider>
     </div>
   );

@@ -2,9 +2,9 @@ const server = require("express").Router();
 const { Product, Categories, Image, Users, Order, Orderline } = require("../db.js");
 const { Sequelize } = require("sequelize");
 
-server.get('/', (req, res, next) => { 
-    Users.findAll()
 
+server.get("/", (req, res, next) => {
+  Users.findAndCountAll()
     .then((users) => {
       res.status(200).json(users);
     })
@@ -13,15 +13,26 @@ server.get('/', (req, res, next) => {
     });
 });
 
-server.post('/', async (req, res)=>{
-  try {
-    const { name, lastName, email, password, userType, image, adress } = req.body;
-    if(!name || !lastName || !email || !password || !adress){
-      res.send('All fields must to be completed')
-    }
-    const user = await Users.findOne({
-      where: {
-        email: email
+
+server.post("/", (req, res) => {
+  const { name, lastName, email, password, userType, image, adress } = req.body;
+ 
+  Users.findOne({
+    where: {
+      email: email,
+    },
+  })
+    .then((user) => {
+      if (!user) {
+        return Users.create({
+          name: name,
+          lastName: lastName,
+          email: email,
+          password: password,
+          userType: userType,
+          adress: adress,
+          image: image,
+        });
       }
     })
     if(user){
@@ -36,13 +47,11 @@ server.post('/', async (req, res)=>{
         adress: adress,
         image: image
     })
-    console.log('FIND_OR_CREATE', createUser)
-    return res.send(createUser)
-  } 
-  catch (err) {
-    res.send({ data: err }).status(400); // Show proper error in DevTool to the FrontEnd guys.
-  }
-})
+    .catch((err) => {
+       res.send({ data: err }).status(400); // Show proper error in DevTool to the FrontEnd guys.
+    });
+});
+
 
 server.put("/:id", (req, res) => {
   const { id } = req.params;
