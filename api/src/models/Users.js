@@ -25,17 +25,17 @@ module.exports = (sequelize)=>{
     }},
     lastName: {
       type: S.STRING,
-      allowNull: false,
-      isAlpha: true,
+      allowNull: false,      
       validate:{
         notNull: {
           msg: 'Lastname is mandatory.'
-        }},
+        },
         len: {
           args: [2, 50],
           msg: 'Lastname field must to be at least 2 characters long.'
         },
-      },
+        isAlpha: true,
+    }},
     email: {
       type: S.STRING,
       allowNull: false,

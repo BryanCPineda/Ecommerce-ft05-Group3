@@ -1,48 +1,52 @@
 const server = require("express").Router();
-const { Product, Categories, Image, Users,  } = require("../db.js");
-const { Sequelize } = require('sequelize')
+const { Product, Categories, Image, Users, Order, Orderline } = require("../db.js");
+const { Sequelize } = require("sequelize");
 
 server.get('/', (req, res, next) => { 
     Users.findAll({ attributes: ['id', 'name', 'lastName', 'email', 'userType', 'adress']})
+
     .then((users) => {
       res.status(200).json(users);
-    }).catch((err)=>{
-      return res.send({data: err}).status(400)
     })
-  })
+    .catch((err) => {
+      return res.send({ data: err }).status(400);
+    });
+});
 
-server.post('/', (req, res)=>{
+server.post("/", (req, res) => {
   const { name, lastName, email, password, userType, image, adress } = req.body;
-  console.log('REQUEST', req.body)
+  console.log("REQUEST", req.body);
   Users.findOne({
-    where:{
-      email: email
-    }
+    where: {
+      email: email,
+    },
   })
-  .then(user=>{
-    if(!user){
-      return Users.create({
-        name: name,
-        lastName: lastName,
-        email: email,
-        password: password,
-        userType: userType,
-        adress: adress,
-        image: image
-      })
-    }
-    return res.send('This user already exists, choose a diferent one!').status(100);
-  })
-  .then(user=>{
-    console.log('USERCREATED', user)
-    return res.send(user)
-  })
-  .catch((err) => {
-    res.send({ data: err }).status(400); // Show proper error in DevTool to the FrontEnd guys.
-  });
-})
+    .then((user) => {
+      if (!user) {
+        return Users.create({
+          name: name,
+          lastName: lastName,
+          email: email,
+          password: password,
+          userType: userType,
+          adress: adress,
+          image: image,
+        });
+      }
+      return res
+        .send("This user already exists, choose a diferent one!")
+        .status(100);
+    })
+    .then((user) => {
+      console.log("USERCREATED", user);
+      return res.send(user);
+    })
+    .catch(() => {
+      res.send({ data: err }).status(400); // Show proper error in DevTool to the FrontEnd guys.
+    });
+});
 
-server.put('/:id', (req, res)=>{
+server.put("/:id", (req, res) => {
   const { id } = req.params;
   const {
     name,
@@ -50,7 +54,7 @@ server.put('/:id', (req, res)=>{
     email,
     password,
     adress,
-    image
+    image,
   } = req.body; /* <--- THE ELEMENT OF THE BODY WE ARE GOING TO USE FOR THE UPDATE */
   Users.update(
     {
@@ -59,12 +63,12 @@ server.put('/:id', (req, res)=>{
       email: email,
       password: password,
       adress: adress,
-      image: image
+      image: image,
     } /* <----THE ATRIBUTES WE WANT TO UPDATE */,
     { where: { id: id } }
   )
     .then((value) => {
-      console.log('el value', value)
+      console.log("el value", value);
       const result = value[0];
       if (result) {
         return res.status(202).send("Element updated");
@@ -75,5 +79,63 @@ server.put('/:id', (req, res)=>{
       return res.send({ data: err }).status(400);
     });
 });
+
+server.get("/:idUser/cart", async (req, res) => {
+  try {
+    const { idUser } = req.params;
+    const orderUser = await Order.findOne({ where: { userId: idUser, state: 'Cart' }})
+    const orderLines = await Orderline.findOne({
+      where: { orderId: orderUser.id }
+    });
+    if(orderLines.length > 1) {
+      const orderLines = orderLines.length - 1;
+    }
+    console.log(orderLines, "jajaja")
+    return res.status(200).send(orderLines)
+  } catch (error) {
+    return res.status(400).send({ data: error });
+  }
+});
+
+server.post("/:idUser/cart", async (req, res) => {
+  try {
+    const { idUser } = req.params;
+    const { quantity, productId } = req.body;
+    const order = await Order.findOrCreate({
+      where: { userId: idUser, state: "Cart" },
+    });
+    
+    const product = await Product.findByPk(productId);
+    product.stock = product.stock - quantity;
+    const productSave = await product.save();
+    
+    const orderLine = await Orderline.create({
+      price: product.price,
+      quantity: quantity,
+      orderId: 1,
+      productId: productId,
+    });
+    // console.log(order.dataValues)
+    // console.log(order)
+    return res.status(200).send(orderLine);
+  } catch (error) {
+    return res.status(400).send({ data: error });
+  }
+});
+
+server.delete("/:idUser/cart", async (req, res) => {
+  try {
+    const { idUser } = req.params;
+    const orderUser = await Order.findOne({ where: { userId: idUser, state: 'Cart' }})
+    const orderLines = await Orderline.findOne({
+      where: { orderId: orderUser.id }
+    });
+    await orderLines.destroy()
+    res.status(200).send("Cart is empty")
+  } catch (error) {
+    return res.status(400).send({ data: error });
+  }
+});
+
 
 module.exports = server;
