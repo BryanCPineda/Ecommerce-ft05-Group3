@@ -9,7 +9,12 @@ const state = req.query.status;
     }
   })
   .then((orders) => {
-    res.status(200).json(orders);
+    const ordenes=orders[0]
+    if(ordenes){
+      res.status(200).json(ordenes);
+    }
+    res.status(404).send('Order not found!')
+    
   }).catch((err)=>{
     return res.send({data: err}).status(400)
   })
