@@ -1,40 +1,39 @@
-const { DataTypes } = require('sequelize');
-// Exportamos una funcion que define el modelo
-// Luego le injectamos la conexion a sequelize.
+const { DataTypes } = require("sequelize");
+// Exporting the function that define the orderline model, inside connect with sequelize
+
 module.exports = (sequelize) => {
-  // defino el modelo
-  sequelize.define('categories', {
+  sequelize.define("categories", {
     id: {
       type: DataTypes.INTEGER,
-      allowNull:false,
+      allowNull: false,
       primaryKey: true,
-      autoIncrement: true
+      autoIncrement: true,
     },
     name: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
         notNull: {
-          msg: 'Este campo no puede estar vacío'
+          msg: "Name is mandatory",
         },
         len: {
           args: [3, 30],
-          msg: 'El nombre debe tener entre 3 y 30 caracteres'
-        }
-      }
+          msg: "Name must have between 3 y 30 characters",
+        },
+      },
     },
     description: {
       type: DataTypes.TEXT,
       allowNull: false,
       validate: {
         notNull: {
-          msg: 'Este campo no puede estar vacío'
+          msg: "Description is mandatory",
         },
         len: {
           args: [10, 80],
-          msg: 'La descripcion debe tener entre 10 y 80 caracteres'
-        }
-      }
-    }
+          msg: "Description must have between 10 y 80 characters",
+        },
+      },
+    },
   });
 };
