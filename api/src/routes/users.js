@@ -38,7 +38,7 @@ server.post("/", (req, res) => {
     if(user){
       return res.send('This user already exists, choose a different one!').status(100);
     }
-    const createUser = await Users.create({
+    const createUser = Users.create({
         name: name,
         lastName: lastName,
         email: email,

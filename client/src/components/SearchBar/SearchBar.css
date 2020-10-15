@@ -6,6 +6,22 @@
     color: white;
     border-radius: 5px;
 }
+.button:hover {
+    border: none;
+    height: 2.5rem;
+    width: 5rem;
+    background-color: darkviolet;
+    color: white;
+    border-radius: 5px;
+}
+.button:focus {
+    border: none;
+    height: 2.5rem;
+    width: 5rem;
+    background-color: darkviolet;
+    color: white;
+    border-radius: 5px;
+}
 
 .search {
     border-radius: 10px;
