@@ -1,0 +1,16 @@
+.form-box{
+    display: inline-block;
+    margin-left: 35%;
+    margin-top: 15%;
+    border: solid;
+    padding: 5px;
+    height: 100%;
+    width: 500px;
+    
+    
+    
+}
+.button{
+    display: inline;
+    margin-left: 78%
+}

@@ -13,6 +13,9 @@ import LandingPage from './components/LandingPage';
 import PrductsMati from './components/ProductsMati';
 import Footer from './components/Footer';
 import NavbarAdmin from './components/NavbarAdmin';
+import Login from "./components/Login";
+import SignUp from "./components/SignUp";
+
 
 
 function App() {
@@ -43,6 +46,7 @@ function App() {
   return (
     <div>
       <Router> 
+       
         <Route path="/user" render={() => <SearchBar handleSubmit={handleSubmit} handleChange={handleChange} />}/>
         <Route path="/admin" component={NavbarAdmin} />
         <Route exact path="/" component={LandingPage} />
@@ -54,6 +58,8 @@ function App() {
         <Route exact path="/admin/product" component={AdminProducts} />
         <Route exact path="/user/product/:id" component={PrductsMati} />
         <Route path="/user" component={Footer} />
+        <Route path="/SignIn" component={Login} />
+        <Route path="/SignUp" component={SignUp} />
       </Router>
     </div>
   );
