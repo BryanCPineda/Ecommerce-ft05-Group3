@@ -12,7 +12,6 @@ module.exports = (sequelize) => {
     },
     totalPrice: {
       type: DataTypes.DECIMAL(9, 2),
-      allowNull: false,
       validate: {     
         isDecimal: true,
         min: {
