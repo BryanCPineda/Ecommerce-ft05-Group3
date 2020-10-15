@@ -3,7 +3,7 @@ const { Product, Categories, Image, Users, Order, Orderline } = require("../db.j
 const { Sequelize } = require("sequelize");
 
 server.get('/', (req, res, next) => { 
-    Users.findAll({ attributes: ['id', 'name', 'lastName', 'email', 'userType', 'adress']})
+    Users.findAll()
 
     .then((users) => {
       res.status(200).json(users);
@@ -84,13 +84,9 @@ server.get("/:idUser/cart", async (req, res) => {
   try {
     const { idUser } = req.params;
     const orderUser = await Order.findOne({ where: { userId: idUser, state: 'Cart' }})
-    const orderLines = await Orderline.findOne({
-      where: { orderId: orderUser.id }
+    const orderLines = await Orderline.findAll({
+      where: { orderId: orderUser.dataValues.id }
     });
-    if(orderLines.length > 1) {
-      const orderLines = orderLines.length - 1;
-    }
-    console.log(orderLines, "jajaja")
     return res.status(200).send(orderLines)
   } catch (error) {
     return res.status(400).send({ data: error });
@@ -108,11 +104,10 @@ server.post("/:idUser/cart", async (req, res) => {
     const product = await Product.findByPk(productId);
     product.stock = product.stock - quantity;
     const productSave = await product.save();
-    
     const orderLine = await Orderline.create({
       price: product.price,
       quantity: quantity,
-      orderId: 1,
+      orderId: order[0].dataValues.id,
       productId: productId,
     });
     // console.log(order.dataValues)
@@ -123,19 +118,53 @@ server.post("/:idUser/cart", async (req, res) => {
   }
 });
 
-server.delete("/:idUser/cart", async (req, res) => {
-  try {
-    const { idUser } = req.params;
-    const orderUser = await Order.findOne({ where: { userId: idUser, state: 'Cart' }})
-    const orderLines = await Orderline.findOne({
-      where: { orderId: orderUser.id }
+// server.delete("/:idUser/cart", async (req, res) => {
+//   try {
+//     const { idUser } = req.params;
+//     const { productId } = req.body;
+//     const orderUser = await Order.findOne({ where: { userId: idUser, state: 'Cart' }})
+  
+//     const product = await Product.findByPk(productId);
+//     product.stock = product.stock - quantity;
+//     const productSave = await product.save();
+
+//     const orderDeleted = await orderUser.destroy()
+//     console.log(orderDeleted, "aaaa")
+//     res.status(200).send("Cart is empty")
+//   } catch (error) {
+//     return res.status(400).send({ data: error });
+//   }
+// });
+
+server.delete("/:idUser/cart", (req, res) => {
+  const idUser = req.params.idUser;
+
+  Order.findOne({ where: { userId: idUser, state: "Cart" } }).then((order) => {
+    if (!order) {
+      res.send("La orden para el usuario  " + idUser + ",no fue encontrada");
+      return;
+    }
+    let orderId = order.id;
+    Orderline.findAll({
+      where: {
+        orderId: orderId,
+      },
+    }).then(() => {
+      Orderline.destroy({
+        where: {
+          orderId: orderId,
+        },
+      })
+        .then(() => {
+          return res.send("Se ha vaciado la orden");
+        })
+        .catch((error) => {
+          return res.send(error).status(500);
+        });
     });
-    await orderLines.destroy()
-    res.status(200).send("Cart is empty")
-  } catch (error) {
-    return res.status(400).send({ data: error });
-  }
+  });
 });
 
+// server.put("/:idUser/cart")
 
 module.exports = server;
