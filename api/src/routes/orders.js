@@ -15,8 +15,6 @@ const state = req.query.status;
   })
 })
 
-<<<<<<< HEAD
-=======
 server.put('/:id', (req, res, next) => {
   const {state} = req.body
   const {id} = req.params
@@ -37,6 +35,5 @@ server.put('/:id', (req, res, next) => {
       return res.send({ data: err }).status(400);
     });
 })
->>>>>>> master
 
 module.exports = server;

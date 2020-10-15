@@ -3,11 +3,7 @@ const { Product, Categories, Image, Users } = require("../db.js");
 const { Sequelize } = require("sequelize");
 
 server.get("/", (req, res, next) => {
-<<<<<<< HEAD
   Users.findAndCountAll()
-=======
-  Users.findAll()
->>>>>>> master
     .then((users) => {
       res.status(200).json(users);
     })
@@ -41,18 +37,10 @@ server.post("/", (req, res) => {
         .status(100);
     })
     .then((user) => {
-<<<<<<< HEAD
       return res.send(user);
     })
     .catch((err) => {
       res.send({ data: err }).status(400); // Show proper error in DevTool to the FrontEnd guys.
-=======
-      console.log("USERCREATED", user);
-      return res.send(user);
-    })
-    .catch(() => {
-      // res.send({ data: err }).status(400); // Show proper error in DevTool to the FrontEnd guys.
->>>>>>> master
     });
 });
 

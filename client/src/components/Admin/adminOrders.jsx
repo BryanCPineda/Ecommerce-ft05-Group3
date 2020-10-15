@@ -62,6 +62,8 @@ function Orders({allOrders, getAllOrders, createOrder, updateOrder, deleteOrder 
                                                 <th>Update At</th>
                                                 <th>Total Price</th>
                                                 <th>Current Status</th>
+                                                <th>Change Status</th>
+                                                <th>Delete Order</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -75,14 +77,24 @@ function Orders({allOrders, getAllOrders, createOrder, updateOrder, deleteOrder 
                                                         <td>{order.createdAt === order.updatedAt ? "Sin modificaciones" : moment(order.updatedAt).format("DD/MM/YYYY - HH:mm:ss")}</td>    
                                                         <td>{(order.totalPrice)} </td>
                                                         <td> {order.status}                       
-                                                        {/*<Form.Control as="select" name="status" onChange={handleSelect} defaultValue={order.status}>
+                                                      
+                                                        </td>
+                                                        <td>  
+                                                        <Form.Control as="select" name="status" onChange={handleSelect} defaultValue={order.status}>
                                                             <option value="Cart">Cart</option>
                                                             <option value="Created">Created</option>
                                                             <option value="Processing">Processing</option>
                                                             <option value="Complete">Complete</option>
                                                             <option value="Canceled">Canceled</option>
-                                                        </Form.Control>*/}
+                                                        </Form.Control>
                                                         </td>
+                                                        <td>
+                                                        <Button onClick={()=>{}} variant="danger ml-1" size="sm">
+                                                                    <FiTrash2 />
+                                                        </Button>
+                                                        </td>
+
+
                                                     </tr>
                                                 )
                                             })
