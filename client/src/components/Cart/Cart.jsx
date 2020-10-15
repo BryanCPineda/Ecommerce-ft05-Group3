@@ -7,10 +7,8 @@ import {
   Button,
   Card,
   Modal,
-  Dropdown,
 } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { FiShoppingCart } from "react-icons/fi";
 import "./Cart.css";
 import DropD from "./dropdown.jsx";
 import { FiTrash2 } from "react-icons/fi";
