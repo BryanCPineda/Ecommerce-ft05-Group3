@@ -255,4 +255,23 @@ server.delete("/:idUser/cart/:itemId", async (req, res) => {
 
 // server.put("/:idUser/cart")
 
+server.get("/:id/orders", (req, res)=>{
+  const userId= req.params.id
+  Order.findAll({
+    where:{
+      userId: userId
+    }
+  }).then((orders)=>{
+    console.log(orders)
+    const ordersAll=orders;
+    if(ordersAll){
+      return res.status(200).json(orders);
+    }
+    return res.status(400).send("Not Orders");
+    }).catch((err)=>{
+      console.log(err)
+      return res.send({data: err}).status(400);
+    });
+})
+
 module.exports = server;
