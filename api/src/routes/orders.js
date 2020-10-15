@@ -36,4 +36,23 @@ server.put('/:id', (req, res, next) => {
     });
 })
 
+server.get("/:id", (req,res)=>{
+  const {id} = req.params;
+  Order.findAll({
+    where: {
+      id: id
+    }
+  })
+  .then((order) => {
+    console.log(order)
+    const orderId= order;
+    if(orderId){
+      return res.status(200).json(order);
+    }
+    return res.status(400).send("Order not found!");
+  }).catch((err)=>{
+    return res.send({data: err}).status(400);
+  });
+})
+
 module.exports = server;
