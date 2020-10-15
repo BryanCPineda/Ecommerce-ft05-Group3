@@ -90,7 +90,6 @@ server.put('/:userId/cart', async (req, res)=>{
         state: 'Cart'
       }
     })  
-    console.log('ORDER', order)
     if (order) {                                          // Si existe (siempre debería) me traigo todas las orderlines que contenga
       const orderID = order.id;
       const userOrderlines = await Orderline.findAll({    // Devuelve un array con todas las orderlines de esa orden
@@ -98,7 +97,21 @@ server.put('/:userId/cart', async (req, res)=>{
           orderId: orderID
         }
       })
-    // Acá comienza la fiesta ...                         // Acá se modificarán las cantidades (orderlineQuantity) de esa orderline (orderlineId)
+      // Acá se modificarán las cantidades (orderlineQuantity) de esa orderline (orderlineId)
+      const orderlineToChange = await Orderline.findByPk(orderlineId);
+      const product = await 
+        Product.findOne({
+          where: {
+            id: orderlineToChange.productId
+          }
+        })
+      if(orderlineQuantity > product.stock){
+        return res.send(`You reached the maximun stock, you can buy till ${product.stock} items.`)
+      }
+      product.stock -= orderlineQuantity;
+      const updatedProduct = await product.save();
+      orderlineToChange.quantity = Number(orderlineQuantity);
+      return res.send(orderlineToChange);
     }
   } 
   catch (err) {
@@ -106,7 +119,6 @@ server.put('/:userId/cart', async (req, res)=>{
   }
 })
 
-module.exports = server;
 server.get("/:idUser/cart", async (req, res) => {
   try {
     const { idUser } = req.params;
