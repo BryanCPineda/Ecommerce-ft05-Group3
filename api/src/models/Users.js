@@ -77,11 +77,8 @@ module.exports = (sequelize)=>{
     },
     adress:{
       type: S.STRING,
-      allowNull: false,
+      allowNull: true,
       validate: {
-        notNull:{
-          msg: 'Postal adress is mandatory.'
-        },
         len: {
           args: [5, 60],
           msg: 'Adress field must to be at least 2 characters long.'

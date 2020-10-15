@@ -3,7 +3,7 @@ const { Product, Categories, Image, Users } = require("../db.js");
 const { Sequelize } = require("sequelize");
 
 server.get("/", (req, res, next) => {
-  Users.findAll()
+  Users.findAndCountAll()
     .then((users) => {
       res.status(200).json(users);
     })
@@ -14,7 +14,7 @@ server.get("/", (req, res, next) => {
 
 server.post("/", (req, res) => {
   const { name, lastName, email, password, userType, image, adress } = req.body;
-  console.log("REQUEST", req.body);
+ 
   Users.findOne({
     where: {
       email: email,
@@ -40,8 +40,8 @@ server.post("/", (req, res) => {
       console.log("USERCREATED", user);
       return res.send(user);
     })
-    .catch(() => {
-      // res.send({ data: err }).status(400); // Show proper error in DevTool to the FrontEnd guys.
+    .catch((err) => {
+       res.send({ data: err }).status(400); // Show proper error in DevTool to the FrontEnd guys.
     });
 });
 
