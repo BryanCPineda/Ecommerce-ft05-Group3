@@ -10,10 +10,8 @@ import {
 } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./Cart.css";
-import DropD from "./dropdown.jsx";
 import { FiTrash2 } from "react-icons/fi";
-
-//import AddImages from "./AddImages";
+import Order from "./Order.jsx";
 import Axios from "axios";
 
 const Cart = (props) => {
@@ -43,70 +41,7 @@ const Cart = (props) => {
               Checkout →
             </Button>
           </div>
-
-          <Table
-            responsive="sm"
-            striped
-            bordered
-            hover
-            variant="light"
-            className="table-container"
-          >
-            <thead>
-              <tr>
-                <th>Mancuerna 15kg</th>
-                <th>Imagenes.jpg</th>
-
-                <th>250</th>
-                <th>
-                  <DropD />
-                </th>
-                <Button size="sm" className="cart-button">
-                  Eliminar
-                </Button>
-              </tr>
-              <tr>
-                <th>Mancuerna 15kg</th>
-                <th>Imagenes.jpg</th>
-
-                <th>250</th>
-                <th>
-                  <DropD />
-                </th>
-                <Button size="sm" className="cart-button">
-                  Eliminar
-                </Button>
-              </tr>
-              <tr>
-                <th>Mancuerna 15kg</th>
-                <th>Imagenes.jpg</th>
-
-                <th>250$</th>
-                <th>
-                  <DropD />
-                </th>
-                <Button size="sm" className="cart-button">
-                  Eliminar
-                </Button>
-              </tr>
-              <tr>
-                <th>Mancuerna 15kg</th>
-                <th>Imagenes.jpg</th>
-
-                <th>250$</th>
-                <th>
-                  <DropD />
-                </th>
-                <Button size="sm" className="cart-button">
-                  Eliminar
-                </Button>
-              </tr>
-            </thead>
-            <tbody>
-              <div className="d-flex mb-2 mr-2"></div>
-              <div className=""></div>
-            </tbody>
-          </Table>
+          <Order />
         </Col>
         <Col xs={2}></Col>
       </Row>
