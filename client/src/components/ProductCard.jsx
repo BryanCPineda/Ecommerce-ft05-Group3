@@ -2,6 +2,8 @@ import React from "react";
 import { FiShoppingCart } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import "./ProductCard.css";
+import { BsFillDashCircleFill } from "react-icons/bs";
+
 
 function ProductCard({ name, description, price, stock, images, id }) {
   return (
@@ -25,10 +27,17 @@ function ProductCard({ name, description, price, stock, images, id }) {
           <p className="stock-card">Stock: {stock}</p>
         </div>
         <div className="d-flex align-self-center">
-          <button className="border-buttom">
-            Add to Cart&nbsp;
-            <FiShoppingCart className="h5 mt-1" />
-          </button>
+          {
+            !stock ? (<button disabled={true} className="RO-border-button">
+              Runned Out  &nbsp;&nbsp;
+              <BsFillDashCircleFill />
+            </button>) :
+              <button className="border-buttom">
+                Add to Cart&nbsp;
+                <FiShoppingCart className="h5 mt-1" />
+              </button>
+          }
+          
         </div>
       </div>
     </div>
