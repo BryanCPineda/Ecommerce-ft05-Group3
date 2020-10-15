@@ -1,9 +1,10 @@
 const server = require("express").Router();
-const { Product, Categories, Image, Users } = require("../db.js");
+const { Product, Categories, Image, Users, Order, Orderline } = require("../db.js");
 const { Sequelize } = require("sequelize");
 
-server.get("/", (req, res, next) => {
-  Users.findAll()
+server.get('/', (req, res, next) => { 
+    Users.findAll()
+
     .then((users) => {
       res.status(200).json(users);
     })
@@ -41,7 +42,7 @@ server.post("/", (req, res) => {
       return res.send(user);
     })
     .catch(() => {
-      // res.send({ data: err }).status(400); // Show proper error in DevTool to the FrontEnd guys.
+      res.send({ data: err }).status(400); // Show proper error in DevTool to the FrontEnd guys.
     });
 });
 
@@ -78,5 +79,92 @@ server.put("/:id", (req, res) => {
       return res.send({ data: err }).status(400);
     });
 });
+
+server.get("/:idUser/cart", async (req, res) => {
+  try {
+    const { idUser } = req.params;
+    const orderUser = await Order.findOne({ where: { userId: idUser, state: 'Cart' }})
+    const orderLines = await Orderline.findAll({
+      where: { orderId: orderUser.dataValues.id }
+    });
+    return res.status(200).send(orderLines)
+  } catch (error) {
+    return res.status(400).send({ data: error });
+  }
+});
+
+server.post("/:idUser/cart", async (req, res) => {
+  try {
+    const { idUser } = req.params;
+    const { quantity, productId } = req.body;
+    const order = await Order.findOrCreate({
+      where: { userId: idUser, state: "Cart" },
+    });
+    
+    const product = await Product.findByPk(productId);
+    product.stock = product.stock - quantity;
+    const productSave = await product.save();
+    const orderLine = await Orderline.create({
+      price: product.price,
+      quantity: quantity,
+      orderId: order[0].dataValues.id,
+      productId: productId,
+    });
+    // console.log(order.dataValues)
+    // console.log(order)
+    return res.status(200).send(orderLine);
+  } catch (error) {
+    return res.status(400).send({ data: error });
+  }
+});
+
+// server.delete("/:idUser/cart", async (req, res) => {
+//   try {
+//     const { idUser } = req.params;
+//     const { productId } = req.body;
+//     const orderUser = await Order.findOne({ where: { userId: idUser, state: 'Cart' }})
+  
+//     const product = await Product.findByPk(productId);
+//     product.stock = product.stock - quantity;
+//     const productSave = await product.save();
+
+//     const orderDeleted = await orderUser.destroy()
+//     console.log(orderDeleted, "aaaa")
+//     res.status(200).send("Cart is empty")
+//   } catch (error) {
+//     return res.status(400).send({ data: error });
+//   }
+// });
+
+server.delete("/:idUser/cart", (req, res) => {
+  const idUser = req.params.idUser;
+
+  Order.findOne({ where: { userId: idUser, state: "Cart" } }).then((order) => {
+    if (!order) {
+      res.send("La orden para el usuario  " + idUser + ",no fue encontrada");
+      return;
+    }
+    let orderId = order.id;
+    Orderline.findAll({
+      where: {
+        orderId: orderId,
+      },
+    }).then(() => {
+      Orderline.destroy({
+        where: {
+          orderId: orderId,
+        },
+      })
+        .then(() => {
+          return res.send("Se ha vaciado la orden");
+        })
+        .catch((error) => {
+          return res.send(error).status(500);
+        });
+    });
+  });
+});
+
+// server.put("/:idUser/cart")
 
 module.exports = server;

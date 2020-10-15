@@ -33,7 +33,6 @@ module.exports = (sequelize) => {
     },
     quantity: {
       type: S.INTEGER,
-      defaultValue: 0,
       validate: {
         min: {
           args: [1],
