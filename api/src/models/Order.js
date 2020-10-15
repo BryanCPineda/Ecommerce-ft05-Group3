@@ -12,7 +12,8 @@ module.exports = (sequelize) => {
     },
     totalPrice: {
       type: DataTypes.DECIMAL(9, 2),
-      allowNull: false,
+      allowNull: true,
+      defaultValue: 0,
       validate: {     
         isDecimal: true,
         min: {
@@ -25,7 +26,9 @@ module.exports = (sequelize) => {
     },
     status: {
       type: DataTypes.ENUM({
-          values: ['Cart', 'Created', 'Processing', 'Canceled', 'Complete']
+          values: ['Cart', 'Created', 'Processing', 'Canceled', 'Complete'],
+          allowNull: false,
+          defaultValue: "Cart"
         })
     }
     })

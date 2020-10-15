@@ -61,7 +61,7 @@ function Orders({allOrders, getAllOrders, createOrder, updateOrder, deleteOrder 
                                                 <th>Created At</th>
                                                 <th>Update At</th>
                                                 <th>Total Price</th>
-                                                <th>Status</th>
+                                                <th>Current Status</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -85,12 +85,12 @@ function Orders({allOrders, getAllOrders, createOrder, updateOrder, deleteOrder 
                                                         </Form.Control>
                                                         </td>
                                                         <td>
-                                                        <Button onClick={handleChange} variant="dark" size="sm">
+                                                        {/*<Button onClick={handleChange} variant="dark" size="sm">
                                                             Change Status
                                                         </Button>
                                                         <Button onClick={handleDelete} variant="dark" size="sm">
                                                             Delete Order
-                                                        </Button>
+                                                        </Button>*/}
                                                         </td>
                                                     </tr>
                                                 )
