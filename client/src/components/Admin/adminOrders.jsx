@@ -62,7 +62,6 @@ function Orders({allOrders, getAllOrders, createOrder, updateOrder, deleteOrder 
                                                 <th>Update At</th>
                                                 <th>Total Price</th>
                                                 <th>Current Status</th>
-                                                <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -75,22 +74,14 @@ function Orders({allOrders, getAllOrders, createOrder, updateOrder, deleteOrder 
                                                         <td>{moment(order.createAt).format("DD/MM/YYYY - HH:mm:ss")}</td>    
                                                         <td>{order.createdAt === order.updatedAt ? "Sin modificaciones" : moment(order.updatedAt).format("DD/MM/YYYY - HH:mm:ss")}</td>    
                                                         <td>{(order.totalPrice)} </td>
-                                                        <td> Current status: {order.status}                       
-                                                        <Form.Control as="select" name="status" onChange={handleSelect} defaultValue={order.status}>
+                                                        <td> {order.status}                       
+                                                        {/*<Form.Control as="select" name="status" onChange={handleSelect} defaultValue={order.status}>
                                                             <option value="Cart">Cart</option>
                                                             <option value="Created">Created</option>
                                                             <option value="Processing">Processing</option>
                                                             <option value="Complete">Complete</option>
                                                             <option value="Canceled">Canceled</option>
-                                                        </Form.Control>
-                                                        </td>
-                                                        <td>
-                                                        {/*<Button onClick={handleChange} variant="dark" size="sm">
-                                                            Change Status
-                                                        </Button>
-                                                        <Button onClick={handleDelete} variant="dark" size="sm">
-                                                            Delete Order
-                                                        </Button>*/}
+                                                        </Form.Control>*/}
                                                         </td>
                                                     </tr>
                                                 )
