@@ -3,7 +3,7 @@ const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
   
-  sequelize.define('Order', {
+  sequelize.define('order', {
     id: {
       type: DataTypes.INTEGER,
       allowNull:false,
@@ -12,7 +12,6 @@ module.exports = (sequelize) => {
     },
     totalPrice: {
       type: DataTypes.DECIMAL(9, 2),
-      allowNull: false,
       validate: {     
         isDecimal: true,
         min: {
