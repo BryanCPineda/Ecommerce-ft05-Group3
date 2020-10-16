@@ -112,7 +112,7 @@ function usersSeeder(){
             lastName: 'Artiles',
             email: 'larts@gmail.es',
             password: '132456789',
-            userType: 'admin',
+            usertype: 'admin',
             adress: 'mataderos',
             image: 'sotolia_future_developer.jpeg'
         },
