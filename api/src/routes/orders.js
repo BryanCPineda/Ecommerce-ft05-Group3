@@ -11,13 +11,9 @@ server.get('/', (req, res, next) => {
     ]
   })
   .then((orders) => {
-    const ordenes=orders[0]
-    if(ordenes){
-      res.status(200).json(ordenes);
-    }
-    res.send({data:'Order not found!'}).status(404)
-    
-  }).catch((err)=>{
+    res.send(orders).status(200);
+    }  
+    ).catch((err)=>{
     return res.send({data: err}).status(400)
   })
 })

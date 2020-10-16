@@ -5,28 +5,29 @@ import './ProductsMati.css';
 import { Carousel } from 'react-bootstrap';
 import { FiShoppingCart } from "react-icons/fi";
 import { BsFillDashCircleFill } from "react-icons/bs";
+import { connect } from 'react-redux';
+import {addProductToCart} from '../actions/cartActions';
 
-function ProductsMati(props) {
-  const mapeo = props.match.params.id;
-  console.log('ID', mapeo)
-  const [product, setProduct] = useState({});
 
-  function mostrarProducto() {
-    axios
-      .get("http://localhost:4000/products/" + mapeo)
-      .then((res) => res.data)
-      .then((res) => {
-        setProduct(res);
-      });
+function ProductsMati({addProductToCart, product}) {
+   
+ const body = {
+    quantity: 1,
+    productId:"" 
+}
+
+  const handleClick = (id) => {
+    body.productId = id;
+    addProductToCart(body);
   }
 
+
   useEffect(() => {
-    mostrarProducto();
+  
   },[]);
 
   return (
     <div>
-      {console.log(product)}
       <Container className="products-container">
         <div className="d-flex">
           <div className="products-image-div">
@@ -65,8 +66,8 @@ function ProductsMati(props) {
             <p className="products-categories">Categories:</p>
             <div className="d-flex justify-content-center">
               {product.categories &&
-                product.categories.map((ele) => (
-                  <p className="mr-4 h6">{ele.name}</p>
+                product.categories.map((ele, index) => (
+                  <p key={index} className="mr-4 h6">{ele.name}</p>
                 ))}
             </div>
             <div className="d-flex justify-content-start">
@@ -79,7 +80,7 @@ function ProductsMati(props) {
                   </button>
                 )) :
                 product.price && (
-                  <button className="products-button">
+                  <button className="products-button" onClick={()=>{handleClick(product.id)}}>
                     Add to Cart <FiShoppingCart />
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${product.price}
                   </button>
@@ -100,5 +101,21 @@ function ProductsMati(props) {
     </div>
   );
 }
+function mapStateToProps(state) {
+  return {
+        product: state.productReducer.product
+  }
+}
 
-export default ProductsMati;
+
+function mapDispatchToProps(dispatch) {
+  return {
+    addProductToCart: (body) => dispatch(addProductToCart(body))
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ProductsMati);
+
