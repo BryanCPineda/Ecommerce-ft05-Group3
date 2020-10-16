@@ -13,7 +13,7 @@ module.exports = (sequelize)=>{
     name: {
       type: S.STRING,
       allowNull: false,
-      validate:{
+      validate: {
         notNull: {
           msg: 'Name is mandatory'
         },
@@ -22,20 +22,22 @@ module.exports = (sequelize)=>{
           msg: 'Name field must to be at least 2 characters long.'
         },
         isAlpha: true
-    }},
+      }
+    },
     lastName: {
       type: S.STRING,
       allowNull: false,
-      isAlpha: true,
-      validate:{
+      validate: {
         notNull: {
           msg: 'Lastname is mandatory.'
-        }},
+        },
         len: {
           args: [2, 50],
           msg: 'Lastname field must to be at least 2 characters long.'
         },
+        isAlpha: true,
       },
+    },
     email: {
       type: S.STRING,
       allowNull: false,
@@ -77,14 +79,11 @@ module.exports = (sequelize)=>{
     },
     adress:{
       type: S.STRING,
-      allowNull: false,
+      allowNull: true,
       validate: {
-        notNull:{
-          msg: 'Postal adress is mandatory.'
-        },
         len: {
           args: [5, 60],
-          msg: 'Adress field must to be at least 2 characters long.'
+          msg: 'Adress field must to be at least 5 characters long.'
         }
       }
     },

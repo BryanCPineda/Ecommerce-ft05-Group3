@@ -23,7 +23,14 @@
     color: white;
     border: none;
 }
-
+.RO-border-button {
+    height: 2.8rem;
+    width: 9rem;
+    border-radius: 5px;
+    background-color: white;
+    color: #8a2be2;
+    border: 1px solid #8a2be2;
+}
 
 .image {
     height: 15rem;
