@@ -1,4 +1,5 @@
-const { Product, Categories, Image, Users } = require("./db.js"); // requiring models from Database
+const { Product, Categories, Image, Users, Order, Orderline } = require("./db.js"); // requiring models from Database
+const Orderline = require("./models/Orderline.js");
 
 function productsSeeder()   //This function create several products
 {
@@ -98,22 +99,40 @@ function productsSeeder()   //This function create several products
 function usersSeeder(){
     Users.bulkCreate([
         {
+            name: 'Martin',
+            lastName: 'Borchardt',
+            email: 'soyhenry@gmail.com',
+            password: '024681012',
+            userType: 'admin',
+            adress: 'Buenos Aires',
+            image: 'bortincho.png'
+        },
+        {
             name: 'Lianel',
-            lastname: 'Artiles',
+            lastName: 'Artiles',
             email: 'larts@gmail.es',
             password: '132456789',
             usertype: 'admin',
             adress: 'mataderos',
-            image: 'asdgadsg4'
+            image: 'sotolia_future_developer.jpeg'
         },
         {
-            name: 'Dylan',
-            lastname: 'Artiles',
-            email: 'dylan@gmail.es',
-            password: '132456789',
-            usertype: 'client',
-            adress: 'mataderos',
-            image: 'adsgfsdffASD'
+            name: 'Franco',
+            lastName: 'Etcheverri',
+            email: 'franco@gmail.com',
+            password: '135791113',
+            userType: 'admin',
+            adress: 'en algun lugar de la mancha',
+            image: 'franco.gif'
+        },
+        {
+            name: 'Agustin',
+            lastName: 'Amani',
+            email: 'agusamani@gmail.com',
+            password: 'abcdfghi',
+            userType: 'admin',
+            adress: 'San Miguel de Tucumán',
+            image: 'lo_probemos.psd'
         },
     ])
 }
@@ -153,6 +172,7 @@ function categoriesSeeder(){ //This function create several categories
     ])
 
 }
+
 function imageSeeder(){    //This function create several images
 
     Image.bulkCreate([
@@ -196,9 +216,163 @@ function imageSeeder(){    //This function create several images
 
 }
 
+function orderSeeder() {
+    Order.bulkCreate([
+        {
+            totalprice: 234.54,
+            state: 'Cart',
+            userdId: 1
+        },
+        {
+            totalprice: 2034.88,
+            state: 'Created',
+            userdId: 1
+        },
+        {
+            totalprice: 98.45,
+            state: 'Canceled',
+            userdId: 1
+        },
+        {
+            totalprice: 356.56,
+            state: 'Cart',
+            userdId: 2
+        },
+        {
+            totalprice: 2356.89,
+            state: 'Complete',
+            userdId: 2
+        },
+        {
+            totalprice: 3157.98,
+            state: 'Processing',
+            userdId: 2
+        },
+        {
+            totalprice: 566.76,
+            state: 'Created',
+            userdId: 3
+        },
+        {
+            totalprice: 123.88,
+            state: 'Cart',
+            userdId: 3
+        },
+        {
+            totalprice: 543.45,
+            state: 'Canceled',
+            userdId: 3
+        },
+        {
+            totalprice: 8674.56,
+            state: 'Created',
+            userdId: 4
+        },
+        {
+            totalprice: 34.89,
+            state: 'Canceled',
+            userdId: 4
+        },
+        {
+            totalprice: 76534.00,
+            state: 'Complete',
+            userdId: 4
+        },
+    ])
+}
+
+function orderlinesSeeder() {
+    Orderline.bulkCreate([
+        {		
+            price: 406.8,
+            quantity: 9,
+            productId: 1,
+            orderId: 1	
+        },		
+        {		
+            price: 497.2,
+            quantity: 11,
+            productId: 2,
+            orderId: 5	
+        },		
+        {		
+            price: 587.6,
+            quantity: 13,
+            productId: 3,
+            orderId: 1	
+        },		
+        {		
+            price: 678,
+            quantity: 15,
+            productId: 7,
+            orderId: 1	
+        },		
+        {		
+            price: 178.992,
+            quantity: 3.96,
+            productId: 8,
+            orderId: 2	
+        },		
+        {		
+            price: 278.432,
+            quantity: 6.16,
+            productId: 14,
+            orderId: 2	
+        },		
+        {		
+            price: 377.872,
+            quantity: 8.36,
+            productId: 12,
+            orderId: 10
+        },		
+        {		
+            price: 298.32,
+            quantity: 6.6,
+            productId: 11,
+            orderId: 3	
+        },		
+        {		
+            price: 759.36,
+            quantity: 16.8,
+            productId: 2,
+            orderId: 3	
+        },		
+        {		
+            price: 1301.76,
+            quantity: 28.8,
+            productId: 3,
+            orderId: 3	
+        },		
+        {		
+            price: 1844.16,
+            quantity: 40.8,
+            productId: 7,
+            orderId: 1	
+        },		
+        {		
+            price: 2625.216,
+            quantity: 58.08,
+            productId: 8,
+            orderId: 4	
+        },		
+        {		
+            price: 3221.856,
+            quantity: 71.28,
+            productId: 14,
+            orderId: 4	
+        },		
+        {		
+            price: 3818.496,
+            quantity: 84.48,
+            productId: 6,
+            orderId: 12
+        }		
+            
+    ])
+}
+
 function categoy_productSederr(){ // This function create several relationships between categories and products
     
-
     for (let i = 1; i < 14; i++) {
         Product.findByPk(i)
             .then((product)=>{
@@ -208,7 +382,6 @@ function categoy_productSederr(){ // This function create several relationships 
                     })
             })
     }
-
     for (let i = 1; i < 7; i++) {
         Product.findByPk(i)
             .then((product)=>{
@@ -217,9 +390,7 @@ function categoy_productSederr(){ // This function create several relationships 
                         product.addCategory(category)
                     })
             })
-        
     }
-    
 }
 
 
@@ -228,5 +399,7 @@ module.exports = { // exporting the functions
     categoriesSeeder,
     imageSeeder,
     categoy_productSederr,
-    usersSeeder
+    usersSeeder,
+    orderSeeder,
+    orderlinesSeeder
 }
