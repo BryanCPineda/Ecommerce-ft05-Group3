@@ -98,14 +98,23 @@ function productsSeeder()   //This function create several products
 function usersSeeder(){
     Users.bulkCreate([
         {
-            name: 'lianel',
-            lastName: 'artiles',
+            name: 'Lianel',
+            lastname: 'Artiles',
             email: 'larts@gmail.es',
             password: '132456789',
-            userType: 'admin',
+            usertype: 'admin',
             adress: 'mataderos',
             image: 'asdgadsg4'
-        }
+        },
+        {
+            name: 'Dylan',
+            lastname: 'Artiles',
+            email: 'dylan@gmail.es',
+            password: '132456789',
+            usertype: 'client',
+            adress: 'mataderos',
+            image: 'adsgfsdffASD'
+        },
     ])
 }
 

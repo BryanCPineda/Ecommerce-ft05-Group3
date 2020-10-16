@@ -20,7 +20,7 @@ server.get("/", (req, res, next) => {
 });
 
 server.post("/", (req, res) => {
-  const { name, lastName, email, password, userType, image, adress } = req.body;
+  const { name, lastname, email, password, userType, image, adress } = req.body;
 
   Users.findOne({
     where: {
@@ -31,7 +31,7 @@ server.post("/", (req, res) => {
       if (!user) {
         return Users.create({
           name: name,
-          lastName: lastName,
+          lastname: lastname,
           email: email,
           password: password,
           userType: userType,
@@ -50,7 +50,7 @@ server.put("/:id", (req, res) => {
   const { id } = req.params;
   const {
     name,
-    lastName,
+    lastname,
     email,
     password,
     adress,
@@ -59,7 +59,7 @@ server.put("/:id", (req, res) => {
   Users.update(
     {
       name: name,
-      lastName: lastName,
+      lastname: lastname,
       email: email,
       password: password,
       adress: adress,
