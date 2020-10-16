@@ -80,8 +80,8 @@ function FormCategories({
   };
 
   return (
-    <Row className="table-categories">
-      <Col xs={2}></Col>
+    <Row className="table-categories mt-4">
+      <Col xs={0} sm={2}></Col>
       <Col>
         <div className="d-flex justify-content-between mb-4 mt-4">
           <h2 style={{ color: "white" }}>Categories</h2>
@@ -176,7 +176,7 @@ function FormCategories({
           </Table>
         </div>
       </Col>
-      <Col xs={2}></Col>
+      <Col xs={0} sm={2}></Col>
     </Row>
   );
 }

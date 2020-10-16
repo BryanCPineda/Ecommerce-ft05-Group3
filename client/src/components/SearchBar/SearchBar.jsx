@@ -52,10 +52,15 @@ function SearchBar(props) {
           </button>
         </Form>
       </div>
+      {props.user ?
+      <div className="mt-5 login-message">{`Welcome ${props.user.name} !`}</div>
+      :
       <div className="mt-4 sign">
-        <span className="mr-3">Sign in</span>
-        <span className="mr-5 mt-3"><Register /></span>
-      </div>
+      <span className="mr-3">Sign in</span>
+      <span className="mr-5 mt-3"><Register /></span>
+    </div>
+      }
+      
     </div>
   );
 };
@@ -63,6 +68,7 @@ function SearchBar(props) {
 const mapStateToProps = (state) => {
   return {
     productsFromSearch: state.catalogo.productsFromSearch,
+    user: state.userReducer.user
   }
 }
 

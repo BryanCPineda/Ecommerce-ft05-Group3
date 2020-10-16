@@ -18,9 +18,21 @@
     border: none;
     height: 2.5rem;
     width: 5rem;
-    background-color: darkviolet;
+    background-color: #8a2be2;
     color: white;
     border-radius: 5px;
+    outline: none !important;
+    box-shadow: none;
+}
+.button:active {
+    border: none;
+    height: 2.5rem;
+    width: 5rem;
+    background-color: #8a2be2;
+    color: white;
+    border-radius: 5px;
+    outline: none !important;
+    box-shadow: none;
 }
 
 .search {
@@ -60,3 +72,6 @@
     height: 10rem;
 }
 
+.login-message {
+    font-size: 20px
+}

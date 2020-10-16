@@ -25,7 +25,7 @@ function App() {
       <Provider store={store}>
       <Router> 
         <Route path="/user" render={() => <SearchBar />}/>
-        <Route path="/Register" component={userRegister} />
+        {/* <Route path="/Register" component={userRegister} /> */}
         <Route path="/admin" component={NavbarAdmin} />
         <Route exact path="/" component={LandingPage} />
         <Route path="/user/catalogo"
