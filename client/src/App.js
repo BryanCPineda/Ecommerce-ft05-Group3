@@ -1,25 +1,27 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import "./App.css";
 
 import "bootstrap/dist/css/bootstrap.min.css";
-import FormCategories from './components/FormCategories/FormCategories';
+import FormCategories from "./components/FormCategories/FormCategories";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import SearchBar from "./components/SearchBar/SearchBar";
-import axios from 'axios';
+import axios from "axios";
 import Catalogo from "./components/Catalogo";
-import CrudShow from "./components/CrudProducts/CrudShow";
 import AdminProducts from "./components/AdminProducts/AdminProducts";
-import LandingPage from './components/LandingPage';
-import PrductsMati from './components/ProductsMati';
-import Footer from './components/Footer';
-import NavbarAdmin from './components/NavbarAdmin';
-import userRegister from './components/Users/userRegister';
+import LandingPage from "./components/LandingPage";
+import PrductsMati from "./components/ProductsMati";
+import Footer from "./components/Footer";
+import NavbarAdmin from "./components/NavbarAdmin";
+import Cart from "./components/Cart/Cart";
+import AdminOrders from './components/Admin/adminOrders';
+import Login from "./components/Login";
+import SignUp from "./components/SignUp";
 
-import store from './store';
-import { Provider } from 'react-redux';
+
+import store from "./store";
+import { Provider } from "react-redux";
 
 function App() {
-  
   return (
     <div>
       <Provider store={store}>
@@ -34,9 +36,15 @@ function App() {
         <Route exact path="/admin/categories" component={FormCategories} />
         {/* <Route exact path="/admin/producto" component={CrudShow} /> */}
         <Route exact path="/admin/product" component={AdminProducts} />
+        <Route exact path="/admin/orders"  component={AdminOrders} />
         <Route exact path="/user/product/:id" component={PrductsMati} />
+
+        <Route path="/user/cart" component={Cart} />
+        <Route path="/SignIn" component={Login} />
+        <Route path="/SignUp" component={SignUp} />
         <Route path="/user" component={Footer} />
       </Router>
+
       </Provider>
     </div>
   );

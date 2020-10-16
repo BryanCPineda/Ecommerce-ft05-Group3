@@ -58,9 +58,16 @@ function SearchBar(props) {
       <div className="mt-4 sign">
       <span className="mr-3">Sign in</span>
       <span className="mr-5 mt-3"><Register /></span>
-    </div>
+      </div>
       }
-      
+      <div>
+      <Link to ="/admin">
+        <button className="button mr-3">Admin</button>
+        </Link>
+        <Link to="/">
+        <button className="button mr-5 mt-3 sign-up">Sign out</button>
+        </Link>   
+      </div>
     </div>
   );
 };

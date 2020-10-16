@@ -4,9 +4,11 @@ import { Container } from "react-bootstrap";
 import './ProductsMati.css';
 import { Carousel } from 'react-bootstrap';
 import { FiShoppingCart } from "react-icons/fi";
+import { BsFillDashCircleFill } from "react-icons/bs";
 
 function ProductsMati(props) {
   const mapeo = props.match.params.id;
+  console.log('ID', mapeo)
   const [product, setProduct] = useState({});
 
   function mostrarProducto() {
@@ -68,16 +70,30 @@ function ProductsMati(props) {
                 ))}
             </div>
             <div className="d-flex justify-content-start">
-              {product.price && (
-                <button className="products-button">
-                  Add to Cart <FiShoppingCart />
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${product.price}
-                </button>
-              )}
+              {    
+              !product.stock ? (product.price && (
+                  <button disabled={true} className="RO-products-button">
+                    Runned Out &nbsp;&nbsp;&nbsp; 
+                    <BsFillDashCircleFill />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${product.price}
+                  </button>
+                )) :
+                product.price && (
+                  <button className="products-button">
+                    Add to Cart <FiShoppingCart />
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${product.price}
+                  </button>
+                )
+              }
             </div>
-            {product.stock && (
-              <p className="products-stock">Stock: {product.stock}</p>
-            )}
+            {
+            !product.stock ? (
+              <p className="products-stock">Sorry! There is no Stock available</p>
+            ) :
+              product.stock && (
+                <p className="products-stock">Stock: {product.stock}</p>
+              )
+            }
           </div>
         </div>
       </Container>
