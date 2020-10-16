@@ -26,35 +26,24 @@ server.post("/", (req, res) => {
     where: {
       email: email,
     },
-  }).then((user) => {
-    if (!user) {
-      return Users.create({
-        name: name,
-        lastName: lastName,
-        email: email,
-        password: password,
-        userType: userType,
-        adress: adress,
-        image: image,
-      });
-    }
-  });
-  if (user) {
-    return res
-      .send("This user already exists, choose a different one!")
-      .status(100);
-  }
-  const createUser = Users.create({
-    name: name,
-    lastName: lastName,
-    email: email,
-    password: password,
-    userType: userType,
-    adress: adress,
-    image: image,
-  }).catch((err) => {
-    res.send({ data: err }).status(400); // Show proper error in DevTool to the FrontEnd guys.
-  });
+  })
+    .then((user) => {
+      if (!user) {
+        return Users.create({
+          name: name,
+          lastName: lastName,
+          email: email,
+          password: password,
+          userType: userType,
+          adress: adress,
+          image: image,
+        }).then(user => res.send(user))
+      }
+      else     return res.send('This user already exists, choose a different one!').status(100);
+    })
+      .catch((err) => {
+       res.send({ data: err }).status(400); // Show proper error in DevTool to the FrontEnd guys.
+    });
 });
 
 server.put("/:id", (req, res) => {
