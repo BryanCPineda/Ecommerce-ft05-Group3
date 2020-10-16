@@ -2,6 +2,7 @@ import Axios from 'axios';
 
 
 const GET_PRODUCTS = 'GET_PRODUCTS';
+const GET_PRODUCT_BY_ID = 'GET_PRODUCT_BY_ID';
 const CREATE_PRODUCT = 'CREATE_PRODUCT';
 const UPDATE_PRODUCT = 'UPDATE_PRODUCT';
 const DELETE_PRODUCT = 'DELETE_PRODUCT';
@@ -30,6 +31,18 @@ export function getProducts() {
 
             dispatch({ type: GET_PRODUCTS, payload: prod})}
         ) }}
+
+        
+export function getProductById(id){
+    return dispatch => {
+        return Axios.get("http://localhost:4000/products/"+id)
+            .then(res => res.data)
+            .then(res => {
+                dispatch ({type: GET_PRODUCT_BY_ID, payload: res})
+            })
+    }
+}
+
 
  export function createProduct(prod) {
      return dispatch => {

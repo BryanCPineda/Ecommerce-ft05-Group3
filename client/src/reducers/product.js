@@ -2,7 +2,8 @@ const initialState = {
     products: {
         count: 0,
         rows: []
-    }
+    },
+    product:{}
 }
 
 export default function productReducer(state = initialState, action) {
@@ -12,6 +13,11 @@ export default function productReducer(state = initialState, action) {
                 ...state,
                 products: action.payload
             }
+        case 'GET_PRODUCT_BY_ID':
+            return{
+                ...state,
+                product: action.payload
+            }    
         case 'GET_PRODUCT':
             return {
                 ...state,
