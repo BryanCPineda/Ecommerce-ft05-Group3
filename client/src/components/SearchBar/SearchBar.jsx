@@ -34,7 +34,7 @@ function SearchBar(props) {
       </div>
       </Link>
       <div className="mt-4">
-        <Form  inline>
+        <Form className="d-flex">
           <input
             className="search mr-2 mt-3"
             name="search"
@@ -43,7 +43,7 @@ function SearchBar(props) {
             onChange={handleChange}
           ></input>
           <button
-            className="button mt-3"
+            className="button-search-bar mt-3"
             type="submit"
             variant="outline-primary"
             onClick={handleOnSubmit}
@@ -55,19 +55,19 @@ function SearchBar(props) {
       {props.user ?
       <div className="mt-5 login-message">{`Welcome ${props.user.name} !`}</div>
       :
-      <div className="mt-4 sign">
-      <span className="mr-3">Sign in</span>
-      <span className="mr-5 mt-3"><Register /></span>
+      <div className="sign mt-5 d-flex">
+      <button className="mr-2 button-search-bar">Sign In</button>
+      <div className="sign-up-button"><Register /></div>
       </div>
       }
-      <div>
+      {/* <div>
       <Link to ="/admin">
         <button className="button mr-3">Admin</button>
         </Link>
         <Link to="/">
         <button className="button mr-5 mt-3 sign-up">Sign out</button>
         </Link>   
-      </div>
+      </div> */}
     </div>
   );
 };

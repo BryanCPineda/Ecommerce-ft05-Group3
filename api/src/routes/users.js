@@ -20,8 +20,6 @@ server.get("/", (req, res, next) => {
     });
 });
 
-<<<<<<< HEAD
-
 server.post(
   "/",
   [

@@ -75,3 +75,32 @@
 .login-message {
     font-size: 20px
 }
+
+.button-search-bar {
+    border: none;
+    height: 2.7rem;
+    width: 5rem;
+    background-color: #8a2be2;
+    color: white;
+    border-radius: 5px;
+}
+.button-search-bar:hover {
+    border: none;
+    height: 2.7rem;
+    width: 5rem;
+    background-color: darkviolet;
+    color: white;
+    border-radius: 5px;
+}
+.button-search-bar:focus {
+    border: none;
+    height: 2.7rem;
+    width: 5rem;
+    background-color: darkviolet;
+    color: white;
+    border-radius: 5px;
+}
+
+.sign-up-button {
+    margin-right: 2rem;
+}
