@@ -9,8 +9,50 @@
 }
 
 .navbar-admin {
-    height: 400px;
+    height: 500px;
     background: #8E2DE2;  /* fallback for old browsers */
     background: -webkit-linear-gradient(to right, #8E2DE2, #4A00E0);  /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to right, #8E2DE2, #4A00E0); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.admin-panel-container {
+    margin-top: -320px;
+}
+
+.select-options-admin {
+    border: none;
+    background-color: #8a2be2;
+    color: white;
+    border-radius: 5px;
+    height: 100px;
+    width: 200px;
+    font-size: 30px
+}
+.select-options-admin:hover {
+    border: none;
+    background-color: darkviolet;
+    color: white;
+    border-radius: 5px;
+    height: 100px;
+    width: 200px;
+}
+.select-options-admin:focus {
+    border: none;
+    outline: none !important;
+    box-shadow: none;
+    background-color: darkviolet;
+    color: white;
+    border-radius: 5px;
+    height: 100px;
+    width: 200px;
+}
+.select-options-admin:active {
+    border: none;
+    outline: none !important;
+    box-shadow: none;
+    background-color: darkviolet;
+    color: white;
+    border-radius: 5px;
+    height: 100px;
+    width: 200px;
 }
