@@ -14,6 +14,9 @@ import Footer from "./components/Footer";
 import NavbarAdmin from "./components/NavbarAdmin";
 import Cart from "./components/Cart/Cart";
 import AdminOrders from './components/Admin/adminOrders';
+import Login from "./components/Login";
+import SignUp from "./components/SignUp";
+
 
 import store from "./store";
 import { Provider } from "react-redux";
@@ -34,6 +37,8 @@ function App() {
           <Route exact path="/user/product/:id" component={PrductsMati} />
           <Route path="/user" component={Footer} />
           <Route path="/user/cart" component={Cart} />
+          <Route path="/SignIn" component={Login} />
+          <Route path="/SignUp" component={SignUp} />
         </Router>
 
       </Provider>
