@@ -13,7 +13,7 @@ const state = req.query.status;
     if(ordenes){
       res.status(200).json(ordenes);
     }
-    res.status(404).send('Order not found!')
+    res.send(data:'Order not found!').status(404)
     
   }).catch((err)=>{
     return res.send({data: err}).status(400)
