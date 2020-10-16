@@ -1,5 +1,5 @@
 const { Product, Categories, Image, Users, Order, Orderline } = require("./db.js"); // requiring models from Database
-const Orderline = require("./models/Orderline.js");
+
 
 function productsSeeder()   //This function create several products
 {
@@ -100,7 +100,7 @@ function usersSeeder(){
     Users.bulkCreate([
         {
             name: 'Martin',
-            lastName: 'Borchardt',
+            lastname: 'Borchardt',
             email: 'soyhenry@gmail.com',
             password: '024681012',
             userType: 'admin',
@@ -109,7 +109,7 @@ function usersSeeder(){
         },
         {
             name: 'Lianel',
-            lastName: 'Artiles',
+            lastname: 'Artiles',
             email: 'larts@gmail.es',
             password: '132456789',
             usertype: 'admin',
@@ -118,7 +118,7 @@ function usersSeeder(){
         },
         {
             name: 'Franco',
-            lastName: 'Etcheverri',
+            lastname: 'Etcheverri',
             email: 'franco@gmail.com',
             password: '135791113',
             userType: 'admin',
@@ -127,7 +127,7 @@ function usersSeeder(){
         },
         {
             name: 'Agustin',
-            lastName: 'Amani',
+            lastname: 'Amani',
             email: 'agusamani@gmail.com',
             password: 'abcdfghi',
             userType: 'admin',
