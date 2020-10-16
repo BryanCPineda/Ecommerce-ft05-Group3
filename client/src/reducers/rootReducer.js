@@ -7,18 +7,19 @@ import categoriesReducer from './categories'
 import ordersReducer from './orders'
 import userReducer from './usersReducer';
 import cartReducer from './cartReducer';
+import errorReducer from './errorReducer';
+
 
 export default combineReducers({
     auth: authReducer,
     catalogo: CatalogoReducer,
-
     crudCategories: crudCategories,
-
     productReducer: productReducer,
     categoriesReducer: categoriesReducer,
-
+    userReducer: userReducer,
+    error: errorReducer,
     ordersReducer: ordersReducer,
     userReducer: userReducer,
-
     cartReducer: cartReducer
+
 });

@@ -17,7 +17,7 @@ const AddUserForm = ({ addCategory, handleCloseAdd }) => {
     let nameError = "";
     let descriptionError = "";
 
-    if(category.name.length < 3 || category.name > 30) {
+    if(category.name.length < 3 || category.name.length > 30) {
       nameError = "Name must have at least 3 characters and max 30"
     }
     if(category.description.length < 10 || category.description.length > 80) {

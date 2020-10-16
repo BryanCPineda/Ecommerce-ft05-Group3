@@ -10,7 +10,7 @@ import {
 } from "../constants/catalogoConstants";
 
 const initialState = {
-  loading: false,
+  loading: true,
   allProducts: [],
   allCategories: [],
 };
