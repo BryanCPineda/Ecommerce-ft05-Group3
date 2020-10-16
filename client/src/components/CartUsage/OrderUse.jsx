@@ -7,14 +7,13 @@ import { FiTrash2 } from 'react-icons/fi'
 import { connect } from 'react-redux'
 import { getProduct } from "../../actions/product"
 
-function OrderUse({orderline, product, getProduct}) {
+function OrderUse({orderline, product}) {
 
     console.log('orderline',orderline)
     console.log(product)
     const [prod, setProd] = useState([])
 
     useEffect(() => {
-        getProduct(orderline.productId)
         console.log(product.name)
     }, [])
     
@@ -97,7 +96,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-            getProduct: (id) => dispatch(getProduct(id)),
+            // getProduct: (id) => dispatch(getProduct(id)),
             // createProduct: (prod) => dispatch(createProduct(prod)),
     }
 }

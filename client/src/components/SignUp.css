@@ -1,0 +1,7 @@
+.form-box{
+ display: flexbox;
+ justify-content: center;
+ align-items: center;
+ margin-bottom: 100px;
+ 
+}

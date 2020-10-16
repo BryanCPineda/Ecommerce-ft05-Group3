@@ -67,7 +67,9 @@ function AdminProducts({products, getProducts, createProduct}) {
       }, [products]);
 
   return (
-    <Container fluid className="table-categories">
+    <Row className="table-categories mt-5">
+      <Col xs={0} sm={2}></Col>
+      <Col>
       <Create
         show={state.creating}
         createProduct={handleCreate}
@@ -99,7 +101,9 @@ function AdminProducts({products, getProducts, createProduct}) {
           {state.products.length > 0 && <List products={state.products} />}
         </Col>
       </Row>
-    </Container>
+      </Col>
+      <Col xs={0} sm={2}></Col>
+    </Row>
   );
 }
 
