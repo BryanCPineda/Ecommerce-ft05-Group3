@@ -2,7 +2,8 @@ const initialState = {
     products: {
         count: 0,
         rows: []
-    }
+    },
+    product: []
 }
 
 export default function productReducer(state = initialState, action) {

@@ -97,7 +97,6 @@ function AdminProducts({products, getProducts, createProduct}) {
       <Row>
         <Col>
           {state.products.length > 0 && <List products={state.products} />}
-          {console.log('state.products', state.products)}
         </Col>
       </Row>
     </Container>

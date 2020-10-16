@@ -18,6 +18,7 @@ import Cart from "./components/Cart/Cart";
 
 import store from "./store";
 import { Provider } from "react-redux";
+import CartUse from "./components/CartUsage/CartUse";
 
 function App() {
   return (
@@ -32,8 +33,10 @@ function App() {
           {/* <Route exact path="/admin/producto" component={CrudShow} /> */}
           <Route exact path="/admin/product" component={AdminProducts} />
           <Route exact path="/user/product/:id" component={PrductsMati} />
+          <Route path="/user/cartUser" component={CartUse} />
           <Route path="/user" component={Footer} />
           <Route path="/user/cart" component={Cart} />
+       
         </Router>
 
       </Provider>
