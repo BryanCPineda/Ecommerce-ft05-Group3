@@ -11,7 +11,12 @@ server.get('/', (req, res, next) => {
     ]
   })
   .then((orders) => {
-    res.status(200).json(orders);
+    const ordenes=orders[0]
+    if(ordenes){
+      res.status(200).json(ordenes);
+    }
+    res.send({data:'Order not found!'}).status(404)
+    
   }).catch((err)=>{
     return res.send({data: err}).status(400)
   })
@@ -57,7 +62,6 @@ server.get("/:id", (req,res)=>{
   });
 })
 
-
 server.delete('/:id', (req, res)=>{
     const {id} = req.params;
     Order.findOne({
@@ -69,8 +73,6 @@ server.delete('/:id', (req, res)=>{
           res.send("Order Deleted")
     }).catch(err => res.send({data: err}).status(400));
 })
-
-
 
 
 
