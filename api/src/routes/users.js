@@ -8,6 +8,7 @@ const {
   Orderline,
 } = require("../db.js");
 const { Sequelize } = require("sequelize");
+const { check, validationResult, body } = require("express-validator");
 
 // Giving all users and counting them
 server.get("/", (req, res, next) => {
@@ -47,6 +48,50 @@ server.post("/", (req, res) => {
     });
 });
 // Edit a User
+
+
+server.post(
+  "/",
+  [
+    check("name")
+      .isLength({ min: 2, max: 30 })
+      .withMessage("Name must have at least 2 characters"),
+    check("lastName", "Lastname is empty")
+      .isLength({ min: 2, max: 50 })
+      .withMessage("Lastname must have at least 2 characters"),
+    check("email")
+      .isEmail()
+      .withMessage("Invalid Email"),
+    check("password")
+      .isLength({ min: 8, max: 50 })
+      .withMessage("Password must have at least 8 characters"),
+  ],
+  async (req, res) => {
+    try {
+      const {name, lastName, email, password } = req.body;
+
+    const errors = validationResult(req);
+    
+    if (!errors.isEmpty()) {
+      return res
+        .status(400)
+        .json({ errors: errors.array().map((ele) => ele.msg) });
+    }
+
+    const user = await Users.findOne({ where: { email: email}})
+
+    if(user) {
+      return res.status(400).json({ errors: ["User already exists!"] });
+    }
+    
+    const userCreate = await Users.create({ name, lastName, email, password })
+
+    res.status(200).send(userCreate)
+    } catch (error) {
+      console.log(error)
+    }
+  })
+  
 server.put("/:id", (req, res) => {
   const { id } = req.params;
   const {
@@ -77,7 +122,7 @@ server.put("/:id", (req, res) => {
       return res.status(400).send("User not found!");
     })
     .catch((err) => {
-      return res.send({ data: err }).status(400);
+       return res.send({ data: err }).status(400);
     });
 });
 
