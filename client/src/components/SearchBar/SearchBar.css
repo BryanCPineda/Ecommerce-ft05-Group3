@@ -2,7 +2,7 @@
     border: none;
     height: 2.5rem;
     width: 5rem;
-    background-color: #8a2be2;
+    background-color: transparent;
     color: white;
     border-radius: 5px;
 }
@@ -15,6 +15,12 @@
     height: 15px;
     color: white;
     background-color: transparent;   
+}
+
+.claseform {
+    display: inline-flex;
+    justify-content: space-around;
+    align-items: center;
 }
 
 .navigation {
@@ -41,6 +47,6 @@
 .image-brand {
     margin-bottom: 1rem;
     margin-left: 2rem;
-    height: 10rem;
+    height: 7rem;
 }
 

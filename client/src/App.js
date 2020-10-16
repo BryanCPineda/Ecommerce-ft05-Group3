@@ -20,13 +20,17 @@ import SignUp from "./components/SignUp";
 
 import store from "./store";
 import { Provider } from "react-redux";
+import  NavBarGeneral  from './components/NavbarGeneral';
+import NavBarBackground from "./components/NavBarBackground";
 
 function App() {
   return (
     <div>
       <Provider store={store}>
         <Router>
-          <Route path="/user" render={() => <SearchBar />} />
+          {/* <Route path="/user" render={() => <SearchBar />} /> */}
+          <Route path="/user" component={NavBarGeneral}/>
+          <Route path='/user' component={NavBarBackground}/>
           <Route path="/admin" component={NavbarAdmin} />
           <Route exact path="/" component={LandingPage} />
           <Route path="/user/catalogo" render={() => <Catalogo />} />
