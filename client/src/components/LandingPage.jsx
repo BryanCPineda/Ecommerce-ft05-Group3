@@ -12,11 +12,6 @@ function LandingPage() {
       ></img>
       <img className="card-image" src={"/images/imagen.png"} alt="logo"></img>
       <div className="content-container">
-        <div>
-          <p className="landing-sign-in">Sign in</p>
-          <p className="landing-sign-up">Sign up</p>
-        </div>
-
         <p className="title-cyber">Cyber Fitness</p>
         <p className="subtitle-shop">Online Shopping</p>
         <Link to="/user/catalogo">

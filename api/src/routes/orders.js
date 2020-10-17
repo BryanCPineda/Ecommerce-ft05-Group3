@@ -1,21 +1,19 @@
 const server = require("express").Router();
-const { Order } = require("../db.js");
+const { Order, Users } = require("../db.js");
 
 server.get('/', (req, res, next) => {
-const state = req.query.status;   
+ 
   Order.findAll({
-    where: {
-      state: state
-    }
+    include:[
+      {
+        model: Users
+      }
+    ]
   })
   .then((orders) => {
-    const ordenes=orders[0]
-    if(ordenes){
-      res.status(200).json(ordenes);
-    }
-    res.status(404).send('Order not found!')
-    
-  }).catch((err)=>{
+    res.send(orders).status(200);
+    }  
+    ).catch((err)=>{
     return res.send({data: err}).status(400)
   })
 })
@@ -59,5 +57,18 @@ server.get("/:id", (req,res)=>{
     return res.send({data: err}).status(400);
   });
 })
+
+server.delete('/:id', (req, res)=>{
+    const {id} = req.params;
+    Order.findOne({
+      where: {
+        id: id
+      }
+    }).then((order)=>{
+          order.destroy();
+          res.send("Order Deleted")
+    }).catch(err => res.send({data: err}).status(400));
+})
+
 
 module.exports = server;

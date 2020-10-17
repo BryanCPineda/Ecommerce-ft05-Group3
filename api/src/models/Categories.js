@@ -17,10 +17,10 @@ module.exports = (sequelize) => {
           msg: "Name is mandatory",
         },
         len: {
-          args: [3, 30],
-          msg: "Name must have between 3 y 30 characters",
-        },
-      },
+      //    args: [3, 30],
+          msg: 'El nombre debe tener entre 3 y 30 caracteres'
+        }
+      }
     },
     description: {
       type: DataTypes.TEXT,
@@ -30,10 +30,10 @@ module.exports = (sequelize) => {
           msg: "Description is mandatory",
         },
         len: {
-          args: [10, 80],
-          msg: "Description must have between 10 y 80 characters",
-        },
-      },
-    },
+       //   args: [10, 80],
+          msg: 'La descripcion debe tener entre 10 y 80 caracteres'
+        }
+      }
+    }
   });
 };

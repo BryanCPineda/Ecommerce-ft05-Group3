@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { Form } from "react-bootstrap";
+import { Form, Button } from "react-bootstrap";
 import { Link } from 'react-router-dom';
 import "./SearchBar.css";
 import { connect } from 'react-redux';
+import Register from '../Users/userRegister';
 
 /*-------------redux-------------*/
 import { getProductsFromSearch } from '../../actions/catalogoActions';
@@ -33,7 +34,7 @@ function SearchBar(props) {
       </div>
       </Link>
       <div className="mt-4">
-        <Form  inline>
+        <Form className="d-flex">
           <input
             className="search mr-2 mt-3"
             name="search"
@@ -42,7 +43,7 @@ function SearchBar(props) {
             onChange={handleChange}
           ></input>
           <button
-            className="button mt-3"
+            className="button-search-bar mt-3"
             type="submit"
             variant="outline-primary"
             onClick={handleOnSubmit}
@@ -51,10 +52,22 @@ function SearchBar(props) {
           </button>
         </Form>
       </div>
-      <div className="mt-4 sign">
-        <button className="button mr-3">Sign in</button>
-        <button className="button mr-5 mt-3 sign-up">Sign up</button>
+      {props.user ?
+      <div className="mt-5 login-message">{`Welcome ${props.user.name} !`}</div>
+      :
+      <div className="sign mt-5 d-flex">
+      <button className="mr-2 button-search-bar">Sign In</button>
+      <div className="sign-up-button"><Register /></div>
       </div>
+      }
+      {/* <div>
+      <Link to ="/admin">
+        <button className="button mr-3">Admin</button>
+        </Link>
+        <Link to="/">
+        <button className="button mr-5 mt-3 sign-up">Sign out</button>
+        </Link>   
+      </div> */}
     </div>
   );
 };
@@ -62,6 +75,7 @@ function SearchBar(props) {
 const mapStateToProps = (state) => {
   return {
     productsFromSearch: state.catalogo.productsFromSearch,
+    user: state.userReducer.user
   }
 }
 
