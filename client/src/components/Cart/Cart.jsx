@@ -12,12 +12,16 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./Cart.css";
 import { FiTrash2 } from "react-icons/fi";
 import Order from "./Order.jsx";
-import Axios from "axios";
+import { connect } from "react-redux";
+import { empyShoppingCart } from "../../actions/cartActions";
 
 const Cart = (props) => {
-  const [imagen, setImagen] = useState([]);
-  const [idProd, setIdProd] = useState("");
+  const idUser = 1;
+  console.log("estado inicia---->", props.initialFormState);
 
+  useEffect(() => {
+    props.empyShoppingCart(idUser);
+  }, []);
   return (
     <div>
       <Row className="table-cart">
@@ -49,4 +53,16 @@ const Cart = (props) => {
   );
 };
 
-export default Cart;
+const mapStateToProps = (state) => {
+  return {
+    initialFormState: state.OrderReducer.allOrderLines,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    empyShoppingCart: (idUser) => dispatch(empyShoppingCart(idUser)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Cart);
