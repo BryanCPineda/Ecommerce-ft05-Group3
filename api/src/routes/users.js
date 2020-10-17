@@ -189,20 +189,55 @@ server.put("/:userId/cart", async (req, res) => {
   }
 });
 // Getting all Orderlines in the Cart
-server.get("/:idUser/cart", async (req, res) => {
-  try {
-    const { idUser } = req.params;
-    const orderUser = await Order.findOne({
-      where: { userId: idUser, state: "Cart" },
-    });
-    const orderLines = await Orderline.findAll({
-      where: { orderId: orderUser.dataValues.id },
-    });
-    return res.status(200).send(orderLines);
-  } catch (error) {
-    return res.status(400).send({ data: error });
-  }
-});
+//server.get("/:idUser/cart", async (req, res) => {
+//  try {
+//    const { idUser } = req.params;
+//    const orderUser = await Order.findOne({
+//      where: { userId: idUser, state: "Cart" },
+//    });
+//    const orderLines = await Orderline.findAll({
+//      where: { 
+//        orderId: orderUser.dataValues.id,
+//      },
+      
+//    });
+//    return res.status(200).send(orderLines);
+//  } catch (error) {
+//    return res.send({ data: error }).status(400);
+//  }
+//});
+
+// Getting all Orderlines in the Cart Plus Products
+server.get('/:idUser/cart', (req, res)=>{
+    const {idUser} = req.params;
+    Order.findOne({
+      where:{
+        userId: idUser, state: "Cart"
+      },
+      include: [{
+        model: Product,
+        
+        include: [{
+          model: Image
+        }]
+      }]
+    }).then((order)=>{
+          Orderline.findAll({
+            where:{
+              orderId: order.id
+            }
+          }).then((orderlines)=>{
+                const orderLinePlusProduct = {
+                      product: order.products,
+                      orderlines: orderlines 
+                }
+                res.send(orderLinePlusProduct);
+          })
+    }).catch((err)=>{
+        res.send({ data: err}).status(400);
+    })
+})
+
 // Add Orderlines to the Cart
 server.post("/:idUser/cart", async (req, res) => {
   try {
