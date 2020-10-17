@@ -14,11 +14,16 @@ import {
   setProductsLoading,
 } from "../actions/catalogoActions";
 
+import {getProductsFromCart} from '../actions/cartActions';
+
 function Catalogo({
   getAllProducts,
   setProductsLoading,
   products,
-  loading
+  loading,
+  reload,
+  getProductsFromCart,
+  cartProducts
 }) {
 
   /*------------------Pagination---------------------*/
@@ -26,16 +31,38 @@ function Catalogo({
   // const [currentPage, setCurrentPage] = useState(1);
   // const [productsPerPage] = useState(9);
 
-  useEffect(() => {
-    getAllProducts();
-  }, []);
+  const [state, setState] = useState({
+        reload: reload,
+        cartProducts: []
+    })
+
+  useEffect(  () =>{
+    
+    getProductsFromCart().then(()=>{
+             getAllProducts();
+   })
+  },[])
+  
+  useEffect(() => {   
+    
+    setTimeout(() => {
+      getAllProducts();
+    }, 500);
+  
+    setState({
+      reload: !reload
+    })
+    
+  }, [reload, state.reload, cartProducts ]);
 
   // const indexOfLastProduct = currentPage * productsPerPage;
   // const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   // const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
 
-  // const paginate = (pageNumber) => setCurrentPage(pageNumber);
-
+  // const paginate = (pageNumber) => setCurrentPage(pageNumber); 
+  
+//    
+//  
   return (
     <Row md={12} className="catalogo">
       <Col xs={0} xl={1}></Col>
@@ -51,8 +78,10 @@ function Catalogo({
             >
               <span className="sr-only">Loading...</span>
             </div>
-          ) : products.length > 0 ? (
-            products.map((ele, index) => (
+          ) :   products.length > 0 ? (
+
+                  products.map((ele, index) => (
+                       
               <div key={index} className="column-productcard">
                 <ProductCard
                   id={ele.id}
@@ -61,8 +90,9 @@ function Catalogo({
                   price={ele.price}
                   stock={ele.stock}
                   images={ele.images[0]}
-                />
+                /> 
               </div>
+
             ))
           ) : (
             <div>
@@ -83,6 +113,8 @@ const mapStateToProps = (state) => {
   return {
     loading: state.catalogo.loading,
     products: state.catalogo.allProducts,
+    reload: state.productReducer.reload,
+    cartProducts: state.cartReducer.products
   }
 }
 
@@ -90,6 +122,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     setProductsLoading: () => dispatch(setProductsLoading()),
     getAllProducts: () => dispatch(getAllProducts()),
+    getProductsFromCart: () => dispatch(getProductsFromCart()),
   }
 }
 

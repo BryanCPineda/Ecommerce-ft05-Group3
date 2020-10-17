@@ -1,6 +1,4 @@
 const { Product, Categories, Image, Users, Order, Orderline } = require("./db.js"); // requiring models from Database
-
-
 function productsSeeder()   //This function create several products
 {
     Product.bulkCreate([ 

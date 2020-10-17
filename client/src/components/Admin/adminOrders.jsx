@@ -15,78 +15,66 @@ import {
 
 function Orders({allOrders, getAllOrders, createOrder, updateOrder, deleteOrder }){
 
-    var orderId; 
-    var state = {
-        status: "",
-        orderId: ""
-    }
-
     const DATE_FORMAT = "DD/MM/YYYY - HH:mm:ss"
        
+    const [state, setState] = useState({
+           reload: false,
+    })
+
     useEffect(() =>{
                      getAllOrders();
-    }, []);
+    }, [state.reload]);
 
-    const handleSelect = (e) => {
-          state.status = e.target.value
-          swalMsg("update")
-        console.log(state)
-    }
-
-    const handleUpdate = (id) => {        
-        state.orderId = id
-        console.log(state)
+    const handleUpdate = (e,id) => {        
+         const stateSend = {
+               status: e.target.value,
+               orderId: id
+        }
+        swal({
+            title: "Are you sure?",
+            text: "Once Changed, This Could Be Affect The Client Experience",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((willDelete) =>  {
+            
+                    if(willDelete){
+                        updateOrder(stateSend)
+                        swal("Your Order has been changed!", {
+                                    icon: "success",
+                    }).then(() => {
+                        setState({
+                            reload: !state.reload
+                        })
+                    })
+            }
+        })
     }
     
 
      const handleDelete =  (id) => {
-                orderId = id;
-               swalMsg("delete") 
-    }
-
-
-    const swalMsg = (msg) => {
-       
-        if(msg === 'delete'){
-            swal({
-                title: "Are you sure?",
-                text: "Once Deleted, you will not be able to recover this Order",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            }).then( (willDelete) =>  {
-                
-                        if(willDelete){
-                            deleteOrder(orderId);
-                            swal("Your Order has been deleted!", {
-                                        icon: "success",
-                        }).then(() => {
-                            
-                            document.location.reload();
+        swal({
+            title: "Are you sure?",
+            text: "Once Deleted, you will not be able to recover this Order",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then( (willDelete) =>  {
+            
+                    if(willDelete){
+                        deleteOrder(id);
+                        swal("Your Order has been deleted!", {
+                                    icon: "success",
+                    }).then(() => {
+                        setState({
+                            reload:!state.reload
                         })
-                }
-            }) 
-        }else if(msg === 'update'){
-            swal({
-                title: "Are you sure?",
-                text: "Once Changed, This Could Be Affect The Client Experience",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            }).then((willDelete) =>  {
-                
-                        if(willDelete){
-                            updateOrder(state)
-                            swal("Your Order has been changed!", {
-                                        icon: "success",
-                        }).then(() => {
-                            document.location.reload();
-                        })
-                }
-            })
-        }
-    }
+                        
+                    })
+            }
+        }) 
 
+    }
     return (
             <Container fluid>
                         <Row>
@@ -126,7 +114,8 @@ function Orders({allOrders, getAllOrders, createOrder, updateOrder, deleteOrder 
                                                         <td>{(order.totalPrice)} </td>
                                                         <td> {order.state}</td>
                                                         <td>  
-                                                        <Form.Control as="select" name="status" onChange={handleSelect} onClick={()=> {handleUpdate(order.id)}}>
+                                                        <Form.Control as="select" name="status" onChange={(e) => {handleUpdate(e,order.id)}}>
+                                                                                                                    {/*{onClick={()=> {handleUpdate(order.id)} */}
                                                             <option value="null">Select a New Status</option>
                                                             <option value="Cart">Cart</option>
                                                             <option value="Created">Created</option>
@@ -147,7 +136,7 @@ function Orders({allOrders, getAllOrders, createOrder, updateOrder, deleteOrder 
                                             }
                                        </tbody>
                                     </table>
-                                    {allOrders && allOrders.length < 1 && (<div className="alert alert-info">No hay órdenes creadas.</div>)}
+                                    {allOrders && allOrders.length < 1 && (<div className="alert alert-info">No orders to Show.</div>)}
                                 </div>
                             </Col>
                         </Row>
