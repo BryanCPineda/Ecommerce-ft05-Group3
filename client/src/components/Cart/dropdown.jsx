@@ -4,11 +4,11 @@ import Dropdown from "react-bootstrap/Dropdown";
 import "./dropD.css";
 
 class DropD extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
-      dropDownValue: "Cantidad",
+      dropDownValue: this.props.quantity,
     };
   }
 

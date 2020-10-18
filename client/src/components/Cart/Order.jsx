@@ -7,20 +7,20 @@ import {
   Button,
   Card,
   Modal,
+  Image
 } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Axios from "axios";
 import DropD from "./dropdown.jsx";
 import ProductCard from '../ProductCard'
 import { connect } from 'react-redux';
-import { getAllUserOrders } from "../../actions/OrderActions";
+import { getAllUserOrders } from "../../actions/cartActions";
 
 
 const Order = (props) => {
   const idUser=1
   
-  console.log('estado inicia---->', props.initialFormState)
-
+  console.log('las orderlinesstate',props.allOrderLines)
   useEffect(() => {
     props.getAllUserOrders(idUser);
   }, []);
@@ -38,26 +38,26 @@ const Order = (props) => {
           variant="light"
           className="table-container"
         >
-          
-            {props.initialFormState.map((ele, index) => (
-              <thead>    
-              <tr>
-              <th>{ele.id}</th>
-            
-                    
-                    
+             {props.allOrderState ? props.allOrderState.map((ele, index) => (
+                  <thead>    
+                  <tr>
+                    <th><Image src={ele.images[0]} alt='File Image of the Product'/></th>
+                  <th>{ele.name}</th>
+    
+                <th>Price: ${ele.orderline.price}</th>
+                  <th>
+                    <DropD quantity={ele.orderline.quantity}/>
+                  </th>
+                  <Button size="sm" className="cart-button">
+                    Eliminar
+                  </Button>
+                </tr>
+              </thead>
+              )) : <div>Default Markup</div>}
+                
               
-            <th>Quantity: {ele.quantity}</th>
-            <th>Price: ${ele.price}</th>
-              <th>
-                <DropD />
-              </th>
-              <Button size="sm" className="cart-button">
-                Eliminar
-              </Button>
-            </tr>
-          </thead>
-          ))}
+              
+          
         </Table>
       </Col>
     </Row>
@@ -67,7 +67,8 @@ const Order = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    initialFormState: state.OrderReducer.allOrderLines,
+    allOrderState: state.cartReducer.allOrderLines,
+  
   }
 }
 

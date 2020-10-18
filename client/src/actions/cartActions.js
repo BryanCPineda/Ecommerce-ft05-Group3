@@ -3,6 +3,7 @@ import axios from "axios";
 import {
   ADD_PRODUCT_TO_CART,
   EMPY_SHOPPING_CART,
+  GET_ALL_USER_ORDERS
 } from "../constants/cartConstants";
 
 export const addProductToCart = (body) => (dispatch) => {
@@ -14,5 +15,11 @@ export const addProductToCart = (body) => (dispatch) => {
 export const empyShoppingCart = (idUser) => (dispatch) => {
   axios.delete(`http://localhost:4000/users/${idUser}/cart`).then((res) => {
     dispatch({ type: EMPY_SHOPPING_CART, payload: idUser });
+  });
+};
+
+export const getAllUserOrders = (idUser) => (dispatch) => {
+  axios.get(`http://localhost:4000/users/${idUser}/cart`).then((res) => {
+    dispatch({ type: GET_ALL_USER_ORDERS, payload: res.data });
   });
 };

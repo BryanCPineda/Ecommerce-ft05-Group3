@@ -17,11 +17,16 @@ import { empyShoppingCart } from "../../actions/cartActions";
 
 const Cart = (props) => {
   const idUser = 1;
-  console.log("estado inicia---->", props.initialFormState);
 
-  useEffect(() => {
-    props.empyShoppingCart(idUser);
-  }, []);
+
+   const onClickHandler=(idUser)=> {
+     console.log('el click handler')
+    props.empyShoppingCart(idUser)
+ }
+
+ 
+
+ 
   return (
     <div>
       <Row className="table-cart">
@@ -29,7 +34,7 @@ const Cart = (props) => {
         <Col>
           <div className="d-flex justify-content-between mb-4 mt-4">
             <h2 style={{ color: "white" }}>ShoppingCart</h2>
-            <Button
+            <Button onClick={()=> onClickHandler(idUser)}
               style={{ backgroundColor: "#8a2be2" }}
               className="button-bootstrap mr-2"
               variant="primary"
@@ -55,7 +60,7 @@ const Cart = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    initialFormState: state.OrderReducer.allOrderLines,
+    initialCartState: state.cartReducer.cart,
   };
 };
 
