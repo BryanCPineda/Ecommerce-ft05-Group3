@@ -52,14 +52,14 @@ function SearchBar(props) {
           </button>
         </Form>
       </div>
-      {props.user ?
+      {/* {props.user ?
       <div className="mt-5 login-message">{`Welcome ${props.user.name} !`}</div>
       :
       <div className="sign mt-5 d-flex">
       <button className="mr-2 button-search-bar">Sign In</button>
       <div className="sign-up-button"><Register /></div>
       </div>
-      }
+      } */}
       {/* <div>
       <Link to ="/admin">
         <button className="button mr-3">Admin</button>
@@ -68,6 +68,11 @@ function SearchBar(props) {
         <button className="button mr-5 mt-3 sign-up">Sign out</button>
         </Link>   
       </div> */}
+
+      <div className="sign mt-5 d-flex">
+      <button className="mr-2 button-search-bar">Sign In</button>
+      <div className="sign-up-button"><Register /></div>
+      </div>
     </div>
   );
 };

@@ -28,7 +28,7 @@ class UserRegister extends React.Component {
       loading: false, //despues que das click en el boto ncrear cuenta se cambia a loading
       modal: false,
       name: "",
-      lastName: "",
+      lastname: "",
       email: "",
       password: "",
     };
@@ -83,8 +83,8 @@ class UserRegister extends React.Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    const { name, lastName, email, password } = this.state;
-    const newUser = { name, lastName, email, password };
+    const { name, lastname, email, password } = this.state;
+    const newUser = { name, lastname, email, password };
     this.props.createUser(newUser);
   };
 
@@ -123,11 +123,11 @@ class UserRegister extends React.Component {
               </Form.Group>
 
               <Form.Group>
-                <Form.Label>LastName </Form.Label>
+                <Form.Label>Lastname </Form.Label>
                 <Form.Control
                   // ref={register()}
                   autoComplete="off"
-                  name="lastName"
+                  name="lastname"
                   onChange={this.onChange}
                 ></Form.Control>
               </Form.Group>
@@ -195,7 +195,7 @@ class UserRegister extends React.Component {
                   disabled={this.state.loading}
                   type="submit"
                   onClick={this.onSubmit}
-                  className="button mt-1"
+                  className="button-register mt-1"
                   style={{ width: "9rem" }}
                 >
                   {this.state.loading ? "Loading..." : "Create Account"}

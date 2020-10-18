@@ -7,6 +7,7 @@ import './FormCategories.css'
 import { FiTrash2 } from 'react-icons/fi';
 import { FiEdit3 } from 'react-icons/fi';
 import { connect } from 'react-redux';
+import Pagination from '../Pagination';
 
 //-------------------Redux-----------------//
 import {
@@ -38,6 +39,9 @@ function FormCategories({
   const handleCloseUpdate = () => setUpdateShow(false);
   const handleShowUpdate = () => setUpdateShow(true);
   //----------------Modal------------------//
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [elementsPerPage] = useState(5);
 
   useEffect(() => getAllCategories(), []);
 
@@ -78,6 +82,12 @@ function FormCategories({
       categories.map((element) => (element.id === id ? newCategory : element))
     );
   };
+
+  const indexOfLastProduct = currentPage * elementsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - elementsPerPage;
+  const currentProducts = allCategories.slice(indexOfFirstProduct, indexOfLastProduct);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber); 
 
   return (
     <Row className="table-categories mt-4">
@@ -122,8 +132,8 @@ function FormCategories({
               </tr>
             </thead>
             <tbody>
-              {allCategories.length > 0 ? (
-                allCategories.map((element) => (
+              {currentProducts.length > 0 ? (
+                currentProducts.map((element) => (
                   <tr key={element.id}>
                     <td>{element.id}</td>
                     <td>{element.name}</td>
@@ -174,6 +184,9 @@ function FormCategories({
               )}
             </tbody>
           </Table>
+        </div>
+        <div className="d-flex justify-content-center mt-5">
+          <Pagination elementsPerPage={elementsPerPage} totalElements={allCategories.length} paginate={paginate}/>
         </div>
       </Col>
       <Col xs={0} sm={2}></Col>

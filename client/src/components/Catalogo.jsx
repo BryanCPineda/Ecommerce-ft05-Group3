@@ -28,8 +28,8 @@ function Catalogo({
 
   /*------------------Pagination---------------------*/
 
-  // const [currentPage, setCurrentPage] = useState(1);
-  // const [productsPerPage] = useState(9);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [elementsPerPage] = useState(9);
 
   const [state, setState] = useState({
         reload: reload,
@@ -55,14 +55,14 @@ function Catalogo({
     
   }, [reload, state.reload, cartProducts ]);
 
-  // const indexOfLastProduct = currentPage * productsPerPage;
-  // const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  // const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
+  const indexOfLastProduct = currentPage * elementsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - elementsPerPage;
+  const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
 
-  // const paginate = (pageNumber) => setCurrentPage(pageNumber); 
+  const paginate = (pageNumber) => setCurrentPage(pageNumber); 
   
-//    
-//  
+    
+  
   return (
     <Row md={12} className="catalogo">
       <Col xs={0} xl={1}></Col>
@@ -78,9 +78,9 @@ function Catalogo({
             >
               <span className="sr-only">Loading...</span>
             </div>
-          ) :   products.length > 0 ? (
+          ) :   currentProducts.length > 0 ? (
 
-                  products.map((ele, index) => (
+            currentProducts.map((ele, index) => (
                        
               <div key={index} className="column-productcard">
                 <ProductCard
@@ -101,7 +101,7 @@ function Catalogo({
           )}
         </Row>
         <div className="d-flex justify-content-center mt-5">
-          {/* <Pagination productsPerPage={productsPerPage} totalProducts={products.length} paginate={paginate}/> */}
+          <Pagination elementsPerPage={elementsPerPage} totalElements={products.length} paginate={paginate}/>
         </div>
       </Col>
       <Col xs={0} xl={1}></Col>

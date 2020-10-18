@@ -70,3 +70,17 @@
 .products-image-div-second {
     box-shadow: 2px 5px 15px 8px #d3d3d3;
 }
+
+.addtocart-productsMati {
+    height: 55px;
+    width: 400px;
+    background-color: #8a2be2;
+    margin-left: 2rem;
+    margin-top: 1rem;
+    border-radius: 8px;
+    border: 1px solid #8a2be2;
+    color: white;
+    margin-bottom: 2rem;
+    border: none;
+    font-size: 20px;
+}
