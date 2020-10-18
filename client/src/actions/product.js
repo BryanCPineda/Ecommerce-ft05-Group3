@@ -10,6 +10,7 @@ const DELETE_IMAGE_PRODUCT = 'DELETE_IMAGE_PRODUCT'
 const ADD_CATEGORY_TO_PRODUCT = "ADD_CATEGORY_TO_PRODUCT";
 const DELETE_CATEGORY_TO_PRODUCT = 'DELETE_CATEGORY_TO_PRODUCT';
 const ADD_IMAGE = 'ADD_IMAGE'
+const GET_PRODUCT = 'GET_PRODUCT';
 
 
 // trae los prooductos de la base de datos y los ordena por id--------------------------

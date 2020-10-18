@@ -20,6 +20,7 @@ import SignUp from "./components/SignUp";
 
 import store from "./store";
 import { Provider } from "react-redux";
+import CartUse from "./components/CartUsage/CartUse";
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
         <Route exact path="/admin/product" component={AdminProducts} />
         <Route exact path="/admin/orders"  component={AdminOrders} />
         <Route exact path="/user/product/:id" component={PrductsMati} />
+        <Route exact path={'/user/carrito'} component={CartUse}/>
 
         <Route path="/user/cart" component={Cart} />
         <Route path="/SignIn" component={Login} />

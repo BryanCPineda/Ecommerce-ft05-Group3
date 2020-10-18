@@ -105,6 +105,7 @@ function AdminProducts({ products, getProducts, createProduct }) {
         {/* <div className="d-flex justify-content-center mt-5">
           <Pagination elementsPerPage={elementsPerPage} totalElements={state.products.length} paginate={paginate}/>
         </div> */}
+
       </Col>
       <Col xs={0} sm={2}></Col>
     </Row>
