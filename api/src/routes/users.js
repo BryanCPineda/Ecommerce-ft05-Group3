@@ -21,32 +21,32 @@ server.get("/", (req, res, next) => {
     });
 });
 // Add a User
-server.post("/", (req, res) => {
-  const { name, lastname, email, password, userType, image, adress } = req.body;
+// server.post("/", (req, res) => {
+//   const { name, lastname, email, password, userType, image, adress } = req.body;
 
-  Users.findOne({
-    where: {
-      email: email,
-    },
-  })
-    .then((user) => {
-      if (!user) {
-        return Users.create({
-          name: name,
-          lastname: lastname,
-          email: email,
-          password: password,
-          userType: userType,
-          adress: adress,
-          image: image,
-        }).then(user => res.send(user))
-      }
-      else     return res.send('This user already exists, choose a different one!').status(100);
-    })
-      .catch((err) => {
-       res.send({ data: err }).status(400); // Show proper error in DevTool to the FrontEnd guys.
-    });
-});
+//   Users.findOne({
+//     where: {
+//       email: email,
+//     },
+//   })
+//     .then((user) => {
+//       if (!user) {
+//         return Users.create({
+//           name: name,
+//           lastname: lastname,
+//           email: email,
+//           password: password,
+//           userType: userType,
+//           adress: adress,
+//           image: image,
+//         }).then(user => res.send(user))
+//       }
+//       else     return res.send('This user already exists, choose a different one!').status(100);
+//     })
+//       .catch((err) => {
+//        res.send({ data: err }).status(400); // Show proper error in DevTool to the FrontEnd guys.
+//     });
+// });
 // Edit a User
 
 
@@ -56,7 +56,7 @@ server.post(
     check("name")
       .isLength({ min: 2, max: 30 })
       .withMessage("Name must have at least 2 characters"),
-    check("lastName", "Lastname is empty")
+    check("lastname", "Lastname is empty")
       .isLength({ min: 2, max: 50 })
       .withMessage("Lastname must have at least 2 characters"),
     check("email")
@@ -68,7 +68,7 @@ server.post(
   ],
   async (req, res) => {
     try {
-      const {name, lastName, email, password } = req.body;
+      const {name, lastname, email, password } = req.body;
 
     const errors = validationResult(req);
     
@@ -84,7 +84,7 @@ server.post(
       return res.status(400).json({ errors: ["User already exists!"] });
     }
     
-    const userCreate = await Users.create({ name, lastName, email, password })
+    const userCreate = await Users.create({ name, lastname, email, password })
 
     res.status(200).send(userCreate)
     } catch (error) {
