@@ -12,6 +12,18 @@ export default function orderReducer(state = initialState, action) {
                 order: action.payload
        
             }
+        case 'CART_CHANGE':
+            return {
+                ...state,
+            }
+        case 'EMPTY_CART':
+            return {
+                ...state,
+            }
+        case 'DELETE_ITEM_CART':
+            return {
+                ...state,
+            }
         default:
             return state;
     }
