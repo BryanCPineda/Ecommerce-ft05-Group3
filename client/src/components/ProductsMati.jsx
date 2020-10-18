@@ -95,7 +95,7 @@ useEffect(()=>{
             </div>
           </div>
           <div>
-            {product.name && <p className="products-title">{product.name}</p>}
+            {product.name && <p className="ml-5 products-title">{product.name}</p>}
             {product.description && (
               <p className="products-description">{product.description}</p>
             )}
@@ -106,7 +106,7 @@ useEffect(()=>{
                   <p key={index} className="mr-4 h6">{ele.name}</p>
                 ))}
             </div>
-            <div className="d-flex justify-content-start">
+            <div className="d-flex justify-content-center">
               {    
               !product.stock ? (product.price && (
                   <button disabled={true} className="RO-products-button">
@@ -116,7 +116,7 @@ useEffect(()=>{
                   </button>
                 )) :
                 ( product.price && state.showCard ? 
-              <button className="border-buttom"  onClick={()=> handleClick(product.id)}   >
+              <button className="addtocart-productsMati" onClick={()=> handleClick(product.id)}   >
                 Add to Cart&nbsp;<FiShoppingCart /> 
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${product.price}
               </button> 
@@ -128,21 +128,7 @@ useEffect(()=>{
             )
             }
             </div>
-            <div>
-                <Col className="col-3">
-                      {product.stock > 0 &&  (
-                          <Form.Control
-                              placeholder="Insert Quantity"
-                              onChange={(e) =>{ onChangeQuantity(e.target.value) }}
-                              min="1"
-                              max={product.stock}
-                              type="number"
-                              className="form-control-lg"
-                          />
-                      )}
-                  </Col>
-            </div>
-
+            <div className="d-flex">
             {
             !product.stock ? (
               <p className="products-stock">Sorry! There is no Stock available</p>
@@ -151,6 +137,24 @@ useEffect(()=>{
                 <p className="products-stock">Stock: {product.stock}</p>
               )
             }
+            <div className="d-flex ">
+                <Col className="col-3">
+                      {product.stock > 0 &&  (
+                          <Form.Control
+                              placeholder="Quantity"
+                              onChange={(e) =>{ onChangeQuantity(e.target.value) }}
+                              min="1"
+                              max={product.stock}
+                              type="number"
+                              style={{width: '8rem', fontSize: '17px', height: '3rem'}}
+                              className="form-control-lg"
+                          />
+                      )}
+                  </Col>
+            </div>
+
+            
+          </div>
           </div>
         </div>
       </Container>
