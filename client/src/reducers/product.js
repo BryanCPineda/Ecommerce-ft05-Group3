@@ -3,11 +3,17 @@ const initialState = {
         count: 0,
         rows: []
     },
-    product:{}
+    product:{},
+    reload: false
 }
 
 export default function productReducer(state = initialState, action) {
     switch (action.type) {
+        case 'RELOAD_PRODUCT_CARD':
+            return {
+                ...state,
+                reload: !state.reload
+            }
         case 'GET_PRODUCTS':  // trae todos los productos
             return {
                 ...state,

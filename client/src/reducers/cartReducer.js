@@ -1,5 +1,6 @@
 const initialState = {
-    cart:[]
+    cart:[],
+    products: []
 }
 
 export default function cartReducer(state = initialState, action) {
@@ -9,6 +10,11 @@ export default function cartReducer(state = initialState, action) {
             return {
                 ...state,
                 cart: action.payload
+            }
+        case "GET_PRODUCTS_FROM_CART":
+            return {
+                ...state,
+                products: action.payload
             }
         default:
             return state;

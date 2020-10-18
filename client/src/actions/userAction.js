@@ -16,7 +16,7 @@ export const getAllUsers = () => (dispatch) => {
 export const createUser = (user) => (dispatch) => {
   const userEnv = {
     name: user.name,
-    lastName: user.lastName,
+    lastname: user.lastname,
     email: user.email,
     password: user.password,
     //EL USERTYPE NO SE AGREGA SOLO UN ADMIN PUEDE HACER A OTRO USER ADMIN, ASI QUE NO SE ENVIA CUANDO SE CREA EL USUARIO POR DEFAULT ES CLIENT

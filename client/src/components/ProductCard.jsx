@@ -1,30 +1,43 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FiShoppingCart } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import "./ProductCard.css";
-import { BsFillDashCircleFill } from "react-icons/bs";
+import { BsFillDashCircleFill, BsCheck } from "react-icons/bs";
 import { connect } from 'react-redux';
 import {getProductById} from '../actions/product';
-import {
-  addProductToCart
-} from '../actions/cartActions';
+import { addProductToCart} from '../actions/cartActions';
+import {reloadProductCard} from '../actions/product';
+import {getProductsFromCart} from '../actions/cartActions';
 
-function ProductCard({ name, description, price, stock, images, id, addProductToCart, cartState, getProductById}) {
+function ProductCard({getProductsFromCart, name, description, price, stock, images, id, addProductToCart, cartState, getProductById, reloadProductCard, cartProducts}) {
 
   const body = {
     quantity: 1,
     productId:"" 
 }
+ 
+  const[showCard, setShowCard] = useState(true)
 
   const handleClick = (id) => {
     body.productId = id;
+    setShowCard(false);
     addProductToCart(body);
-  }
+    reloadProductCard();
+    getProductsFromCart();
+
+   }
 
   const handleClickLinkToProduct = (id) =>{
     getProductById(id)
   }
 
+  useEffect(()=>{
+     
+    if(cartProducts.length === 0) return; 
+    else {cartProducts.product && (cartProducts.product.find(product => product.id === id)) ? setShowCard(false) : setShowCard(true)}
+  } 
+    ,[]);
+     
 
   return (
     <div className="product-card card-container">
@@ -48,14 +61,22 @@ function ProductCard({ name, description, price, stock, images, id, addProductTo
         </div>
         <div className="d-flex align-self-center">
           {
-            !stock ? (<button disabled={true} className="RO-border-button">
+            !stock ? (
+              <button disabled={true} className="RO-border-button">
               Runned Out  &nbsp;&nbsp;
               <BsFillDashCircleFill />
-            </button>) :
+            </button>
+            ) : ( showCard ? 
               <button className="border-buttom"  onClick={()=> handleClick(id)}   >
                 Add to Cart&nbsp;
                 <FiShoppingCart className="h5 mt-1" />
-              </button>
+              </button> 
+              :
+              <button disabled={true} className="RO-border-button">
+                 Added  &nbsp;&nbsp;
+              <BsCheck />
+            </button>
+            )
           }
           
         </div>
@@ -66,7 +87,8 @@ function ProductCard({ name, description, price, stock, images, id, addProductTo
 
 function mapStateToProps(state) {
   return {
-        cartState: state.cartReducer.cart
+        cartState: state.cartReducer.cart,
+        cartProducts: state.cartReducer.products
   }
 }
 
@@ -74,7 +96,9 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     addProductToCart: (body) => dispatch(addProductToCart(body)),
-    getProductById: (id) => dispatch(getProductById(id))
+    getProductById: (id) => dispatch(getProductById(id)),
+    reloadProductCard: () => dispatch(reloadProductCard()),
+    getProductsFromCart: () => dispatch(getProductsFromCart()),
   }
 }
 

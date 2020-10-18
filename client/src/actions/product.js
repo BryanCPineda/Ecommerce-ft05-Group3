@@ -1,6 +1,6 @@
 import Axios from 'axios';
 
-
+const RELOAD_PRODUCT_CARD = 'RELOAD_PRODUCT_CARD';
 const GET_PRODUCTS = 'GET_PRODUCTS';
 const GET_PRODUCT_BY_ID = 'GET_PRODUCT_BY_ID';
 const CREATE_PRODUCT = 'CREATE_PRODUCT';
@@ -15,7 +15,13 @@ const GET_PRODUCT = 'GET_PRODUCT';
 
 // trae los prooductos de la base de datos y los ordena por id--------------------------
 
-export function getProducts() {
+export function reloadProductCard() {
+        return dispatch => {
+                dispatch({type: RELOAD_PRODUCT_CARD})
+    }
+}
+
+export function getProducts() { 
     return dispatch => {
        return Axios.get("http://localhost:4000/products")
         .then( res => res.data)
