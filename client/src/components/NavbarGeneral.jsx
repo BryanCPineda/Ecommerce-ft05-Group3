@@ -2,6 +2,9 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 import './NavbarGeneral.css'
 import SearchBar from './SearchBar/SearchBar'
+import SignUp from './Users/userRegister'
+import { Button, Row, Col } from 'react-bootstrap';
+import { IoIosCart } from 'react-icons/io';
 
 function NavbarGeneral() {
 
@@ -24,7 +27,7 @@ function NavbarGeneral() {
 <body className='fontuse'>
     <header>
         <div class="container">
-            <nav class="nav">
+            <nav class="nav d-flex justify-content-around">
 				<Link to="/user/catalogo">
 				<div class="logo" >
 					<img class='image-brand' src={"/images/brand4.png"} alt="logo"></img>
@@ -34,20 +37,19 @@ function NavbarGeneral() {
 				<div class='searchbar'><SearchBar /></div>
                 <ul class="nav-list">
 					<li>
-						<Link to ="/user/carrito"class="nav-link">Carrito</Link>
+						<Link to ="/user/cart"class="nav-link">Cart <span style={{fontSize: '35px'}}><IoIosCart /></span></Link>
                     </li>
 					<li>
 						<Link to ="/admin"class="nav-link">Admin</Link>
                     </li>
                 </ul>
-				<Link to ="/SignIn" class="nav-cta"> Sign In </Link>
+				<span class="nav-cta"><SignUp /> </span>
                 {/* <a href="#" id="nav-cta">Login</a> */}
             </nav>
         </div>
     </header>
 </body>
 		</div>
-		
 	)
 }
 

@@ -138,9 +138,9 @@ const Cart = ({order, getOrder, products, getProducts, updateProduct, cambioEsta
       
   return ( 
     
-    <Container>
-      <Row className='m-3 d-none d-md-block cart-text'>
-        <Col className="bg-light text-center py-2">
+    <Container className="container-cart-use">
+      <Row className='m-3 d-none d-md-block cart-text '>
+        <Col className=" text-center py-2" style={{color: 'white'}}> 
         My Cart <IoIosCart />
         </Col> 
       </Row>
@@ -208,17 +208,19 @@ const Cart = ({order, getOrder, products, getProducts, updateProduct, cambioEsta
                 />
               </h4>
               <Button
-                className="btn btn-dark boton"
+                className="btn  boton"
                 onClick={handleFinCompra}
+                style={{backgroundColor: '#8a2be2', color: 'white', border: 'none'}}
               >
                 Finalize Purchase
                 </Button>
-              <Button
-                className="btn btn-dark boton"
+              <button
+                className="btn  boton"
+                style={{backgroundColor: '#8a2be2', color: 'white'}}
                 onClick={handleVaciarCarrito}
               >
                 Empty Cart
-              </Button>
+              </button>
             </Col>
           </Row>
         {/* )} */}
