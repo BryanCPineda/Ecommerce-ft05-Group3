@@ -8,48 +8,55 @@ import { IoIosCart } from 'react-icons/io';
 
 function NavbarGeneral() {
 
-	window.addEventListener('scroll', function () {
-		let header = document.querySelector('header');
-		let windowPosition = window.scrollY > 0;
-		header.classList.toggle('scrolling-active', windowPosition);
-	})
+	// window.addEventListener('scroll', function () {
+	// 	let header = document.querySelector('header');
+	// 	let windowPosition = window.scrollY > 0;
+	// 	header.classList.toggle('scrolling-active', windowPosition);
+	// })
 
 	return (
-		<div>
-			<head>
-    {/* <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <link rel="stylesheet" href="styles.css"> */}
-</head>
-<body className='fontuse'>
-    <header>
-        <div class="container">
-            <nav class="nav d-flex justify-content-around">
+// 		<div style={{backgroundColor: 'blue'}} className="navegacion-general">
+// 			<head>
+//     {/* <meta charset="UTF-8">
+//     <meta name="viewport"
+//           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+//     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+//     <title>Document</title>
+//     <link rel="stylesheet" href="styles.css"> */}
+// </head>
+// <body className='fontuse'>
+//     <header>
+//         <div class="container">
+<nav className="background-al-nav-general">
+            <Row class="" >
+				<Col xs={2}></Col>
+				<Col className="d-flex mt-5">
 				<Link to="/user/catalogo">
 				<div class="logo" >
 					<img class='image-brand' src={"/images/brand4.png"} alt="logo"></img>
-				</div>
+				</div>				
 				</Link>
-                <div class="logo">CIBER Fitness</div>
-				<div class='searchbar'><SearchBar /></div>
+				<div class='searchbar-navbar'><SearchBar /></div>
                 <ul class="nav-list">
+					
 					<li>
-						<Link to ="/user/cart"class="nav-link">Cart <span style={{fontSize: '35px'}}><IoIosCart /></span></Link>
+						<Link to ="/admin"class="nav-link admin-icono-navbar">Admin</Link>
                     </li>
 					<li>
-						<Link to ="/admin"class="nav-link">Admin</Link>
+						<Link to ="/user/cart"class="nav-link cart-icono-navbar">Cart <span style={{fontSize: '35px'}}><IoIosCart /></span></Link>
                     </li>
                 </ul>
 				<span class="nav-cta"><SignUp /> </span>
+				</Col>
+				<Col xs={2}></Col>
+				
                 {/* <a href="#" id="nav-cta">Login</a> */}
-            </nav>
-        </div>
-    </header>
-</body>
-		</div>
+            </Row>
+			</nav>
+//         </div>
+//     </header>
+// </body>
+// 		</div>
 	)
 }
 
