@@ -46,11 +46,14 @@ useEffect(()=>{
 
   const handleClick = (id) => {
     body.productId = id;
+    if(body.quantity === ""){
+          window.alert("agregue cantidad")
+    }else{
     addProductToCart(body);
     setState({
       showCard: false,
     })
-
+}
   }
 
   const onChangeQuantity = (quantity, stock) => {

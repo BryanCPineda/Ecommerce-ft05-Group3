@@ -40,13 +40,15 @@ function Catalogo({
     
     getProductsFromCart().then(()=>{
              getAllProducts();
+            
    })
-  },[])
+  },[currentPage])
   
   useEffect(() => {   
     
     setTimeout(() => {
       getAllProducts();
+      
     }, 500);
   
     setState({
@@ -60,9 +62,8 @@ function Catalogo({
   const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber); 
-  
-    
-  
+
+   
   return (
     <Row md={12} className="catalogo">
       <Col xs={0} xl={1}></Col>
@@ -90,6 +91,8 @@ function Catalogo({
                   price={ele.price}
                   stock={ele.stock}
                   images={ele.images[0]}
+                  cartProducts={cartProducts}
+                  current={currentPage}
                 /> 
               </div>
 
@@ -98,7 +101,7 @@ function Catalogo({
             <div>
               <h1 className="no-products">NO PRODUCTS TO DISPLAY</h1>
             </div>
-          )}
+          )} 
         </Row>
         <div className="d-flex justify-content-center mt-5">
           <Pagination elementsPerPage={elementsPerPage} totalElements={products.length} paginate={paginate}/>
@@ -107,7 +110,7 @@ function Catalogo({
       <Col xs={0} xl={1}></Col>
     </Row>
   );
-}
+} 
 
 const mapStateToProps = (state) => {
   return {

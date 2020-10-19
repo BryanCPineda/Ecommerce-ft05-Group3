@@ -50,7 +50,11 @@ function SearchBar(props) {
           >
             Search
           </button>
+          
         </Form>
+        <Link to="/user/carrito">     
+        <button> AL CARRITO </button>
+        </Link>
       </div>
       {/* {props.user ?
       <div className="mt-5 login-message">{`Welcome ${props.user.name} !`}</div>

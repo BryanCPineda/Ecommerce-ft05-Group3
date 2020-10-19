@@ -21,7 +21,7 @@ function OrderUse(prod) {
     }, [state])
 
     const handleCant = (value) => {
-      if (value <= prod.orderline.stock){
+      if (value <= prod.orderline.stock+prod.orderline.orderline.quantity){
       setState({
         ...state,
         cantidad: value})}
@@ -49,7 +49,7 @@ function OrderUse(prod) {
                       <h4>{prod.orderline.name} </h4>
                   </Col>
                   <Col xs={6} md={3} className="mb-3 text-center">
-                  <NumericInput className={'numberformat'} min={0} max={prod.orderline.stock} value={state.cantidad} onChange={value => handleCant(value)}/>
+                  <NumericInput className={'numberformat'} min={0} max={prod.orderline.stock+ prod.orderline.orderline.quantity} value={state.cantidad} onChange={value => handleCant(value)}/>
                   </Col>
                   <Col className="text-left">
                     <span className="h6">
@@ -66,7 +66,7 @@ function OrderUse(prod) {
                   <Col className="text-left number">
                     <Button
                       size="sm"
-                      onClick={() => prod.handleDelete(prod.orderline.orderline.id)}
+                      onClick={() => prod.handleDelete(prod.orderline.orderline.productId)}
                       variant="dark"
                     >
                       Eliminar

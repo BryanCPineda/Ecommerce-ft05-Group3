@@ -290,33 +290,81 @@ server.delete("/:idUser/cart", async (req, res) => {
 });
 
 //Quitar un item del carrito
-server.delete("/:idUser/cart/:itemId", async (req, res) => {
-  try {
-    const { idUser, itemId } = req.params;
-    const orderUser = await Order.findOne({
-      where: { userId: idUser, state: "Cart" },
-    });
-    if (!orderUser) {
+//server.delete("/:idUser/cart/:itemId", async (req, res) => {
+//  try {
+//    const { idUser, itemId } = req.params;
+//    const orderUser = await Order.findOne({
+//      where: { userId: idUser, state: "Cart" },
+//    });
+//    if (!orderUser) {
+//      res.send("La orden para el usuario  " + idUser + ",no fue encontrada");
+//      return;
+//    }
+//    const orderLine = await Orderline.findOne({
+//      where: { orderId: orderUser.dataValues.id },
+//    });
+//    const product = await Product.findByPk(orderLine.dataValues.productId);
+//    product.stock = product.stock + orderLine.dataValues.quantity;
+//    const productSave = await product.save();
+//    if (orderLine) {
+//      const orderDeleted = await orderLine.destroy({
+//        where: { id: itemId},
+//      });
+//      res.status(200).send("Item Deleted");
+//    } else {
+//      res.status(400).send("Orderline does no exists");
+//    }
+//  } catch (error) {
+//    return res.status(400).send({ data: error });
+//  }
+//});
+
+server.delete("/:idUser/cart/:idProduct", (req, res) => {
+  const idUser = req.params.idUser;
+  const idProduct = req.params.idProduct;
+
+  Order.findOne({
+    where: {
+      userId: idUser,
+      state: "Cart",
+    },
+  }).then((order) => {
+    if (!order) {
       res.send("La orden para el usuario  " + idUser + ",no fue encontrada");
       return;
     }
-    const orderLine = await Orderline.findOne({
-      where: { orderId: orderUser.dataValues.id },
-    });
-    const product = await Product.findByPk(orderLine.dataValues.productId);
-    product.stock = product.stock + orderLine.dataValues.quantity;
-    const productSave = await product.save();
-    if (orderLine) {
-      const orderDeleted = await orderLine.destroy({
-        where: { productId: itemId },
+    let orderId = order.id;
+    Orderline.findOne({
+      where: {
+        orderId: orderId,
+      },
+    }).then((orderline) => {
+      if (!orderline) {
+        res.send("La orden para el usuario " + idUser + ", no fue encontrada");
+        return;
+      }
+      Product.findOne({
+        where: {
+          id: idProduct,
+        },
+      }).then((product)=>{
+          product.stock = product.stock + orderline.quantity;
+          product.save();
       });
-      res.status(200).send("Item Deleted");
-    } else {
-      res.status(400).send("Orderline does no exists");
-    }
-  } catch (error) {
-    return res.status(400).send({ data: error });
-  }
+      
+      Orderline.destroy({
+        where: {
+          productId: idProduct,
+        },
+      })
+        .then(() => {
+          return res.send("El item fue borrado");
+        })
+        .catch((error) => {
+          return res.send(error).status(500);
+        });
+    });
+  });
 });
 
 // Getting all orders from one user

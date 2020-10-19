@@ -43,8 +43,9 @@ export function quitarItemCarrito(id){
     return dispatch => {
         return Axios.delete("http://localhost:4000/users/1/cart/"+id)
         .then( res => res.data)
-        .then( res => 
-            dispatch({ type: DELETE_ITEM_CART, payload: res})
-        )
+        .then( res => {
+            
+            dispatch({ type: DELETE_ITEM_CART, payload: id}) 
+      })
     }
 }

@@ -9,13 +9,15 @@ import { addProductToCart} from '../actions/cartActions';
 import {reloadProductCard} from '../actions/product';
 import {getProductsFromCart} from '../actions/cartActions';
 
-function ProductCard({getProductsFromCart, name, description, price, stock, images, id, addProductToCart, cartState, getProductById, reloadProductCard, cartProducts}) {
+function ProductCard({current, getProductsFromCart, name, description, price, stock, images, id, addProductToCart, cartState, getProductById, reloadProductCard, cartProducts}) {
 
   const body = {
     quantity: 1,
     productId:"" 
 }
  
+var cartProductsTemp = cartProducts;
+
   const[showCard, setShowCard] = useState(true)
 
   const handleClick = (id) => {
@@ -32,13 +34,10 @@ function ProductCard({getProductsFromCart, name, description, price, stock, imag
   }
 
   useEffect(()=>{
-     
-    if(cartProducts.length === 0) return; 
-    else {cartProducts.product && (cartProducts.product.find(product => product.id === id)) ? setShowCard(false) : setShowCard(true)}
+      cartProducts.product && (cartProducts.product.find(product => product.id === id)) ? setShowCard(false) : setShowCard(true)
   } 
-    ,[]);
+    ,[current]);
      
-
   return (
     <div className="product-card card-container">
       <div className="img d-flex justify-content-center">
@@ -88,7 +87,7 @@ function ProductCard({getProductsFromCart, name, description, price, stock, imag
 function mapStateToProps(state) {
   return {
         cartState: state.cartReducer.cart,
-        cartProducts: state.cartReducer.products
+     //   cartProducts: state.cartReducer.products
   }
 }
 
