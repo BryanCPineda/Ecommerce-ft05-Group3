@@ -1,45 +1,63 @@
+.Container {
+  margin-top: -250px;
+}
+
 .numberformat {
-    border-radius: 10px;
-    border: 2px solid #c0c0c0;
-    padding: 20px; 
-    width: 50px;
-    height: 15px;
-    color: black;
-    background-color: transparent;   
+  border-radius: 10px;
+  border: 2px solid #c0c0c0;
+  padding: 20px;
+  width: 50px;
+  height: 15px;
+  color: black;
+  background-color: transparent;
 }
 
 .number {
-    width: 20px;
-    text-align: center;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  width: 20px;
+  text-align: center;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
 }
 
 .boton {
-    width: 100px;
-    margin: 10px;
-    text-align: center;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  width: 100px;
+  margin: 10px;
+  text-align: center;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
 }
 
 .class-card {
-    -webkit-box-shadow: 10px 10px 9px -9px rgba(140,138,140,0.47);
-    -moz-box-shadow: 10px 10px 9px -9px rgba(140,138,140,0.47);
-    box-shadow: 10px 10px 9px -9px rgba(140,138,140,0.47);
+  -webkit-box-shadow: 10px 10px 9px -9px rgba(140, 138, 140, 0.47);
+  -moz-box-shadow: 10px 10px 9px -9px rgba(140, 138, 140, 0.47);
+  box-shadow: 10px 10px 9px -9px rgba(140, 138, 140, 0.47);
 }
 
 .cart-text {
-    color: #d9d9d9;
-    background: #e8e8e8;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-size: 200%;
-    height: 70%;
-    width: 25%;
-    margin: 5px;
-    text-shadow: -1px -1px 1px rgba(255,255,255,.1), 1px 1px 1px rgba(0,0,0,.5);
-    color: #000000;
-    background: transparent;
-    }
+  color: #d9d9d9;
+  background: #e8e8e8;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  font-size: 200%;
+  height: 70%;
+  width: 25%;
+  margin: 5px;
+  text-shadow: -1px -1px 1px rgba(255, 255, 255, 0.1),
+    1px 1px 1px rgba(0, 0, 0, 0.5);
+  color: #000000;
+  background: transparent;
+}
+img {
+  float: left;
+}
+h3 {
+  padding-top: 180px;
+  font-style: italic;
+  font-size: xx-large;
+  font-family: Helvetica;
+}
 
-    .container-cart-use {
-        margin-top: -200px;
-    }
+p {
+  font-family: Helvetica;
+}
+
+.container-cart-use {
+  margin-top: -200px;
+}

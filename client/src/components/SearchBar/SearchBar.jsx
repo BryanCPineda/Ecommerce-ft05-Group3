@@ -1,30 +1,28 @@
 import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import "./SearchBar.css";
-import { connect } from 'react-redux';
-import Register from '../Users/userRegister';
+import { connect } from "react-redux";
+import Register from "../Users/userRegister";
 
-/*-------------redux-------------*/
-import { getProductsFromSearch } from '../../actions/catalogoActions';
+import { getProductsFromSearch } from "../../actions/catalogoActions";
 
 function SearchBar(props) {
-
   const [search, setSearch] = useState("");
 
   const handleChange = (e) => {
-    setSearch(e.target.value)
-    handleOnSubmit(e)
+    setSearch(e.target.value);
+    handleOnSubmit(e);
     if (e.target.value.length === 1) {
-      setSearch("")
-      return props.getProductsFromSearch(e.target.value)
+      setSearch("");
+      return props.getProductsFromSearch(e.target.value);
     }
   };
 
   const handleOnSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     props.getProductsFromSearch(search);
-  }
+  };
 
   return (
     // <div className="navigation">
@@ -46,15 +44,15 @@ function SearchBar(props) {
           ></input>
           </td>
           <td>
-          <button
-            className="button"
-            className="button-search-bar mt-3"
-            type="submit"
-            variant="outline-primary"
-            onClick={handleOnSubmit}
-          >
-            Search
-          </button>
+            <button
+              className="button"
+              className="button-search-bar mt-3"
+              type="submit"
+              variant="outline-primary"
+              onClick={handleOnSubmit}
+            >
+              Search
+            </button>
           </td>
           </tr>
         </td>
@@ -68,19 +66,19 @@ function SearchBar(props) {
       //    </Link>      
       //  </div>
   );
-};
+}
 
 const mapStateToProps = (state) => {
   return {
     productsFromSearch: state.catalogo.productsFromSearch,
-    user: state.userReducer.user
-  }
-}
+    user: state.userReducer.user,
+  };
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {
     getProductsFromSearch: (search) => dispatch(getProductsFromSearch(search)),
-  }
-}
+  };
+};
 
-export default connect( mapStateToProps, mapDispatchToProps )(SearchBar)
+export default connect(mapStateToProps, mapDispatchToProps)(SearchBar);
