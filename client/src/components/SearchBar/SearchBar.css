@@ -2,7 +2,7 @@
     border: none;
     height: 2.5rem;
     width: 5rem;
-    background-color: #8a2be2;
+    background-color: transparent;
     color: white;
     border-radius: 5px;
 }
@@ -45,6 +45,12 @@
     background-color: transparent;   
 }
 
+.claseform {
+    display: inline-flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
 .navigation {
     background: #8E2DE2;  /* fallback for old browsers */
     background: -webkit-linear-gradient(to right, #8E2DE2, #4A00E0);  /* Chrome 10-25, Safari 5.1-6 */
@@ -58,6 +64,7 @@
 
 ::-webkit-input-placeholder {
     color:    white;
+    font-size: 75%;
 }
 
 .brand {
@@ -69,7 +76,7 @@
 .image-brand {
     margin-bottom: 1rem;
     margin-left: 2rem;
-    height: 10rem;
+    height: 7rem;
 }
 
 .login-message {
