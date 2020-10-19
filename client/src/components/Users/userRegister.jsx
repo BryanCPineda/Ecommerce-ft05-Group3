@@ -91,7 +91,7 @@ class UserRegister extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <Button className="button-search-bar" onClick={this.handleShow}>
+        <Button className="button-register" onClick={this.handleShow}>
           Sign up
         </Button>
 
