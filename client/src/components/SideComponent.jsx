@@ -13,8 +13,7 @@ import {
   getProductsFromCategories,
   orderByHigherPrice,
   orderByLowerPrice,
-} from "../actions/catalogoActions";
-
+} from "../actions/catalogoActions"; 
 function SideComponent({
   getAllCategories,
   getAllProducts,
@@ -22,6 +21,7 @@ function SideComponent({
   categories,
   orderByHigherPrice,
   orderByLowerPrice,
+  reload
 }) {
 
   useEffect(() => {

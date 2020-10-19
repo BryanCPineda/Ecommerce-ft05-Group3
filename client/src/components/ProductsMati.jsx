@@ -9,7 +9,7 @@ import {addProductToCart} from '../actions/cartActions';
 import {getProductById} from '../actions/product';
 import {getProductsFromCart} from '../actions/cartActions';
 
-function ProductsMati({getProductsFromCart, addProductToCart, product, getProductById, match, cartProducts}) {
+function ProductsMati({getProductsFromCart, addProductToCart, product, getProductById, match, cartProducts, cartState}) {
    
  var body = {
     quantity: "",
@@ -28,8 +28,8 @@ useEffect(()=>{
     })  
   })
 } 
-  ,[]);
-
+  ,[cartState]);
+ 
 
   useEffect(()=>{
       let variable  
@@ -59,11 +59,6 @@ useEffect(()=>{
   const onChangeQuantity = (quantity, stock) => {
       body.quantity = quantity;
   }
-
-  //console.log(cartProducts)
-  //console.log (cartProducts.product && cartProducts.product.find(item => item.id == match.params.id))
-
-  //let producto = (cartProducts.product && cartProducts.product.find(item => item.id == match.params.id))
 
   return (
     <div>
@@ -167,7 +162,8 @@ useEffect(()=>{
 function mapStateToProps(state) {
   return {
         product: state.productReducer.product,
-        cartProducts: state.cartReducer.products
+        cartProducts: state.cartReducer.products,
+        cartState: state.cartReducer.cart,
   }
 }
 
