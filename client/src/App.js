@@ -13,15 +13,14 @@ import PrductsMati from "./components/ProductsMati";
 import Footer from "./components/Footer";
 import NavbarAdmin from "./components/NavbarAdmin";
 
-import AdminOrders from './components/Admin/adminOrders';
+import AdminOrders from "./components/Admin/adminOrders";
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
-
 
 import store from "./store";
 import { Provider } from "react-redux";
 
-import  NavBarGeneral  from './components/NavbarGeneral';
+import NavBarGeneral from "./components/NavbarGeneral";
 import NavBarBackground from "./components/NavBarBackground";
 import CartUse from "./components/CartUsage/CartUse";
 
@@ -29,27 +28,22 @@ function App() {
   return (
     <div>
       <Provider store={store}>
-
-
         <Router>
           {/* <Route path="/user" render={() => <SearchBar />} /> */}
-          <Route path="/user" component={NavBarGeneral}/>
-          <Route path='/user' component={NavBarBackground}/>
+          <Route path="/user" component={NavBarGeneral} />
+          <Route path="/user" component={NavBarBackground} />
           <Route path="/admin" component={NavbarAdmin} />
           <Route exact path="/" component={LandingPage} />
           <Route path="/user/catalogo" render={() => <Catalogo />} />
           <Route exact path="/admin/categories" component={FormCategories} />
-          {/* <Route exact path="/admin/producto" component={CrudShow} /> */}
+          <Route exact path={"/user/carrito"} component={CartUse} />
           <Route exact path="/admin/product" component={AdminProducts} />
-          <Route exact path="/admin/orders"  component={AdminOrders} />
+          <Route exact path="/admin/orders" component={AdminOrders} />
           <Route exact path="/user/product/:id" component={PrductsMati} />
           <Route path="/user" component={Footer} />
-          <Route path="/user/cart" component={Cart} />
           <Route path="/SignIn" component={Login} />
           <Route path="/SignUp" component={SignUp} />
         </Router>
-
-
       </Provider>
     </div>
   );
