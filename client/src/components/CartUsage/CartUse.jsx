@@ -29,11 +29,17 @@ const Cart = ({order, getOrder, products, getProducts, updateProduct, cambioEsta
       // ------------------redireccionar --------------
 
     let prod = []
-    let totalCost = 0
+
+    let totalCostTmp=0;
+
+    const [totalCost, setTotalCost] = useState(0)
 
     useEffect(() => {
         getOrder()
-      }, [])
+      }, [totalCost])
+
+    
+
 
       //useEffect(() => {
       //  setState({
@@ -44,7 +50,6 @@ const Cart = ({order, getOrder, products, getProducts, updateProduct, cambioEsta
     
     const quantityChange = (e, id) =>{
         let cantCambiada = e
-        totalCost = 0;
         prod = order.product
         prod ? prod.forEach( e => {
           if (e.orderline.id === id){
@@ -53,15 +58,20 @@ const Cart = ({order, getOrder, products, getProducts, updateProduct, cambioEsta
           }}
         ) : console.log('nada')
 
-        prod ? prod.forEach( e =>
-          totalCost += e.price * e.orderline.quantity
-        ) : console.log('nada')
-        setTotal(totalCost)
-        //setState({
-        //  ...state,
-        //  products: prod})
+
+        if(prod){
+          prod.forEach(element => {
+              totalCostTmp = totalCostTmp + parseInt(element.price)
+          })
+        }setTotalCost(totalCostTmp)
+        
+       
+        
         
     }
+    console.log(totalCostTmp)
+    console.log(totalCost)
+
 
     const handleDelete = (id) =>{
       swal({
@@ -74,12 +84,13 @@ const Cart = ({order, getOrder, products, getProducts, updateProduct, cambioEsta
       .then((willDelete) => {
         if (willDelete) {
           quitarItemCarrito(id)
- 
-          swal("Product deleted!", {
+
+          
+          swal("Your cart is Empty!", {
             icon: "success",
           }).then(() =>  {
-                totalCost=0
-                setTotal(totalCost)
+                      
+
           })
   
       } } )

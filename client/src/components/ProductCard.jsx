@@ -9,41 +9,33 @@ import { addProductToCart} from '../actions/cartActions';
 import {reloadProductCard} from '../actions/product';
 import {getProductsFromCart} from '../actions/cartActions';
 
-function ProductCard({current, getProductsFromCart, name, description, price, stock, images, id, addProductToCart, cartState, getProductById, reloadProductCard, cartProducts}) {
+function ProductCard({currentProducts, current, name, price, stock, images, id, addProductToCart, cartProducts}) {
 
   const body = {
     quantity: 1,
     productId:"" 
 }
  
-var cartProductsTemp = cartProducts;
-
-  const[showCard, setShowCard] = useState(true)
+  const[showCard, setShowCard] = useState("")
 
   const handleClick = (id) => {
     body.productId = id;
     setShowCard(false);
     addProductToCart(body);
-    reloadProductCard();
-    getProductsFromCart();
-
    }
-
-  const handleClickLinkToProduct = (id) =>{
-    getProductById(id)
-  }
 
   useEffect(()=>{
       cartProducts.product && (cartProducts.product.find(product => product.id === id)) ? setShowCard(false) : setShowCard(true)
   } 
-    ,[current]);
+    ,[current, currentProducts]);
+
      
   return (
     <div className="product-card card-container">
       <div className="img d-flex justify-content-center">
         <img variant="top" style={{width: '19rem'}} src={images && images.image} alt="product" className="image"></img>
       </div>
-      <Link to={`/user/product/${id}`} className="title-card" onClick={()=>{handleClickLinkToProduct(id)}}> 
+      <Link to={`/user/product/${id}`} className="title-card" > 
         <div className="title-card">
           <p style={{ color: "black" }}>{name}</p>
         </div>
@@ -87,7 +79,6 @@ var cartProductsTemp = cartProducts;
 function mapStateToProps(state) {
   return {
         cartState: state.cartReducer.cart,
-     //   cartProducts: state.cartReducer.products
   }
 }
 

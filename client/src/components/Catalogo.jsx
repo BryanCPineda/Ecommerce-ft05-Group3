@@ -23,7 +23,10 @@ function Catalogo({
   loading,
   reload,
   getProductsFromCart,
-  cartProducts
+  cartProducts,
+  cartState,
+  products2,
+  products3
 }) {
 
   /*------------------Pagination---------------------*/
@@ -31,19 +34,37 @@ function Catalogo({
   const [currentPage, setCurrentPage] = useState(1);
   const [elementsPerPage] = useState(9);
 
+  const indexOfLastProduct = currentPage * elementsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - elementsPerPage;
+
+  const [currentProducts, setCurrentProducts] = useState (products.slice(indexOfFirstProduct, indexOfLastProduct))
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber); 
+  /*------------------Pagination---------------------*/
   const [state, setState] = useState({
         reload: reload,
         cartProducts: []
     })
+    
+
+    useEffect(()=>{
+      if(products2){
+        setCurrentProducts(products2.slice(indexOfFirstProduct, indexOfLastProduct))
+      } 
+      else if(products3){
+        setCurrentProducts(products3.slice(indexOfFirstProduct, indexOfLastProduct))
+      } 
+      setCurrentProducts(products.slice(indexOfFirstProduct, indexOfLastProduct));
+      
+    },[products, products2, products3])
 
   useEffect(  () =>{
     
-    getProductsFromCart().then(()=>{
-             getAllProducts();
-            
-   })
-  },[currentPage])
+    getProductsFromCart();
   
+  },[currentPage, cartState, ])
+
+
   useEffect(() => {   
     
     setTimeout(() => {
@@ -55,20 +76,17 @@ function Catalogo({
       reload: !reload
     })
     
-  }, [reload, state.reload, cartProducts ]);
+  }, [reload, state.reload, cartProducts,  ]);
 
-  const indexOfLastProduct = currentPage * elementsPerPage;
-  const indexOfFirstProduct = indexOfLastProduct - elementsPerPage;
-  const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
+  
 
-  const paginate = (pageNumber) => setCurrentPage(pageNumber); 
 
    
   return (
     <Row md={12} className="catalogo">
       <Col xs={0} xl={1}></Col>
       <Col xs={2}>
-        <SideComponent />
+        <SideComponent /> 
       </Col>
       <Col>
         <Row>
@@ -85,7 +103,7 @@ function Catalogo({
                        
               <div key={index} className="column-productcard">
                 <ProductCard
-                  id={ele.id}
+                  id={ele.id} 
                   name={ele.name}
                   description={ele.description.slice(0, 50) + "..."}
                   price={ele.price}
@@ -93,6 +111,7 @@ function Catalogo({
                   images={ele.images[0]}
                   cartProducts={cartProducts}
                   current={currentPage}
+                  currentProducts={currentProducts}
                 /> 
               </div>
 
@@ -114,10 +133,13 @@ function Catalogo({
 
 const mapStateToProps = (state) => {
   return {
+    cartState: state.cartReducer.cart,
     loading: state.catalogo.loading,
-    products: state.catalogo.allProducts,
     reload: state.productReducer.reload,
-    cartProducts: state.cartReducer.products
+    cartProducts: state.cartReducer.products,
+    products: state.catalogo.allProducts,
+    products2: state.catalogo.allProducts2,
+    products3: state.catalogo.allProducts3,
   }
 }
 

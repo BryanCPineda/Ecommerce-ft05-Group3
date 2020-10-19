@@ -25,7 +25,7 @@ export const getAllCategories = () => (dispatch) => {
   });
 };
 
-export const getProductsFromCategories = (e) => (dispatch) => {
+export const getProductsFromCategories = (e) => (dispatch) => { 
   axios.get(`http://localhost:4000/products/category/${e}`).then((res) => {
     dispatch({ type: PRODUCTS_FROM_CATEGORIES, payload: res.data });
   });
@@ -39,10 +39,10 @@ export const getProductsFromSearch = (search) => (dispatch) => {
     });
 };
 
-export const orderByLowerPrice = () => (dispatch) => {
-  dispatch({ type: ORDER_LOWER_PRICE });
+export const orderByLowerPrice = () =>  {
+  return ({ type: ORDER_LOWER_PRICE });
 };
 
-export const orderByHigherPrice = () => (dispatch) => {
-  dispatch({ type: ORDER_HIGHER_PRICE });
+export const orderByHigherPrice = ()  => {
+  return ({ type: ORDER_HIGHER_PRICE });
 };
