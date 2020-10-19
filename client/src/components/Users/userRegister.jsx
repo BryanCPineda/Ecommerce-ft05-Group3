@@ -92,7 +92,7 @@ class UserRegister extends React.Component {
     return (
       <React.Fragment>
         <Button className="button-search-bar" onClick={this.handleShow}>
-          Sign Up
+          Sign up
         </Button>
 
         <Modal
@@ -204,9 +204,9 @@ class UserRegister extends React.Component {
             </Form>
           </Modal.Body>
           <Modal.Footer>
-            <Button className="button" onClick={this.handleClose}>
+            <button className="btn" style={{backgroundColor: '#8a2be2', color: 'white'}} onClick={this.handleClose}>
               Close
-            </Button>
+            </button>
           </Modal.Footer>
         </Modal>
       </React.Fragment>

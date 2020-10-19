@@ -31,17 +31,17 @@ function SearchBar(props) {
     //       <img className="image-brand" src={"/images/brand4.png"} alt="logo"></img>
     //   </div>
     //   </Link>
-    <div>
-      <td>
-        <tr>
-          <td>
-            <input
-              className="search"
-              name="search"
-              type="text"
-              placeholder="Search Product"
-              onChange={handleChange}
-            ></input>
+      <div>
+        <td>
+          <tr>
+            <td>
+          <input
+            className="search"
+            name="search"
+            type="text"
+            placeholder="Search Product"
+            onChange={handleChange}
+          ></input>
           </td>
           <td>
             <button
@@ -54,17 +54,17 @@ function SearchBar(props) {
               Search
             </button>
           </td>
-        </tr>
-      </td>
-    </div>
-    //  <div className="mt-4 sign">
-    //    <Link to ="/admin">
-    //    <button className="button mr-3">Admin</button>
-    //    </Link>
-    //    <Link to="/">
-    //    <button className="button mr-5 mt-3 sign-up">Sign out</button>
-    //    </Link>
-    //  </div>
+          </tr>
+        </td>
+      </div>
+      //  <div className="mt-4 sign">
+      //    <Link to ="/admin">
+      //    <button className="button mr-3">Admin</button>
+      //    </Link>
+      //    <Link to="/">
+      //    <button className="button mr-5 mt-3 sign-up">Sign out</button>
+      //    </Link>      
+      //  </div>
   );
 }
 
