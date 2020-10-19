@@ -75,10 +75,11 @@ const Cart = ({order, getOrder, products, getProducts, updateProduct, cambioEsta
         if (willDelete) {
           quitarItemCarrito(id)
  
-          swal("Your cart is Empty!", {
+          swal("Product deleted!", {
             icon: "success",
           }).then(() =>  {
-                      
+                totalCost=0
+                setTotal(totalCost)
           })
   
       } } )
@@ -145,14 +146,14 @@ const Cart = ({order, getOrder, products, getProducts, updateProduct, cambioEsta
       </Row>
         <Row className="m-3 d-none d-md-block">
           <Col>
-            <Row className="bg-light text-center py-2">
-              <Col xs={3} md={2}>
+            {/* <Row className="bg-light text-center py-2"> */}
+              {/* <Col xs={3} md={2}>
                 <span className="h3">
                   <IoMdPhotos />
                 </span>
-              </Col>
+              </Col> */}
               {/* ------------------ */}
-              <Col>
+              {/* <Col>
                 <Row>
                   <Col xs={6} md={4} className="text-center number" >
                     <span className="h6">Products</span>
@@ -169,16 +170,25 @@ const Cart = ({order, getOrder, products, getProducts, updateProduct, cambioEsta
                     </span>
                   </Col>
                 </Row>
-              </Col>
-            </Row>
+              </Col> */}
+            {/* </Row> */}
           </Col>
         </Row>
         <Row className="m-3 d-none d-md-block">
           <Col>
             <Row className="bg-light text-center py-2  ">
               <Col className="mx-3">
+                  
                   {products ? products.map (e => 
-                  <OrderUse orderline={e} quantityChange={quantityChange} handleDelete={handleDelete}/>):'empty cart'}
+                  <OrderUse orderline={e} quantityChange={quantityChange} handleDelete={handleDelete}/>) :
+                  <div>
+                  <p>
+                    <img src="../images/shopping_Sad-512.png" alt="sad cart"></img>
+                    <h3> Your cart is empty!</h3> <br></br> Add something to make me
+                    happy :)
+                  </p>
+                </div>}
+                
               </Col>
             </Row>
             </Col>

@@ -12,7 +12,7 @@ import LandingPage from "./components/LandingPage";
 import PrductsMati from "./components/ProductsMati";
 import Footer from "./components/Footer";
 import NavbarAdmin from "./components/NavbarAdmin";
-import Cart from "./components/Cart/Cart";
+
 import AdminOrders from './components/Admin/adminOrders';
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
@@ -29,6 +29,7 @@ function App() {
   return (
     <div>
       <Provider store={store}>
+
 
         <Router>
           {/* <Route path="/user" render={() => <SearchBar />} /> */}
