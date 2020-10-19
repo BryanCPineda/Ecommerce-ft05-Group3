@@ -68,8 +68,8 @@ useEffect(()=>{
   return (
     <Row>
       <Col xs={2}></Col>
-      <Col>
-      <Container className="products-container">
+      <Col className="products-container">
+      <Container>
         <div className="d-flex">
           <div className="products-image-div">
             <div className="products-image-div-second">
