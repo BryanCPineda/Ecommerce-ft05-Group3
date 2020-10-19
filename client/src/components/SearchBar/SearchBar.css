@@ -6,6 +6,34 @@
     color: white;
     border-radius: 5px;
 }
+.button:hover {
+    border: none;
+    height: 2.5rem;
+    width: 5rem;
+    background-color: darkviolet;
+    color: white;
+    border-radius: 5px;
+}
+.button:focus {
+    border: none;
+    height: 2.5rem;
+    width: 5rem;
+    background-color: #8a2be2;
+    color: white;
+    border-radius: 5px;
+    outline: none !important;
+    box-shadow: none;
+}
+.button:active {
+    border: none;
+    height: 2.5rem;
+    width: 5rem;
+    background-color: #8a2be2;
+    color: white;
+    border-radius: 5px;
+    outline: none !important;
+    box-shadow: none;
+}
 
 .search {
     border-radius: 10px;
@@ -51,3 +79,60 @@
     height: 7rem;
 }
 
+.login-message {
+    font-size: 20px
+}
+
+.button-search-bar {
+    border: none;
+    height: 2.7rem;
+    width: 5rem;
+    background-color: #8a2be2;
+    color: white;
+    border-radius: 5px;
+}
+.button-search-bar:hover {
+    border: none;
+    height: 2.7rem;
+    width: 5rem;
+    background-color: darkviolet;
+    color: white;
+    border-radius: 5px;
+}
+.button-search-bar:focus {
+    border: none;
+    height: 2.7rem;
+    width: 5rem;
+    background-color: darkviolet;
+    color: white;
+    border-radius: 5px;
+}
+
+.sign-up-button {
+    margin-right: 2rem;
+}
+
+.button-register {
+    border: none;
+    height: 2.5rem;
+    width: 5rem;
+    background-color: #8a2be2;
+    color: white;
+    border-radius: 5px;
+}
+.button-register:hover {
+    border: none;
+    height: 2.5rem;
+    width: 5rem;
+    background-color: darkviolet;
+    color: white;
+    border-radius: 5px;
+}
+.button-register:focus {
+    border: none;
+    height: 2.5rem;
+    width: 5rem;
+    background-color: darkviolet;
+    color: white;
+    border-radius: 5px;
+}

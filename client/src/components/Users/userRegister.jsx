@@ -1,4 +1,13 @@
-import { Card, Form, Button, Row, Col, Container } from "react-bootstrap";
+import {
+  Card,
+  Form,
+  Button,
+  Row,
+  Col,
+  Container,
+  Modal,
+  Alert,
+} from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
@@ -7,253 +16,218 @@ import { BiShowAlt, BiHide } from "react-icons/bi";
 import { Link, Redirect } from "react-router-dom";
 
 /*-------------redux-------------*/
-import {getAllUsers, createUser} from '../../actions/userAction';
+import { getAllUsers, createUser } from "../../actions/userAction";
+import { clearErrors } from "../../actions/errorActions";
 
+class UserRegister extends React.Component {
+  constructor() {
+    super();
 
-function UserRegister ({getAllUsers, allUsers, createUser}){        //recibe las props y conexxion a redux
+    this.state = {
+      passwordShowing: false, //para el boton que muestra o esconde la password
+      loading: false, //despues que das click en el boto ncrear cuenta se cambia a loading
+      modal: false,
+      name: "",
+      lastname: "",
+      email: "",
+      password: "",
+    };
+  }
 
-    const [state, setState] = useState({
-     
-        passwordShowing: false,         //para el boton que muestra o esconde la password
-        passwordShowing2: false,
-        loading: false,                 //despues que das click en el boto ncrear cuenta se cambia a loading    
-        diferentPassword: false,
-        password: "",                   //el estado de la primer password para comparar con la segunda y ver qeu sean iguales
-        password2: "",                  //segunda password para comprobar que sea igual que la primera
-        email:"",                       //estado de email para verificar que no exista en la base de datos
-        allUsers: []                    //estado que tiene todos los usuarios de la base de datos para poder buscar adentro el email
-        });
-
-  useEffect(()=>{
-
-        getAllUsers();                  //el use efec trae todos los usuarios de la base de datos cuando se monta el componente
-                                        //y siempre que se cambia el estado email
-  },[state.email])
-    
-  const {register, handleSubmit} = useForm();  //para poder hacer handle submit y que guarde el registro del input el boostrap form
-
-        const switchPassword = () => {                  //para mostrar o esconder el password
-            setState({
-                ...state,
-                passwordShowing: !state.passwordShowing
-            });
-        };
-        const switchPassword2 = () => {                  //para mostrar o esconder el password 2
-            setState({
-                ...state,
-                passwordShowing2: !state.passwordShowing2
-            });
-        };
-
-    const onChangePassword = (data) =>{              //siempre que se cambie el password se setea en el estado
-        setState({
-            ...state,
-            password: data.target.value
-        });
-
-    }    
-    const onChangePassword2 = (data) =>{             //siempre que se cambie el password2 se setea en el estado
-        setState({
-            ...state,
-            password2: data.target.value
-        });
+  componentDidUpdate(prevProps) {
+    const { error } = this.props;
+    if (error !== prevProps.error) {
+      //check for register error
+      if (error.id === "REGISTER_FAIL") {
+        let errorMsgs = [];
+        error.msg.errors.map((ele) => errorMsgs.push(ele));
+        this.setState({ msg: errorMsgs });
+      } else {
+        this.setState({ msg: null });
+      }
     }
-    const onChangeEmail = (data) =>{             //siempre que se cambie el email input se setea en el estado
-        setState({
-            ...state,
-            email: data.target.value,
-            allUsers: allUsers.rows
-        });
-
-
+    if (this.props.user) {
+      if (this.state.modal) {
+          this.handleClose();
+      }
     }
+    // y siempre que se cambia el estado email
+  }
 
-    const onSubmit = (data) => {                        //cuando se haga el submit recibe todos los inputs en data
+  switchPassword = () => {
+    //para mostrar o esconder el password
+    this.setState({
+      ...this.state,
+      passwordShowing: !this.state.passwordShowing,
+    });
+  };
 
-    
-        
-        state.allUsers && state.allUsers.map(user => {  //se busca dentro del arreglo de usuarios el email del input
-                if(user.email == state.email){
-                    console.log("email en uso");        //si esta el email envia el mensaje que esta en uso
-                }
-        })
+  handleClose = () => {
+    this.props.clearErrors();
+    this.setState({
+      modal: false,
+    });
+  };
 
-        if(state.password === state.password2){         //se comparan las password, si son identicas se crea el usuario
-            createUser(data);
-        }else console.log("password are diferent")      //si no son identicas envia el mensaje que son diferentes
- };
+  handleShow = () => {
+    this.setState({
+      modal: !this.state.modal,
+    });
+  };
 
+  onChange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  onSubmit = (e) => {
+    e.preventDefault();
+    const { name, lastname, email, password } = this.state;
+    const newUser = { name, lastname, email, password };
+    this.props.createUser(newUser);
+  };
+
+  render() {
     return (
-        <Container>
-            {/*{state.registered && <Redirect to="/cuenta" />}*/} {/**SI EL USUARIO YA ESTA REGISTRADO REDIRIGIRSE EL LOGIN */}
-            <Row className="justify-content-center">
-                <Col md={8}>
-                    <Card className="border-0 bg-dark2">
-                        <Card.Header className="border-0 h3">
-                            Sign up
-                        </Card.Header>
-                        <Card.Body>
-                            <Form onSubmit={handleSubmit(onSubmit)}>
-                                <Form.Group>
-                                    <Form.Label>Name </Form.Label>
-                                    <Form.Control
-                                        ref={register()}
-                                        autoComplete="off"
-                                        name="name"
-                                    ></Form.Control>
-                                </Form.Group>
+      <React.Fragment>
+        <Button className="button-search-bar" onClick={this.handleShow}>
+          Sign Up
+        </Button>
 
-                                <Form.Group>
-                                    <Form.Label>LastName </Form.Label>
-                                    <Form.Control
-                                        ref={register()}
-                                        autoComplete="off"
-                                        name="lastName"
-                                    ></Form.Control>
-                                </Form.Group>
+        <Modal
+          show={this.state.modal}
+          onHide={this.handleClose}
+          backdrop="static"
+          keyboard={false}
+        >
+          <Modal.Header style={{ backgroundColor: "#8a2be2", color: "white" }}>
+            <Modal.Title>Register</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            {this.state.msg &&
+              this.state.msg.map((ele, id) => (
+                <Alert key={id} variant="danger">
+                  {ele}
+                </Alert>
+              ))}
+            <Form>
+              <Form.Group>
+                <Form.Label>Name </Form.Label>
+                <Form.Control
+                  // ref={register()}
+                  autoComplete="off"
+                  name="name"
+                  onChange={this.onChange}
+                ></Form.Control>
+              </Form.Group>
 
-                                <Form.Group>
-                                    <Form.Label>
-                                        Email
-                                    </Form.Label>
-                                    <Form.Control
-                                        onChange={onChangeEmail}
-                                        ref={register()}
-                                        autoComplete="off"
-                                        name="email"
-                                    ></Form.Control>
-                                </Form.Group>
-                                
-                                <Form.Group>
-                                    <IconContext.Provider
-                                        value={
-                                            state.passwordShowing
-                                                ? { className: "icon-change" }
-                                                : { className: "icon" }
-                                        }
-                                    >
-                                        <Form.Label>
-                                            <span
-                                                style={{
-                                                    marginRight: "0.125rem",
-                                                }}
-                                            >
-                                                Password
-                                            </span>{" "}
-                                            {state.passwordShowing ? (
-                                                <BiHide
-                                                    type="button"
-                                                    onClick={() =>
-                                                        switchPassword()
-                                                    }
-                                                    title="Hide Password"
-                                                />
-                                            ) : (
-                                                    <BiShowAlt
-                                                        type="button"
-                                                        onClick={() =>
-                                                            switchPassword()
-                                                        }
-                                                        title="Show Password"
-                                                    />
-                                                )}
-                                        </Form.Label>
-                                    </IconContext.Provider>
-                                    <Form.Control
-                                        onChange={onChangePassword}
-                                        ref={register()}
-                                        autoComplete="off"
-                                        name="password"
-                                        type={ state.passwordShowing ? "text" : "password" }
-                                    ></Form.Control>
-                                </Form.Group>
-                            
+              <Form.Group>
+                <Form.Label>Lastname </Form.Label>
+                <Form.Control
+                  // ref={register()}
+                  autoComplete="off"
+                  name="lastname"
+                  onChange={this.onChange}
+                ></Form.Control>
+              </Form.Group>
 
-                                <Form.Group>
-                                    <IconContext.Provider
-                                        value={
-                                            state.passwordShowing2
-                                                ? { className: "icon-change" }
-                                                : { className: "icon" }
-                                        }
-                                    >
-                                        <Form.Label>
-                                            <span
-                                                style={{
-                                                    marginRight: "0.125rem",
-                                                }}
-                                            >
-                                              Confirm Password
-                                            </span>{" "}
-                                            {state.passwordShowing2 ? (
-                                                <BiHide
-                                                    type="button"
-                                                    onClick={() =>
-                                                        switchPassword2()
-                                                    }
-                                                    title="Hide Password"
-                                                />
-                                            ) : (
-                                                    <BiShowAlt
-                                                        type="button"
-                                                        onClick={() =>
-                                                            switchPassword2()
-                                                        }
-                                                        title="Show Password"
-                                                    />
-                                                )}
-                                        </Form.Label>
-                                    </IconContext.Provider>
-                                    <Form.Control
-                                        onChange={onChangePassword2}
-                                        ref={register()}
-                                        autoComplete="off"
-                                        name="confirmPassword"
-                                        type={ state.passwordShowing2 ? "text" : "password" }
-                                    ></Form.Control>
-                                </Form.Group>
+              <Form.Group>
+                <Form.Label>Email</Form.Label>
+                <Form.Control
+                  // onChange={onChangeEmail}
+                  // ref={register()}
+                  autoComplete="off"
+                  name="email"
+                  onChange={this.onChange}
+                ></Form.Control>
+              </Form.Group>
 
+              <Form.Group>
+                <IconContext.Provider
+                  value={
+                    this.state.passwordShowing
+                      ? { className: "icon-change" }
+                      : { className: "icon" }
+                  }
+                >
+                  <Form.Label>
+                    <span
+                      style={{
+                        marginRight: "0.125rem",
+                      }}
+                    >
+                      Password
+                    </span>{" "}
+                    {this.state.passwordShowing ? (
+                      <BiHide
+                        type="button"
+                        onClick={() => this.switchPassword()}
+                        title="Hide Password"
+                      />
+                    ) : (
+                      <BiShowAlt
+                        type="button"
+                        onClick={() => this.switchPassword()}
+                        title="Show Password"
+                      />
+                    )}
+                  </Form.Label>
+                </IconContext.Provider>
+                <Form.Control
+                  // onChange={onChangePassword}
+                  // ref={register()}
+                  autoComplete="off"
+                  name="password"
+                  onChange={this.onChange}
+                  type={this.state.passwordShowing ? "text" : "password"}
+                ></Form.Control>
+              </Form.Group>
 
-
-                                <Form.Group className="d-flex justify-content-between">
-                                    <Button
-                                        disabled={state.loading}
-                                        type="submit"
-                                    >
-                                        {state.loading
-                                            ? "Loading..."
-                                            : "Create Account"}
-                                    </Button>
-                                    <span>
-                                        ¿Do you have an account?{"     "}
-                                        <Link className="link" to="/login">
-                                            Sign In 
-                                        </Link>
-                                    </span>
-                                </Form.Group>
-                            </Form>
-                        </Card.Body>
-                    </Card>
-                </Col>
-            </Row>
-        </Container>
+              <Form.Group className="d-flex justify-content-between">
+                <span className="mt-2">
+                  ¿Do you have an account?{"     "}
+                  <Link className="link" to="/login">
+                    Sign In
+                  </Link>
+                </span>
+                <Button
+                  disabled={this.state.loading}
+                  type="submit"
+                  onClick={this.onSubmit}
+                  className="button-register mt-1"
+                  style={{ width: "9rem" }}
+                >
+                  {this.state.loading ? "Loading..." : "Create Account"}
+                </Button>
+              </Form.Group>
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button className="button" onClick={this.handleClose}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </React.Fragment>
     );
-
+  }
 }
 
-
 const mapStateToProps = (state) => {
-    return {
-        allUsers: state.userReducer.users,
-    }
-  }
-  
-  const mapDispatchToProps = (dispatch) => {
-    return {
-        getAllUsers: () => dispatch(getAllUsers()),
-        createUser: (user) => dispatch(createUser(user)),
-    }
-  }
-  
-  export default connect( mapStateToProps, mapDispatchToProps )(UserRegister)
-    
+  return {
+    allUsers: state.userReducer.users,
+    error: state.error,
+    user: state.userReducer.user
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getAllUsers: () => dispatch(getAllUsers()),
+    createUser: (user) => dispatch(createUser(user)),
+    clearErrors: () => dispatch(clearErrors()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserRegister);

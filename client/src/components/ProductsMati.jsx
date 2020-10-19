@@ -1,32 +1,72 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Container } from "react-bootstrap";
+import { Container, Row, Col, Card, Carousel, Button, Form  } from "react-bootstrap";
 import './ProductsMati.css';
-import { Carousel } from 'react-bootstrap';
 import { FiShoppingCart } from "react-icons/fi";
-import { BsFillDashCircleFill } from "react-icons/bs";
+import { BsFillDashCircleFill, BsCheck } from "react-icons/bs";
+import { connect } from 'react-redux';
+import {addProductToCart} from '../actions/cartActions';
+import {getProductById} from '../actions/product';
+import {getProductsFromCart} from '../actions/cartActions';
 
-function ProductsMati(props) {
-  const mapeo = props.match.params.id;
-  console.log('ID', mapeo)
-  const [product, setProduct] = useState({});
+function ProductsMati({getProductsFromCart, addProductToCart, product, getProductById, match, cartProducts}) {
+   
+ var body = {
+    quantity: "",
+    productId:"" 
+}
 
-  function mostrarProducto() {
-    axios
-      .get("http://localhost:4000/products/" + mapeo)
-      .then((res) => res.data)
-      .then((res) => {
-        setProduct(res);
-      });
+const [state, setState] = useState({
+  showCard: true,
+})
+
+useEffect(()=>{
+  
+  getProductsFromCart().then(()=>{
+    getProductById(match.params.id).then(()=>{
+                     
+    })  
+  })
+} 
+  ,[]);
+
+
+  useEffect(()=>{
+      let variable  
+      if (cartProducts.product && product){
+        variable = cartProducts.product.find(item => item.id == match.params.id)
+      } 
+      if(variable) {
+         setState({
+          showCard: false
+        })
+    }
+   
+  },[cartProducts]);
+
+  const handleClick = (id) => {
+    body.productId = id;
+    if(body.quantity === ""){
+          window.alert("agregue cantidad")
+    }else{
+    addProductToCart(body);
+    setState({
+      showCard: false,
+    })
+}
   }
 
-  useEffect(() => {
-    mostrarProducto();
-  },[]);
+  const onChangeQuantity = (quantity, stock) => {
+      body.quantity = quantity;
+  }
+
+  //console.log(cartProducts)
+  //console.log (cartProducts.product && cartProducts.product.find(item => item.id == match.params.id))
+
+  //let producto = (cartProducts.product && cartProducts.product.find(item => item.id == match.params.id))
 
   return (
     <div>
-      {console.log(product)}
       <Container className="products-container">
         <div className="d-flex">
           <div className="products-image-div">
@@ -58,18 +98,18 @@ function ProductsMati(props) {
             </div>
           </div>
           <div>
-            {product.name && <p className="products-title">{product.name}</p>}
+            {product.name && <p className="ml-5 products-title">{product.name}</p>}
             {product.description && (
               <p className="products-description">{product.description}</p>
             )}
             <p className="products-categories">Categories:</p>
             <div className="d-flex justify-content-center">
               {product.categories &&
-                product.categories.map((ele) => (
-                  <p className="mr-4 h6">{ele.name}</p>
+                product.categories.map((ele, index) => (
+                  <p key={index} className="mr-4 h6">{ele.name}</p>
                 ))}
             </div>
-            <div className="d-flex justify-content-start">
+            <div className="d-flex justify-content-center">
               {    
               !product.stock ? (product.price && (
                   <button disabled={true} className="RO-products-button">
@@ -78,14 +118,20 @@ function ProductsMati(props) {
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${product.price}
                   </button>
                 )) :
-                product.price && (
-                  <button className="products-button">
-                    Add to Cart <FiShoppingCart />
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${product.price}
-                  </button>
-                )
-              }
+                ( product.price && state.showCard ? 
+              <button className="addtocart-productsMati" onClick={()=> handleClick(product.id)}   >
+                Add to Cart&nbsp;<FiShoppingCart /> 
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${product.price}
+              </button> 
+              :
+              <button disabled={true} className="RO-border-button">
+                 Added  &nbsp;&nbsp;
+              <BsCheck />
+            </button>
+            )
+            }
             </div>
+            <div className="d-flex">
             {
             !product.stock ? (
               <p className="products-stock">Sorry! There is no Stock available</p>
@@ -94,11 +140,48 @@ function ProductsMati(props) {
                 <p className="products-stock">Stock: {product.stock}</p>
               )
             }
+            <div className="d-flex ">
+                <Col className="col-3">
+                      {product.stock > 0 &&  (
+                          <Form.Control
+                              placeholder="Quantity"
+                              onChange={(e) =>{ onChangeQuantity(e.target.value) }}
+                              min="1"
+                              max={product.stock}
+                              type="number"
+                              style={{width: '8rem', fontSize: '17px', height: '3rem'}}
+                              className="form-control-lg"
+                          />
+                      )}
+                  </Col>
+            </div>
+
+            
+          </div>
           </div>
         </div>
       </Container>
     </div>
   );
 }
+function mapStateToProps(state) {
+  return {
+        product: state.productReducer.product,
+        cartProducts: state.cartReducer.products
+  }
+}
 
-export default ProductsMati;
+
+function mapDispatchToProps(dispatch) {
+  return {
+    addProductToCart: (body) => dispatch(addProductToCart(body)),
+    getProductById: (id) => dispatch(getProductById(id)),
+    getProductsFromCart: () => dispatch(getProductsFromCart()),
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ProductsMati);
+

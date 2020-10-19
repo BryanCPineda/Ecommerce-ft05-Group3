@@ -24,7 +24,7 @@ module.exports = (sequelize)=>{
         isAlpha: true
       }
     },
-    lastName: {
+    lastname: {
       type: S.STRING,
       allowNull: false,
       validate: {
@@ -66,7 +66,7 @@ module.exports = (sequelize)=>{
         }
       }
     },
-    userType: {
+    usertype: {
       type: S.ENUM,
       allowNull: false,
       defaultValue: 'client',
@@ -90,6 +90,6 @@ module.exports = (sequelize)=>{
     image: {
       type: S.TEXT,
       allowNull: true,
-    }
-  })
+    },
+  }, { timestamps: false })
 }

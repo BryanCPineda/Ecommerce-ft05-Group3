@@ -1,17 +1,49 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FiShoppingCart } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import "./ProductCard.css";
-import { BsFillDashCircleFill } from "react-icons/bs";
+import { BsFillDashCircleFill, BsCheck } from "react-icons/bs";
+import { connect } from 'react-redux';
+import {getProductById} from '../actions/product';
+import { addProductToCart} from '../actions/cartActions';
+import {reloadProductCard} from '../actions/product';
+import {getProductsFromCart} from '../actions/cartActions';
 
+function ProductCard({current, getProductsFromCart, name, description, price, stock, images, id, addProductToCart, cartState, getProductById, reloadProductCard, cartProducts}) {
 
-function ProductCard({ name, description, price, stock, images, id }) {
+  const body = {
+    quantity: 1,
+    productId:"" 
+}
+ 
+var cartProductsTemp = cartProducts;
+
+  const[showCard, setShowCard] = useState(true)
+
+  const handleClick = (id) => {
+    body.productId = id;
+    setShowCard(false);
+    addProductToCart(body);
+    reloadProductCard();
+    getProductsFromCart();
+
+   }
+
+  const handleClickLinkToProduct = (id) =>{
+    getProductById(id)
+  }
+
+  useEffect(()=>{
+      cartProducts.product && (cartProducts.product.find(product => product.id === id)) ? setShowCard(false) : setShowCard(true)
+  } 
+    ,[current]);
+     
   return (
     <div className="product-card card-container">
       <div className="img d-flex justify-content-center">
         <img variant="top" style={{width: '19rem'}} src={images && images.image} alt="product" className="image"></img>
       </div>
-      <Link to={`/user/product/${id}`} className="title-card"> 
+      <Link to={`/user/product/${id}`} className="title-card" onClick={()=>{handleClickLinkToProduct(id)}}> 
         <div className="title-card">
           <p style={{ color: "black" }}>{name}</p>
         </div>
@@ -28,14 +60,22 @@ function ProductCard({ name, description, price, stock, images, id }) {
         </div>
         <div className="d-flex align-self-center">
           {
-            !stock ? (<button disabled={true} className="RO-border-button">
+            !stock ? (
+              <button disabled={true} className="RO-border-button">
               Runned Out  &nbsp;&nbsp;
               <BsFillDashCircleFill />
-            </button>) :
-              <button className="border-buttom">
+            </button>
+            ) : ( showCard ? 
+              <button className="border-buttom"  onClick={()=> handleClick(id)}   >
                 Add to Cart&nbsp;
                 <FiShoppingCart className="h5 mt-1" />
-              </button>
+              </button> 
+              :
+              <button disabled={true} className="RO-border-button">
+                 Added  &nbsp;&nbsp;
+              <BsCheck />
+            </button>
+            )
           }
           
         </div>
@@ -44,4 +84,24 @@ function ProductCard({ name, description, price, stock, images, id }) {
   );
 }
 
-export default ProductCard;
+function mapStateToProps(state) {
+  return {
+        cartState: state.cartReducer.cart,
+     //   cartProducts: state.cartReducer.products
+  }
+}
+
+
+function mapDispatchToProps(dispatch) {
+  return {
+    addProductToCart: (body) => dispatch(addProductToCart(body)),
+    getProductById: (id) => dispatch(getProductById(id)),
+    reloadProductCard: () => dispatch(reloadProductCard()),
+    getProductsFromCart: () => dispatch(getProductsFromCart()),
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ProductCard);
