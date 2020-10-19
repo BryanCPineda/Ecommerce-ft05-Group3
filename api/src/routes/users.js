@@ -126,24 +126,6 @@ server.put("/:id", (req, res) => {
     });
 });
 
-// Delete a user
-server.delete('/:id', async (req, res)=>{
-  try {
-    const id = req.params.id;
-    const userDeleted = await Users.destroy({
-      where: {
-        id: id
-      }
-    })
-    if (userDeleted !== 0) {
-      return res.send('USER CORRECTLY DELETED');
-    }
-    return res.send('THE USER DOES NOT LONGER EXISTS');
-  } 
-  catch (err) {
-    return res.send({ data: err }).status(400);
-  }  
-})
 // Editing quantities of products in one orderline
 server.put("/:userId/cart", async (req, res) => {
   // S41-Crear-Ruta-para-editar-las-cantidades-del-carrito
