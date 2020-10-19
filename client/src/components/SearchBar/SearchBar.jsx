@@ -27,6 +27,16 @@ function SearchBar(props) {
   }
 
   return (
+    // <div className="navigation">
+    //   <Link to="/user/catalogo">
+    //   <div className="mt-3 brand">
+    //       <img className="image-brand" src={"/images/brand4.png"} alt="logo"></img>
+    //   </div>
+    //   </Link>
+      <div>
+        <td>
+          <tr>
+            <td>
     <div className="navigation">
       <Link to="/user/catalogo">
       <div className="mt-3 brand">
@@ -36,13 +46,16 @@ function SearchBar(props) {
       <div className="mt-4">
         <Form className="d-flex">
           <input
-            className="search mr-2 mt-3"
+            className="search"
             name="search"
             type="text"
             placeholder="Search Product"
             onChange={handleChange}
           ></input>
+          </td>
+          <td>
           <button
+            className="button"
             className="button-search-bar mt-3"
             type="submit"
             variant="outline-primary"
@@ -50,6 +63,9 @@ function SearchBar(props) {
           >
             Search
           </button>
+          </td>
+          </tr>
+        </td>
           
         </Form>
         <Link to="/user/carrito">     
@@ -77,7 +93,15 @@ function SearchBar(props) {
       <button className="mr-2 button-search-bar">Sign In</button>
       <div className="sign-up-button"><Register /></div>
       </div>
-    </div>
+    //   <div className="mt-4 sign">
+    //     <Link to ="/admin">
+    //     <button className="button mr-3">Admin</button>
+    //     </Link>
+    //     <Link to="/">
+    //     <button className="button mr-5 mt-3 sign-up">Sign out</button>
+    //     </Link>      
+    //   </div>
+    // </div>
   );
 };
 
