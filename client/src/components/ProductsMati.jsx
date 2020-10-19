@@ -47,7 +47,12 @@ useEffect(()=>{
   const handleClick = (id) => {
     body.productId = id;
     if(body.quantity === ""){
-          window.alert("agregue cantidad")
+          body.quantity=1
+          addProductToCart(body);
+    setState({
+      showCard: false,
+    })
+          /* window.alert("agregue cantidad" )*/
     }else{
     addProductToCart(body);
     setState({
@@ -139,9 +144,9 @@ useEffect(()=>{
                 <Col className="col-3">
                       {product.stock > 0 &&  (
                           <Form.Control
-                              placeholder="Quantity"
+                              placeholder="1"
                               onChange={(e) =>{ onChangeQuantity(e.target.value) }}
-                              min="1"
+                              min="2"
                               max={product.stock}
                               type="number"
                               style={{width: '8rem', fontSize: '17px', height: '3rem'}}
