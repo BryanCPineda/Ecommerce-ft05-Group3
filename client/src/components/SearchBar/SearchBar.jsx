@@ -44,7 +44,7 @@ function SearchBar(props) {
             onChange={handleChange}
           ></input>
           </td>
-          {/* <td>
+          <td>
           <button
             className="button"
             type="submit"
@@ -53,7 +53,7 @@ function SearchBar(props) {
           >
             Search
           </button>
-          </td> */}
+          </td>
           </tr>
         </td>
       </div>

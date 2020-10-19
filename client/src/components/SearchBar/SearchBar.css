@@ -36,6 +36,7 @@
 
 ::-webkit-input-placeholder {
     color:    white;
+    font-size: 75%;
 }
 
 .brand {
