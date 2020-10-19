@@ -17,60 +17,59 @@ import { getProducts, updateProduct } from "../../actions/product"
 
 const Cart = ({order, getOrder, products, getProducts, updateProduct, cambioEstadoCarrito, vaciarCarrito, quitarItemCarrito}) => {
     
-      //const [state, setState] = useState({
-      //products: products
-      //})
-      console.log('-------------', order)
-      const [total, setTotal] = useState(0)
+    
+      const [state, setState] = useState({
+        products: order.product
+        })
+  
+  
+    const [total, setTotal] = useState(0)
+       
+    // ------------------redireccionar --------------
+    const [stateRedirect, setRedirect] = useState({ redirect: null })
+    // ------------------redireccionar --------------
+  let prod = []
+  let totalCost = 0
 
-      // ------------------redireccionar --------------
-      const [stateRedirect, setRedirect] = useState({ redirect: null })
-
-      // ------------------redireccionar --------------
-
-    let prod = []
-
-    let totalCostTmp=0;
-
-    const [totalCost, setTotalCost] = useState(0)
+  useEffect(() => {
+      getOrder()
+     
+    }, [])
 
     useEffect(() => {
-        getOrder()
-      }, [totalCost])
-
+      setState({
+        products: order.product
+        })
+    // console.log('state luego de borrar',state)
+        console.log("escuche que quitaste un item del carrito")
+    }, [quitarItemCarrito])
+        
     
-
-
-      //useEffect(() => {
-      //  setState({
-      //    products: order.product
-      //    })
-      // console.log('state luego de borrar',state)
-      //}, [quitarItemCarrito])
     
     const quantityChange = (e, id) =>{
-        let cantCambiada = e
-        prod = order.product
-        prod ? prod.forEach( e => {
-          if (e.orderline.id === id){
-            e.stock = e.stock + e.orderline.quantity - cantCambiada
-            e.orderline.quantity = cantCambiada
-          }}
-        ) : console.log('nada')
+      let cantCambiada = e
+      totalCost = 0;
+      prod = order.product
 
+      prod ? prod.forEach( e => {
+        if (e.orderline.id === id){
+          e.stock = e.stock + e.orderline.quantity - cantCambiada
+          e.orderline.quantity = cantCambiada
+        }}
+      ) : console.log('nada')
 
-        if(prod){
-          prod.forEach(element => {
-              totalCostTmp = totalCostTmp + parseInt(element.price)
-          })
-        }setTotalCost(totalCostTmp)
-        
-       
-        
-        
-    }
-    console.log(totalCostTmp)
-    console.log(totalCost)
+      prod ? prod.forEach( e =>{
+        totalCost += e.price * e.orderline.quantity
+        console.log("total cost de cada productos", totalCost)}
+      ) : console.log('nada')
+      
+      setTotal(totalCost)
+      
+      setState({
+        ...state,
+        products: prod})
+
+  }
 
 
     const handleDelete = (id) =>{
@@ -83,14 +82,13 @@ const Cart = ({order, getOrder, products, getProducts, updateProduct, cambioEsta
       })
       .then((willDelete) => {
         if (willDelete) {
-          quitarItemCarrito(id)
-
-          
-          swal("Your cart is Empty!", {
+          quitarItemCarrito(id);
+        
+         
+          swal("Your Item Has Been Deleted!", {
             icon: "success",
           }).then(() =>  {
-                      
-
+                            window.location.reload();    
           })
   
       } } )
@@ -133,7 +131,7 @@ const Cart = ({order, getOrder, products, getProducts, updateProduct, cambioEsta
       .then((willDelete) => {
         if (willDelete) {
           vaciarCarrito()
-
+          setTotal(0)
           swal("Your cart is Empty!", {
             icon: "success",
           }).then(() => {
@@ -149,22 +147,22 @@ const Cart = ({order, getOrder, products, getProducts, updateProduct, cambioEsta
       
   return ( 
     
-    <Container className="container-cart-use">
-      <Row className='m-3 d-none d-md-block cart-text '>
-        <Col className=" text-center py-2" style={{color: 'white'}}> 
+    <Container>
+      <Row className='m-3 d-none d-md-block cart-text'>
+        <Col className="bg-light text-center py-2">
         My Cart <IoIosCart />
         </Col> 
       </Row>
         <Row className="m-3 d-none d-md-block">
           <Col>
-            {/* <Row className="bg-light text-center py-2"> */}
-              {/* <Col xs={3} md={2}>
+            <Row className="bg-light text-center py-2">
+              <Col xs={3} md={2}>
                 <span className="h3">
                   <IoMdPhotos />
                 </span>
-              </Col> */}
+              </Col>
               {/* ------------------ */}
-              {/* <Col>
+              <Col>
                 <Row>
                   <Col xs={6} md={4} className="text-center number" >
                     <span className="h6">Products</span>
@@ -181,25 +179,16 @@ const Cart = ({order, getOrder, products, getProducts, updateProduct, cambioEsta
                     </span>
                   </Col>
                 </Row>
-              </Col> */}
-            {/* </Row> */}
+              </Col>
+            </Row>
           </Col>
         </Row>
         <Row className="m-3 d-none d-md-block">
           <Col>
             <Row className="bg-light text-center py-2  ">
               <Col className="mx-3">
-                  
                   {products ? products.map (e => 
-                  <OrderUse orderline={e} quantityChange={quantityChange} handleDelete={handleDelete}/>) :
-                  <div>
-                  <p>
-                    <img src="../images/shopping_Sad-512.png" alt="sad cart"></img>
-                    <h3> Your cart is empty!</h3> <br></br> Add something to make me
-                    happy :)
-                  </p>
-                </div>}
-                
+                  <OrderUse orderline={e} quantityChange={quantityChange} handleDelete={handleDelete}/>):'empty cart'}
               </Col>
             </Row>
             </Col>
@@ -219,19 +208,17 @@ const Cart = ({order, getOrder, products, getProducts, updateProduct, cambioEsta
                 />
               </h4>
               <Button
-                className="btn  boton"
+                className="btn btn-dark boton"
                 onClick={handleFinCompra}
-                style={{backgroundColor: '#8a2be2', color: 'white', border: 'none'}}
               >
                 Finalize Purchase
                 </Button>
-              <button
-                className="btn  boton"
-                style={{backgroundColor: '#8a2be2', color: 'white'}}
+              <Button
+                className="btn btn-dark boton"
                 onClick={handleVaciarCarrito}
               >
                 Empty Cart
-              </button>
+              </Button>
             </Col>
           </Row>
         {/* )} */}
