@@ -17,9 +17,9 @@ import { getProducts, updateProduct } from "../../actions/product"
 
 const Cart = ({order, getOrder, products, getProducts, updateProduct, cambioEstadoCarrito, vaciarCarrito, quitarItemCarrito}) => {
     
-      const [state, setState] = useState({
-      products: order.product
-      })
+      //const [state, setState] = useState({
+      //products: products
+      //})
       console.log('-------------', order)
       const [total, setTotal] = useState(0)
 
@@ -33,15 +33,14 @@ const Cart = ({order, getOrder, products, getProducts, updateProduct, cambioEsta
 
     useEffect(() => {
         getOrder()
-       
       }, [])
 
-      useEffect(() => {
-        setState({
-          products: order.product
-          })
-       console.log('state luego de borrar',state)
-      }, [quitarItemCarrito])
+      //useEffect(() => {
+      //  setState({
+      //    products: order.product
+      //    })
+      // console.log('state luego de borrar',state)
+      //}, [quitarItemCarrito])
     
     const quantityChange = (e, id) =>{
         let cantCambiada = e
@@ -58,9 +57,9 @@ const Cart = ({order, getOrder, products, getProducts, updateProduct, cambioEsta
           totalCost += e.price * e.orderline.quantity
         ) : console.log('nada')
         setTotal(totalCost)
-        setState({
-          ...state,
-          products: prod})
+        //setState({
+        //  ...state,
+        //  products: prod})
         
     }
 
@@ -78,7 +77,9 @@ const Cart = ({order, getOrder, products, getProducts, updateProduct, cambioEsta
  
           swal("Your cart is Empty!", {
             icon: "success",
-          }).then(() =>  document.location.reload())
+          }).then(() =>  {
+                      
+          })
   
       } } )
        
@@ -88,7 +89,7 @@ const Cart = ({order, getOrder, products, getProducts, updateProduct, cambioEsta
     const handleFinCompra =() =>{
 
       let prodEnviar = []
-        state.products.map (e => {
+        products.map (e => {
           prodEnviar = {
             name: e.name,
             description: e.description,
@@ -176,7 +177,7 @@ const Cart = ({order, getOrder, products, getProducts, updateProduct, cambioEsta
           <Col>
             <Row className="bg-light text-center py-2  ">
               <Col className="mx-3">
-                  {order.product ? order.product.map (e => 
+                  {products ? products.map (e => 
                   <OrderUse orderline={e} quantityChange={quantityChange} handleDelete={handleDelete}/>):'empty cart'}
               </Col>
             </Row>
@@ -218,7 +219,8 @@ const Cart = ({order, getOrder, products, getProducts, updateProduct, cambioEsta
 function mapStateToProps(state) {
     return {
             order: state.orderReducer.order,
-            products: state.productReducer.products,
+            products: state.orderReducer.products,
+          
     }
 }
 

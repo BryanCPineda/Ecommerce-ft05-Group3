@@ -1,7 +1,6 @@
 const initialState = {
-    order: {
-        
-    }
+    order: {},
+    products: []
 }
 
 export default function orderReducer(state = initialState, action) {
@@ -9,12 +8,13 @@ export default function orderReducer(state = initialState, action) {
         case 'GET_ORDER_CART':  // trae todos los productos
             return {
                 ...state,
-                order: action.payload
+                order: action.payload,
+                products: action.payload.product
        
             }
         case 'CART_CHANGE':
             return {
-                ...state,
+                ...state, 
             }
         case 'EMPTY_CART':
             return {
@@ -23,6 +23,8 @@ export default function orderReducer(state = initialState, action) {
         case 'DELETE_ITEM_CART':
             return {
                 ...state,
+                products: state.products.filter(e => e.id !== action.payload)
+                //state.order.orderlines.filter(e => e.id === action.id)
             }
         default:
             return state;
