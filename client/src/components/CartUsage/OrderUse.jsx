@@ -46,7 +46,7 @@ function OrderUse(prod) {
               <Col>
                 <Row>
                   <Col xs={6} md={4} className="mb-3 text-left number">
-                      <h4>{prod.orderline.name} </h4>
+                      <h4 >{prod.orderline.name} </h4>
                   </Col>
                   <Col xs={6} md={3} className="mb-3 text-center">
                   <NumericInput className={'numberformat'} min={0} max={prod.orderline.stock+ prod.orderline.orderline.quantity} value={state.cantidad} onChange={value => handleCant(value)}/>
@@ -64,13 +64,15 @@ function OrderUse(prod) {
                     </span>
                   </Col>
                   <Col className="text-left number">
-                    <Button
+                    <button
                       size="sm"
+                      className="btn"
+                      style={{backgroundColor: '#8a2be2', color: 'white'}}
                       onClick={() => prod.handleDelete(prod.orderline.orderline.productId)}
-                      variant="dark"
+                      
                     >
                       Eliminar
-                    </Button>
+                    </button>
                   </Col>
                 </Row>
               </Col>

@@ -13,9 +13,10 @@ import PrductsMati from "./components/ProductsMati";
 import Footer from "./components/Footer";
 import NavbarAdmin from "./components/NavbarAdmin";
 
-import AdminOrders from "./components/Admin/adminOrders";
-import Login from "./components/Login";
-import SignUp from "./components/SignUp";
+import AdminOrders from './components/Admin/adminOrders';
+// import Login from "./components/Login";
+import SignUp from "./components/Users/userRegister";
+
 
 import store from "./store";
 import { Provider } from "react-redux";
@@ -40,9 +41,12 @@ function App() {
           <Route exact path="/admin/product" component={AdminProducts} />
           <Route exact path="/admin/orders" component={AdminOrders} />
           <Route exact path="/user/product/:id" component={PrductsMati} />
+          <Route path="/user/cart" component={CartUse} />
           <Route path="/user" component={Footer} />
-          <Route path="/SignIn" component={Login} />
-          <Route path="/SignUp" component={SignUp} />
+          
+          {/* <Route path="/SignIn" component={Login} /> */}
+          {/* <Route path="/SignUp" component={SignUp} /> */}
+
         </Router>
       </Provider>
     </div>
