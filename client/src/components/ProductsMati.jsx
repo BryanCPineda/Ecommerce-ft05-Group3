@@ -66,7 +66,9 @@ useEffect(()=>{
   }
 
   return (
-    <div>
+    <Row>
+      <Col xs={2}></Col>
+      <Col>
       <Container className="products-container">
         <div className="d-flex">
           <div className="products-image-div">
@@ -124,7 +126,7 @@ useEffect(()=>{
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${product.price}
               </button> 
               :
-              <button disabled={true} className="RO-border-button">
+              <button disabled={true} className="RO-products-button mb-4">
                  Added  &nbsp;&nbsp;
               <BsCheck />
             </button>
@@ -161,7 +163,10 @@ useEffect(()=>{
           </div>
         </div>
       </Container>
-    </div>
+      </Col>
+      <Col xs={2}></Col>
+    </Row>
+    
   );
 }
 function mapStateToProps(state) {
