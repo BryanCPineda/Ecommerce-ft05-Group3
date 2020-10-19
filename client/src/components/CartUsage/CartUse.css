@@ -1,5 +1,5 @@
 .Container {
-  margin-top: -150px;
+  margin-top: -250px;
 }
 
 .numberformat {
@@ -43,4 +43,17 @@
     1px 1px 1px rgba(0, 0, 0, 0.5);
   color: #000000;
   background: transparent;
+}
+img {
+  float: left;
+}
+h3 {
+  padding-top: 180px;
+  font-style: italic;
+  font-size: xx-large;
+  font-family: Helvetica;
+}
+
+p {
+  font-family: Helvetica;
 }
