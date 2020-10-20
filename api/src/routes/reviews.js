@@ -2,11 +2,12 @@ const server = require("express").Router();
 const { Reviews } = require("../db.js");
 
 server.get("/product/:id/review", (req, res) => {
-    const {id} = req.params;
+    const id = req.params.id;
+    console.log(id)
     
     Reviews.findAll({
         where:{
-            productId:id, 
+            productId:id,    
             
         }
     })
@@ -17,3 +18,5 @@ server.get("/product/:id/review", (req, res) => {
         return res.send({ data: err }).status(400);
       });
 })
+
+module.exports = server;
