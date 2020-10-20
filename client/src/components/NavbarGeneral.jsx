@@ -2,7 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./NavbarGeneral.css";
 import SearchBar from "./SearchBar/SearchBar";
-import SignUp from "./Users/userRegister";
+import SignUp from "./Users/userRegister"; //importamos el componente UserRegister (menu modal)
+import SignIn from "./Users/userLogin"; //importamos el componente UserLogin (menu modal)
 import { Button, Row, Col } from "react-bootstrap";
 import { IoIosCart } from "react-icons/io";
 
@@ -57,6 +58,9 @@ function NavbarGeneral() {
               </Link>
             </li>
           </ul>
+          <span class="nav-cta nav-sign">
+            <SignIn />{" "}
+          </span>
           <span class="nav-cta nav-sign">
             <SignUp />{" "}
           </span>
