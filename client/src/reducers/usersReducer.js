@@ -1,5 +1,3 @@
-
-
 const initialState = {
   allUsers: [],
   user: null,
@@ -10,12 +8,12 @@ export default function userReducer(state = initialState, action) {
     case "GET_ALL_USERS": // trae todos los usuarios
       return {
         ...state,
-        allUsers: action.payload
+        allUsers: action.payload,
       };
     case "CREATE_USER":
       return {
         ...state,
-        user: action.payload
+        user: action.payload,
       };
     case "DELETE_USER": //
       return {
