@@ -52,7 +52,7 @@ Order.belongsTo(Users, {foreignKey: 'userId'});
 Reviews.belongsTo(Users, {foreignKey:"userId"});
 
 Product.hasMany(Reviews, {foreignKey: 'productId'});
-Review.belongsTo(Users, {foreignKey: 'userId'});
+Reviews.belongsTo(Users, {foreignKey: 'userId'});
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
