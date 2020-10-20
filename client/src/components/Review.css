@@ -1,0 +1,9 @@
+li{
+  display: flex;
+  list-style: none;
+  flex-direction: row;
+}
+/*
+h2{
+  border: 1px solid black;
+} */
