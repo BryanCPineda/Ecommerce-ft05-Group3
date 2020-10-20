@@ -5,7 +5,7 @@ server.get("/product/:id/review", (req, res) => {
     const id = req.params.id;
     console.log(id)
     
-    Reviews.findAll({
+    Reviews.findAndCountAll({
         where:{
             productId:id,    
             
