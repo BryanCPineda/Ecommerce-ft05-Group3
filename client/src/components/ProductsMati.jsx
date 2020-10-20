@@ -8,28 +8,25 @@ import { connect } from 'react-redux';
 import {addProductToCart} from '../actions/cartActions';
 import {getProductById} from '../actions/product';
 import {getProductsFromCart} from '../actions/cartActions';
-
+import Review from './Review.jsx'
 function ProductsMati({getProductsFromCart, addProductToCart, product, getProductById, match, cartProducts, cartState}) {
-   
- var body = {
-    quantity: "",
-    productId:"" 
-}
+
+  var body = {
+      quantity: "",
+      productId:"" 
+  }
 
 const [state, setState] = useState({
   showCard: true,
 })
 
 useEffect(()=>{
-  
   getProductsFromCart().then(()=>{
     getProductById(match.params.id).then(()=>{
-                     
     })  
   })
-} 
-  ,[cartState]);
- 
+}, [cartState]);
+
 
   useEffect(()=>{
       let variable  
@@ -37,11 +34,10 @@ useEffect(()=>{
         variable = cartProducts.product.find(item => item.id == match.params.id)
       } 
       if(variable) {
-         setState({
+        setState({
           showCard: false
         })
     }
-   
   },[cartProducts]);
 
   const handleClick = (id) => {
@@ -66,6 +62,7 @@ useEffect(()=>{
   }
 
   return (
+    <div>
     <Row>
       <Col xs={2}></Col>
       <Col className="products-container">
@@ -127,7 +124,7 @@ useEffect(()=>{
               </button> 
               :
               <button disabled={true} className="RO-products-button mb-4">
-                 Added  &nbsp;&nbsp;
+                Added  &nbsp;&nbsp;
               <BsCheck />
             </button>
             )
@@ -157,8 +154,6 @@ useEffect(()=>{
                       )}
                   </Col>
             </div>
-
-            
           </div>
           </div>
         </div>
@@ -166,6 +161,14 @@ useEffect(()=>{
       </Col>
       <Col xs={2}></Col>
     </Row>
+    <Row>
+      <Col xs={3}></Col>
+        <div>
+          <Review/>
+        </div>
+      <Col xs={3}></Col>
+    </Row>
+    </div>
     
   );
 }
