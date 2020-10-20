@@ -1,4 +1,4 @@
-const { Product, Categories, Image, Users, Order, Orderline, Review } = require("./db.js"); // requiring models from Database
+const { Product, Categories, Image, Users, Order, Orderline, Reviews } = require("./db.js"); // requiring models from Database
 
 function imageSeeder(){    //This function create several images
 
@@ -368,65 +368,65 @@ function categoriesSeeder(){            //This function create several categorie
 }
 
 function reviewsSeeder() {              //This function create several categories
-    Review.bulkCreate([
+    Reviews.bulkCreate([
         {
-            calification: '1', 
+            qualification: '1', 
             description: 'Impresentable, he tirado mi plata!|@#~€¬=(¿}]^*)=/%$·$%!ª',
         },
         {
-            calification: '2', 
+            qualification: '2', 
             description: 'Pesimo en su terminación, no lo recomiendo',
         },
         {
-            calification: '3', 
+            qualification: '3', 
             description: 'Calidad dudosa, pero no se puede pedir mas por ese precio',
         },
         {
-            calification: '4', 
+            qualification: '4', 
             description: 'Bastante bueno en su terminación, esperemos que duro',
         },
         {
-            calification: '5', 
+            qualification: '5', 
             description: 'Excelente, 100% recomendado',
         },
         {
-            calification: '1', 
+            qualification: '1', 
             description: 'Pésimo, no malgasten su dinero',
         },
         {
-            calification: '2', 
+            qualification: '2', 
             description: 'Mas malo imposible, me siento robado',
         },
         {
-            calification: '3', 
+            qualification: '3', 
             description: 'Calidad media, por ese precio podría ser mejor',
         },
         {
-            calification: '4', 
+            qualification: '4', 
             description: 'Me gusta, cumple su función',
         },
         {
-            calification: '5', 
+            qualification: '5', 
             description: 'Increible, excelente calidad, recomendado!',
         },
         {
-            calification: '2', 
+            qualification: '2', 
             description: 'Uffff, que desepcion',
         },
         {
-            calification: '3', 
+            qualification: '3', 
             description: 'Maso maso',
         },
         {
-            calification: '3', 
+            qualification: '3', 
             description: 'Calidad standard',
         },
         {
-            calification: '5', 
+            qualification: '5', 
             description: 'Me encantaaaaa, hermoso y fuerte',
         },
         {
-            calification: '5', 
+            qualification: '5', 
             description: 'Todo bien 5 puntos',
         },
     ])
@@ -436,7 +436,7 @@ function reviews_productSeeder() {
     for (let i = 1; i < 15; i++) {
         Product.findByPk(i)
             .then((product)=>{
-                Review.findByPk(i)
+                Reviews.findByPk(i)
                     .then((review)=>{
                         product.addReview(review)
                     })
