@@ -36,7 +36,7 @@ const { Image } = sequelize.models;
 const { Order } = sequelize.models;
 const { Users } = sequelize.models;
 const { Orderline } = sequelize.models;
-const { Review } = sequelize.models;
+const { Reviews } = sequelize.models;
 
 
 // Aca vendrian las relaciones
@@ -49,8 +49,9 @@ Product.hasMany(Image,{foreignKey:'productId'});
 Users.hasMany(Order, { foreignKey: 'userId' });
 
 Order.belongsTo(Users, {foreignKey: 'userId'});
+Reviews.belongsTo(Users, {foreignKey:"userId"});
 
-Product.hasMany(Review, {foreignKey: 'productId'});
+Product.hasMany(Reviews, {foreignKey: 'productId'});
 Review.belongsTo(Users, {foreignKey: 'userId'});
 
 module.exports = {
