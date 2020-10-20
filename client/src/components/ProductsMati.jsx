@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { Container, Row, Col, Card, Carousel, Button, Form  } from "react-bootstrap";
 import './ProductsMati.css';
 import { FiShoppingCart } from "react-icons/fi";
@@ -8,7 +7,7 @@ import { connect } from 'react-redux';
 import {addProductToCart} from '../actions/cartActions';
 import {getProductById} from '../actions/product';
 import {getProductsFromCart} from '../actions/cartActions';
-import Review from './Review.jsx'
+import Review from './Reviews.jsx'
 function ProductsMati({getProductsFromCart, addProductToCart, product, getProductById, match, cartProducts, cartState}) {
 
   var body = {

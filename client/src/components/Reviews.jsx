@@ -1,5 +1,5 @@
 import React from 'react';
-import Style from './Review.css';
+import './Reviews.css';
 import { connect } from 'react-redux';
 import { Container, Row, Col, Card, Carousel, Button, Form  } from "react-bootstrap";
 import {BsStarFill, BsStarHalf, BsStar} from 'react-icons/bs'
