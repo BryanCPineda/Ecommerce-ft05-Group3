@@ -23,7 +23,7 @@ module.exports = (sequelize) => {
               }
             }
           },
-          Qualification:{
+          qualification:{
               type: S.ENUM,
               defaultValue: "1",
               values: ["1","2","3","4","5"]
