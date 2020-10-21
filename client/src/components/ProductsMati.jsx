@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { Container, Row, Col, Card, Carousel, Button, Form  } from "react-bootstrap";
 import './ProductsMati.css';
 import { FiShoppingCart } from "react-icons/fi";
@@ -8,28 +7,25 @@ import { connect } from 'react-redux';
 import {addProductToCart} from '../actions/cartActions';
 import {getProductById} from '../actions/product';
 import {getProductsFromCart} from '../actions/cartActions';
-
+import Review from './Reviews.jsx'
 function ProductsMati({getProductsFromCart, addProductToCart, product, getProductById, match, cartProducts, cartState}) {
-   
- var body = {
-    quantity: "",
-    productId:"" 
-}
+
+  var body = {
+      quantity: "",
+      productId:"" 
+  }
 
 const [state, setState] = useState({
   showCard: true,
 })
 
 useEffect(()=>{
-  
   getProductsFromCart().then(()=>{
     getProductById(match.params.id).then(()=>{
-                     
     })  
   })
-} 
-  ,[cartState]);
- 
+}, [cartState]);
+
 
   useEffect(()=>{
       let variable  
@@ -37,11 +33,10 @@ useEffect(()=>{
         variable = cartProducts.product.find(item => item.id == match.params.id)
       } 
       if(variable) {
-         setState({
+        setState({
           showCard: false
         })
     }
-   
   },[cartProducts]);
 
   const handleClick = (id) => {
@@ -66,10 +61,13 @@ useEffect(()=>{
   }
 
   return (
+
+    <div>
     <Row>
       <Col xs={2}></Col>
-      <Col>
-      <Container className="products-container">
+      <Col className="products-container">
+      <Container>
+
         <div className="d-flex">
           <div className="products-image-div">
             <div className="products-image-div-second">
@@ -127,7 +125,9 @@ useEffect(()=>{
               </button> 
               :
               <button disabled={true} className="RO-products-button mb-4">
-                 Added  &nbsp;&nbsp;
+
+                Added  &nbsp;&nbsp;
+
               <BsCheck />
             </button>
             )
@@ -157,8 +157,6 @@ useEffect(()=>{
                       )}
                   </Col>
             </div>
-
-            
           </div>
           </div>
         </div>
@@ -166,7 +164,15 @@ useEffect(()=>{
       </Col>
       <Col xs={2}></Col>
     </Row>
-    
+    <Row>
+      <Col xs={3}></Col>
+        <div>
+          <Review/>
+        </div>
+      <Col xs={3}></Col>
+    </Row>
+    </div>
+   
   );
 }
 function mapStateToProps(state) {

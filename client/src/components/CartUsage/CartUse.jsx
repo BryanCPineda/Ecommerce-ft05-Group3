@@ -157,7 +157,7 @@ const handleVaciarCarrito = () =>{
 if (stateRedirect.redirect) {
         return <Redirect to={stateRedirect.redirect} />
       }
-      
+
   return (
     <Row>
       <Col xs={2}></Col>
@@ -194,7 +194,9 @@ if (stateRedirect.redirect) {
                     </span>
                   </Col>
                 </Row>
+
               </Col> 
+
               {/* </Row> */}
             </Col>
           </Row>
@@ -259,7 +261,6 @@ if (stateRedirect.redirect) {
               </button>
             </Col>
           </Row>
-
         </Container>
       </Col>
       <Col xs={2}></Col>
