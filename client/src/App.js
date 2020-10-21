@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -19,6 +19,7 @@ import SignUp from "./components/Users/userRegister";
 
 
 import store from "./store";
+import { loadUser } from './actions/userAction'
 import { Provider } from "react-redux";
 
 import NavBarGeneral from "./components/NavbarGeneral";
@@ -26,6 +27,11 @@ import NavBarBackground from "./components/NavBarBackground";
 import CartUse from "./components/CartUsage/CartUse";
 
 function App() {
+
+  useEffect(() => {
+    store.dispatch(loadUser())
+  })
+
   return (
     <div>
       <Provider store={store}>
@@ -52,5 +58,6 @@ function App() {
     </div>
   );
 }
+
 
 export default App;

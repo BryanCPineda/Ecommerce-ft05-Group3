@@ -9,6 +9,10 @@ const {
 } = require("../db.js");
 const { Sequelize } = require("sequelize");
 const { check, validationResult, body } = require("express-validator");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const { DB_KEY } = process.env;
+
 
 // Giving all users and counting them
 server.get("/", (req, res, next) => {
@@ -49,6 +53,8 @@ server.get("/", (req, res, next) => {
 // });
 // Edit a User
 
+//register
+
 server.post(
   "/",
   [
@@ -88,7 +94,28 @@ server.post(
         password,
       });
 
-      res.status(200).send(userCreate);
+    const salt = await bcrypt.genSalt(10)
+    const hashedPassword = await bcrypt.hash(password, salt)
+    userCreate.password = hashedPassword;
+
+    await userCreate.save()
+
+    jwt.sign(
+      { id: userCreate.id },
+      DB_KEY,
+      { expiresIn: '1d' },
+      ((err, token) => {
+        if(err) throw err;
+        res.status(200).send({
+          token,
+          user: {
+            id: userCreate.id,
+            name: userCreate.name,
+            email: userCreate.email
+          }
+        })
+      })
+    )
     } catch (error) {
       console.log(error);
     }
