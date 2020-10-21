@@ -3,7 +3,26 @@ li{
   list-style: none;
   flex-direction: row;
 }
-/*
-h2{
-  border: 1px solid black;
-} */
+.filled{
+  background-color: #8a2be2;
+  border-radius: 100px;
+  height: 100%;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+.empty{
+  background-color:white;
+  border-radius: 100px;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+.bsStars{
+  color: #8a2be2;
+}
+
