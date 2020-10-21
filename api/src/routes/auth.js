@@ -81,12 +81,12 @@ server.get("/", auth, async (req, res) => {
 })
 
 //Promote User
-server.post('/promote/:id', (req, res)=>{
+server.post('/promote', auth, (req, res)=>{
 
     Users.update({
       usertype: "admin" 
     },  { 
-          where: { id: req.params.id }
+          where: { id: req.user.id }
         } 
     )
       .then(()=>{
