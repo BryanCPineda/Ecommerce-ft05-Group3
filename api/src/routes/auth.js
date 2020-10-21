@@ -56,9 +56,12 @@ server.post(
               if(err) throw err
               res.send({
                   token,
-                  id: user.id,
+                  user:{
+                    id: user.id,
                   name: user.name,
-                  email: user.email
+                  email: user.email,
+                  rol:user.usertype
+                  }                 
               })
           })
       )

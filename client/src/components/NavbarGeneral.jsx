@@ -28,7 +28,7 @@ function NavbarGeneral({ isAuthenticated, user }) {
     <div className="d-flex mt-3" style={{height: "50px"}}>
       <div className="h6 mr-3 d-flex align-items-center" 
       style={{color: 'white'}}>{user ? `Hi ${user.name} !`: null }</div>
-      <div ><Logout /></div>
+      {/* <div ><Logout /></div> */}
     </div>
   )
 
@@ -72,7 +72,7 @@ function NavbarGeneral({ isAuthenticated, user }) {
               </Link>
           </div>
           <div className="sign-logout">{isAuthenticated ? userLoaded : guest}</div>
-          <UserLoged id='UserLoged' user={user} />
+          {isAuthenticated && <UserLoged id='UserLoged' user={user}/>}
         </Col>
         <Col xs={2}></Col>
 

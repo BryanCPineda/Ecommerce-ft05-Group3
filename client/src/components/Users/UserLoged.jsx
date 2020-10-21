@@ -7,6 +7,7 @@ import swal from "sweetalert";
 import { Redirect } from "react-router-dom";
 import { Link } from "react-router-dom";
 import './UserLoged.css'
+import Logout from "./Logout";
 
 
 //-------------- Redux ------------------------
@@ -14,15 +15,13 @@ import { connect } from "react-redux";
 
 
 
-const UserLoged = (user) => {
+const UserLoged = ({user}) => {
     
-
-
   return (
 
 <DropdownButton id="dropdown-basic-button" title={user.name}>
 <Link /* conectar con compoenente profile *//* to="/user/catalogo" */><Dropdown.Item href="#/action-1">Profile</Dropdown.Item></Link>
-  <Dropdown.Item href="#/action-2">Log Out</Dropdown.Item>
+  <Dropdown.Item href="#/action-2"><Logout/></Dropdown.Item>
   
 </DropdownButton>
 
@@ -33,8 +32,8 @@ const UserLoged = (user) => {
 
 function mapStateToProps(state) {
   return {
-    user: state.userReducer.user
-    /* order: state.orderReducer.order, */
+    /* user: state.userReducer.user */
+    
     
   };
 }
