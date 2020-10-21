@@ -17,9 +17,9 @@ import {
 
 const initialState = {
   token: localStorage.getItem('token'),
-  isAuthenticated: false,
+  isAuthenticated: false, //para determinar si un usuario esta logeado
   isLoading: false,
-  user: null,
+  user: null,  //datos del usuario logeado
   allUsers: [],
 };
 

@@ -8,6 +8,7 @@ import Logout from "./Users/Logout"; //importamos el componente Logout (boton)
 import { Button, Row, Col } from "react-bootstrap";
 import { IoIosCart } from "react-icons/io";
 import { connect } from 'react-redux';
+import UserLoged from './Users/UserLoged'
 
 function NavbarGeneral({ isAuthenticated, user }) {
   // window.addEventListener('scroll', function () {
@@ -71,6 +72,7 @@ function NavbarGeneral({ isAuthenticated, user }) {
               </Link>
           </div>
           <div className="sign-logout">{isAuthenticated ? userLoaded : guest}</div>
+          <UserLoged id='UserLoged' user={user} />
         </Col>
         <Col xs={2}></Col>
 
