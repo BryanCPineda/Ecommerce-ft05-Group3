@@ -57,9 +57,10 @@ export default function userReducer(state = initialState, action) {
       localStorage.setItem('token', action.payload.token);
       return {
         ...state,
+        ...action.payload,
+        user: action.payload.user,
         token: action.payload.token,
         isAuthenticated: true,
-        user: action.payload.user,
       };
     case REGISTER_FAIL:
     case LOGIN_FAIL:

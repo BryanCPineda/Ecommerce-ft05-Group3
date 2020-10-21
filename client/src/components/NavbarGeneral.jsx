@@ -25,7 +25,8 @@ function NavbarGeneral({ isAuthenticated, user }) {
 
   const userLoaded = (
     <div className="d-flex mt-3" style={{height: "50px"}}>
-      <div className="h6 mr-3 d-flex align-items-center" style={{color: 'white'}}>{user && `Hi ${user.name} !`}</div>
+      <div className="h6 mr-3 d-flex align-items-center" 
+      style={{color: 'white'}}>{user ? `Hi ${user.name} !`: null }</div>
       <div ><Logout /></div>
     </div>
   )
