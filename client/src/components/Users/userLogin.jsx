@@ -90,7 +90,7 @@ class UserLogin extends React.Component {
     return (
       <React.Fragment>
         <Button className="button-register" onClick={this.handleShow}>
-          Login
+          Sign in
         </Button>
 
         <Modal
