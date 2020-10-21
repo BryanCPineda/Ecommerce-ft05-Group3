@@ -1,5 +1,5 @@
 const server = require("express").Router();
-const { Reviews } = require("../db.js");
+const { Reviews, Product } = require("../db.js");
 
 server.get("/product/:id/review", (req, res) => {
     const id = req.params.id;
@@ -19,4 +19,21 @@ server.get("/product/:id/review", (req, res) => {
       });
 })
 
+server.delete('/product/:id/review/:idReview', (req, res)=>{
+  const {id, idReview} = req.params;
+  Reviews.destroy({
+    where: {
+      id: idReview,
+      productId:id
+    }
+  }).then((review)=>{
+    if (review) {  
+      return res.send("Review Deleted");          
+    }
+    return res.send({ data: "Review not found!" }).status(400);
+    
+  }).catch(err => res.send({data: err}).status(400));
+})
+
 module.exports = server;
+
