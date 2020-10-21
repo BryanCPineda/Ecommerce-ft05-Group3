@@ -80,5 +80,22 @@ server.get("/", auth, async (req, res) => {
     })
 })
 
+//Promote User
+server.post('/promote/:id', (req, res)=>{
+
+    Users.update({
+      usertype: "admin" 
+    },  { 
+          where: { id: req.params.id }
+        } 
+    )
+      .then(()=>{
+          res.send("User has been Promote to Admin").status(200)
+      }).catch(err =>{
+          res.send({data: err}).status(500);
+      })
+
+
+})
 
 module.exports = server;
