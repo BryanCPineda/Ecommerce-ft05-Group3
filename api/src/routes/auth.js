@@ -12,7 +12,8 @@ const { check, validationResult, body } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { DB_KEY } = process.env;
-const auth = require('../middleware/auth');
+
+const auth = require('../middleware/auth')
 
 //login
 server.post(
@@ -56,6 +57,7 @@ server.post(
               if(err) throw err
               res.send({
                   token,
+
                   user: {
                   id: user.id,
                   name: user.name,
@@ -97,5 +99,6 @@ server.post('/promote', auth, (req, res)=>{
 
 
 })
+
 
 module.exports = server;

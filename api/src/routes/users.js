@@ -12,7 +12,9 @@ const { check, validationResult, body } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { DB_KEY } = process.env;
+
 const auth = require('../middleware/auth');
+
 
 // Giving all users and counting them
 server.get("/", (req, res, next) => {
@@ -74,7 +76,6 @@ server.post(
       const { name, lastname, email, password } = req.body;
 
       const errors = validationResult(req);
-
       if (!errors.isEmpty()) {
         return res
           .status(400)
@@ -424,6 +425,7 @@ server.delete("/:id", (req, res) => {
     });
 });
 
+
 //password Reset
 server.post('/passwordReset', auth, (req, res) => {
  
@@ -446,6 +448,5 @@ server.post('/passwordReset', auth, (req, res) => {
     })
   })
 })
-
 
 module.exports = server;
