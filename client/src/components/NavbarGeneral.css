@@ -153,25 +153,43 @@ header {
 }
 
 .searchbar-navbar {
-  position: relative;
-  left: 400px;
+
+  /*position: relative;
+  left: 400px;*/
+
+  display: flex;
+  margin-left: 8rem;
+  /* position: relative;
+  left: 400px; */
+
 }
 
 .cart-icono-navbar {
   position: relative;
-  left: 200px;
+  top: 8px;
   color: #fff;
+}
+
+.cart-navbar-letters {
+  position: relative;
+  top: 20px;
+  margin-right: 5px;
 }
 
 .admin-icono-navbar {
   position: relative;
-  top: 20px;
-  left: 250px;
+  top: 12px;
   color: #fff;
 }
 
 .nav-sign {
-  position: relative;
+  /* position: relative;
+  top: 15px; */
   height: 4rem;
-  top: 15px;
 }
+
+.sign-logout {
+  display: flex;
+  margin-left: 6rem;
+}
+
