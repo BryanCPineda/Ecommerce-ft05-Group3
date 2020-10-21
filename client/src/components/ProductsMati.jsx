@@ -168,7 +168,6 @@ useEffect(()=>{
       <Col xs={3}></Col>
     </Row>
     </div>
-    
   );
 }
 function mapStateToProps(state) {

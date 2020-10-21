@@ -13,6 +13,8 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { DB_KEY } = process.env;
 
+const auth = require('../middleware/auth');
+
 
 // Giving all users and counting them
 server.get("/", (req, res, next) => {
@@ -74,7 +76,6 @@ server.post(
       const { name, lastname, email, password } = req.body;
 
       const errors = validationResult(req);
-
       if (!errors.isEmpty()) {
         return res
           .status(400)
@@ -111,7 +112,8 @@ server.post(
           user: {
             id: userCreate.id,
             name: userCreate.name,
-            email: userCreate.email
+            email: userCreate.email,
+            rol: userCreate.usertype
           }
         })
       })
@@ -422,5 +424,29 @@ server.delete("/:id", (req, res) => {
       return res.send({ data: err }).status(400);
     });
 });
+
+
+//password Reset
+server.post('/passwordReset', auth, (req, res) => {
+ 
+  const { id } = req.user.id;
+  const { newPassword } = req.body;
+
+  const hashedPassword = bcrypt.hash(newPassword, 10)
+  .then((hashedPassword)=>{
+          Users.update(
+            {
+              password: hashedPassword
+            },
+            {
+            where: { id : id}
+            }
+          ).then(()=>{
+            res.send("Password Has been reset")
+          }).catch((err)=>{
+        res.send({data: err}).status(500);
+    })
+  })
+})
 
 module.exports = server;

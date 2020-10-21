@@ -153,10 +153,12 @@ header {
 }
 
 .searchbar-navbar {
+
   display: flex;
   margin-left: 8rem;
   /* position: relative;
   left: 400px; */
+
 }
 
 .cart-icono-navbar {
