@@ -157,6 +157,7 @@ const handleVaciarCarrito = () =>{
 if (stateRedirect.redirect) {
         return <Redirect to={stateRedirect.redirect} />
       }
+
   return (
     <Row>
       <Col xs={2}></Col>
@@ -174,9 +175,9 @@ if (stateRedirect.redirect) {
                 <span className="h3">
                   <IoMdPhotos />
                 </span>
-              </Col> */}
+              </Col>
               {/* ------------------ */}
-              {/* <Col>
+              <Col>
                 <Row>
                   <Col xs={6} md={4} className="text-center number" >
                     <span className="h6">Products</span>
@@ -193,7 +194,9 @@ if (stateRedirect.redirect) {
                     </span>
                   </Col>
                 </Row>
-              </Col> */}
+
+              </Col> 
+
               {/* </Row> */}
             </Col>
           </Row>
@@ -239,7 +242,7 @@ if (stateRedirect.redirect) {
                 />
               </h4>
               <Button
-                className="btn  boton"
+                className="btn btn-dark boton"
                 onClick={handleFinCompra}
                 style={{
                   backgroundColor: "#8a2be2",
@@ -258,7 +261,6 @@ if (stateRedirect.redirect) {
               </button>
             </Col>
           </Row>
-          {/* )} */}
         </Container>
       </Col>
       <Col xs={2}></Col>

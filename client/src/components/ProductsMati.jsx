@@ -61,11 +61,13 @@ useEffect(()=>{
   }
 
   return (
+
     <div>
     <Row>
       <Col xs={2}></Col>
       <Col className="products-container">
       <Container>
+
         <div className="d-flex">
           <div className="products-image-div">
             <div className="products-image-div-second">
@@ -123,7 +125,9 @@ useEffect(()=>{
               </button> 
               :
               <button disabled={true} className="RO-products-button mb-4">
+
                 Added  &nbsp;&nbsp;
+
               <BsCheck />
             </button>
             )
@@ -168,7 +172,7 @@ useEffect(()=>{
       <Col xs={3}></Col>
     </Row>
     </div>
-    
+   
   );
 }
 function mapStateToProps(state) {

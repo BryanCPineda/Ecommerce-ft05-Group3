@@ -10,6 +10,7 @@ import { IoIosCart } from "react-icons/io";
 import { connect } from 'react-redux';
 
 function NavbarGeneral({ isAuthenticated, user }) {
+
   // window.addEventListener('scroll', function () {
   // 	let header = document.querySelector('header');
   // 	let windowPosition = window.scrollY > 0;
@@ -92,6 +93,7 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps, null)(NavbarGeneral)
+
 
 // import React from 'react'
 // import {Link} from 'react-router-dom'
