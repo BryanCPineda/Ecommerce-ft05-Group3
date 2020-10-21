@@ -36,7 +36,7 @@ class UserRegister extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { error } = this.props;
+    const { error, isAuthenticated } = this.props;
     if (error !== prevProps.error) {
       //check for register error
       if (error.id === "REGISTER_FAIL") {
@@ -47,7 +47,7 @@ class UserRegister extends React.Component {
         this.setState({ msg: null });
       }
     }
-    if (this.props.user) {
+    if (isAuthenticated) {
       if (this.state.modal) {
         this.handleClose();
       }
@@ -226,7 +226,7 @@ const mapStateToProps = (state) => {
   return {
     allUsers: state.userReducer.users,
     error: state.error,
-    user: state.userReducer.user,
+    isAuthenticated: state.userReducer.isAuthenticated,
   };
 };
 

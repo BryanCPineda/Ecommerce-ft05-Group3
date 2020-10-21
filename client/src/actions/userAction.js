@@ -27,7 +27,9 @@ export const loadUser = () => (dispatch, getState) => {
   dispatch({ type: USER_LOADING })
 
   const config = {
-    headers: ""
+    headers: {
+      "Content-type": "Application/json"
+    }
   }
 
   const token = getState().userReducer.token
@@ -73,14 +75,14 @@ export const createUser = (user) => (dispatch) => {
     });
 };
 
-export const login = (user) => (dispatch) => {
+export const loginUser = (user) => (dispatch) => {
   const userEnv = {
     email: user.email,
     password: user.password,
   };
 
   return axios
-    .post("http://localhost:4000/users", userEnv)
+    .post("http://localhost:4000/auth", userEnv)
     .then((res) => {
       dispatch({ type: LOGIN_SUCCESS, payload: res.data });
     })

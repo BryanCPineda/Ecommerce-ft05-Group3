@@ -16,7 +16,7 @@ import { BiShowAlt, BiHide } from "react-icons/bi";
 import { Link, Redirect } from "react-router-dom";
 
 /*-------------redux-------------*/
-import { getAllUsers, createUser } from "../../actions/userAction";
+import { getAllUsers, loginUser } from "../../actions/userAction";
 import { clearErrors } from "../../actions/errorActions";
 
 class UserLogin extends React.Component {
@@ -33,10 +33,10 @@ class UserLogin extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { error } = this.props;
+    const { error, isAuthenticated } = this.props;
     if (error !== prevProps.error) {
       //check for inexistent email REVISAR!
-      if (error.id === "REGISTER_FAIL") {
+      if (error.id === "LOGIN_FAIL") {
         let errorMsgs = [];
         error.msg.errors.map((ele) => errorMsgs.push(ele));
         this.setState({ msg: errorMsgs });
@@ -44,7 +44,7 @@ class UserLogin extends React.Component {
         this.setState({ msg: null });
       }
     }
-    if (this.props.user) {
+    if (isAuthenticated) {
       if (this.state.modal) {
         this.handleClose();
       }
@@ -82,8 +82,8 @@ class UserLogin extends React.Component {
   onSubmit = (e) => {
     e.preventDefault();
     const { email, password } = this.state;
-    const login = { email, password };
-    this.props.userLog(login);
+    const user = { email, password };
+    this.props.loginUser(user);
   };
 
   render() {
@@ -194,14 +194,13 @@ const mapStateToProps = (state) => {
   return {
     allUsers: state.userReducer.allUsers,
     error: state.error,
-    user: state.userReducer.user,
+    isAuthenticated: state.userReducer.isAuthenticated,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getAllUsers: () => dispatch(getAllUsers()),
-    createUser: (user) => dispatch(createUser(user)),
+    loginUser: (user) => dispatch(loginUser(user)),
     clearErrors: () => dispatch(clearErrors()),
   };
 };

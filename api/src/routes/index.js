@@ -20,11 +20,8 @@ router.use("/category", categoriesRouter);
 router.use("/image", imageRouter);
 router.use("/orders", orderRouter);
 router.use("/users", userRouter);
-<<<<<<< HEAD
 router.use("/auth", authRouter);
-=======
 router.use("/reviews", reviewRouter);
->>>>>>> master
 
 
 module.exports = router;
