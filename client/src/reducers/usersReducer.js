@@ -33,7 +33,7 @@ export default function userReducer(state = initialState, action) {
     case "DELETE_USER": //
       return {
         ...state,
-        users: action.payload,
+        user: action.payload,
       };
     case "UPDATE_USER":
       return {

@@ -423,7 +423,7 @@ function reviewsSeeder() {              //This function create several categorie
         },
         {
             qualification: '5', 
-            description: 'Me encantaaaaa, hermoso y fuerte',
+            description: 'Me encantaaaaa, hermosa y fuerte',
         },
         {
             qualification: '5', 
@@ -432,19 +432,22 @@ function reviewsSeeder() {              //This function create several categorie
     ])
 }
 
-function reviews_productSeeder() {
-    for (let i = 1; i < 15; i++) {
-        Product.findByPk(i)
-            .then((product)=>{
-                Reviews.findByPk(i)
-                    .then((review)=>{
-                        product.addReview(review)
-                    })
-            })
+async function reviews_productSeeder() {      // This function create several relationships between reviews and products
+    var userid = 1;
+    for (let i = 1; i < 16; i++) {
+        if(userid>4){userid=1}
+        Reviews.update(
+            {
+                productId: i,
+                userId: userid
+            },
+            {where: {id: i}}
+        )
+        userid++;
     }
 }
 
-function categoy_productSederr(){ // This function create several relationships between categories and products
+function categoy_productSederr(){             // This function create several relationships between categories and products
     
     for (let i = 1; i < 14; i++) {
         Product.findByPk(i)

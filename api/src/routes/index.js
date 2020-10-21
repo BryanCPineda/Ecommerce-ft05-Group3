@@ -7,6 +7,7 @@ const imageRouter = require ('./image.js');
 const orderRouter = require ('./orders.js');
 const userRouter = require ('./users.js');
 const authRouter = require ('./auth.js');
+const reviewRouter = require ('./reviews.js');
 
 const router = Router();
 
@@ -19,7 +20,11 @@ router.use("/category", categoriesRouter);
 router.use("/image", imageRouter);
 router.use("/orders", orderRouter);
 router.use("/users", userRouter);
+<<<<<<< HEAD
 router.use("/auth", authRouter);
+=======
+router.use("/reviews", reviewRouter);
+>>>>>>> master
 
 
 module.exports = router;
