@@ -157,7 +157,6 @@ const handleVaciarCarrito = () =>{
 if (stateRedirect.redirect) {
         return <Redirect to={stateRedirect.redirect} />
       }
-
   return (
     <Row>
       <Col xs={2}></Col>
