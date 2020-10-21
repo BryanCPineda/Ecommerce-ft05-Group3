@@ -49,7 +49,6 @@ server.get("/", (req, res, next) => {
 // });
 // Edit a User
 
-
 server.post(
   "/",
   [
@@ -59,39 +58,43 @@ server.post(
     check("lastname", "Lastname is empty")
       .isLength({ min: 2, max: 50 })
       .withMessage("Lastname must have at least 2 characters"),
-    check("email")
-      .isEmail()
-      .withMessage("Invalid Email"),
+    check("email").isEmail().withMessage("Invalid Email"),
     check("password")
       .isLength({ min: 8, max: 50 })
       .withMessage("Password must have at least 8 characters"),
   ],
   async (req, res) => {
     try {
-      const {name, lastname, email, password } = req.body;
+      const { name, lastname, email, password } = req.body;
 
-    const errors = validationResult(req);
-    
-    if (!errors.isEmpty()) {
-      return res
-        .status(400)
-        .json({ errors: errors.array().map((ele) => ele.msg) });
-    }
+      const errors = validationResult(req);
 
-    const user = await Users.findOne({ where: { email: email}})
+      if (!errors.isEmpty()) {
+        return res
+          .status(400)
+          .json({ errors: errors.array().map((ele) => ele.msg) });
+      }
 
-    if(user) {
-      return res.status(400).json({ errors: ["User already exists!"] });
-    }
-    
-    const userCreate = await Users.create({ name, lastname, email, password })
+      const user = await Users.findOne({ where: { email: email } });
 
-    res.status(200).send(userCreate)
+      if (user) {
+        return res.status(400).json({ errors: ["User already exists!"] });
+      }
+
+      const userCreate = await Users.create({
+        name,
+        lastname,
+        email,
+        password,
+      });
+
+      res.status(200).send(userCreate);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  })
-  
+  }
+);
+
 server.put("/:id", (req, res) => {
   const { id } = req.params;
   const {
@@ -122,7 +125,7 @@ server.put("/:id", (req, res) => {
       return res.status(400).send("User not found!");
     })
     .catch((err) => {
-       return res.send({ data: err }).status(400);
+      return res.send({ data: err }).status(400);
     });
 });
 
@@ -171,38 +174,44 @@ server.put("/:userId/cart", async (req, res) => {
   }
 });
 
-
 // Getting all Orderlines in the Cart Plus Products
-server.get('/:idUser/cart', (req, res)=>{
-  const {idUser} = req.params;
+server.get("/:idUser/cart", (req, res) => {
+  const { idUser } = req.params;
   Order.findOne({
-    where:{
-      userId: idUser, state: "Cart"
+    where: {
+      userId: idUser,
+      state: "Cart",
     },
-    include: [{
-      model: Product,
-      
-      include: [{
-        model: Image
-      }]
-    }]
-  }).then((order)=>{
-        Orderline.findAll({
-          where:{
-            orderId: order.id
-          }
-        }).then((orderlines)=>{
-              const orderLinePlusProduct = {
-                    product: order.products,
-                    orderlines: orderlines,
-                    orderId: order.id 
-              }
-              res.send(orderLinePlusProduct);
-        })
-  }).catch((err)=>{
-      res.send({ data: err}).status(400);
+    include: [
+      {
+        model: Product,
+
+        include: [
+          {
+            model: Image,
+          },
+        ],
+      },
+    ],
   })
-})
+    .then((order) => {
+      Orderline.findAll({
+        where: {
+          orderId: order.id,
+        },
+      }).then((orderlines) => {
+        const orderLinePlusProduct = {
+          product: order.products,
+          orderlines: orderlines,
+          orderId: order.id,
+        };
+        res.send(orderLinePlusProduct);
+      });
+    })
+    .catch((err) => {
+      res.send({ data: err }).status(400);
+    });
+});
 
 // // Getting all Orderlines in the Cart
 // server.get("/:idUser/cart", async (req, res) => {
@@ -329,11 +338,11 @@ server.delete("/:idUser/cart/:idProduct", (req, res) => {
         where: {
           id: idProduct,
         },
-      }).then((product)=>{
-          product.stock = product.stock + orderline.quantity;
-          product.save();
+      }).then((product) => {
+        product.stock = product.stock + orderline.quantity;
+        product.save();
       });
-      
+
       Orderline.destroy({
         where: {
           productId: idProduct,
@@ -367,6 +376,22 @@ server.get("/:id/orders", (req, res) => {
     })
     .catch((err) => {
       console.log(err);
+      return res.send({ data: err }).status(400);
+    });
+});
+
+// delete a user
+server.delete("/:id", (req, res) => {
+  const { id } = req.params;
+  Users.destroy({ where: { id: id } })
+    .then((value) => {
+      console.log("User delete:", value);
+      if (value === 1) {
+        return res.status(202).send("User deleted");
+      }
+      return res.status(400).send("User not found!");
+    })
+    .catch((err) => {
       return res.send({ data: err }).status(400);
     });
 });
