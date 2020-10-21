@@ -1,162 +1,177 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react";
 import { FiPlus } from "react-icons/fi";
-import {Container, Row, Col, Modal, Button} from 'react-bootstrap'
-import {IoMdTrash, IoMdPhotos, IoIosCart} from 'react-icons/io'
-import NumberFormat from "react-number-format"
-import OrderUse from './OrderUse'
-import swal from 'sweetalert'
-import { Redirect } from 'react-router-dom'
-import './CartUse.css'
+import { Container, Row, Col, Modal, Button } from "react-bootstrap";
+import { IoMdTrash, IoMdPhotos, IoIosCart } from "react-icons/io";
+import NumberFormat from "react-number-format";
+import OrderUse from "./OrderUse";
+import swal from "sweetalert";
+import { Redirect } from "react-router-dom";
+import "./CartUse.css";
 
 //-------------- Redux ------------------------
-import { connect } from 'react-redux'
-import { getOrder, cambioEstadoCarrito, vaciarCarrito, quitarItemCarrito} from '../../actions/order'
-import { getProducts, updateProduct } from "../../actions/product"
-
-
+import { connect } from "react-redux";
+import {
+  getOrder,
+  cambioEstadoCarrito,
+  vaciarCarrito,
+  quitarItemCarrito,
+} from "../../actions/order";
+import { getProducts, updateProduct } from "../../actions/product";
 
 const Cart = ({order, getOrder, products, getProducts, updateProduct, cambioEstadoCarrito, vaciarCarrito, quitarItemCarrito}) => {
     
     
-      const [state, setState] = useState({
-        products: order.product
-        })
-  
-  
-    const [total, setTotal] = useState(0)
-       
-    // ------------------redireccionar --------------
-    const [stateRedirect, setRedirect] = useState({ redirect: null })
-    // ------------------redireccionar --------------
-  let prod = []
-  let totalCost = 0
+  const [state, setState] = useState({
+    products: order.product,
+    bandera: true
+    })
 
-  useEffect(() => {
-      getOrder()
-     
-    }, [])
 
-    useEffect(() => {
-      setState({
-        products: order.product
-        })
-    // console.log('state luego de borrar',state)
-        console.log("escuche que quitaste un item del carrito")
-    }, [quitarItemCarrito])
-        
-    
-    
-    const quantityChange = (e, id) =>{
-      let cantCambiada = e
-      totalCost = 0;
-      prod = order.product
+const [total, setTotal] = useState();
 
-      prod ? prod.forEach( e => {
-        if (e.orderline.id === id){
-          e.stock = e.stock + e.orderline.quantity - cantCambiada
-          e.orderline.quantity = cantCambiada
-        }}
-      ) : console.log('nada')
+console.log("ahora el total es", total);
 
-      prod ? prod.forEach( e =>{
-        totalCost += e.price * e.orderline.quantity
-        console.log("total cost de cada productos", totalCost)}
-      ) : console.log('nada')
+ //  console.log("estado local", total)
+// ------------------redireccionar --------------
+const [stateRedirect, setRedirect] = useState({ redirect: null })
+// ------------------redireccionar --------------
+let prod = []
+let totalCost = 0;
+
+useEffect(() => {
+  getOrder()
+  setState({
+    products: order.product
+    })
       
-      setTotal(totalCost)
-      
-      setState({
-        ...state,
-        products: prod})
+    console.log("escuche que quitaste un item del carrito")
+}, [state.bandera, total])
+    
 
+
+const quantityChange = (e, id) =>{
+  let cantCambiada = e
+  totalCost = 0;
+  prod = order.product
+
+  prod ? prod.forEach( e => {
+    if (e.orderline.id === id){
+      e.stock = e.stock + e.orderline.quantity - cantCambiada
+      e.orderline.quantity = cantCambiada
+    }}
+  ) : console.log('nada')
+
+  prod ? prod.forEach( e =>{
+    totalCost += e.price * e.orderline.quantity
+    }
+  ) : console.log('nada')
+  
+  //setTotal((state) =>{
+  //  return {totalCost: }
+  //})
+  
+
+  setTotal(totalCost) 
+   
+  setState({
+    ...state,
+    products: prod})
+
+}
+
+
+const handleDelete = (id) =>{
+  swal({
+    title: "Are you sure?",
+    text: "You will delete this item from your cart!",
+    icon: "warning",
+    buttons: true,
+    dangerMode: true,
+  })
+  .then((willDelete) => {
+    if (willDelete) {
+      quantityChange(0,id)
+      quitarItemCarrito(id);
+      setState({
+        bandera: !state.bandera
+      })
+      
+      swal("Your Item Has Been Deleted!", {
+        icon: "success",
+      }).then(() =>  {
+                    window.location.reload();    
+      })
+  } } )
+   
+
+}
+
+const handleFinCompra =() =>{
+
+  let prodEnviar = []
+    products.map (e => {
+      prodEnviar = {
+        name: e.name,
+        description: e.description,
+        price: e.price,
+        stock: e.stock,
+        categories:'',
+        images: ''
+      }
+      updateProduct(e.id, prodEnviar)}
+    ) 
+  cambioEstadoCarrito(order.orderId, 'Created')
+  swal("Order Created!", {
+    icon: "success",
+  }).then(() => {
+      setRedirect({ redirect: "/user/catalogo" });
+    }
+  )
+    
   }
 
-
-    const handleDelete = (id) =>{
-      swal({
-        title: "Are you sure?",
-        text: "You will delete this item from your cart!",
-        icon: "warning",
-        buttons: true,
-        dangerMode: true,
+const handleVaciarCarrito = () =>{
+  swal({
+    title: "Are you sure?",
+    text: "You will empty your cart!",
+    icon: "warning",
+    buttons: true,
+    dangerMode: true,
+  })
+  .then((willDelete) => {
+    if (willDelete) {
+      vaciarCarrito()
+      setTotal(()=>{
+            return setTotal(0); 
       })
-      .then((willDelete) => {
-        if (willDelete) {
-          quitarItemCarrito(id);
-        
-         
-          swal("Your Item Has Been Deleted!", {
-            icon: "success",
-          }).then(() =>  {
-                            window.location.reload();    
-          })
-  
-      } } )
-       
-
-    }
-
-    const handleFinCompra =() =>{
-
-      let prodEnviar = []
-        products.map (e => {
-          prodEnviar = {
-            name: e.name,
-            description: e.description,
-            price: e.price,
-            stock: e.stock,
-            categories:'',
-            images: ''
-          }
-          updateProduct(e.id, prodEnviar)}
-        ) 
-      cambioEstadoCarrito(order.orderId, 'Created')
-      swal("Order Created!", {
+      swal("Your cart is Empty!", {
         icon: "success",
       }).then(() => {
-          setRedirect({ redirect: "/user/catalogo" });
-        }
-      )
         
-      }
+      setRedirect({ redirect: "/user/catalogo" });
+        })
 
-    const handleVaciarCarrito = () =>{
-      swal({
-        title: "Are you sure?",
-        text: "You will empty your cart!",
-        icon: "warning",
-        buttons: true,
-        dangerMode: true,
-      })
-      .then((willDelete) => {
-        if (willDelete) {
-          vaciarCarrito()
-          setTotal(0)
-          swal("Your cart is Empty!", {
-            icon: "success",
-          }).then(() => {
-          setRedirect({ redirect: "/user/catalogo" });
-            })
-  
-      } } )
-  
-    }
-    if (stateRedirect.redirect) {
-            return <Redirect to={stateRedirect.redirect} />
-          }
+  } } )
+
+}
+if (stateRedirect.redirect) {
+        return <Redirect to={stateRedirect.redirect} />
+      }
       
-  return ( 
-    
-    <Container>
-      <Row className='m-3 d-none d-md-block cart-text'>
-        <Col className="bg-light text-center py-2">
-        My Cart <IoIosCart />
-        </Col> 
-      </Row>
-        <Row className="m-3 d-none d-md-block">
-          <Col>
-            <Row className="bg-light text-center py-2">
-              <Col xs={3} md={2}>
+  return (
+    <Row>
+      <Col xs={2}></Col>
+      <Col>
+        <Container className="container-cart-use">
+          <Row className="m-3 d-none d-md-block cart-text ">
+            <Col className=" text-center py-2" style={{ color: "white" }}>
+              My Cart <IoIosCart />
+            </Col>
+          </Row>
+          <Row className="m-3 d-none d-md-block">
+            <Col>
+              {/* <Row className="bg-light text-center py-2"> */}
+              {/* <Col xs={3} md={2}>
                 <span className="h3">
                   <IoMdPhotos />
                 </span>
@@ -179,23 +194,40 @@ const Cart = ({order, getOrder, products, getProducts, updateProduct, cambioEsta
                     </span>
                   </Col>
                 </Row>
-              </Col>
-            </Row>
-          </Col>
-        </Row>
-        <Row className="m-3 d-none d-md-block">
-          <Col>
-            <Row className="bg-light text-center py-2  ">
-              <Col className="mx-3">
-                  {products ? products.map (e => 
-                  <OrderUse orderline={e} quantityChange={quantityChange} handleDelete={handleDelete}/>):'empty cart'}
-              </Col>
-            </Row>
+              </Col> 
+              {/* </Row> */}
             </Col>
-        </Row>
+          </Row>
+          <Row className="m-3 d-none d-md-block">
+            <Col>
+              <Row className="bg-light text-center py-2  ">
+                <Col className="mx-3">
+                  {products ? (
+                    products.map((e) => (
+                      <OrderUse
+                        orderline={e}
+                        quantityChange={quantityChange}
+                        handleDelete={handleDelete}
+                      />
+                    ))
+                  ) : (
+                    <div>
+                      <p>
+                        <img
+                          src="../images/shopping_Sad-512.png"
+                          alt="sad cart"
+                        ></img>
+                        <h3> Your cart is empty!</h3> <br></br> Add something to
+                        make me happy :)
+                      </p>
+                    </div>
+                  )}
+                </Col>
+              </Row>
+            </Col>
+          </Row>
 
           <Row className="mx-3 text-center">
-       
             <Col xs={6} className="text-center bg-light p-3 ml-auto">
               <h4 className="mb-4 ">
                 Total:
@@ -210,44 +242,48 @@ const Cart = ({order, getOrder, products, getProducts, updateProduct, cambioEsta
               <Button
                 className="btn btn-dark boton"
                 onClick={handleFinCompra}
+                style={{
+                  backgroundColor: "#8a2be2",
+                  color: "white",
+                  border: "none",
+                }}
               >
                 Finalize Purchase
-                </Button>
-              <Button
-                className="btn btn-dark boton"
+              </Button>
+              <button
+                className="btn  boton"
+                style={{ backgroundColor: "#8a2be2", color: "white" }}
                 onClick={handleVaciarCarrito}
               >
                 Empty Cart
-              </Button>
+              </button>
             </Col>
           </Row>
-        {/* )} */}
-      </Container>
-    );
-}
+
+        </Container>
+      </Col>
+      <Col xs={2}></Col>
+    </Row>
+  );
+};
 
 function mapStateToProps(state) {
-    return {
-            order: state.orderReducer.order,
-            products: state.orderReducer.products,
-          
-    }
+  return {
+    order: state.orderReducer.order,
+    products: state.orderReducer.products,
+  };
 }
-
 
 function mapDispatchToProps(dispatch) {
-    return {
-            getOrder: () => dispatch(getOrder()),
-            getProducts: () => dispatch(getProducts()),
-            cambioEstadoCarrito: (id, status) => dispatch(cambioEstadoCarrito(id, status)),
-            updateProduct: (id, prod) => dispatch(updateProduct(id, prod) ),
-            vaciarCarrito: () => dispatch(vaciarCarrito()),
-            quitarItemCarrito: (id) => dispatch(quitarItemCarrito(id))
-          
-    }
+  return {
+    getOrder: () => dispatch(getOrder()),
+    getProducts: () => dispatch(getProducts()),
+    cambioEstadoCarrito: (id, status) =>
+      dispatch(cambioEstadoCarrito(id, status)),
+    updateProduct: (id, prod) => dispatch(updateProduct(id, prod)),
+    vaciarCarrito: () => dispatch(vaciarCarrito()),
+    quitarItemCarrito: (id) => dispatch(quitarItemCarrito(id)),
+  };
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(Cart);
+export default connect(mapStateToProps, mapDispatchToProps)(Cart);

@@ -45,7 +45,6 @@ function SearchBar(props) {
           </td>
           <td>
             <button
-              className="button"
               className="button-search-bar mt-3"
               type="submit"
               variant="outline-primary"
