@@ -117,7 +117,7 @@ class UserLogin extends React.Component {
                   // ref={register()}
                   autoComplete="off"
                   name="email"
-                  onChange={this.onChange}
+                  onChange={this.onChange /* , this.props.getAllUsers() */}
                 ></Form.Control>
               </Form.Group>
 
@@ -192,7 +192,7 @@ class UserLogin extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    allUsers: state.userReducer.users,
+    allUsers: state.userReducer.allUsers,
     error: state.error,
     user: state.userReducer.user,
   };
