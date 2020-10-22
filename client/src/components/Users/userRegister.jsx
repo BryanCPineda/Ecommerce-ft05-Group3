@@ -20,6 +20,12 @@ import SignIn from "./userLogin"; //importamos el componente UserLogin (menu mod
 import { getAllUsers, createUser } from "../../actions/userAction";
 import { clearErrors } from "../../actions/errorActions";
 
+/*--------LOGIN WHIT GOOGLE ---------*/
+import {GoogleLogin, GoogleLogout } from "react-google-login"; 
+
+/*--------LOGIN WHIT GITHUB ---------*/
+import { GithubLoginButton } from "react-social-login-buttons";
+
 class UserRegister extends React.Component {
   constructor() {
     super();
@@ -88,6 +94,26 @@ class UserRegister extends React.Component {
     const newUser = { name, lastname, email, password };
     this.props.createUser(newUser);
   };
+
+    // LOGUIN WHIT GOOGLE 
+   responseGoogle = (response) =>{
+   
+    let newGoogleUser = {
+      name: response.profileObj.givenName,
+      lastname: response.profileObj.familyName,
+      email: response.profileObj.email,
+      password: "$2a$10$KtUH0poKeLEQ8WqZ8hjcruwXPcA7.W8O1WDtcMoAFJweRGMQxDWam", //esta password es generica para todas las cuentas de google
+      image: response.profileObj.imageUrl,
+      whitGoogle: true
+    }
+    this.props.createUser(newGoogleUser)
+
+
+  }
+
+
+
+
 
   render() {
     return (
@@ -208,6 +234,23 @@ class UserRegister extends React.Component {
             </Form>
           </Modal.Body>
           <Modal.Footer>
+                      <h6> --------- OR ---------</h6>
+                      {/*LOGIN WHIT GITHUB*/}
+
+          <GithubLoginButton onClick={() => alert("este boton aun no hace nada")} />
+
+                      {/*LOGIN WHIT GOOGLE*/}
+                  
+                      <GoogleLogin 
+                        clientId="807609632644-ken5ulpg4t4gjuinurpjfuif4ord8e0s.apps.googleusercontent.com"
+                        buttonText="Login With Google"
+                        onSuccess={this.responseGoogle}
+                        onFailure={this.responseGoogle}
+                        cookiePolicy={"single_host_origin"}
+              //   isSignedIn={true}               //mantiene la sesion iniciada 
+                       /> 
+            
+            
             <button
               className="btn"
               style={{ backgroundColor: "#8a2be2", color: "white" }}
@@ -215,6 +258,11 @@ class UserRegister extends React.Component {
             >
               Close
             </button>
+                      
+            
+
+
+
           </Modal.Footer>
         </Modal>
       </React.Fragment>
