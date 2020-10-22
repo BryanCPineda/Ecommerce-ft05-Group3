@@ -4,15 +4,34 @@ import "./NavbarGeneral.css";
 import SearchBar from "./SearchBar/SearchBar";
 import SignUp from "./Users/userRegister"; //importamos el componente UserRegister (menu modal)
 import SignIn from "./Users/userLogin"; //importamos el componente UserLogin (menu modal)
+import Logout from "./Users/Logout"; //importamos el componente Logout (boton)
 import { Button, Row, Col } from "react-bootstrap";
 import { IoIosCart } from "react-icons/io";
+import { connect } from 'react-redux';
+import UserLoged from './Users/UserLoged'
 
-function NavbarGeneral() {
+function NavbarGeneral({ isAuthenticated, user }) {
+
   // window.addEventListener('scroll', function () {
   // 	let header = document.querySelector('header');
   // 	let windowPosition = window.scrollY > 0;
   // 	header.classList.toggle('scrolling-active', windowPosition);
   // })
+
+  const guest = (
+    <div className="d-flex mt-3">
+      <span><SignIn /></span>
+      <span className="ml-2"><SignUp /></span>
+    </div>
+  )
+
+  const userLoaded = (
+    <div className="d-flex mt-3" style={{height: "50px"}}>
+      <div className="h6 mr-3 d-flex align-items-center" 
+      style={{color: 'white'}}>{user ? `Hi ${user.name} !`: null }</div>
+      {/* <div ><Logout /></div> */}
+    </div>
+  )
 
   return (
     // 		<div style={{backgroundColor: 'blue'}} className="navegacion-general">
@@ -27,7 +46,7 @@ function NavbarGeneral() {
     // <body className='fontuse'>
     //     <header>
     //         <div class="container">
-    <nav className="background-al-nav-general">
+    <nav className="background-al-nav-general d-flex justify-content-center">
       <Row class="">
         <Col xs={2}></Col>
         <Col className="d-flex mt-5">
@@ -40,30 +59,21 @@ function NavbarGeneral() {
               ></img>
             </div>
           </Link>
-          <div class="searchbar-navbar">
-            <SearchBar />
-          </div>
-          <ul class="nav-list">
-            <li>
+          <div className="d-flex align-items-center" style={{height: "50px", width: '70px'}}>
               <Link to="/admin" class="nav-link admin-icono-navbar">
                 Admin
               </Link>
-            </li>
-            <li>
-              <Link to="/user/cart" class="nav-link cart-icono-navbar">
-                Cart{" "}
-                <span style={{ fontSize: "35px" }}>
-                  <IoIosCart />
-                </span>
+            </div>
+          <div className="searchbar-navbar">
+            <SearchBar />
+          </div>
+          <div className="d-flex align-items-center ml-5" style={{width: "60px", height: '50px'}}>
+              <Link to="/user/cart" class="nav-link cart-icono-navbar d-flex">   
+                <span className="cart-navbar-letters">Cart{" "}</span><span style={{ fontSize: "35px" }}><IoIosCart /></span> 
               </Link>
-            </li>
-          </ul>
-          <span class="nav-cta nav-sign">
-            <SignIn />{" "}
-          </span>
-          <span class="nav-cta nav-sign">
-            <SignUp />{" "}
-          </span>
+          </div>
+          <div className="sign-logout">{isAuthenticated ? userLoaded : guest}</div>
+          {isAuthenticated && <UserLoged id='UserLoged' user={user}/>}
         </Col>
         <Col xs={2}></Col>
 
@@ -77,8 +87,14 @@ function NavbarGeneral() {
   );
 }
 
-export default NavbarGeneral;
+const mapStateToProps = (state) => {
+  return {
+    isAuthenticated: state.userReducer.isAuthenticated,
+    user: state.userReducer.user,
+  }
+}
 
+export default connect(mapStateToProps, null)(NavbarGeneral)
 // import React from 'react'
 // import {Link} from 'react-router-dom'
 // import './NavbarGeneral.css'

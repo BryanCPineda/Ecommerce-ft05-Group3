@@ -184,7 +184,6 @@ function ProductsMati({getProductsFromCart, addProductToCart, product, getProduc
       </Container>
     </Row>
     </div>
-    
   );
 }
 function mapStateToProps(state) {

@@ -60,10 +60,6 @@ module.exports = (sequelize)=>{
         notNull: {
           msg: 'Password is mandatory.'
         }, 
-        len:{
-          args: [8, 50],
-          msg: 'Password must have at least 8 characters.'
-        }
       }
     },
     usertype: {
