@@ -13,8 +13,6 @@ const initialState = {
   loading: true,
   allProducts: [],
   allCategories: [],
-  allProducts2: [],
-  allProducts3: [],
 };
 
 export default (state = initialState, action) => {
@@ -48,12 +46,12 @@ export default (state = initialState, action) => {
     case ORDER_LOWER_PRICE:
       return {
         ...state,
-        allProducts2: state.allProducts.sort((a, b) => a.price - b.price),
+        allProducts: [...state.allProducts.sort((a, b) => a.price - b.price)],
       };
     case ORDER_HIGHER_PRICE:
       return {
         ...state,
-        allProducts3: state.allProducts.sort((a, b) => b.price - a.price),
+        allProducts: [...state.allProducts.sort((a, b) => b.price - a.price)],
       };
     default:
       return state;

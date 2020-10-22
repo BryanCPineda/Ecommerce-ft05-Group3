@@ -28,7 +28,7 @@ const { productsSeeder, categoriesSeeder , imageSeeder, categoy_productSederr, u
 conn.sync({ force: true }).then(() => {
   productsSeeder();
   categoriesSeeder();
-  // imageSeeder();
+ // imageSeeder();
   categoy_productSederr();
   usersSeeder();
   reviews_productSeeder();

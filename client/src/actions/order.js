@@ -18,12 +18,13 @@ export function cambioEstadoCarrito(id, status){
     let estado = {
         state : "Created"
     }
-    return dispatch => {
+    return (dispatch, getState) => {
 
         const config = {
             headers: {
               "Content-type": "Application/json"
-            }
+            },
+            estado
           }
         
           const token = getState().userReducer.token
@@ -32,7 +33,7 @@ export function cambioEstadoCarrito(id, status){
             config.headers["x-auth-token"] = token
           }
 
-        return Axios.put("http://localhost:4000/orders/"+id, estado, config)
+        return Axios.put("http://localhost:4000/orders/"+id, config)
         .then( res => res.data)
         .then( res => {console.log('compra creada', res)
 
@@ -42,7 +43,20 @@ export function cambioEstadoCarrito(id, status){
 }
 
 export function vaciarCarrito(idUser){
-    return dispatch => {
+    return (dispatch, getState) => {
+
+        const config = {
+            headers: {
+              "Content-type": "Application/json"
+            },
+          }
+        
+          const token = getState().userReducer.token
+        
+          if(token) {
+            config.headers["x-auth-token"] = token
+          }
+
         return Axios.delete(`http://localhost:4000/users/${idUser}/cart`)
         .then( res => res.data)
         .then( res => 
@@ -54,7 +68,20 @@ export function vaciarCarrito(idUser){
 // server.delete("/:idUser/cart/:itemId"
 
 export function quitarItemCarrito(idUser, id){
-    return dispatch => {
+    return (dispatch, getState) => {
+
+        const config = {
+            headers: {
+              "Content-type": "Application/json"
+            },
+          }
+        
+          const token = getState().userReducer.token
+        
+          if(token) {
+            config.headers["x-auth-token"] = token
+          }
+
         return Axios.delete(`http://localhost:4000/users/${idUser}/cart/`+id)
         .then( res => res.data)
         .then( res => {

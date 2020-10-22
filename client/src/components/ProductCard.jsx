@@ -11,6 +11,7 @@ import {getProductsFromCart} from '../actions/cartActions';
 
 function ProductCard({currentProducts, current, name, price, stock, images, id, addProductToCart, cartProducts, user }) {
 
+
   const body = {
     quantity: 1,
     productId:"" 
@@ -29,9 +30,8 @@ function ProductCard({currentProducts, current, name, price, stock, images, id, 
    }
 
   useEffect(()=>{
-      cartProducts.product && (cartProducts.product.find(product => product.id === id)) ? setShowCard(false) : setShowCard(true)
-  } 
-    ,[current, currentProducts]);
+    cartProducts.product && (cartProducts.product.find(product => product.id === id)) ? setShowCard(false) : setShowCard(true)
+  },[current, currentProducts]);
 
      
   return (
@@ -41,7 +41,7 @@ function ProductCard({currentProducts, current, name, price, stock, images, id, 
       </div>
       <Link to={`/user/product/${id}`} className="title-card" > 
         <div className="title-card">
-          <p style={{ color: "black" }}>{name}</p>
+          <p style={{ color: "black" }} >{name}</p>
         </div>
       </Link>
       <div className="d-flex justify-content-around stock-price-cart">
@@ -87,13 +87,13 @@ function mapStateToProps(state) {
   }
 }
 
-
 function mapDispatchToProps(dispatch) {
   return {
     addProductToCart: (idUser, body) => dispatch(addProductToCart(idUser, body)),
     getProductById: (id) => dispatch(getProductById(id)),
     reloadProductCard: () => dispatch(reloadProductCard()),
     getProductsFromCart: (idUser) => dispatch(getProductsFromCart(idUser)),
+
   }
 }
 

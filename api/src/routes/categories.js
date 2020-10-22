@@ -1,7 +1,7 @@
 const server = require("express").Router();
 const { Categories } = require("../db.js");
-const isAdmin = require('../middleware/isAdmin')
-const auth = require('../middleware/auth')
+const auth = require('../middleware/auth');
+const isAdmin = require ('../middleware/isAdmin');
 
 server.get("/", (req, res, next) => {
   Categories.findAll()
@@ -13,10 +13,11 @@ server.get("/", (req, res, next) => {
     });
 });
 
-server.post("/", auth, (req, res, next) => {
-  /* this route is for creating new categories :B */
 
-  const { name, description } = req.body;
+server.post("/", auth, isAdmin,  (req, res, next) => {
+  /* this route is for creating new categories :B */
+  
+  const { name, description } = req.body.category;
   Categories.findOrCreate({
     where: { name: name, description: description },
   })

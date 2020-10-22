@@ -220,7 +220,7 @@ server.get('/category/:category', (req, res)=>{
     })
   })
   .then(products=>{
-    console.log('PROMISE', products)
+    
     res.send(products)
   })
   .catch((err)=>{

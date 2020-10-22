@@ -12,12 +12,14 @@ export const getAllCategories = () => (dispatch) => {
   });
 };
 
-export const createCategory = (category) => (dispatch) => {
+
+export const createCategory = (category) => (dispatch, getState) => {
 
   const config = {
     headers: {
       "Content-type": "Application/json"
-    }
+    },
+    category
   }
 
   const token = getState().userReducer.token
@@ -26,12 +28,12 @@ export const createCategory = (category) => (dispatch) => {
     config.headers["x-auth-token"] = token
   }
 
-  axios.post("http://localhost:4000/category", category, config).then((res) => {
+  axios.post("http://localhost:4000/category", config).then((res) => {
     dispatch({ type: CREATE_CATEGORY, payload: res.data });
   });
 };
 
-export const deleteCategory = (id) => (dispatch) => {
+export const deleteCategory = (id) => (dispatch, getState) => {
 
   const config = {
     headers: {
@@ -50,12 +52,12 @@ export const deleteCategory = (id) => (dispatch) => {
   });
 };
 
-export const updateCategory = (id, newCategory) => (dispatch) => {
+export const updateCategory = (id, newCategory) => (dispatch, getState) => {
 
   const config = {
     headers: {
       "Content-type": "Application/json"
-    }
+    },
   }
 
   const token = getState().userReducer.token

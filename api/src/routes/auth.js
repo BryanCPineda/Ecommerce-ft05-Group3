@@ -12,6 +12,7 @@ const { check, validationResult, body } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { DB_KEY } = process.env;
+
 const auth = require('../middleware/auth')
 
 //login
@@ -63,6 +64,7 @@ server.post(
                   rol: user.usertype
                   }
               })
+
           })
       )
       } catch (error) {
@@ -75,13 +77,31 @@ server.get("/", auth, (req, res) => {
 
   Users.findByPk(req.user.id).then(user => {
     res.send({
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      rol: user.usertype
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        rol: user.usertype
     })
     .catch(err => console.log(err))
   })
+})
+
+//Promote User
+server.post('/promote', auth, (req, res)=>{
+
+    Users.update({
+      usertype: "admin" 
+    },  { 
+          where: { id: req.user.id }
+        } 
+    )
+      .then(()=>{
+          res.send("User has been Promote to Admin").status(200)
+      }).catch(err =>{
+          res.send({data: err}).status(500);
+      })
+
+
 })
 
 

@@ -52,12 +52,22 @@ export function getProductById(id){
 
 
  export function createProduct(prod) {
-     return dispatch => {
+     return (dispatch, getState) => {
+
+      const prodEnviar = {
+        name: prod.name,
+        description: prod.description,
+        price: prod.price,
+        stock: prod.stock,
+        categories: "",
+        images: "",
+      };
 
         const config = {
             headers: {
               "Content-type": "Application/json"
-            }
+            },
+            prodEnviar
           }
         
           const token = getState().userReducer.token
@@ -65,15 +75,6 @@ export function getProductById(id){
           if(token) {
             config.headers["x-auth-token"] = token
           }
-
-            const prodEnviar = {
-              name: prod.name,
-              description: prod.description,
-              price: prod.price,
-              stock: prod.stock,
-              categories: "",
-              images: "",
-            };
         
     return Axios.post("http://localhost:4000/products", prodEnviar, config)
      .then( res => res.data)
@@ -84,12 +85,21 @@ export function getProductById(id){
         }
 
 export function updateProduct(id, prod) {
-    return dispatch => {
+    return (dispatch, getState) => {
+
+      const prodEnviar = {
+        name: prod.name,
+        description: prod.description,
+        price: prod.price,
+        stock: prod.stock,
+        categories:'',
+        images: ''
+}
 
         const config = {
             headers: {
               "Content-type": "Application/json"
-            }
+            },
           }
         
           const token = getState().userReducer.token
@@ -98,14 +108,7 @@ export function updateProduct(id, prod) {
             config.headers["x-auth-token"] = token
           }
 
-            const prodEnviar = {
-                name: prod.name,
-                description: prod.description,
-                price: prod.price,
-                stock: prod.stock,
-                categories:'',
-                images: ''
-        }
+           
         
         return Axios.put('http://localhost:4000/products/'+id, prodEnviar, config)
             .then((res) =>
@@ -115,7 +118,7 @@ export function updateProduct(id, prod) {
 }
 
 export function deleteProduct(id) {
-    return dispatch => {
+    return (dispatch, getState) => {
 
         const config = {
             headers: {
@@ -137,7 +140,7 @@ export function deleteProduct(id) {
   }}
 
 export function deleteImageToProduct(id) {
-    return dispatch => {
+    return (dispatch, getState) => {
     
         const config = {
             headers: {
@@ -160,7 +163,7 @@ export function deleteImageToProduct(id) {
 }
 
 export function deleteCategoryToProduct(cat, id) {
-    return dispatch => {
+    return (dispatch, getState) => {
 
         const config = {
             headers: {
@@ -183,12 +186,17 @@ export function deleteCategoryToProduct(cat, id) {
 }
 
 export function agregarImagen(id, imagen){
-    return dispatch => {
+    return (dispatch, getState) => {
+
+      const imgEnviar = {
+        productId: id,
+        image: imagen
+    }
 
         const config = {
             headers: {
               "Content-type": "Application/json"
-            }
+            },
           }
         
           const token = getState().userReducer.token
@@ -197,12 +205,7 @@ export function agregarImagen(id, imagen){
             config.headers["x-auth-token"] = token
           }
 
-    const imgEnviar = {
-        productId: id,
-        image: imagen
-    }
-
-      return Axios.post('http://localhost:4000/image', imgEnviar, config) 
+      return Axios.post('http://localhost:4000/image',imgEnviar, config) 
       .then((res) =>
       dispatch({ type: ADD_IMAGE, payload: res})
       )
@@ -211,7 +214,7 @@ export function agregarImagen(id, imagen){
 }
 
 export function addCategoryToProduct(cat, id) {
-    return dispatch => {
+    return (dispatch, getState) => {
                         
         const config = {
             headers: {

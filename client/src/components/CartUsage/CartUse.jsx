@@ -195,26 +195,28 @@ if (stateRedirect.redirect) {
                 <span className="h3">
                   <IoMdPhotos />
                 </span>
-              </Col> */}
+              </Col>
               {/* ------------------ */}
-              {/* <Col>
+              <Col>
                 <Row>
-                  <Col xs={6} md={4} className="text-center number" >
+                  <Col xs={6} md={4} className="text-center number" style={{color: 'white'}}>
                     <span className="h6">Products</span>
                   </Col>
-                  <Col xs={6} md={3} className="text-left ml-2 number">
+                  <Col xs={6} md={3} className="text-left ml-2 number" style={{color: 'white'}}>
                     <span className="h6">Quantity</span>
                   </Col>
-                  <Col className="text-center number">
+                  <Col className="text-center number" style={{color: 'white'}}>
                     <span className="h6">Price</span>
                   </Col>
-                  <Col className="text-left ml-4 number">
+                  <Col className="text-left ml-4 number" style={{color: 'white'}}> 
                     <span className="h3">
                       <IoMdTrash />
                     </span>
                   </Col>
                 </Row>
-              </Col> */}
+
+              </Col> 
+
               {/* </Row> */}
             </Col>
           </Row>
@@ -260,7 +262,7 @@ if (stateRedirect.redirect) {
                 />
               </h4>
               <Button
-                className="btn  boton"
+                className="btn btn-dark boton"
                 onClick={handleFinCompra}
                 style={{
                   backgroundColor: "#8a2be2",
@@ -279,7 +281,6 @@ if (stateRedirect.redirect) {
               </button>
             </Col>
           </Row>
-          {/* )} */}
         </Container>
       </Col>
       <Col xs={2}></Col>

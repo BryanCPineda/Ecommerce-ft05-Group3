@@ -18,7 +18,7 @@ import {
 
     };
 
-    export const updateOrder = (state) => (dispatch) =>{
+    export const updateOrder = (state) => (dispatch, getState) =>{
 
       const config = {
         headers: {
@@ -38,7 +38,7 @@ import {
 
     };
 
-    export const deleteOrder = (id) => (dispatch) =>{
+    export const deleteOrder = (id) => (dispatch, getState) =>{
 
       const config = {
         headers: {

@@ -8,8 +8,10 @@ import Logout from "./Users/Logout"; //importamos el componente Logout (boton)
 import { Button, Row, Col } from "react-bootstrap";
 import { IoIosCart } from "react-icons/io";
 import { connect } from 'react-redux';
+import UserLoged from './Users/UserLoged'
 
 function NavbarGeneral({ isAuthenticated, user }) {
+
   // window.addEventListener('scroll', function () {
   // 	let header = document.querySelector('header');
   // 	let windowPosition = window.scrollY > 0;
@@ -27,7 +29,7 @@ function NavbarGeneral({ isAuthenticated, user }) {
     <div className="d-flex mt-3" style={{height: "50px"}}>
       <div className="h6 mr-3 d-flex align-items-center" 
       style={{color: 'white'}}>{user ? `Hi ${user.name} !`: null }</div>
-      <div ><Logout /></div>
+      {/* <div ><Logout /></div> */}
     </div>
   )
 
@@ -75,6 +77,7 @@ function NavbarGeneral({ isAuthenticated, user }) {
               </Link>
           </div>
           <div className="sign-logout">{isAuthenticated ? userLoaded : guest}</div>
+          {isAuthenticated && <UserLoged id='UserLoged' user={user}/>}
         </Col>
         <Col xs={2}></Col>
 
@@ -96,7 +99,6 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps, null)(NavbarGeneral)
-
 // import React from 'react'
 // import {Link} from 'react-router-dom'
 // import './NavbarGeneral.css'

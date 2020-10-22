@@ -5,12 +5,12 @@ import {
     GET_PRODUCTS_FROM_CART
   } from "../constants/cartConstants";
 
-    export const addProductToCart = (idUser, body) => (dispatch) => {
+    export const addProductToCart = (idUser, body) => (dispatch, getState) => {
 
       const config = {
         headers: {
           "Content-type": "Application/json"
-        }
+        },
       }
     
       const token = getState().userReducer.token
@@ -27,21 +27,21 @@ import {
     };
 
     export function getProductsFromCart(idUser){
-       return dispatch =>  {
+       return (dispatch, getState) =>  {
 
-        const config = {
-          headers: {
-            "Content-type": "Application/json"
-          }
-        }
+        // const config = {
+        //   headers: {
+        //     "Content-type": "Application/json"
+        //   }
+        // }
       
-        const token = getState().userReducer.token
+        // const token = getState().userReducer.token
       
-        if(token) {
-          config.headers["x-auth-token"] = token
-        }
+        // if(token) {
+        //   config.headers["x-auth-token"] = token
+        // }
 
-         return axios.get(`http://localhost:4000/users/${idUser}/cart`, config)
+         return axios.get(`http://localhost:4000/users/${idUser}/cart`)
          .then( res => res.data)
           .then((res) => { 
                dispatch({ type: GET_PRODUCTS_FROM_CART, payload: res });
