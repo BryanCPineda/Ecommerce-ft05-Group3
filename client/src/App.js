@@ -12,11 +12,11 @@ import LandingPage from "./components/LandingPage";
 import PrductsMati from "./components/ProductsMati";
 import Footer from "./components/Footer";
 import NavbarAdmin from "./components/NavbarAdmin";
+import UserProfile from "./components/Users/Profile";
 
-import AdminOrders from './components/Admin/adminOrders';
+import AdminOrders from "./components/Admin/adminOrders";
 // import Login from "./components/Login";
 import SignUp from "./components/Users/userRegister";
-
 
 import store from "./store";
 import { Provider } from "react-redux";
@@ -37,6 +37,7 @@ function App({ loadUser }) {
     loadUser()
   }, [])
 
+
   return (
     <div>
       
@@ -56,10 +57,10 @@ function App({ loadUser }) {
           <Route path="/error404" component={Error404} />
 
           <Route path="/user" component={Footer} />
-          
+          <Route path="/user/profile" component={UserProfile} />
+
           {/* <Route path="/SignIn" component={Login} /> */}
           {/* <Route path="/SignUp" component={SignUp} /> */}
-
         </Router>
     </div>
   );
@@ -72,3 +73,4 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default connect( null, mapDispatchToProps )(App)
+
