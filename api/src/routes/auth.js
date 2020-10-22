@@ -58,12 +58,14 @@ server.post(
               res.send({
                   token,
 
+
                   user: {
                   id: user.id,
                   name: user.name,
                   email: user.email,
                   rol: user.usertype
               }})
+
           })
       )
       } catch (error) {
