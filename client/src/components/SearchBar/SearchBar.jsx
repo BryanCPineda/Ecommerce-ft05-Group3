@@ -1,15 +1,10 @@
 import React, { useState } from "react";
-import { Form, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import "./SearchBar.css";
 import { connect } from "react-redux";
-import Register from "../Users/userRegister";
-
 import { getProductsFromSearch } from "../../actions/catalogoActions";
 
 function SearchBar(props) {
   const [search, setSearch] = useState("");
-
   const handleChange = (e) => {
     setSearch(e.target.value);
     handleOnSubmit(e);
@@ -18,51 +13,31 @@ function SearchBar(props) {
       return props.getProductsFromSearch(e.target.value);
     }
   };
-
   const handleOnSubmit = (e) => {
     e.preventDefault();
     props.getProductsFromSearch(search);
   };
 
   return (
-    // <div className="navigation">
-    //   <Link to="/user/catalogo">
-    //   <div className="mt-3 brand">
-    //       <img className="image-brand" src={"/images/brand4.png"} alt="logo"></img>
-    //   </div>
-    //   </Link>
-      <form onSubmit={handleOnSubmit}>
-        <td>
-          <tr>
-            <td>
-          <input
-            className="search"
-            name="search"
-            type="text"
-            placeholder="Search Product"
-            onChange={handleChange}
-          ></input>
-          </td>
-          <td>
-            <button
-              className="button-search-bar mt-3"
-              type="submit"
-              variant="outline-primary"
-            >
-              Search
-            </button>
-          </td>
-          </tr>
-        </td>
-      </form>
-      //  <div className="mt-4 sign">
-      //    <Link to ="/admin">
-      //    <button className="button mr-3">Admin</button>
-      //    </Link>
-      //    <Link to="/">
-      //    <button className="button mr-5 mt-3 sign-up">Sign out</button>
-      //    </Link>      
-      //  </div>
+    <form onSubmit={handleOnSubmit}>
+      <td>
+        <input
+          className="search"
+          name="search"
+          type="text"
+          placeholder="Search Product"
+          onChange={handleChange}
+        />
+      </td>
+      <td>&nbsp;&nbsp;</td>
+      <td>
+        <button
+          className="button-search-bar mt-3"
+          type="submit"
+          variant="outline-primary"
+        >Search</button>
+      </td>
+    </form>
   );
 }
 
@@ -72,11 +47,9 @@ const mapStateToProps = (state) => {
     user: state.userReducer.user,
   };
 };
-
 const mapDispatchToProps = (dispatch) => {
   return {
     getProductsFromSearch: (search) => dispatch(getProductsFromSearch(search)),
   };
 };
-
 export default connect(mapStateToProps, mapDispatchToProps)(SearchBar);
