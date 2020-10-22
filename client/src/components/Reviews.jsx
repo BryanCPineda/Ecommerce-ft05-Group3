@@ -5,10 +5,30 @@ import { Container, Row, Col, Card, Carousel, Button, Form  } from "react-bootst
 import {BsStarFill, BsStarHalf, BsStar} from 'react-icons/bs'
 
 
-function Review({reviews, oneStarReviews, twoStarReviews, threeStarReviews, fourStarReviews, fiveStarReviews}) {
+function Review({
+  // reviews, oneStarReviews, twoStarReviews, threeStarReviews, fourStarReviews, fiveStarReviews
+}) {
+  // var promedio = Math.floor(Math.random()*(5*10-1*10)+1*10)/(1*10); 
+  const oneStarReviews = Math.floor(Math.random() * 100);
+  const twoStarReviews = Math.floor(Math.random() * 100);
+  const threeStarReviews = Math.floor(Math.random() * 100);
+  const fourStarReviews = Math.floor(Math.random() * 100);
+  const fiveStarReviews = Math.floor(Math.random() * 100);
+  const totalReviews = 
+    oneStarReviews+
+    twoStarReviews+
+    threeStarReviews+
+    fourStarReviews+
+    fiveStarReviews;
+  const totalStars = 
+    oneStarReviews+
+    (twoStarReviews * 2)+
+    (threeStarReviews * 3)+
+    (fourStarReviews * 4)+
+    (fiveStarReviews * 5);
   
-  const num = Math.floor(Math.random() * 100)
-  var promedio = Math.floor(Math.random()*(5*10-1*10)+1*10)/(1*10);
+  let promedio = totalStars / totalReviews;
+  promedio = promedio.toFixed(1);
   return (
     <div>
       <Container>
@@ -19,13 +39,13 @@ function Review({reviews, oneStarReviews, twoStarReviews, threeStarReviews, four
           <Col>
             <div>
               <div>
-                <h2>
+                <h1>
                   {promedio}
-                </h2>
-                <div>
+                </h1>
+                <div >
                   {
                     promedio===1 ? (
-                      <div>
+                      <div className='bsStars'>
                       <BsStarFill/>
                       <BsStar/>
                       <BsStar/>
@@ -34,7 +54,7 @@ function Review({reviews, oneStarReviews, twoStarReviews, threeStarReviews, four
                       </div>
                     ) :
                       promedio<2 ? (
-                        <div>
+                        <div className='bsStars'>
                         <BsStarFill/>
                         <BsStarHalf/>
                         <BsStar/>
@@ -43,7 +63,7 @@ function Review({reviews, oneStarReviews, twoStarReviews, threeStarReviews, four
                         </div>
                       ) :
                         promedio===2 ? (
-                          <div>
+                          <div className='bsStars'>
                           <BsStarFill/>
                           <BsStarFill/>
                           <BsStar/>
@@ -52,7 +72,7 @@ function Review({reviews, oneStarReviews, twoStarReviews, threeStarReviews, four
                           </div>
                         ) :
                           promedio<3 ? (
-                          <div>
+                          <div className='bsStars'>
                             <BsStarFill/>
                             <BsStarFill/>
                             <BsStarHalf/>
@@ -61,7 +81,7 @@ function Review({reviews, oneStarReviews, twoStarReviews, threeStarReviews, four
                           </div>
                           ) : 
                             promedio===3 ? (
-                            <div>
+                            <div className='bsStars'>
                               <BsStarFill/>
                               <BsStarFill/>
                               <BsStarFill/>
@@ -70,7 +90,7 @@ function Review({reviews, oneStarReviews, twoStarReviews, threeStarReviews, four
                             </div>
                             ) : 
                               promedio<4 ? (
-                                <div>
+                                <div className='bsStars'>
                                 <BsStarFill/>
                                 <BsStarFill/>
                                 <BsStarFill/>
@@ -79,7 +99,7 @@ function Review({reviews, oneStarReviews, twoStarReviews, threeStarReviews, four
                                 </div>
                               ) : 
                                 promedio===4 ? (
-                                  <div>
+                                  <div className='bsStars'>
                                   <BsStarFill/>
                                   <BsStarFill/>
                                   <BsStarFill/>
@@ -88,7 +108,7 @@ function Review({reviews, oneStarReviews, twoStarReviews, threeStarReviews, four
                                   </div>
                                 ) : 
                                   promedio<5 ? (
-                                    <div>
+                                    <div className='bsStars'>
                                     <BsStarFill/>
                                     <BsStarFill/>
                                     <BsStarFill/>
@@ -97,7 +117,7 @@ function Review({reviews, oneStarReviews, twoStarReviews, threeStarReviews, four
                                     </div>
                                   ) : 
                                     (
-                                    <div>
+                                    <div className='bsStars'>
                                       <BsStarFill/>
                                       <BsStarFill/>
                                       <BsStarFill/>
@@ -108,7 +128,7 @@ function Review({reviews, oneStarReviews, twoStarReviews, threeStarReviews, four
                   }
                 </div>
                 <div>
-                  <i>Promedio entre {num*5} opiniones</i>
+                  <i>Promedio entre {totalReviews} opiniones</i>
                 </div>
               </div>
             </div>
@@ -120,10 +140,16 @@ function Review({reviews, oneStarReviews, twoStarReviews, threeStarReviews, four
                   5 estrellas
                 </div>
                 <div>
-                  &nbsp;&nbsp;&nbsp;Barra
+                  <div>
+                    &nbsp;&nbsp;&nbsp;
+                    <span className='filled'>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </span>
+                  </div>
                 </div>
                 <div>
-                  &nbsp;&nbsp;{num}
+                  &nbsp;&nbsp;{fiveStarReviews}
                 </div>
               </li>
               <li>
@@ -131,10 +157,16 @@ function Review({reviews, oneStarReviews, twoStarReviews, threeStarReviews, four
                   4 estrellas
                 </div>
                 <div>
-                  &nbsp;&nbsp;&nbsp;Barra
+                  <div>
+                    &nbsp;&nbsp;&nbsp;
+                    <span className='filled'>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </span>
+                  </div>
                 </div>
                 <div>
-                  &nbsp;&nbsp;{num}
+                  &nbsp;&nbsp;{fourStarReviews}
                 </div>
               </li>
               <li>
@@ -142,10 +174,16 @@ function Review({reviews, oneStarReviews, twoStarReviews, threeStarReviews, four
                   3 estrellas
                 </div>
                 <div>
-                  &nbsp;&nbsp;&nbsp;Barra
+                  <div>
+                    &nbsp;&nbsp;&nbsp;
+                    <span className='filled'>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </span>
+                  </div>
                 </div>
                 <div>
-                  &nbsp;&nbsp;{num}
+                  &nbsp;&nbsp;{threeStarReviews}
                 </div>
               </li>
               <li>
@@ -153,25 +191,90 @@ function Review({reviews, oneStarReviews, twoStarReviews, threeStarReviews, four
                   2 estrellas
                 </div>
                 <div>
-                  &nbsp;&nbsp;&nbsp;Barra
-                </div>
+                  <div>
+                    &nbsp;&nbsp;&nbsp;
+                    <span className='filled'>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </span>
+                    </div>
+                  </div>
                 <div>
-                  &nbsp;&nbsp;{num}
+                  &nbsp;&nbsp;{twoStarReviews}
                 </div>
               </li>
               <li>
                 <div>
                   1 estrellas
                 </div>
+                  <div>
+                      &nbsp;&nbsp;&nbsp;
+                    <span className='filled'>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </span>
+                  </div>
                 <div>
-                  &nbsp;&nbsp;&nbsp;Barra
-                </div>
-                <div>
-                  &nbsp;&nbsp;{num}
+                  &nbsp;&nbsp;{oneStarReviews}
                 </div>
               </li>
             </ul>
           </Col>
+        </Row>
+        <hr/>
+        <Row>
+          <div>
+            {
+              // reviews.map(review=>{
+              //   return (
+              //     reviews.qualification===1 ? (
+              //       <BsStarFill/>
+              //     ) :
+              //       reviews.qualification===2 ? (
+              //         <div>
+              //           <BsStarFill/>
+              //           <BsStarFill/>
+              //         </div>
+              //       ) : 
+              //         reviews.qualification===3 ? (
+              //           <div>
+              //             <BsStarFill/>
+              //             <BsStarFill/>
+              //             <BsStarFill/>
+              //           </div>
+              //         ) : 
+              //           reviews.qualification===4 ? (
+              //             <div>
+              //               <BsStarFill/>
+              //               <BsStarFill/>
+              //               <BsStarFill/>
+              //               <BsStarFill/>
+              //             </div>
+              //           ) : 
+              //             (
+              //               <div>
+              //                 <BsStarFill/>
+              //                 <BsStarFill/>
+              //                 <BsStarFill/>
+              //                 <BsStarFill/>
+              //                 <BsStarFill/>
+              //               </div>
+              //             ) 
+              //   )
+              // })
+            }
+          </div>
+          <div>
+            {
+              // reviews.map(review=>{
+              //   return (
+              //     <p>
+              //       {review.description}
+              //     </p>
+              //   )
+              // })
+            }
+          </div>
         </Row>
       </Container>
     </div>

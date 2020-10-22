@@ -4,6 +4,16 @@ import {
   DELETE_USER,
   UPDATE_USER,
 } from "../constants/userConstants";
+import {
+  USER_LOADING,
+  USER_LOADED,
+  AUTH_ERROR,
+  LOGIN_SUCCESS,
+  LOGIN_FAIL,
+  LOGOUT_SUCCESS,
+  REGISTER_SUCCESS,
+  REGISTER_FAIL,
+} from "../constants/userConstants";
 import { returnErrors } from "./errorActions";
 import axios from "axios";
 
@@ -12,6 +22,30 @@ export const getAllUsers = () => (dispatch) => {
     dispatch({ type: GET_ALL_USERS, payload: res.data.rows });
   });
 };
+
+export const loadUser = () => (dispatch, getState) => {
+  dispatch({ type: USER_LOADING })
+
+  const config = {
+    headers: {
+      "Content-type": "Application/json"
+    }
+  }
+
+  const token = getState().userReducer.token
+
+  if(token) {
+    config.headers["x-auth-token"] = token
+  }
+
+  axios.get("http://localhost:4000/auth", config).then(res => {
+    dispatch({ type: USER_LOADED, payload: res.data })
+  })
+  .catch(error => {
+    dispatch(returnErrors(error.response.data, error.response.status ))
+    dispatch({ type: AUTH_ERROR })
+  })
+}
 
 export const createUser = (user) => (dispatch) => {
   const userEnv = {
@@ -27,7 +61,7 @@ export const createUser = (user) => (dispatch) => {
   return axios
     .post("http://localhost:4000/users", userEnv)
     .then((res) => {
-      dispatch({ type: CREATE_USER, payload: res.data });
+      dispatch({ type: REGISTER_SUCCESS, payload: res.data });
     })
     .catch((error) => {
       dispatch(
@@ -37,5 +71,33 @@ export const createUser = (user) => (dispatch) => {
           "REGISTER_FAIL"
         )
       );
+      dispatch({ type: REGISTER_FAIL })
     });
 };
+
+export const loginUser = (user) => (dispatch) => {
+  const userEnv = {
+    email: user.email,
+    password: user.password,
+  };
+
+  return axios
+    .post("http://localhost:4000/auth", userEnv)
+    .then((res) => {
+      dispatch({ type: LOGIN_SUCCESS, payload: res.data });
+    })
+    .catch((error) => {
+      dispatch(
+        returnErrors(
+          error.response.data,
+          error.response.status,
+          "LOGIN_FAIL"
+        )
+      );
+      dispatch({ type: LOGIN_FAIL })
+    });
+};
+
+export const logout = () => {
+  return({ type: LOGOUT_SUCCESS })
+}

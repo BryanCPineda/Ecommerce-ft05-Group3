@@ -14,13 +14,12 @@ import { connect } from "react-redux";
 import { IconContext } from "react-icons";
 import { BiShowAlt, BiHide } from "react-icons/bi";
 import { Link, Redirect } from "react-router-dom";
-import SignIn from "./userLogin"; //importamos el componente UserLogin (menu modal)
 
 /*-------------redux-------------*/
-import { getAllUsers, createUser } from "../../actions/userAction";
+import { getAllUsers, loginUser } from "../../actions/userAction";
 import { clearErrors } from "../../actions/errorActions";
 
-class UserRegister extends React.Component {
+class UserLogin extends React.Component {
   constructor() {
     super();
 
@@ -28,8 +27,6 @@ class UserRegister extends React.Component {
       passwordShowing: false, //para el boton que muestra o esconde la password
       loading: false, //despues que das click en el boto ncrear cuenta se cambia a loading
       modal: false,
-      name: "",
-      lastname: "",
       email: "",
       password: "",
     };
@@ -38,8 +35,8 @@ class UserRegister extends React.Component {
   componentDidUpdate(prevProps) {
     const { error, isAuthenticated } = this.props;
     if (error !== prevProps.error) {
-      //check for register error
-      if (error.id === "REGISTER_FAIL") {
+      //check for inexistent email REVISAR!
+      if (error.id === "LOGIN_FAIL") {
         let errorMsgs = [];
         error.msg.errors.map((ele) => errorMsgs.push(ele));
         this.setState({ msg: errorMsgs });
@@ -84,26 +81,26 @@ class UserRegister extends React.Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    const { name, lastname, email, password } = this.state;
-    const newUser = { name, lastname, email, password };
-    this.props.createUser(newUser);
+    const { email, password } = this.state;
+    const user = { email, password };
+    this.props.loginUser(user);
   };
 
   render() {
     return (
       <React.Fragment>
         <Button className="button-register" onClick={this.handleShow}>
-          Sign up
+          Sign in
         </Button>
 
         <Modal
           show={this.state.modal}
           onHide={this.handleClose}
-          backdrop="static"
-          keyboard={false}
+          backdrop="true"
+          keyboard={true}
         >
           <Modal.Header style={{ backgroundColor: "#8a2be2", color: "white" }}>
-            <Modal.Title>Register</Modal.Title>
+            <Modal.Title>Sign In</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             {this.state.msg &&
@@ -114,33 +111,13 @@ class UserRegister extends React.Component {
               ))}
             <Form>
               <Form.Group>
-                <Form.Label>Name </Form.Label>
-                <Form.Control
-                  // ref={register()}
-                  autoComplete="off"
-                  name="name"
-                  onChange={this.onChange}
-                ></Form.Control>
-              </Form.Group>
-
-              <Form.Group>
-                <Form.Label>Lastname </Form.Label>
-                <Form.Control
-                  // ref={register()}
-                  autoComplete="off"
-                  name="lastname"
-                  onChange={this.onChange}
-                ></Form.Control>
-              </Form.Group>
-
-              <Form.Group>
                 <Form.Label>Email</Form.Label>
                 <Form.Control
                   // onChange={onChangeEmail}
                   // ref={register()}
                   autoComplete="off"
                   name="email"
-                  onChange={this.onChange}
+                  onChange={this.onChange /* , this.props.getAllUsers() */}
                 ></Form.Control>
               </Form.Group>
 
@@ -186,15 +163,6 @@ class UserRegister extends React.Component {
               </Form.Group>
 
               <Form.Group className="d-flex justify-content-between">
-                <span className="mt-2">
-                  ¿Do you have an account?{"     "}
-                  <span
-                    class="nav-cta nav-sign"
-                    onClick={() => this.handleClose}
-                  >
-                    <SignIn />{" "}
-                  </span>
-                </span>
                 <Button
                   disabled={this.state.loading}
                   type="submit"
@@ -202,7 +170,7 @@ class UserRegister extends React.Component {
                   className="button-register mt-1"
                   style={{ width: "9rem" }}
                 >
-                  {this.state.loading ? "Loading..." : "Create Account"}
+                  {this.state.loading ? "Loading..." : "Sign In"}
                 </Button>
               </Form.Group>
             </Form>
@@ -224,7 +192,7 @@ class UserRegister extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    allUsers: state.userReducer.users,
+    allUsers: state.userReducer.allUsers,
     error: state.error,
     isAuthenticated: state.userReducer.isAuthenticated,
   };
@@ -232,10 +200,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getAllUsers: () => dispatch(getAllUsers()),
-    createUser: (user) => dispatch(createUser(user)),
+    loginUser: (user) => dispatch(loginUser(user)),
     clearErrors: () => dispatch(clearErrors()),
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserRegister);
+export default connect(mapStateToProps, mapDispatchToProps)(UserLogin);
