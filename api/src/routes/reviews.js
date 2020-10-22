@@ -1,5 +1,7 @@
 const server = require("express").Router();
+
 const { Reviews, Product } = require("../db.js");
+
 
 server.get("/product/:id/review", (req, res) => {
     const id = req.params.id;
@@ -18,6 +20,7 @@ server.get("/product/:id/review", (req, res) => {
         return res.send({ data: err }).status(400);
       });
 })
+
 
 server.delete('/product/:id/review/:idReview', (req, res)=>{
   const {id, idReview} = req.params;
