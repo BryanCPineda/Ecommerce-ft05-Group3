@@ -31,7 +31,7 @@ function SearchBar(props) {
     //       <img className="image-brand" src={"/images/brand4.png"} alt="logo"></img>
     //   </div>
     //   </Link>
-      <div>
+      <form onSubmit={handleOnSubmit}>
         <td>
           <tr>
             <td>
@@ -48,14 +48,13 @@ function SearchBar(props) {
               className="button-search-bar mt-3"
               type="submit"
               variant="outline-primary"
-              onClick={handleOnSubmit}
             >
               Search
             </button>
           </td>
           </tr>
         </td>
-      </div>
+      </form>
       //  <div className="mt-4 sign">
       //    <Link to ="/admin">
       //    <button className="button mr-3">Admin</button>
