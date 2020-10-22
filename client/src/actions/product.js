@@ -53,6 +53,19 @@ export function getProductById(id){
 
  export function createProduct(prod) {
      return dispatch => {
+
+        const config = {
+            headers: {
+              "Content-type": "Application/json"
+            }
+          }
+        
+          const token = getState().userReducer.token
+        
+          if(token) {
+            config.headers["x-auth-token"] = token
+          }
+
             const prodEnviar = {
               name: prod.name,
               description: prod.description,
@@ -62,7 +75,7 @@ export function getProductById(id){
               images: "",
             };
         
-    return Axios.post("http://localhost:4000/products", prodEnviar)
+    return Axios.post("http://localhost:4000/products", prodEnviar, config)
      .then( res => res.data)
      .then( res =>
         dispatch({ type: CREATE_PRODUCT, payload: res})
@@ -72,6 +85,19 @@ export function getProductById(id){
 
 export function updateProduct(id, prod) {
     return dispatch => {
+
+        const config = {
+            headers: {
+              "Content-type": "Application/json"
+            }
+          }
+        
+          const token = getState().userReducer.token
+        
+          if(token) {
+            config.headers["x-auth-token"] = token
+          }
+
             const prodEnviar = {
                 name: prod.name,
                 description: prod.description,
@@ -81,7 +107,7 @@ export function updateProduct(id, prod) {
                 images: ''
         }
         
-        return Axios.put('http://localhost:4000/products/'+id, prodEnviar)
+        return Axios.put('http://localhost:4000/products/'+id, prodEnviar, config)
             .then((res) =>
                  dispatch({ type: UPDATE_PRODUCT, payload: res})
             )
@@ -90,7 +116,20 @@ export function updateProduct(id, prod) {
 
 export function deleteProduct(id) {
     return dispatch => {
-    return Axios.delete('http://localhost:4000/products/'+id)
+
+        const config = {
+            headers: {
+              "Content-type": "Application/json"
+            }
+          }
+        
+          const token = getState().userReducer.token
+        
+          if(token) {
+            config.headers["x-auth-token"] = token
+          }
+
+    return Axios.delete('http://localhost:4000/products/'+id, config)
             .then((res) =>
             dispatch({ type: DELETE_PRODUCT, payload: res})
             )
@@ -100,7 +139,19 @@ export function deleteProduct(id) {
 export function deleteImageToProduct(id) {
     return dispatch => {
     
-    return Axios.delete('http://localhost:4000/image/'+id)
+        const config = {
+            headers: {
+              "Content-type": "Application/json"
+            }
+          }
+        
+          const token = getState().userReducer.token
+        
+          if(token) {
+            config.headers["x-auth-token"] = token
+          }
+
+    return Axios.delete('http://localhost:4000/image/'+id, config)
         .then((res) =>
                 dispatch({ type: DELETE_IMAGE_PRODUCT, payload: res})
                 )
@@ -110,8 +161,20 @@ export function deleteImageToProduct(id) {
 
 export function deleteCategoryToProduct(cat, id) {
     return dispatch => {
+
+        const config = {
+            headers: {
+              "Content-type": "Application/json"
+            }
+          }
+        
+          const token = getState().userReducer.token
+        
+          if(token) {
+            config.headers["x-auth-token"] = token
+          }
                         
-    return Axios.delete('http://localhost:4000/products/'+id+'/category/'+cat)
+    return Axios.delete('http://localhost:4000/products/'+id+'/category/'+cat, config)
         .then((res) =>
             dispatch({ type: DELETE_CATEGORY_TO_PRODUCT, payload: res})
             )
@@ -121,12 +184,25 @@ export function deleteCategoryToProduct(cat, id) {
 
 export function agregarImagen(id, imagen){
     return dispatch => {
+
+        const config = {
+            headers: {
+              "Content-type": "Application/json"
+            }
+          }
+        
+          const token = getState().userReducer.token
+        
+          if(token) {
+            config.headers["x-auth-token"] = token
+          }
+
     const imgEnviar = {
         productId: id,
         image: imagen
     }
 
-      return Axios.post('http://localhost:4000/image', imgEnviar) 
+      return Axios.post('http://localhost:4000/image', imgEnviar, config) 
       .then((res) =>
       dispatch({ type: ADD_IMAGE, payload: res})
       )
@@ -137,7 +213,19 @@ export function agregarImagen(id, imagen){
 export function addCategoryToProduct(cat, id) {
     return dispatch => {
                         
-    return Axios.post('http://localhost:4000/products/'+id+'/category/'+cat)
+        const config = {
+            headers: {
+              "Content-type": "Application/json"
+            }
+          }
+        
+          const token = getState().userReducer.token
+        
+          if(token) {
+            config.headers["x-auth-token"] = token
+          }
+
+    return Axios.post('http://localhost:4000/products/'+id+'/category/'+cat, config)
         .then((res) =>
         dispatch({ type: ADD_CATEGORY_TO_PRODUCT, payload: res}))
                         

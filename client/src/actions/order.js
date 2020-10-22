@@ -3,10 +3,11 @@ const GET_ORDER_CART = 'GET_ORDER_CART'
 const CART_CHANGE = 'CART_CHANGE'
 const EMPTY_CART = 'EMPTY_CART'
 const DELETE_ITEM_CART = 'DELETE_ITEM_CART'
+const MODIFY_TOTAL = "MODIFY_TOTAL"
 
-export function getOrder() {
+export function getOrder(idUser) {
     return dispatch => {
-       return Axios.get("http://localhost:4000/users/1/cart")
+       return Axios.get(`http://localhost:4000/users/${idUser}/cart`)
         .then( res => res.data)
         .then( res => {console.log('get order', res)
 
@@ -18,7 +19,20 @@ export function cambioEstadoCarrito(id, status){
         state : "Created"
     }
     return dispatch => {
-        return Axios.put("http://localhost:4000/orders/"+id, estado)
+
+        const config = {
+            headers: {
+              "Content-type": "Application/json"
+            }
+          }
+        
+          const token = getState().userReducer.token
+        
+          if(token) {
+            config.headers["x-auth-token"] = token
+          }
+
+        return Axios.put("http://localhost:4000/orders/"+id, estado, config)
         .then( res => res.data)
         .then( res => {console.log('compra creada', res)
 
@@ -27,9 +41,9 @@ export function cambioEstadoCarrito(id, status){
     }
 }
 
-export function vaciarCarrito(){
+export function vaciarCarrito(idUser){
     return dispatch => {
-        return Axios.delete("http://localhost:4000/users/1/cart")
+        return Axios.delete(`http://localhost:4000/users/${idUser}/cart`)
         .then( res => res.data)
         .then( res => 
             dispatch({ type: EMPTY_CART, payload: res})
@@ -39,13 +53,19 @@ export function vaciarCarrito(){
 
 // server.delete("/:idUser/cart/:itemId"
 
-export function quitarItemCarrito(id){
+export function quitarItemCarrito(idUser, id){
     return dispatch => {
-        return Axios.delete("http://localhost:4000/users/1/cart/"+id)
+        return Axios.delete(`http://localhost:4000/users/${idUser}/cart/`+id)
         .then( res => res.data)
         .then( res => {
             
             dispatch({ type: DELETE_ITEM_CART, payload: id}) 
       })
+    }
+}
+
+export function handleTotalReducer(totalReducer) {
+    return dispatch => {
+        dispatch({ type: MODIFY_TOTAL, payload: totalReducer})
     }
 }

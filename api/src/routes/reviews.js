@@ -7,7 +7,7 @@ server.get("/product/:id/review", (req, res) => {
     
     Reviews.findAndCountAll({
         where:{
-            productId:id,    
+            productId:id,   
             
         }
     })

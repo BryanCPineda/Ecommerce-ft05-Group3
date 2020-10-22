@@ -57,11 +57,15 @@ function NavbarGeneral({ isAuthenticated, user }) {
               ></img>
             </div>
           </Link>
-          <div className="d-flex align-items-center" style={{height: "50px", width: '70px'}}>
-              <Link to="/admin" class="nav-link admin-icono-navbar">
-                Admin
-              </Link>
-            </div>
+          {user && user.rol === "admin" ? 
+            <div className="d-flex align-items-center" style={{height: "50px", width: '70px'}}>
+            <Link to="/admin" class="nav-link admin-icono-navbar">
+              Admin
+            </Link>
+           </div>
+           :
+           null
+          }  
           <div className="searchbar-navbar">
             <SearchBar />
           </div>

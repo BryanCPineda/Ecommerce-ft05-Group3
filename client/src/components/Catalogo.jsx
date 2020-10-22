@@ -26,7 +26,8 @@ function Catalogo({
   cartProducts,
   cartState,
   products2,
-  products3
+  products3,
+  user
 }) {
 
   /*------------------Pagination---------------------*/
@@ -58,10 +59,10 @@ function Catalogo({
       
     },[products, products2, products3])
 
-  useEffect(  () =>{
-    
-    getProductsFromCart();
-  
+  useEffect(() =>{
+    if(user){
+      getProductsFromCart(user.id);
+    }
   },[currentPage, cartState, ])
 
 
@@ -140,6 +141,7 @@ const mapStateToProps = (state) => {
     products: state.catalogo.allProducts,
     products2: state.catalogo.allProducts2,
     products3: state.catalogo.allProducts3,
+    user: state.userReducer.user,
   }
 }
 
@@ -147,7 +149,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     setProductsLoading: () => dispatch(setProductsLoading()),
     getAllProducts: () => dispatch(getAllProducts()),
-    getProductsFromCart: () => dispatch(getProductsFromCart()),
+    getProductsFromCart: (idUser) => dispatch(getProductsFromCart(idUser)),
   }
 }
 

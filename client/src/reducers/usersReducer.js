@@ -18,7 +18,6 @@ import {
 const initialState = {
   token: localStorage.getItem('token'),
   isAuthenticated: false,
-  isLoading: false,
   user: null,
   allUsers: [],
 };
@@ -40,33 +39,28 @@ export default function userReducer(state = initialState, action) {
         ...state,
       };
 
-    case USER_LOADING:
-      return {
-        ...state,
-        isLoading: true,
-      };
+
     case USER_LOADED:
       return {
         ...state,
-        isLoading: false,
         isAuthenticated: true,
         user: action.payload,
       };
-    case REGISTER_SUCCESS:
+
     case LOGIN_SUCCESS:
-      localStorage.setItem('token', action.payload.token);
+    case REGISTER_SUCCESS:
+      localStorage.setItem("token", action.payload.token);
       return {
         ...state,
-        ...action.payload,
-        user: action.payload.user,
         token: action.payload.token,
+        user: action.payload.user,
         isAuthenticated: true,
       };
     case REGISTER_FAIL:
     case LOGIN_FAIL:
     case LOGOUT_SUCCESS:
     case AUTH_ERROR:
-      localStorage.removeItem('token');
+      localStorage.removeItem("token");
       return {
         ...state,
         token: null,

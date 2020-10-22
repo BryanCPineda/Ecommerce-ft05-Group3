@@ -15,11 +15,17 @@ import {
   cambioEstadoCarrito,
   vaciarCarrito,
   quitarItemCarrito,
+  handleTotalReducer
 } from "../../actions/order";
 import { getProducts, updateProduct } from "../../actions/product";
 
-const Cart = ({order, getOrder, products, getProducts, updateProduct, cambioEstadoCarrito, vaciarCarrito, quitarItemCarrito}) => {
+const Cart = ({order, getOrder, products, getProducts, updateProduct, cambioEstadoCarrito, vaciarCarrito, quitarItemCarrito, user, totalReducer, handleTotalReducer }) => {
     
+  // useEffect(() => {
+  //   if(totalReducer) {
+  //     setTotal(totalReducer)
+  //   }
+  // }, [])
     
   const [state, setState] = useState({
     products: order.product,
@@ -39,15 +45,27 @@ let prod = []
 let totalCost = 0;
 
 useEffect(() => {
-  getOrder()
+  if(user) {
+    console.log("idddddddd", user.id)
+    getOrder(user.id)
   setState({
     products: order.product
     })
       
     console.log("escuche que quitaste un item del carrito")
+  }
+  
 }, [state.bandera, total])
     
-
+useEffect(() => {
+  if(user) {
+    getOrder(user.id)
+  setState({
+    products: order.product
+    })
+  }
+}, [])
+  
 
 const quantityChange = (e, id) =>{
   let cantCambiada = e
@@ -61,49 +79,51 @@ const quantityChange = (e, id) =>{
     }}
   ) : console.log('nada')
 
-  prod ? prod.forEach( e =>{
+  prod && prod.forEach( e =>{
     totalCost += e.price * e.orderline.quantity
-    }
-  ) : console.log('nada')
+    
+    })
+ 
   
   //setTotal((state) =>{
   //  return {totalCost: }
   //})
   
 
-  setTotal(totalCost) 
+  // setTotal(totalReducer) 
+ setTotal(totalCost) 
    
   setState({
     ...state,
     products: prod})
 
+  // handleTotalReducer(totalReducer);
+
 }
 
 
-const handleDelete = (id) =>{
-  swal({
-    title: "Are you sure?",
-    text: "You will delete this item from your cart!",
-    icon: "warning",
-    buttons: true,
-    dangerMode: true,
-  })
-  .then((willDelete) => {
-    if (willDelete) {
-      quantityChange(0,id)
-      quitarItemCarrito(id);
-      setState({
-        bandera: !state.bandera
-      })
-      
-      swal("Your Item Has Been Deleted!", {
-        icon: "success",
-      }).then(() =>  {
-                    window.location.reload();    
-      })
-  } } )
-   
-
+const handleDelete = (id) => {
+  if(user) {
+    swal({
+      title: "Are you sure?",
+      text: "You will delete this item from your cart!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        quantityChange(0,id)
+        quitarItemCarrito(user.id, id);
+        setState({
+          bandera: !state.bandera
+        })
+        
+        swal("Your Item Has Been Deleted!", {
+          icon: "success",
+        })
+    } } )
+  }
 }
 
 const handleFinCompra =() =>{
@@ -131,28 +151,29 @@ const handleFinCompra =() =>{
   }
 
 const handleVaciarCarrito = () =>{
-  swal({
-    title: "Are you sure?",
-    text: "You will empty your cart!",
-    icon: "warning",
-    buttons: true,
-    dangerMode: true,
-  })
-  .then((willDelete) => {
-    if (willDelete) {
-      vaciarCarrito()
-      setTotal(()=>{
-            return setTotal(0); 
-      })
-      swal("Your cart is Empty!", {
-        icon: "success",
-      }).then(() => {
-        
-      setRedirect({ redirect: "/user/catalogo" });
+  if(user) {
+    swal({
+      title: "Are you sure?",
+      text: "You will empty your cart!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        vaciarCarrito(user.id)
+        setTotal(()=>{
+              return setTotal(0); 
         })
-
-  } } )
-
+        swal("Your cart is Empty!", {
+          icon: "success",
+        }).then(() => {
+          
+        setRedirect({ redirect: "/user/catalogo" });
+          })
+    } } )
+  }
+  
 }
 if (stateRedirect.redirect) {
         return <Redirect to={stateRedirect.redirect} />
@@ -270,18 +291,21 @@ function mapStateToProps(state) {
   return {
     order: state.orderReducer.order,
     products: state.orderReducer.products,
+    user: state.userReducer.user,
+    totalReducer: state.orderReducer.total
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    getOrder: () => dispatch(getOrder()),
+    getOrder: (idUser) => dispatch(getOrder(idUser)),
     getProducts: () => dispatch(getProducts()),
     cambioEstadoCarrito: (id, status) =>
       dispatch(cambioEstadoCarrito(id, status)),
     updateProduct: (id, prod) => dispatch(updateProduct(id, prod)),
-    vaciarCarrito: () => dispatch(vaciarCarrito()),
-    quitarItemCarrito: (id) => dispatch(quitarItemCarrito(id)),
+    vaciarCarrito: (idUser) => dispatch(vaciarCarrito(idUser)),
+    quitarItemCarrito: (idUser, id) => dispatch(quitarItemCarrito(idUser, id)),
+    handleTotalReducer: (totalReducer) => dispatch(handleTotalReducer(totalReducer))
   };
 }
 

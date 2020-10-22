@@ -2,10 +2,12 @@ const server = require("express").Router();
 const { Sequelize } = require("sequelize");
 const { Product, Categories, Image } = require("../db.js");
 const Op = Sequelize.Op;
+const isAdmin = require('../middleware/isAdmin')
+const auth = require('../middleware/auth')
 
 // Checking for a match in database and create the product.
 // Of succeed, it create the product, return 201 status and product information, else return error and status 400!
-server.post("/", (req, res, next) => {
+server.post("/", auth, isAdmin, (req, res, next) => {
   const { name, description, price, stock } = req.body;
   Product.findOrCreate({
     where: {
@@ -107,7 +109,7 @@ server.get("/:id", (req, res) => {
 });
 
 //This function allow to modify a product receiving the Id by params and the rest of the information by body
-server.put("/:id", (req, res) => {
+server.put("/:id", auth, isAdmin, (req, res) => {
   const id = req.params.id;
   const { name, description, price, stock } = req.body; // you can change only one property of the product or several of them
   Product.update(
@@ -136,7 +138,7 @@ server.put("/:id", (req, res) => {
 });
 
 //This function allow to delete a product receiving the Id by params
-server.delete("/:id", (req, res) => {
+server.delete("/:id", auth, isAdmin, (req, res) => {
   const id = req.params.id;
   Product.destroy({
     where: {
@@ -154,7 +156,7 @@ server.delete("/:id", (req, res) => {
     });
 });
 
-server.post("/:idProducto/category/:idCategoria", (req, res, next) => {
+server.post("/:idProducto/category/:idCategoria", auth, isAdmin, (req, res, next) => {
   //add the category to the product
   const { idProducto, idCategoria } = req.params;
   Product.findByPk(idProducto).then((singleProduct) => {
@@ -172,7 +174,7 @@ server.post("/:idProducto/category/:idCategoria", (req, res, next) => {
   });
 });
 
-server.delete("/:idProducto/category/:idCategoria", (req, res, next) => {
+server.delete("/:idProducto/category/:idCategoria", auth, isAdmin, (req, res, next) => {
   /* this one is for deleting the product category;) */
   const { idProducto, idCategoria } = req.params;
 

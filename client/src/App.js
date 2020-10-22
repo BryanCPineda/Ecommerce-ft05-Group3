@@ -19,22 +19,27 @@ import SignUp from "./components/Users/userRegister";
 
 
 import store from "./store";
-import { loadUser } from './actions/userAction'
 import { Provider } from "react-redux";
 
 import NavBarGeneral from "./components/NavbarGeneral";
 import NavBarBackground from "./components/NavBarBackground";
 import CartUse from "./components/CartUsage/CartUse";
+import isAdmin from './components/roles/IsAdmin'
+import isUser from './components/roles/IsAdmin'
+import Error404 from './components/Error404';
 
-function App() {
+import { connect } from 'react-redux';
+import { loadUser } from './actions/userAction';
+
+function App({ loadUser }) {
 
   useEffect(() => {
-    store.dispatch(loadUser())
-  })
+    loadUser()
+  }, [])
 
   return (
     <div>
-      <Provider store={store}>
+      
         <Router>
           {/* <Route path="/user" render={() => <SearchBar />} /> */}
           <Route path="/user" component={NavBarGeneral} />
@@ -48,16 +53,22 @@ function App() {
           <Route exact path="/admin/orders" component={AdminOrders} />
           <Route exact path="/user/product/:id" component={PrductsMati} />
           <Route path="/user/cart" component={CartUse} />
+          <Route path="/error404" component={Error404} />
+
           <Route path="/user" component={Footer} />
           
           {/* <Route path="/SignIn" component={Login} /> */}
           {/* <Route path="/SignUp" component={SignUp} /> */}
 
         </Router>
-      </Provider>
     </div>
   );
 }
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loadUser: () => dispatch(loadUser())
+  }
+}
 
-export default App;
+export default connect( null, mapDispatchToProps )(App)

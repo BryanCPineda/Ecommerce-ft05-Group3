@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import "./NavbarAdmin.css";
 import { Row, Col, Button } from "react-bootstrap";
 import { connect } from 'react-redux';
@@ -8,22 +8,9 @@ import { getAllProducts } from '../actions/catalogoActions'
 import { getAllCategories } from '../actions/crudCategoriesActions'
 import { getAllOrders } from '../actions/orders'
 
-function NavbarAdmin({ users, orders, products, categories, getAllProducts, getAllCategories, getAllOrders }) {
-
+function NavbarAdmin({ users, orders, products, categories, getAllProducts, getAllCategories, getAllOrders, user }) {
   
-
-  // useEffect(() => {
-  //   getAllProducts();
-  // }, []);
-
-  useEffect(() => getAllOrders(), []);
-
-  useEffect(() => getAllProducts(), []);
-
-  useEffect(() => getAllCategories(), []);
-
-
-  return (
+  const iAmAdmin = (
     <React.Fragment>
       <div className="navbar-admin d-flex justify-content-center">
         <Link to="/user/catalogo">
@@ -74,6 +61,23 @@ function NavbarAdmin({ users, orders, products, categories, getAllProducts, getA
       </div>
     </React.Fragment>
   );
+
+  // useEffect(() => {
+  //   getAllProducts();
+  // }, []);
+
+  useEffect(() => getAllOrders(), []);
+
+  useEffect(() => getAllProducts(), []);
+
+  useEffect(() => getAllCategories(), []);
+
+
+  return (
+    <React.Fragment>
+      {user && user.rol === "admin" ? iAmAdmin : <Redirect to="/error404" />}
+    </React.Fragment>
+  )
 }
 
 const mapStateToProps = (state) => {
@@ -81,7 +85,8 @@ const mapStateToProps = (state) => {
     users: state.userReducer.allUsers,
     orders: state.ordersReducer.orders,
     products: state.catalogo.allProducts,
-    categories : state.crudCategories.allCategories
+    categories : state.crudCategories.allCategories,
+    user: state.userReducer.user
   }
 }
 
