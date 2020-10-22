@@ -10,6 +10,7 @@ import userReducer from './usersReducer';
 import orderReducer from './order';
 import cartReducer from './cartReducer';
 import errorReducer from './errorReducer';
+import reviewsReducer from './reviewsReducer';
 
 
 export default combineReducers({
@@ -23,6 +24,6 @@ export default combineReducers({
     userReducer: userReducer,
     error: errorReducer,
     ordersReducer: ordersReducer,
-    cartReducer: cartReducer
-
+    cartReducer: cartReducer,
+    reviewsReducer: reviewsReducer
 });

@@ -8,34 +8,50 @@ import {addProductToCart} from '../actions/cartActions';
 import {getProductById} from '../actions/product';
 import {getProductsFromCart} from '../actions/cartActions';
 import Review from './Reviews.jsx'
-function ProductsMati({getProductsFromCart, addProductToCart, product, getProductById, match, cartProducts, cartState}) {
+import {
+  getProductReviews, 
+  getOneStarReviews, 
+  getTwoStarsReviews, 
+  getThreeStarsReviews, 
+  getFourStarsReviews, 
+  getFiveStarsReviews
+} from '../actions/reviewsActions';
+
+
+function ProductsMati({getProductsFromCart, addProductToCart, product, getProductById, match, cartProducts, cartState, getProductReviews, getOneStarReviews, getTwoStarsReviews, getThreeStarsReviews, getFourStarsReviews, getFiveStarsReviews}) {
 
   var body = {
       quantity: "",
       productId:"" 
   }
 
-const [state, setState] = useState({
-  showCard: true,
-})
-
-useEffect(()=>{
-  getProductsFromCart().then(()=>{
-    getProductById(match.params.id).then(()=>{
-    })  
+  const [state, setState] = useState({
+    showCard: true,
   })
-}, [cartState]);
-
+  useEffect(()=>{
+    getProductsFromCart().then(()=>{
+      getProductById(match.params.id).then(()=>{})  
+    })
+  }, [cartState]);
+  const id = match.params.id;
+  useEffect(()=>{
+    getProductReviews(id);
+    getOneStarReviews(id);
+    getTwoStarsReviews(id); 
+    getThreeStarsReviews(id); 
+    getFourStarsReviews(id);
+    getFiveStarsReviews(id);
+  },[]);
 
   useEffect(()=>{
-      let variable  
-      if (cartProducts.product && product){
-        variable = cartProducts.product.find(item => item.id == match.params.id)
-      } 
-      if(variable) {
-        setState({
-          showCard: false
-        })
+    let variable  
+    if (cartProducts.product && product){
+      variable = cartProducts.product.find(item => item.id == match.params.id)
+    } 
+    if(variable) {
+      setState({
+        showCard: false
+      })
     }
   },[cartProducts]);
 
@@ -161,20 +177,20 @@ useEffect(()=>{
       <Col xs={2}></Col>
     </Row>
     <Row>
-      <Col xs={3}></Col>
+      <Container fluid='sm' className="reviews-container">
         <div>
-          <Review/>
+          <Review />
         </div>
-      <Col xs={3}></Col>
+      </Container>
     </Row>
     </div>
   );
 }
 function mapStateToProps(state) {
   return {
-        product: state.productReducer.product,
-        cartProducts: state.cartReducer.products,
-        cartState: state.cartReducer.cart,
+    product: state.productReducer.product,
+    cartProducts: state.cartReducer.products,
+    cartState: state.cartReducer.cart,
   }
 }
 
@@ -184,6 +200,12 @@ function mapDispatchToProps(dispatch) {
     addProductToCart: (body) => dispatch(addProductToCart(body)),
     getProductById: (id) => dispatch(getProductById(id)),
     getProductsFromCart: () => dispatch(getProductsFromCart()),
+    getProductReviews: (id)=> dispatch(getProductReviews(id)),
+    getOneStarReviews: (id)=> dispatch(getOneStarReviews(id)),
+    getTwoStarsReviews: (id)=>dispatch(getTwoStarsReviews(id)),
+    getThreeStarsReviews: (id)=>dispatch(getThreeStarsReviews(id)),
+    getFourStarsReviews: (id)=>dispatch(getFourStarsReviews(id)),
+    getFiveStarsReviews: (id)=>dispatch(getFiveStarsReviews(id))
   }
 }
 

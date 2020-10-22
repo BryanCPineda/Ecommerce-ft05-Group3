@@ -15,7 +15,6 @@ export const setProductsLoading = () => {
 
 export const getAllProducts = () => (dispatch) => {
   axios.get("http://localhost:4000/products").then((res) => {
-    console.log('RESPONSE', res)
     dispatch({ type: GET_ALL_PRODUCTS, payload: res.data.rows });
   });
 };

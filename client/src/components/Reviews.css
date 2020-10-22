@@ -25,4 +25,36 @@ li{
 .bsStars{
   color: #8a2be2;
 }
-
+.ops{
+  display: 'flex';
+  text-align: 'center'
+}
+.calification{
+  font-style: italic;
+  font-weight: bold;
+}
+.prom{
+  display: flex;
+  width: max-content;
+  align-items: center;
+  flex-direction: column;
+}
+.bigStars{
+  color: #8a2be2;
+  font-size: 2em;
+}
+progress[value]::-webkit-progress-bar {
+  background-color: #eee;
+  top: 2em;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset;
+}
+progress[value]::-webkit-progress-value {
+  background-color: #8a2be2;
+  border-radius: 5px; 
+  position: relative;
+  background-size: 35px 10px, 100% 100%, 100% 100%;
+}
+progress{
+  margin-top: 6px;
+}

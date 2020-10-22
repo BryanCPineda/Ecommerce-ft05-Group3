@@ -1,306 +1,344 @@
 import React from 'react';
 import './Reviews.css';
 import { connect } from 'react-redux';
-import { Container, Row, Col, Card, Carousel, Button, Form  } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import {BsStarFill, BsStarHalf, BsStar} from 'react-icons/bs'
+import ProgressBar from 'react-bootstrap/ProgressBar'
 
-
-function Review({
-  // reviews, oneStarReviews, twoStarReviews, threeStarReviews, fourStarReviews, fiveStarReviews
-}) {
+function Review({reviews, oneStarReviews, twoStarsReviews, threeStarsReviews, fourStarsReviews, fiveStarsReviews}) {
+{ 
   // var promedio = Math.floor(Math.random()*(5*10-1*10)+1*10)/(1*10); 
-  const oneStarReviews = Math.floor(Math.random() * 100);
-  const twoStarReviews = Math.floor(Math.random() * 100);
-  const threeStarReviews = Math.floor(Math.random() * 100);
-  const fourStarReviews = Math.floor(Math.random() * 100);
-  const fiveStarReviews = Math.floor(Math.random() * 100);
+  // const oneStarReviews = Math.floor(Math.random() * 100);
+  // const twoStarReviews = Math.floor(Math.random() * 100);
+  // const threeStarReviews = Math.floor(Math.random() * 100);
+  // const fourStarReviews = Math.floor(Math.random() * 100);
+  // const fiveStarReviews = Math.floor(Math.random() * 100);
+}
   const totalReviews = 
-    oneStarReviews+
-    twoStarReviews+
-    threeStarReviews+
-    fourStarReviews+
-    fiveStarReviews;
+    fiveStarsReviews+
+    fourStarsReviews+
+    threeStarsReviews+
+    twoStarsReviews+
+    oneStarReviews;
   const totalStars = 
-    oneStarReviews+
-    (twoStarReviews * 2)+
-    (threeStarReviews * 3)+
-    (fourStarReviews * 4)+
-    (fiveStarReviews * 5);
-  
+    (fiveStarsReviews * 5)+
+    (fourStarsReviews * 4)+
+    (threeStarsReviews * 3)+
+    (twoStarsReviews * 2)+
+    oneStarReviews;
+
   let promedio = totalStars / totalReviews;
   promedio = promedio.toFixed(1);
+  const now = 60;
+
   return (
-    <div>
-      <Container>
-        <h2>
-          Opiniones sobre el producto
-        </h2>
-        <Row>
-          <Col>
+    <Container>
+      <br/>
+      <Row className="justify-content-md-center">
+        <Col lg="7">
+          <div>
+            <h1>Opiniones sobre el producto</h1>
+          </div>
+        </Col>
+      </Row>
+      <hr/>
+      <Row>
+        <Col sm="2"></Col>
+        <Col sm="4">
+          <div className='prom'>
             <div>
-              <div>
-                <h1>
-                  {promedio}
-                </h1>
-                <div >
-                  {
-                    promedio===1 ? (
-                      <div className='bsStars'>
+              <h1>
+                {!isNaN(promedio) ? promedio : 0}
+              </h1>
+            </div>
+            <div>
+              {
+                promedio===1 ? (
+                  <div className='bigStars'>
+                  <BsStarFill/>
+                  <BsStar/>
+                  <BsStar/>
+                  <BsStar/>
+                  <BsStar/>
+                  </div>
+                ) :
+                  promedio<2 ? (
+                    <div className='bigStars'>
+                    <BsStarFill/>
+                    <BsStarHalf/>
+                    <BsStar/>
+                    <BsStar/>
+                    <BsStar/>
+                    </div>
+                  ) :
+                    promedio===2 ? (
+                      <div className='bigStars'>
                       <BsStarFill/>
-                      <BsStar/>
+                      <BsStarFill/>
                       <BsStar/>
                       <BsStar/>
                       <BsStar/>
                       </div>
                     ) :
-                      promedio<2 ? (
-                        <div className='bsStars'>
+                      promedio<3 ? (
+                      <div className='bigStars'>
+                        <BsStarFill/>
                         <BsStarFill/>
                         <BsStarHalf/>
                         <BsStar/>
                         <BsStar/>
-                        <BsStar/>
+                      </div>
+                      ) : 
+                        promedio===3 ? (
+                        <div className='bigStars'>
+                          <BsStarFill/>
+                          <BsStarFill/>
+                          <BsStarFill/>
+                          <BsStar/>
+                          <BsStar/>
                         </div>
-                      ) :
-                        promedio===2 ? (
-                          <div className='bsStars'>
-                          <BsStarFill/>
-                          <BsStarFill/>
-                          <BsStar/>
-                          <BsStar/>
-                          <BsStar/>
-                          </div>
-                        ) :
-                          promedio<3 ? (
-                          <div className='bsStars'>
+                        ) : 
+                          promedio<4 ? (
+                            <div className='bigStars'>
+                            <BsStarFill/>
                             <BsStarFill/>
                             <BsStarFill/>
                             <BsStarHalf/>
                             <BsStar/>
-                            <BsStar/>
-                          </div>
-                          ) : 
-                            promedio===3 ? (
-                            <div className='bsStars'>
-                              <BsStarFill/>
-                              <BsStarFill/>
-                              <BsStarFill/>
-                              <BsStar/>
-                              <BsStar/>
                             </div>
+                          ) : 
+                            promedio===4 ? (
+                              <div className='bigStars'>
+                              <BsStarFill/>
+                              <BsStarFill/>
+                              <BsStarFill/>
+                              <BsStarFill/>
+                              <BsStar/>
+                              </div>
                             ) : 
-                              promedio<4 ? (
-                                <div className='bsStars'>
+                              promedio<5 ? (
+                                <div className='bigStars'>
+                                <BsStarFill/>
                                 <BsStarFill/>
                                 <BsStarFill/>
                                 <BsStarFill/>
                                 <BsStarHalf/>
-                                <BsStar/>
                                 </div>
                               ) : 
-                                promedio===4 ? (
-                                  <div className='bsStars'>
+                                (
+                                <div className='bigStars'>
                                   <BsStarFill/>
                                   <BsStarFill/>
                                   <BsStarFill/>
                                   <BsStarFill/>
-                                  <BsStar/>
-                                  </div>
-                                ) : 
-                                  promedio<5 ? (
-                                    <div className='bsStars'>
-                                    <BsStarFill/>
-                                    <BsStarFill/>
-                                    <BsStarFill/>
-                                    <BsStarFill/>
-                                    <BsStarHalf/>
-                                    </div>
-                                  ) : 
-                                    (
-                                    <div className='bsStars'>
-                                      <BsStarFill/>
-                                      <BsStarFill/>
-                                      <BsStarFill/>
-                                      <BsStarFill/>
-                                      <BsStarFill/>
-                                    </div>
-                                    )
-                  }
-                </div>
-                <div>
-                  <i>Promedio entre {totalReviews} opiniones</i>
-                </div>
-              </div>
+                                  <BsStarFill/>
+                                </div>
+                                )
+              }
             </div>
-          </Col>
-          <Col>
-            <ul className='calList'>
-              <li>
-                <div>
-                  5 estrellas
-                </div>
-                <div>
-                  <div>
-                    &nbsp;&nbsp;&nbsp;
-                    <span className='filled'>
-                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    </span>
-                  </div>
-                </div>
-                <div>
-                  &nbsp;&nbsp;{fiveStarReviews}
-                </div>
-              </li>
-              <li>
-                <div>
-                  4 estrellas
-                </div>
-                <div>
-                  <div>
-                    &nbsp;&nbsp;&nbsp;
-                    <span className='filled'>
-                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    </span>
-                  </div>
-                </div>
-                <div>
-                  &nbsp;&nbsp;{fourStarReviews}
-                </div>
-              </li>
-              <li>
-                <div>
-                  3 estrellas
-                </div>
-                <div>
-                  <div>
-                    &nbsp;&nbsp;&nbsp;
-                    <span className='filled'>
-                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    </span>
-                  </div>
-                </div>
-                <div>
-                  &nbsp;&nbsp;{threeStarReviews}
-                </div>
-              </li>
-              <li>
-                <div>
-                  2 estrellas
-                </div>
-                <div>
-                  <div>
-                    &nbsp;&nbsp;&nbsp;
-                    <span className='filled'>
-                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    </span>
+            <div>
+              <p>Promedio entre {totalReviews} opiniones</p>
+            </div>
+          </div>
+        </Col>
+        <Col sm="4">
+          <ul className='calList'>
+            <li>
+              <div>
+                5 estrellas&nbsp;&nbsp;
+              </div>
+              <div>
+                <progress 
+                  value={fiveStarsReviews*100/totalReviews} 
+                  min="0" 
+                  max={100}
+                  className='progress'
+                />
+              </div>
+              <div>
+                &nbsp;&nbsp;{fiveStarsReviews}
+              </div>
+            </li>
+            <li>
+              <div>
+                4 estrellas&nbsp;&nbsp;
+              </div>
+              <div>
+                <progress 
+                  value={fourStarsReviews*100/totalReviews} 
+                  min="0" 
+                  max={100}
+                  className='progress'
+                />
+              </div>
+              <div>
+                &nbsp;&nbsp;{fourStarsReviews}
+              </div>
+            </li>
+            <li>
+              <div>
+                3 estrellas&nbsp;&nbsp;
+              </div>
+              <div>
+                <progress 
+                  value={threeStarsReviews*100/totalReviews} 
+                  min="0" 
+                  max={100}
+                  className='progress'
+                ></progress>
+              </div>
+              <div>
+                &nbsp;&nbsp;{threeStarsReviews}
+              </div>
+            </li>
+            <li>
+              <div>
+                2 estrellas&nbsp;&nbsp;
+              </div>
+              <div>
+                <progress 
+                  value={twoStarsReviews*100/totalReviews} 
+                  min="0" 
+                  max={100}
+                  className='progress'
+                ></progress>
+              </div>
+              <div>
+                &nbsp;&nbsp;{twoStarsReviews}
+              </div>
+            </li>
+            <li>
+              <div>
+                1 estrellas&nbsp;&nbsp;
+              </div>
+              <div>
+                <progress 
+                  value={oneStarReviews*100/totalReviews} 
+                  min="0" 
+                  max={100}
+                  className='progress'
+                />
+              </div>
+              <div>
+                &nbsp;&nbsp;{oneStarReviews}
+              </div>
+            </li>
+          </ul>
+        </Col>
+        <Col sm="2"></Col>
+      </Row>
+      <hr/>
+      <Row>
+        <Col>
+          <div>
+            {
+              reviews && reviews.map(review=>{
+                return (
+                  review.qualification==='1' ? (
+                    <div>
+                      <div className='bsStars'>
+                        <BsStarFill/>
+                        <BsStar/>
+                        <BsStar/>
+                        <BsStar/>
+                        <BsStar/>
+                      </div>
+                      <div className='calification'> 
+                        Muy malo
+                      </div>
+                      <p>
+                        {review.description}
+                      </p>
                     </div>
-                  </div>
-                <div>
-                  &nbsp;&nbsp;{twoStarReviews}
-                </div>
-              </li>
-              <li>
-                <div>
-                  1 estrellas
-                </div>
-                  <div>
-                      &nbsp;&nbsp;&nbsp;
-                    <span className='filled'>
-                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    </span>
-                  </div>
-                <div>
-                  &nbsp;&nbsp;{oneStarReviews}
-                </div>
-              </li>
-            </ul>
-          </Col>
-        </Row>
-        <hr/>
-        <Row>
-          <div>
-            {
-              // reviews.map(review=>{
-              //   return (
-              //     reviews.qualification===1 ? (
-              //       <BsStarFill/>
-              //     ) :
-              //       reviews.qualification===2 ? (
-              //         <div>
-              //           <BsStarFill/>
-              //           <BsStarFill/>
-              //         </div>
-              //       ) : 
-              //         reviews.qualification===3 ? (
-              //           <div>
-              //             <BsStarFill/>
-              //             <BsStarFill/>
-              //             <BsStarFill/>
-              //           </div>
-              //         ) : 
-              //           reviews.qualification===4 ? (
-              //             <div>
-              //               <BsStarFill/>
-              //               <BsStarFill/>
-              //               <BsStarFill/>
-              //               <BsStarFill/>
-              //             </div>
-              //           ) : 
-              //             (
-              //               <div>
-              //                 <BsStarFill/>
-              //                 <BsStarFill/>
-              //                 <BsStarFill/>
-              //                 <BsStarFill/>
-              //                 <BsStarFill/>
-              //               </div>
-              //             ) 
-              //   )
-              // })
+                  ) :
+                    review.qualification==='2' ? (
+                      <div>
+                        <div className='bsStars'>
+                          <BsStarFill/>
+                          <BsStarFill/>
+                          <BsStar/>
+                          <BsStar/>
+                          <BsStar/>
+                        </div>
+                        <div className='calification'>
+                          Malo
+                        </div>
+                        <p>
+                          {review.description}
+                        </p>
+                      </div>
+                    ) : 
+                      review.qualification==='3' ? (
+                        <div>
+                          <div className='bsStars'>
+                            <BsStarFill/>
+                            <BsStarFill/>
+                            <BsStarFill/>
+                            <BsStar/>
+                            <BsStar/>
+                          </div>
+                          <div className='calification'>
+                            Bueno
+                          </div>
+                          <p>
+                            {review.description}
+                          </p>
+                        </div>
+                      ) : 
+                        review.qualification==='4' ? (
+                          <div>
+                            <div className='bsStars'>
+                              <BsStarFill/>
+                              <BsStarFill/>
+                              <BsStarFill/>
+                              <BsStarFill/>
+                              <BsStar/>
+                            </div>
+                            <div className='calification'>
+                              Muy Bueno
+                            </div> 
+                            <p>
+                              {review.description}
+                            </p>
+                          </div>
+                        ) : 
+                          (
+                            <div>
+                              <div className='bsStars'>
+                                <BsStarFill/>
+                                <BsStarFill/>
+                                <BsStarFill/>
+                                <BsStarFill/>
+                                <BsStarFill/>
+                              </div>
+                              <div className='calification'>
+                                Excelente
+                              </div>
+                              <p>
+                                {review.description}
+                              </p>
+                            </div>
+                          ) 
+                )
+              })
             }
           </div>
-          <div>
-            {
-              // reviews.map(review=>{
-              //   return (
-              //     <p>
-              //       {review.description}
-              //     </p>
-              //   )
-              // })
-            }
-          </div>
-        </Row>
-      </Container>
-    </div>
+        </Col>
+      </Row>
+    </Container>
   )
 }
 
 const mapStateToProps = (state)=>{
   return {
-    // reviews: state.reviews.rows.data,
-    // oneStarReviews: state.oneStarReviews.count,
-    // twoStarReviews: state.twoStarReviews.count,
-    // threeStarReviews: state.threeStarReviews.rows.count,
-    // fourStarReviews: state.fourStarReviews.rows.count,
-    // fiveStarReviews: state.fiveStarReviews.rows.count
+    reviews: state.reviewsReducer.reviews.rows,
+    oneStarReviews: state.reviewsReducer.oneStarReviews,
+    twoStarsReviews: state.reviewsReducer.twoStarsReviews,
+    threeStarsReviews: state.reviewsReducer.threeStarsReviews,
+    fourStarsReviews: state.reviewsReducer.fourStarsReviews,
+    fiveStarsReviews: state.reviewsReducer.fiveStarsReviews
   }
 }
 
-const mapDispatchToProps = (dispatch)=> {
-  return {
-    // getProductReviews: ()=> dispatch(getProductReviews()),
-    // getOneStarReviews: ()=> dispatch(getOneStarReviews()),
-    // getTwoStarsReviews: ()=>dispatch(getTwoStarsReviews()),
-    // getThreeStarsReviews: ()=>dispatch(getThreeStarsReviews()),
-    // getFourStarsReviews: ()=>dispatch(getFourStarsReviews()),
-    // getFiveStarsReviews: ()=>dispatch(getFiveStarsReviews())
-  }
-}
 
-export default connect(mapStateToProps, mapDispatchToProps)(Review);
+export default connect(mapStateToProps, null)(Review);
