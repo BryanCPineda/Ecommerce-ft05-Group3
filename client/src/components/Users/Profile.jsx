@@ -16,25 +16,24 @@ import "./Profile.css";
 
 const UserProfile = ({ user }) => {
   return (
-    <div className="products-container">
-      <Row>
+    <div>
+      <Row className="products-container">
         <Col xs={2}></Col>
-        <Col>
-          {console.log("erkferfiehrfuer", user)}
+        <Container className="flex-orders">
+          {console.log(user)}
           <h2>Personal information:</h2>
           <br></br>
           <div>
             <p>Name: {user && user.name}</p>
-            <p>LastName:{user && user.lastName}</p>
+            <p>LastName:{user && user.lastname}</p>
             <p>Email: {user && user.email}</p>
           </div>
-
-          <Row>
-            <div className="d-flex">
-              <h3>Previous orders:</h3>
-            </div>
-          </Row>
-        </Col>
+        </Container>
+        <Container>
+          <div className="flex-orders">
+            <h3>Previous orders:</h3>
+          </div>
+        </Container>
         <Col xs={2}></Col>
       </Row>
       <Row>
