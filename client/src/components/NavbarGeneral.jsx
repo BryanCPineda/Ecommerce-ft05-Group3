@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./NavbarGeneral.css";
 import SearchBar from "./SearchBar/SearchBar";
@@ -18,13 +18,18 @@ function NavbarGeneral({ isAuthenticated, user }) {
   // 	header.classList.toggle('scrolling-active', windowPosition);
   // })
 
+const [state, setState] = useState({modal:''})
+ function handleOpenLoginCloseReg(){
+    setState({modal:true})
+ }
+
   const guest = (
     <div className="d-flex mt-3">
       <span>
-        <SignIn />
+        <SignIn state={state} />
       </span>
       <span className="ml-2">
-        <SignUp />
+        <SignUp handler={handleOpenLoginCloseReg}/>
       </span>
     </div>
   );

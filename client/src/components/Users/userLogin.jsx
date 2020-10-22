@@ -20,8 +20,8 @@ import { getAllUsers, loginUser } from "../../actions/userAction";
 import { clearErrors } from "../../actions/errorActions";
 
 class UserLogin extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       passwordShowing: false, //para el boton que muestra o esconde la password
@@ -61,6 +61,9 @@ class UserLogin extends React.Component {
   };
 
   handleClose = () => {
+    if(this.props.state.modal){
+      this.props.state.modal=false
+    }
     this.props.clearErrors();
     this.setState({
       modal: false,
@@ -77,6 +80,7 @@ class UserLogin extends React.Component {
     this.setState({
       [e.target.name]: e.target.value,
     });
+    console.log('que props existenen login',this.props.state)
   };
 
   onSubmit = (e) => {
@@ -94,7 +98,7 @@ class UserLogin extends React.Component {
         </Button>
 
         <Modal
-          show={this.state.modal}
+          show={this.props.state.modal? this.props.state.modal : this.state.modal}
           onHide={this.handleClose}
           backdrop="true"
           keyboard={true}
