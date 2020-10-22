@@ -3,7 +3,7 @@ import "./SignUp.css";
 import {Form,Col,Button} from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Axios from "axios";
-
+import {GoogleLogin, GoogleLogout } from "react-google-login"; 
 
 
 
@@ -141,6 +141,17 @@ export default function SignUp(){
     SignIn
   </Button>
   {/* </Link> */}
+
+  <GoogleLogin 
+            clientId="807609632644-ken5ulpg4t4gjuinurpjfuif4ord8e0s.apps.googleusercontent.com"
+            buttonText="Login Whit Google"
+            onSuccess={responseGoogle}
+            onFailure={responseGoogle}
+            cookiePolicy={"single_host_origin"}
+        //    isSignedIn={true}               //mantiene la sesion iniciada 
+  /> 
+<h4>oalaoalaolaol</h4>
+
   </Form>
   </div>
    

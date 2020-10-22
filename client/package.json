@@ -20,6 +20,7 @@
     "react-bootstrap-multiselect": "^2.4.1",
     "react-bootstrap-sweetalert": "^5.2.0",
     "react-dom": "^16.13.1",
+    "react-google-login": "^5.1.22",
     "react-hook-form": "^6.9.2",
     "react-icons": "^3.11.0",
     "react-number-format": "^4.4.1",
@@ -27,6 +28,7 @@
     "react-redux": "^7.2.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^3.4.3",
+    "react-social-login-buttons": "^3.1.0",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "sweetalert": "^2.1.2"

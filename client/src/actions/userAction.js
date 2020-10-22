@@ -48,19 +48,34 @@ export const loadUser = () => (dispatch, getState) => {
 }
 
 export const createUser = (user) => (dispatch) => {
-  const userEnv = {
+  let userEnv;
+
+  if(user.whitGoogle === true){
+    userEnv={  
     name: user.name,
     lastname: user.lastname,
     email: user.email,
     password: user.password,
-    //EL USERTYPE NO SE AGREGA SOLO UN ADMIN PUEDE HACER A OTRO USER ADMIN, ASI QUE NO SE ENVIA CUANDO SE CREA EL USUARIO POR DEFAULT ES CLIENT
-    //EL ADREESS SOLO SE PEDIA CUANDO EL USUARIO HAGA UN CHECKOUT
-    //EL USUARIO DECIDIRA SI QUIERE O NO SUBIR UNA IMAGEN
-  };
+    image: user.image,
+    whitGoogle: user.whitGoogle   
+  }
+
+  } else {
+     userEnv = {
+      name: user.name,
+      lastname: user.lastname,
+      email: user.email,
+      password: user.password,  
+      //EL USERTYPE NO SE AGREGA SOLO UN ADMIN PUEDE HACER A OTRO USER ADMIN, ASI QUE NO SE ENVIA CUANDO SE CREA EL USUARIO POR DEFAULT ES CLIENT
+      //EL ADREESS SOLO SE PEDIA CUANDO EL USUARIO HAGA UN CHECKOUT
+      //EL USUARIO DECIDIRA SI QUIERE O NO SUBIR UNA IMAGEN
+    };
+  }
 
   return axios
     .post("http://localhost:4000/users", userEnv)
     .then((res) => {
+      console.log(res.data)
       dispatch({ type: REGISTER_SUCCESS, payload: res.data });
     })
     .catch((error) => {

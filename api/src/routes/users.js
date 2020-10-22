@@ -73,8 +73,58 @@ server.post(
   ],
   async (req, res) => {
     try {
-      const { name, lastname, email, password } = req.body;
 
+      /******PRIMERO SE VALIDA SI SE QUIERE INGRESAR CON GOOGLE *******/
+      
+      const {whitGoogle} = req.body
+      let newGoogleUser;
+     
+      if(whitGoogle === true){
+
+          newGoogleUser={
+            name: req.body.name,
+            lastname: req.body.lastname,
+            email: req.body.email,
+            password: req.body.password,
+            image: req.body.image
+          }
+         
+     Users.findOrCreate({
+        where: {
+          name: newGoogleUser.name,
+          lastname: newGoogleUser.lastname,
+          email: newGoogleUser.email,
+          password: newGoogleUser.password,
+          image: newGoogleUser.image
+        },
+      }).then((sendUser)=>{
+          let user = sendUser[0]
+        jwt.sign(
+          { id: user.id },
+          DB_KEY,
+          { expiresIn: '1d' },
+          ((err, token) => {
+            if(err) throw err;
+            res.status(200).send({
+              token,
+              user
+              })
+          })
+        )
+
+      }).catch((err) => {
+        return res.send(err).status(500);
+      })
+
+    }
+
+      /******HASTA AQUI SE CREA UN NUEVO USUARIO EN LA DB CON LOS DATOS DE GOOGLE, O SE BUSCA Y SE RETORNA CON UN JWT *******/
+
+
+      else {
+        const {name, lastname, email, password} = req.body;
+        
+      
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         return res
@@ -117,7 +167,7 @@ server.post(
           }
         })
       })
-    )
+    )}
     } catch (error) {
       console.log(error);
     }
