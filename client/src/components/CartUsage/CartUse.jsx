@@ -176,6 +176,7 @@ if (stateRedirect.redirect) {
                 </span>
               </Col>
               {/* ------------------ */}
+              {console.log('order.product', order.product)}
               <Col>
                 <Row>
                   <Col xs={6} md={4} className="text-center number" >

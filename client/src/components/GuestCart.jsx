@@ -1,6 +1,9 @@
 export const constructor = () => {
+        localStorage.setItem('carrito','[]')
+         console.log('entro', localStorage)
         if(!localStorage.getItem('carrito')){
             localStorage.setItem('carrito','[]')
+
         }
     }
 
