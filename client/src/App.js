@@ -12,14 +12,14 @@ import LandingPage from "./components/LandingPage";
 import PrductsMati from "./components/ProductsMati";
 import Footer from "./components/Footer";
 import NavbarAdmin from "./components/NavbarAdmin";
+import UserProfile from "./components/Users/Profile";
 
-import AdminOrders from './components/Admin/adminOrders';
+import AdminOrders from "./components/Admin/adminOrders";
 // import Login from "./components/Login";
 import SignUp from "./components/Users/userRegister";
 
-
 import store from "./store";
-import { loadUser } from './actions/userAction'
+import { loadUser } from "./actions/userAction";
 import { Provider } from "react-redux";
 
 import NavBarGeneral from "./components/NavbarGeneral";
@@ -27,10 +27,9 @@ import NavBarBackground from "./components/NavBarBackground";
 import CartUse from "./components/CartUsage/CartUse";
 
 function App() {
-
   useEffect(() => {
-    store.dispatch(loadUser())
-  })
+    store.dispatch(loadUser());
+  });
 
   return (
     <div>
@@ -49,15 +48,14 @@ function App() {
           <Route exact path="/user/product/:id" component={PrductsMati} />
           <Route path="/user/cart" component={CartUse} />
           <Route path="/user" component={Footer} />
-          
+          <Route path="/user/profile" component={UserProfile} />
+
           {/* <Route path="/SignIn" component={Login} /> */}
           {/* <Route path="/SignUp" component={SignUp} /> */}
-
         </Router>
       </Provider>
     </div>
   );
 }
-
 
 export default App;
