@@ -12,8 +12,22 @@ export const getAllCategories = () => (dispatch) => {
   });
 };
 
-export const createCategory = (category) => (dispatch) => {
-  axios.post("http://localhost:4000/category", category).then((res) => {
+export const createCategory = (category) => (dispatch, getState) => {
+
+  const config = {
+    headers: {
+      "Content-type": "Application/json"
+    },
+    category
+  }
+
+  const token = getState().userReducer.token
+
+  if(token) {
+    config.headers["x-auth-token"] = token
+  }
+  console.log(config)
+  axios.post("http://localhost:4000/category", config).then((res) => {
     dispatch({ type: CREATE_CATEGORY, payload: res.data });
   });
 };
