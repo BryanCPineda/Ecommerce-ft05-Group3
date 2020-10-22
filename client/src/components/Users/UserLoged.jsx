@@ -24,9 +24,7 @@ import { connect } from "react-redux";
 const UserLoged = ({ user }) => {
   return (
     <DropdownButton id="dropdown-basic-button" title={user.name}>
-      <Link to="/user/profile">
-        <Dropdown.Item>Profile</Dropdown.Item>
-      </Link>
+      <Dropdown.Item><Link to="/user/profile">Profile</Link></Dropdown.Item>
       <Dropdown.Item href="#/action-2">
         <Logout />
       </Dropdown.Item>
