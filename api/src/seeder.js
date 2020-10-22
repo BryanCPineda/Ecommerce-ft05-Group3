@@ -429,21 +429,88 @@ function reviewsSeeder() {              //This function create several categorie
             qualification: '5', 
             description: 'Todo bien 5 puntos',
         },
+        {
+            qualification: '2', 
+            description: 'Un desastre, he malgastado mi plata!|@#~€¬=(¿}]^*)=/%$·$%!ª',
+        },
+        {
+            qualification: '1', 
+            description: 'Pesimo en su terminación, no lo recomiendo',
+        },
+        {
+            qualification: '3', 
+            description: 'Calidad media, pero no se puede pedir mas por ese precio',
+        },
+        {
+            qualification: '5', 
+            description: 'Muy bueno, esperemos que dure',
+        },
+        {
+            qualification: '4', 
+            description: 'Excelente producto, 80% recomendado',
+        },
+        {
+            qualification: '2', 
+            description: 'Malisimo, no tiren su dinero',
+        },
+        {
+            qualification: '1', 
+            description: 'Mas malo no es posible, me siento estafado',
+        },
+        {
+            qualification: '3', 
+            description: 'Ahí anda +-, por ese precio no se puede pedir mas',
+        },
+        {
+            qualification: '5', 
+            description: 'Me fascina!',
+        },
+        {
+            qualification: '4', 
+            description: 'Buena calidad, 100 % recomendado!',
+        },
+        {
+            qualification: '1', 
+            description: 'Buee!, roto al segundo día',
+        },
+        {
+            qualification: '3', 
+            description: 'Casi le doy 2 pero bueno me atendieron bien',
+        },
+        {
+            qualification: '4', 
+            description: 'Calidad optima',
+        },
+        {
+            qualification: '4', 
+            description: 'Me gusta, se ve fuerte',
+        },
+        {
+            qualification: '5', 
+            description: 'Todo bien! 10 pts',
+        },
     ])
 }
 
-async function reviews_productSeeder() {      // This function create several relationships between reviews and products
+function reviews_productSeeder() {      // This function create several relationships between reviews and products
     var userid = 1;
-    for (let i = 1; i < 16; i++) {
-        if(userid>4){userid=1}
+    var j = 1;
+    for (let i = 1; i < 31; i++) {
+        if(userid>4){
+            userid=1;
+        }
+        if(j>14){
+            j=1;
+        }
         Reviews.update(
             {
-                productId: i,
+                productId: j,
                 userId: userid
             },
             {where: {id: i}}
         )
         userid++;
+        j++;
     }
 }
 

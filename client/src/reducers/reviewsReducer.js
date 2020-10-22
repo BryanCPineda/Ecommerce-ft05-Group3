@@ -1,10 +1,5 @@
 import {
-  ONE_STAR_REVIEWS, 
-  TWO_STARS_REVIEWS,
-  THREE_STARS_REVIEWS,
-  FOUR_STARS_REVIEWS,
-  FIVE_STARS_REVIEWS,
-  GET_PRODUCT_REVIEWS
+  ONE_STAR_REVIEWS, TWO_STARS_REVIEWS, THREE_STARS_REVIEWS,FOUR_STARS_REVIEWS, FIVE_STARS_REVIEWS, GET_PRODUCT_REVIEWS
 } from '../constants/reviewsConstants';
 
 const initialState = {
@@ -12,21 +7,11 @@ const initialState = {
     count: 0,
     rows: []
   },
-  oneStarReviews: {
-    count: 0,
-  },
-  twoStarReviews: {
-    count: 0,
-  },
-  threeStarReviews: {
-    count: 0,
-  },
-  fourStarReviews: {
-    count: 0,
-  },
-  fiveStarReviews: {
-    count: 0,
-  },
+  oneStarReviews: 0,
+  twoStarsReviews: 0,
+  threeStarsReviews: 0,
+  fourStarsReviews: 0,
+  fiveStarsReviews: 0,
 }
 
 export default function reviewsReducer(state = initialState, action) {
@@ -39,29 +24,28 @@ export default function reviewsReducer(state = initialState, action) {
     case TWO_STARS_REVIEWS:
       return {
         ...state,
-        twoStarReviews: action.payload
+        twoStarsReviews: action.payload
       }
     case THREE_STARS_REVIEWS:
       return {
         ...state,
-        threeStarReviews: action.payload
+        threeStarsReviews: action.payload
       }
     case FOUR_STARS_REVIEWS:
       return {
         ...state,
-        fourStarReviews: action.payload
+        fourStarsReviews: action.payload
       }
     case FIVE_STARS_REVIEWS:
       return {
         ...state,
-        fiveStarReviews: action.payload
+        fiveStarsReviews: action.payload
       }
     case GET_PRODUCT_REVIEWS:
       return {
         ...state,
         reviews: action.payload
       }
-      
     default:
       return state;
   }
