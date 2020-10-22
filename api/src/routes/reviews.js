@@ -22,7 +22,7 @@ server.get("/product/:id/review", (req, res) => {
 server.post("/product/:id/review",(req,res)=>{
      const {description,qualification,userId}=req.body
      const {id} = req.params
-    //  const iD = req.params.id
+    
     Reviews.create({
             userId:userId,
             productId:id,
