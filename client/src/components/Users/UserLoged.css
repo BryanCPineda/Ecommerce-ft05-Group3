@@ -1,6 +1,13 @@
-#dropdown-basic-button{
-    background-color: #000000;
-    display: flex;
-    margin-left: 2.5rem;
-    margin-top: 1.75rem;
+#user-loged{
+    border: none;
+    height: 2.5rem;
+    width: 5rem;
+    background-color: darkviolet;
+    color: white;
+    border-radius: 5px;
+
+    display:flex;
+    position:relative;
+    bottom: -18px;
 }
+
