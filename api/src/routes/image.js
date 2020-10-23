@@ -1,8 +1,10 @@
 const server = require("express").Router();
 const { Product, Image } = require("../db.js");
+const isAdmin = require('../middleware/isAdmin')
+const auth = require('../middleware/auth')
 
 
-server.post('/', (req, res)=> {                   // This route add an image to a product
+server.post('/', auth, isAdmin, (req, res)=> {                   // This route add an image to a product
     const productId = req.body.productId;
     const image = req.body.image;
 
@@ -22,7 +24,7 @@ server.post('/', (req, res)=> {                   // This route add an image to 
 })
 
 
-server.delete('/:id', (req, res) =>{                  // This route delete an product's image
+server.delete('/:id', auth, isAdmin, (req, res) =>{                  // This route delete an product's image
     const { id } = req.params;
     Image.destroy({                                // Deleting the image by the received id
         where:{

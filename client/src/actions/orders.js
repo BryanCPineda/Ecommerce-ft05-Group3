@@ -18,17 +18,41 @@ import {
 
     };
 
-    export const updateOrder = (state) => (dispatch) =>{
+    export const updateOrder = (state) => (dispatch, getState) =>{
 
-      axios.put("http://localhost:4000/orders/"+state.orderId, {state: state.status}).then((res)=>{
+      const config = {
+        headers: {
+          "Content-type": "Application/json"
+        }
+      }
+    
+      const token = getState().userReducer.token
+    
+      if(token) {
+        config.headers["x-auth-token"] = token
+      }
+
+      axios.put("http://localhost:4000/orders/"+state.orderId, {state: state.status}, config).then((res)=>{
           dispatch({type: UPDATE_ORDER, payload: res.data})
       })
 
     };
 
-    export const deleteOrder = (id) => (dispatch) =>{
+    export const deleteOrder = (id) => (dispatch, getState) =>{
 
-      axios.delete("http://localhost:4000/orders/"+id).then((res)=>{
+      const config = {
+        headers: {
+          "Content-type": "Application/json"
+        }
+      }
+    
+      const token = getState().userReducer.token
+    
+      if(token) {
+        config.headers["x-auth-token"] = token
+      }
+
+      axios.delete("http://localhost:4000/orders/"+id, config).then((res)=>{
          dispatch({type: DELETE_ORDER, payload: res.data})
       })
 
