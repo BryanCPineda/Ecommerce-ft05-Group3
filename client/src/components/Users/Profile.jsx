@@ -14,28 +14,66 @@ import { connect } from "react-redux";
 import AddReview from "../Reviews/AddReview.jsx";
 import EditReview from "../Reviews/EditReview.jsx";
 import "./Profile.css";
+import { showCompletedOrders } from "../../actions/userAction";
 
-const UserProfile = ({ user }) => {
+const UserProfile = ({ showCompletedOrders, user, order }) => {
+  const idUser = user && user.id;
+
+  // const [state, setState] = useState({
+  //   orders: order.allUsers,
+  // });
+
+  useEffect(() => {
+    showCompletedOrders(idUser);
+  }, []);
+
+  //const orders = showCompletedOrders();
+
   return (
-    <div className="products-container">
-      <Row>
+    <div>
+      <Row className="products-container">
         <Col xs={2}></Col>
-        <Col>
-          {/* {console.log("erkferfiehrfuer", user)} */}
+        <Container className="flex-orders">
+          <h2>Personal information:</h2>
+          <br></br>
+          <div>
+            <p>Name: {user && user.name}</p>
+            <p>LastName:{user && user.lastname}</p>
+        {/* <Col> */}
+          {/* {console.log("erkferfiehrfuer", user)}
           <h2>Personal information:</h2>
           <br></br>
           <div>
             <p>First name: {user && user.name}</p>
-            <p>Last name: {user && user.lastname}</p>
+            <p>Last name: {user && user.lastname}</p> */}
             <p>Email: {user && user.email}</p>
           </div>
+          <div className="flex-orders">
+            <h3>Previous orders:</h3>
+              <h1>{order && order.orderId}</h1>
+              {/* <div>
+              {order && order.product.map((ele, index) => (
+              <div key={index}>
+                <li>{ele.name}</li>
+              </div>
+            ))}  
+              </div> */}
+              {/* <div>
+              {order && order.orderlines.map((ele, index) => (
+              <div key={index}>
+                <li>{ele.name}</li>
+              </div>
+            ))}  
+              </div>       */}
+            {console.log("producttttt", order.product)}
+            {console.log("ordeline aqui----------------", order.orderlines)}
+            {console.log("soy un idddddddddddddddddddddddddd- ---------------", order.orderId)}
 
-          <Row>
-            <div className="d-flex">
-              <h3>Previous orders:</h3>
-            </div>
-          </Row>
-        </Col>
+            <p>Producto: {}</p>
+            <p>Precio:{user && user.lastname}</p>
+            <p>Cantidad: {user && user.email}</p>
+          </div>
+        </Container>
         <Col xs={2}></Col>
       </Row>
       <Row>
@@ -62,7 +100,13 @@ const UserProfile = ({ user }) => {
 function mapStateToProps(state) {
   return {
     user: state.userReducer.user,
+    order: state.userReducer.allUsers,
+  };
+}
+function mapDispatchToProps(dispatch) {
+  return {
+    showCompletedOrders: (idUser) => dispatch(showCompletedOrders(idUser)),
   };
 }
 
-export default connect(mapStateToProps, null)(UserProfile);
+export default connect(mapStateToProps, mapDispatchToProps)(UserProfile);
