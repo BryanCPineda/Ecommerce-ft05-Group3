@@ -13,42 +13,39 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { DB_KEY } = process.env;
 
-const auth = require('../middleware/auth')
+const auth = require("../middleware/auth");
 
 //login
 server.post(
-    "/",
-    [
-      check("email")
-        .isEmail()
-        .withMessage("Invalid Email"),
-      check("password")
-        .isLength({ min: 8, max: 50 })
-        .withMessage("Password must have at least 8 characters"),
-    ],
-    async (req, res) => {
-      try {
-        const { email, password } = req.body;
-  
+  "/",
+  [
+    check("email").isEmail().withMessage("Invalid Email"),
+    check("password")
+      .isLength({ min: 8, max: 50 })
+      .withMessage("Password must have at least 8 characters"),
+  ],
+  async (req, res) => {
+    try {
+      const { email, password } = req.body;
+
       const errors = validationResult(req);
-      
+
       if (!errors.isEmpty()) {
         return res
           .status(400)
           .json({ errors: errors.array().map((ele) => ele.msg) });
       }
-  
-      const user = await Users.findOne({ where: { email: email}})
-  
-      if(!user) {
+
+      const user = await Users.findOne({ where: { email: email } });
+
+      if (!user) {
         return res.status(400).json({ errors: ["User does not exists!"] });
       }
 
-      const passwordMatch = await bcrypt.compare(password, user.password)
-      if(!passwordMatch) {
+      const passwordMatch = await bcrypt.compare(password, user.password);
+      if (!passwordMatch) {
         return res.status(400).json({ errors: ["Invalid credentials"] });
       }
-
       jwt.sign(
           { id: user.id },
           DB_KEY,
@@ -87,22 +84,21 @@ server.get("/", auth, (req, res) => {
 })
 
 //Promote User
-server.post('/promote', auth, (req, res)=>{
-
-    Users.update({
-      usertype: "admin" 
-    },  { 
-          where: { id: req.user.id }
-        } 
-    )
-      .then(()=>{
-          res.send("User has been Promote to Admin").status(200)
-      }).catch(err =>{
-          res.send({data: err}).status(500);
-      })
-
-
-})
-
+server.post("/promote", auth, (req, res) => {
+  Users.update(
+    {
+      usertype: "admin",
+    },
+    {
+      where: { id: req.user.id },
+    }
+  )
+    .then(() => {
+      res.send("User has been Promote to Admin").status(200);
+    })
+    .catch((err) => {
+      res.send({ data: err }).status(500);
+    });
+});
 
 module.exports = server;
