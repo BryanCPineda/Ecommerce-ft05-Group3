@@ -1,5 +1,5 @@
 import {
-  ONE_STAR_REVIEWS, TWO_STARS_REVIEWS, THREE_STARS_REVIEWS,FOUR_STARS_REVIEWS, FIVE_STARS_REVIEWS, GET_PRODUCT_REVIEWS
+  ONE_STAR_REVIEWS, TWO_STARS_REVIEWS, THREE_STARS_REVIEWS,FOUR_STARS_REVIEWS, FIVE_STARS_REVIEWS, GET_PRODUCT_REVIEWS, ADD_REVIEW, EDIT_REVIEW, DELETE_REVIEW
 } from '../constants/reviewsConstants';
 
 const initialState = {
@@ -12,6 +12,7 @@ const initialState = {
   threeStarsReviews: 0,
   fourStarsReviews: 0,
   fiveStarsReviews: 0,
+  review: {}
 }
 
 export default function reviewsReducer(state = initialState, action) {
@@ -42,6 +43,21 @@ export default function reviewsReducer(state = initialState, action) {
         fiveStarsReviews: action.payload
       }
     case GET_PRODUCT_REVIEWS:
+      return {
+        ...state,
+        reviews: action.payload
+      }
+    case ADD_REVIEW:
+      return {
+        ...state,
+        review: action.payload
+      }
+    case EDIT_REVIEW:
+      return {
+        ...state,
+        review: action.payload
+      }
+    case DELETE_REVIEW:
       return {
         ...state,
         reviews: action.payload

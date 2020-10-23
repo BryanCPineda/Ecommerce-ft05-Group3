@@ -13,6 +13,7 @@ import {
   LOGOUT_SUCCESS,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
+  USER_COMPLETED
 } from "../constants/userConstants";
 import { returnErrors } from "./errorActions";
 import axios from "axios";
@@ -24,7 +25,6 @@ export const getAllUsers = () => (dispatch) => {
 };
 
 export const loadUser = () => (dispatch, getState) => {
-  dispatch({ type: USER_LOADING })
 
   const config = {
     headers: {
@@ -37,14 +37,23 @@ export const loadUser = () => (dispatch, getState) => {
   if(token) {
     config.headers["x-auth-token"] = token
   }
+  console.log(config)
 
   axios.get("http://localhost:4000/auth", config).then(res => {
     dispatch({ type: USER_LOADED, payload: res.data })
   })
   .catch(error => {
-    dispatch(returnErrors(error.response.data, error.response.status ))
+    // if(error.response.status === 401) {
+      // if(error) {
+      //   dispatch({ type: AUTH_ERROR })
+      // }
+    //   console.log('unauthorized, logging out ...');
+    // return Promise.reject(error.response);
+    // }
+    console.log(error.message)
     dispatch({ type: AUTH_ERROR })
-  })
+   }
+  )
 }
 
 export const createUser = (user) => (dispatch) => {
@@ -115,4 +124,17 @@ export const loginUser = (user) => (dispatch) => {
 
 export const logout = () => {
   return({ type: LOGOUT_SUCCESS })
+}
+
+/*--------------------------------------------------*/
+
+export function showCompletedOrders(idUser) {
+  return (dispatch) => {
+    return axios
+      .get(`http://localhost:4000/users/${idUser}/profile`)
+      .then((res) => res.data)
+      .then((res) => {
+        dispatch({ type: USER_COMPLETED, payload: res });
+      });
+  };
 }

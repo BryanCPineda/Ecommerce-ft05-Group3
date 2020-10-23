@@ -1,6 +1,7 @@
 const initialState = {
     order: {},
-    products: []
+    products: [],
+    total: 0
 }
 
 export default function orderReducer(state = initialState, action) {
@@ -25,6 +26,11 @@ export default function orderReducer(state = initialState, action) {
                 ...state,
                 products: state.products.filter(e => e.id !== action.payload)
                 //state.order.orderlines.filter(e => e.id === action.id)
+            }
+        case 'MODIFY_TOTAL':
+            return {
+                ...state,
+                total: action.payload
             }
         default:
             return state;
