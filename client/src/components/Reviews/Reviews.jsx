@@ -24,7 +24,9 @@ function Review({reviews, oneStarReviews, twoStarsReviews, threeStarsReviews, fo
   promedio = promedio.toFixed(1);
 
   return (
-    <Container>
+    <div>
+      <Row>
+      <Container>
       <br/>
       <Row className="justify-content-md-center">
         <Col lg="7">
@@ -328,6 +330,8 @@ function Review({reviews, oneStarReviews, twoStarsReviews, threeStarsReviews, fo
         </Col>
       </Row>
     </Container>
+      </Row>
+    </div>
   )
 }
 

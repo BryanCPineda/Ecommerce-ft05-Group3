@@ -1,13 +1,12 @@
 .products-container {
-    margin-top: 4rem;
-    margin-bottom: 4rem;
+    /* margin-top: 4rem; */
     background-color: white;
     margin-top: -250px;
 }
 .reviews-container {
-    margin-top: 0px;
-    margin-bottom: 2rem;
     background-color: white;
+    position: relative;
+    bottom: 150px
 }
 
 .products-title {

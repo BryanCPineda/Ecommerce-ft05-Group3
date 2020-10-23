@@ -76,8 +76,10 @@ function NavbarAdmin({ users, orders, products, categories, getAllProducts, getA
     <React.Fragment>
       {/* {user && user.rol === "admin" ? iAmAdmin : <Redirect to="/error404" />} */}
       {!token && !user ? <Redirect to="/error404" /> : null}
-      {token && !user ? <Redirect to="/error404" /> : null}
+      {/* {token && !user ? <Redirect to="/error404" /> : null} */}
+  
       {token && user && user.rol === "client" ? <Redirect to="/error404" /> : iAmAdmin} 
+      
       {/* <div className="navbar-admin d-flex justify-content-center">
         <Link to="/user/catalogo">
           <div className="brand logo-admin ">
