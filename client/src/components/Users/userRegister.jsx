@@ -29,8 +29,8 @@ import Axios from "axios";
 
 
 class UserRegister extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       passwordShowing: false, //para el boton que muestra o esconde la password
@@ -96,6 +96,11 @@ class UserRegister extends React.Component {
     const newUser = { name, lastname, email, password };
     this.props.createUser(newUser);
   };
+
+handleBoth=()=>{
+    this.handleClose(); 
+    this.props.handler()
+  }
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                                 //////////////////////// LOGIN WITH GOOGLE  ////////////////////////
@@ -169,7 +174,10 @@ class UserRegister extends React.Component {
           backdrop="static"
           keyboard={false}
         >
-          <Modal.Header style={{ backgroundColor: "#8a2be2", color: "white" }}>
+          <Modal.Header 
+            style={{ backgroundColor: "#8a2be2", color: "white" }}
+            closeButton={true}
+          >
             <Modal.Title>Register</Modal.Title>
           </Modal.Header>
           <Modal.Body>
@@ -255,12 +263,12 @@ class UserRegister extends React.Component {
               <Form.Group className="d-flex justify-content-between">
                 <span className="mt-2">
                   ¿Do you have an account?{"     "}
-                  <span
-                    class="nav-cta nav-sign"
-                    onClick={() => this.handleClose}
-                  >
-                    <SignIn />{" "}
-                  </span>
+                  <Button
+                    onClick={this.handleBoth}
+                    className="button-register mt-1"
+                    style={{ width: "5rem" }}                  
+                  >Login                
+                  </Button>
                 </span>
                 <Button
                   disabled={this.state.loading}

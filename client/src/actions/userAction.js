@@ -24,7 +24,6 @@ export const getAllUsers = () => (dispatch) => {
 };
 
 export const loadUser = () => (dispatch, getState) => {
-  dispatch({ type: USER_LOADING })
 
   const config = {
     headers: {
@@ -37,14 +36,22 @@ export const loadUser = () => (dispatch, getState) => {
   if(token) {
     config.headers["x-auth-token"] = token
   }
+  console.log(config)
 
   axios.get("http://localhost:4000/auth", config).then(res => {
     dispatch({ type: USER_LOADED, payload: res.data })
   })
   .catch(error => {
-    dispatch(returnErrors(error.response.data, error.response.status ))
-    dispatch({ type: AUTH_ERROR })
-  })
+    // if(error.response.status === 401) {
+      if(error) {
+        dispatch({ type: AUTH_ERROR })
+      }
+    //   console.log('unauthorized, logging out ...');
+    return Promise.reject(error.response);
+    }
+    
+  // }
+  )
 }
 
 export const createUser = (user) => (dispatch) => {

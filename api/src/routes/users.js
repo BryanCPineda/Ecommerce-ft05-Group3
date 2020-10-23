@@ -12,8 +12,8 @@ const { check, validationResult, body } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { DB_KEY } = process.env;
-
-const auth = require('../middleware/auth');
+const isAdmin = require('../middleware/isAdmin')
+const auth = require('../middleware/auth')
 
 
 // Giving all users and counting them
@@ -162,6 +162,7 @@ server.post(
           user: {
             id: userCreate.id,
             name: userCreate.name,
+            lastname: userCreate.lastname,
             email: userCreate.email,
             rol: userCreate.usertype
           }
@@ -171,10 +172,11 @@ server.post(
     } catch (error) {
       console.log(error);
     }
+
   }
 );
 
-server.put("/:id", (req, res) => {
+server.put("/:id", auth, (req, res) => {
   const { id } = req.params;
   const {
     name,
