@@ -137,8 +137,8 @@ class UserRegister extends React.Component {
       }else {
                                           //de lo contrario si retorna datos, se crea un nuevo objeto, "gitHubUser" para enviarlo a la accion
           let newGitHubUser = {           //que me crea un nuevo usuario en mi DB con los datos entregados por gitHub
-            name: data.displayName,       //lastname se debe poner igual que el name, pues gitHub entrega solo un display Name, y necesitamos pasar
-            lastname: data.displayName,   //la validacion de sequelize que pide que el lastname no sea null
+            name: data.username,       //lastname se debe poner igual que el name, pues gitHub entrega solo un display Name, y necesitamos pasar
+            lastname: data.username,   //la validacion de sequelize que pide que el lastname no sea null
             email: data.username+"@cyberfitness.com", //gitHub no retorna un correo electronico por lo cual se le crea un nuevo correo al usuario con el username de github
             password: "$2a$10$KtUH0poKeLEQ8WqZ8hjcruwXPcA7.W8O1WDtcMoAFJweRGMQxDWam", //esta password es generica para todas las cuentas de google y gitHub para pasar la validacion de sequelize
             image: data.photos[0].value,
