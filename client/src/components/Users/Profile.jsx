@@ -14,6 +14,7 @@ import { connect } from "react-redux";
 import Review from "../Reviews.jsx";
 import "./Profile.css";
 import { showCompletedOrders } from "../../actions/userAction";
+import CompletedOrderline from "./completedOrdersline";
 
 const UserProfile = ({ showCompletedOrders, user, order }) => {
   const idUser = user && user.id;
@@ -30,7 +31,7 @@ const UserProfile = ({ showCompletedOrders, user, order }) => {
   }, [state.orders]);
 
   //const orders = showCompletedOrders();
-
+  const producto = order.product && order.product[0];
   return (
     <div>
       <Row className="products-container">
@@ -44,20 +45,10 @@ const UserProfile = ({ showCompletedOrders, user, order }) => {
             <p>Email: {user && user.email}</p>
           </div>
           <div className="flex-orders">
-            <h3>Previous orders:</h3>
-            {console.log("order aqui----------------", order)}
-            {console.log("prod aqui----------------", order.product)}
-            {console.log("ordeline aqui----------------", order.orderlines)}
-
-            <p>Producto: {}</p>
-            <p>Precio:{user && user.lastname}</p>
-            <p>Cantidad: {user && user.email}</p>
+            <CompletedOrderline />
           </div>
         </Container>
         <Col xs={2}></Col>
-      </Row>
-      <Row>
-        <Container fluid="sm" className="reviews-container"></Container>
       </Row>
     </div>
   );
