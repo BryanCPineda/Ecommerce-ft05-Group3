@@ -3,8 +3,7 @@ import {
   CREATE_USER,
   DELETE_USER,
   UPDATE_USER,
-} from "../constants/userConstants";
-import {
+  USER_COMPLETED,
   USER_LOADING,
   USER_LOADED,
   AUTH_ERROR,
@@ -109,6 +108,17 @@ export const loginUser = (user) => (dispatch) => {
       dispatch({ type: LOGIN_FAIL });
     });
 };
+
+export function showCompletedOrders(idUser) {
+  return (dispatch) => {
+    return axios
+      .get(`http://localhost:4000/users/1/profile`)
+      .then((res) => res.data)
+      .then((res) => {
+        dispatch({ type: USER_COMPLETED, payload: res });
+      });
+  };
+}
 
 export const logout = () => {
   return { type: LOGOUT_SUCCESS };

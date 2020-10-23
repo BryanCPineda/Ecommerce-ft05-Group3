@@ -3,8 +3,7 @@ import {
   CREATE_USER,
   DELETE_USER,
   UPDATE_USER,
-} from "../constants/userConstants";
-import {
+  USER_COMPLETED,
   USER_LOADING,
   USER_LOADED,
   AUTH_ERROR,
@@ -16,10 +15,10 @@ import {
 } from "../constants/userConstants";
 
 const initialState = {
-  token: localStorage.getItem('token'),
+  token: localStorage.getItem("token"),
   isAuthenticated: false, //para determinar si un usuario esta logeado
   isLoading: false,
-  user: null,  //datos del usuario logeado
+  user: null, //datos del usuario logeado
   allUsers: [],
 };
 
@@ -54,7 +53,7 @@ export default function userReducer(state = initialState, action) {
       };
     case REGISTER_SUCCESS:
     case LOGIN_SUCCESS:
-      localStorage.setItem('token', action.payload.token);
+      localStorage.setItem("token", action.payload.token);
       return {
         ...state,
         ...action.payload,
@@ -65,8 +64,14 @@ export default function userReducer(state = initialState, action) {
     case REGISTER_FAIL:
     case LOGIN_FAIL:
     case LOGOUT_SUCCESS:
+    case USER_COMPLETED:
+      return {
+        ...state,
+        allUsers: action.payload,
+      };
+
     case AUTH_ERROR:
-      localStorage.removeItem('token');
+      localStorage.removeItem("token");
       return {
         ...state,
         token: null,
