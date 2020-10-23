@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import {addProductToCart} from '../actions/cartActions';
 import {getProductById} from '../actions/product';
 import {getProductsFromCart} from '../actions/cartActions';
-import Review from './Reviews/Reviews'
+import Review from './Reviews/Reviews';
 import {
   getProductReviews, 
   getOneStarReviews, 

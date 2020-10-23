@@ -7,11 +7,9 @@ import SignIn from "./Users/userLogin"; //importamos el componente UserLogin (me
 import Logout from "./Users/Logout"; //importamos el componente Logout (boton)
 import { Button, Row, Col } from "react-bootstrap";
 import { IoIosCart } from "react-icons/io";
-import { connect } from 'react-redux';
 import UserLoged from './Users/UserLoged'
 import AddReview from "./Reviews/AddReview";
 import { connect } from "react-redux";
-import UserLoged from "./Users/UserLoged";
 import UserProfile from "./Users/Profile";
 
 function NavbarGeneral({ isAuthenticated, user }) {

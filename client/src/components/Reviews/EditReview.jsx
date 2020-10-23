@@ -2,10 +2,10 @@ import React,  {useEffect} from 'react';
 import { useState } from 'react';
 import { Button, Container, Modal, Col, Row, Form, InputGroup, FormControl } from 'react-bootstrap';
 import ReactStars from 'react-stars';
-import {addReview} from '../../actions/reviewsActions';
+import {editReview} from '../../actions/reviewsActions';
 import {connect} from 'react-redux';
 
-function AddReview({addReview, user, product}) {
+function EditReview({editReview, user, product}) {
   const[show, setShow] = useState(false);
   const [stars, setStars] = useState(0);
   const [description, setDescription] = useState('');
@@ -28,7 +28,7 @@ function AddReview({addReview, user, product}) {
       userdId: user.id
     };
     const id = product.id
-    addReview(id, review);
+    editReview(id, review);
     setShow(false);
   }
   
@@ -37,11 +37,8 @@ function AddReview({addReview, user, product}) {
       <Button 
         onClick={(e)=>handleOnclick(e)}
         className=""
-      >
-        Add review
+      >Edit review
       </Button>
-      &nbsp;
-      &nbsp;
       <Modal 
         show={show} 
         onHide={()=>setShow(false)}
@@ -54,10 +51,10 @@ function AddReview({addReview, user, product}) {
           closeButton={true} 
           closeLabel={'Close'}
         >
-          <Modal.Title>Product review</Modal.Title>
+          <Modal.Title>Change your review</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <h4>Rate your product.</h4>
+          <h4>Rate the product.</h4>
           <Form>
             <ReactStars
               count={5}
@@ -66,15 +63,15 @@ function AddReview({addReview, user, product}) {
               color2={'#8a2be2'} 
             />
             <hr/>
-            <h4>Give us a product review.</h4>
+            <h4>The new product review?</h4>
             <InputGroup>
               <InputGroup.Prepend>
-                <InputGroup.Text>Don't be shy</InputGroup.Text>
+                <InputGroup.Text>Your review</InputGroup.Text>
               </InputGroup.Prepend>
               <FormControl 
                 as="textarea"  
                 aria-label="Description" 
-                placeholder="Your review"
+                placeholder="I hope it's for better"
                 onChange={e=>handleOnChange(e)}
               />
             </InputGroup>
@@ -116,8 +113,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addReview: (user, review) => dispatch(addReview(user, review))
+    editReview: (user, review) => dispatch(editReview(user, review))
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddReview)
+export default connect(mapStateToProps, mapDispatchToProps)(EditReview);

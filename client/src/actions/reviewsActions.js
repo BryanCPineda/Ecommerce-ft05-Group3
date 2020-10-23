@@ -15,7 +15,6 @@ export function getProductReviews(id){
   return dispatch => {
     return Axios.get(`http://localhost:4000/reviews/product/${id}/review`)
       .then(res=> {
-        console.log('getProductReviews', res.data)
         dispatch({type: GET_PRODUCT_REVIEWS, payload: res.data})
       })
   }
@@ -32,7 +31,6 @@ export function getOneStarReviews(id){
     return dispatch => {
       return Axios.get(`http://localhost:4000/reviews/product/${id}/twoStarsReviews`)
       .then(res=> {
-        console.log('getTwoStarReviews', res.data.count)
         dispatch({type: TWO_STARS_REVIEWS, payload: res.data.count})
       })
   }
@@ -63,15 +61,30 @@ export function getFiveStarsReviews(id){
 }
 export function addReview(id, review) {
   return dispatch => {
-    // const reviewToSend = {
-    //   userId: review.userId,
-    //   qualification: review.stars,
-    //   description: review.description
-    // }
     return Axios.post(`http://localhost:4000/reviews/product/${id}/review`, review)
     .then(res => {
-      console.log('ADD_REVIEW', res)
+      console.log('ProductId', id)
       dispatch({type: ADD_REVIEW, payload: res.data})
+    })
+  }
+}
+export function editReview(id, review) {
+  return dispatch => {
+    return Axios.post(`http://localhost:4000/reviews/${id}`, review)
+    .then(res => {
+      console.log('ReviewId', id)
+      console.log('Review', review)
+      dispatch({type: EDIT_REVIEW, payload: res.data})
+    })
+  }
+}
+export function deleteReview(id, review) {
+  return dispatch => {
+    return Axios.post(`http://localhost:4000/reviews/${id}`, review)
+    .then(res => {
+      console.log('ReviewId', id)
+      console.log('Review', review)
+      dispatch({type: DELETE_REVIEW, payload: res.data})
     })
   }
 }

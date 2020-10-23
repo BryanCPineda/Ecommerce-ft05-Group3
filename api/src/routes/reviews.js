@@ -109,7 +109,7 @@ server.post("/product/:id/review",(req,res)=>{
     });
 })
 
-server.put("/product/:idReview", (req, res, next) => {
+server.put("/:id", (req, res, next) => {
   /* and this other one is for modifying one existing review */
   const { idReview } = req.params;
   const {
@@ -135,12 +135,11 @@ server.put("/product/:idReview", (req, res, next) => {
     });
 });
 
-server.delete('/product/:id/review/:idReview', (req, res)=>{
-  const {id, idReview} = req.params;
+server.delete('/:id', (req, res)=>{
+  const {id} = req.params;
   Reviews.destroy({
     where: {
-      id: idReview,
-      productId:id
+      id: id
     }
   }).then((review)=>{
     if (review) {  

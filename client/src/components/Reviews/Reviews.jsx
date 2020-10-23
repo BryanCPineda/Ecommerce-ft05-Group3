@@ -230,7 +230,6 @@ function Review({reviews, oneStarReviews, twoStarsReviews, threeStarsReviews, fo
           <div>
             {
               reviews && reviews.map(review=>{
-                console.log('REVIEW', review)
                 return (
                   review.qualification==='1' ? (
                     <div>
