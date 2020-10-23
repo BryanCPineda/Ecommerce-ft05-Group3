@@ -1,13 +1,13 @@
 #user-loged{
     border: none;
-    height: 2.5rem;
-    width: 5rem;
-    background-color: darkviolet;
+    
+    background-color: #8a2be2;
     color: white;
     border-radius: 5px;
 
     display:flex;
     position:relative;
     bottom: -18px;
+    
 }
 
