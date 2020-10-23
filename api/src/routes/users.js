@@ -162,6 +162,7 @@ server.post(
           user: {
             id: userCreate.id,
             name: userCreate.name,
+            lastname: userCreate.lastname,
             email: userCreate.email,
             rol: userCreate.usertype
           }

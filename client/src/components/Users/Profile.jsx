@@ -11,7 +11,8 @@ import {
 import { FiShoppingCart } from "react-icons/fi";
 import { BsFillDashCircleFill, BsCheck } from "react-icons/bs";
 import { connect } from "react-redux";
-import Review from "../Reviews.jsx";
+import AddReview from "../Reviews/AddReview.jsx";
+import EditReview from "../Reviews/EditReview.jsx";
 import "./Profile.css";
 import { showCompletedOrders } from "../../actions/userAction";
 
@@ -38,6 +39,13 @@ const UserProfile = ({ showCompletedOrders, user, order }) => {
           <div>
             <p>Name: {user && user.name}</p>
             <p>LastName:{user && user.lastname}</p>
+        {/* <Col> */}
+          {/* {console.log("erkferfiehrfuer", user)}
+          <h2>Personal information:</h2>
+          <br></br>
+          <div>
+            <p>First name: {user && user.name}</p>
+            <p>Last name: {user && user.lastname}</p> */}
             <p>Email: {user && user.email}</p>
           </div>
           <div className="flex-orders">
@@ -69,7 +77,22 @@ const UserProfile = ({ showCompletedOrders, user, order }) => {
         <Col xs={2}></Col>
       </Row>
       <Row>
-        <Container fluid="sm" className="reviews-container"></Container>
+        <Container fluid="sm" className="reviews-container">
+          <Row>
+            <Col lg='8'>
+              The product go here
+            </Col>
+            <Col lg='4'>
+              <Row >
+                <AddReview/>
+              </Row>
+              <br/>
+              <Row>
+                <EditReview/>
+              </Row>
+            </Col>
+          </Row>
+        </Container>
       </Row>
     </div>
   );
