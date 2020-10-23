@@ -1,5 +1,7 @@
 const server = require("express").Router();
 const { Order, Users } = require("../db.js");
+const isAdmin = require('../middleware/isAdmin')
+const auth = require('../middleware/auth')
 
 server.get('/', (req, res, next) => {
  
@@ -18,7 +20,7 @@ server.get('/', (req, res, next) => {
   })
 })
 
-server.put('/:id', (req, res, next) => {
+server.put('/:id', auth, isAdmin, (req, res, next) => {
   const {state} = req.body
   const {id} = req.params
   Order.update(
@@ -58,7 +60,7 @@ server.get("/:id", (req,res)=>{
   });
 })
 
-server.delete('/:id', (req, res)=>{
+server.delete('/:id', auth, isAdmin, (req, res)=>{
     const {id} = req.params;
     Order.findOne({
       where: {

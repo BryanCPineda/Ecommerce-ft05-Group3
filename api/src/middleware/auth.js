@@ -1,9 +1,10 @@
 const jwt = require("jsonwebtoken");
 const { DB_KEY } = process.env;
 
-const auth = (req, res, next) => {
-    const token = req.header("x-auth-token");
 
+const auth = (req, res, next) => { 
+    let token = req.header("x-auth-token");
+    if(!token) token = req.body.headers["x-auth-token"]
     if(!token) return res.status(401).send({ msg: 'No token, authorization denied' })
 
     try {
@@ -15,5 +16,6 @@ const auth = (req, res, next) => {
         res.status(400).send({ msg: "token is not valid"})
     }
 }
+
 
 module.exports = auth;

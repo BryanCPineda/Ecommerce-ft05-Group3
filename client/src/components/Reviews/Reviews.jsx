@@ -281,13 +281,13 @@ function Review({reviews, oneStarReviews, twoStarsReviews, threeStarsReviews, fo
                             <BsStar/>
                           </div>
                           <div className='calification'>
-                            Bueno
+                            Promedio
                           </div>
                           <Row>
-                          <Col lg='6'>{review.description}</Col>
-                          <Col lg='2'></Col>
-                          <Col lg='4'>{review.updatedAt}</Col>
-                        </Row>
+                            <Col lg='6'>{review.description}</Col>
+                            <Col lg='2'></Col>
+                            <Col lg='4'>{review.updatedAt}</Col>
+                          </Row>
                         </div>
                       ) : 
                         review.qualification==='4' ? (
@@ -300,11 +300,13 @@ function Review({reviews, oneStarReviews, twoStarsReviews, threeStarsReviews, fo
                               <BsStar/>
                             </div>
                             <div className='calification'>
-                              Muy Bueno
+                              Bueno
                             </div> 
-                            <p>
-                              {review.description}
-                            </p>
+                            <Row>
+                              <Col lg='6'>{review.description}</Col>
+                              <Col lg='2'></Col>
+                              <Col lg='4'>{review.updatedAt}</Col>
+                            </Row>
                           </div>
                         ) : 
                           (
@@ -319,9 +321,11 @@ function Review({reviews, oneStarReviews, twoStarsReviews, threeStarsReviews, fo
                               <div className='calification'>
                                 Excelente
                               </div>
-                              <p>
-                                {review.description}
-                              </p>
+                              <Row>
+                                <Col lg='6'>{review.description}</Col>
+                                <Col lg='2'></Col>
+                                <Col lg='4'>{review.updatedAt}</Col>
+                              </Row>
                             </div>
                           ) 
                 )

@@ -57,14 +57,13 @@ server.post(
               if(err) throw err
               res.send({
                   token,
-
-
                   user: {
                   id: user.id,
                   name: user.name,
                   email: user.email,
                   rol: user.usertype
-              }})
+                  }
+              })
 
           })
       )
@@ -74,14 +73,17 @@ server.post(
     })
 
 //authenticate
-server.get("/", auth, async (req, res) => {
-    const user = await Users.findByPk(req.user.id)
+server.get("/", auth, (req, res) => {
+
+  Users.findByPk(req.user.id).then(user => {
     res.send({
         id: user.id,
         name: user.name,
         email: user.email,
         rol: user.usertype
     })
+    .catch(err => console.log(err))
+  })
 })
 
 //Promote User

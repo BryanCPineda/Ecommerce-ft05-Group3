@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./NavbarGeneral.css";
 import SearchBar from "./SearchBar/SearchBar";
@@ -10,29 +10,44 @@ import { IoIosCart } from "react-icons/io";
 import { connect } from 'react-redux';
 import UserLoged from './Users/UserLoged'
 import AddReview from "./Reviews/AddReview";
+import { connect } from "react-redux";
+import UserLoged from "./Users/UserLoged";
+import UserProfile from "./Users/Profile";
 
 function NavbarGeneral({ isAuthenticated, user }) {
-
   // window.addEventListener('scroll', function () {
   // 	let header = document.querySelector('header');
   // 	let windowPosition = window.scrollY > 0;
   // 	header.classList.toggle('scrolling-active', windowPosition);
   // })
 
+const [state, setState] = useState({modal:''})
+ function handleOpenLoginCloseReg(){
+    setState({modal:true})
+ }
+
   const guest = (
     <div className="d-flex mt-3">
-      <span><SignIn /></span>
-      <span className="ml-2"><SignUp /></span>
+      <span>
+        <SignIn state={state} />
+      </span>
+      <span className="ml-2">
+        <SignUp handler={handleOpenLoginCloseReg}/>
+      </span>
     </div>
-  )
+  );
 
   const userLoaded = (
-    <div className="d-flex mt-3" style={{height: "50px"}}>
-      <div className="h6 mr-3 d-flex align-items-center" 
-      style={{color: 'white'}}>{user ? `Hi ${user.name} !`: null }</div>
+    <div className="d-flex mt-3" style={{ height: "50px" }}>
+      <div
+        className="h6 mr-3 d-flex align-items-center"
+        style={{ color: "white" }}
+      >
+        {user ? `Hi ${user.name} !` : null}
+      </div>
       {/* <div ><Logout /></div> */}
     </div>
-  )
+  );
 
   return (
     // 		<div style={{backgroundColor: 'blue'}} className="navegacion-general">
@@ -60,24 +75,34 @@ function NavbarGeneral({ isAuthenticated, user }) {
               ></img>
             </div>
           </Link>
-          <div className="d-flex align-items-center" style={{height: "50px", width: '70px'}}>
-              <Link to="/admin" class="nav-link admin-icono-navbar">
-                Admin
-              </Link>
-            </div>
+          {user && user.rol === "admin" ? 
+            <div className="d-flex align-items-center" style={{height: "50px", width: '70px'}}>
+            <Link to="/admin" class="nav-link admin-icono-navbar">
+              Admin
+            </Link>
+           </div>
+           :
+           null
+          }  
           <div className="searchbar-navbar">
             <SearchBar />
           </div>
-          <div>
-            <AddReview/>
+          <div> {isAuthenticated && <UserProfile usuario={user} />}</div>
+          <div
+            className="d-flex align-items-center ml-5"
+            style={{ width: "60px", height: "50px" }}
+          >
+            <Link to="/user/cart" class="nav-link cart-icono-navbar d-flex">
+              <span className="cart-navbar-letters">Cart </span>
+              <span style={{ fontSize: "35px" }}>
+                <IoIosCart />
+              </span>
+            </Link>
           </div>
-          <div className="d-flex align-items-center ml-5" style={{width: "60px", height: '50px'}}>
-              <Link to="/user/cart" class="nav-link cart-icono-navbar d-flex">   
-                <span className="cart-navbar-letters">Cart{" "}</span><span style={{ fontSize: "35px" }}><IoIosCart /></span> 
-              </Link>
+          <div className="sign-logout">
+            {isAuthenticated ? userLoaded : guest}
           </div>
-          <div className="sign-logout">{isAuthenticated ? userLoaded : guest}</div>
-          {isAuthenticated && <UserLoged id='UserLoged' user={user}/>}
+          {isAuthenticated && <UserLoged id="UserLoged" user={user} />}
         </Col>
         <Col xs={2}></Col>
 
@@ -95,10 +120,10 @@ const mapStateToProps = (state) => {
   return {
     isAuthenticated: state.userReducer.isAuthenticated,
     user: state.userReducer.user,
-  }
-}
+  };
+};
 
-export default connect(mapStateToProps, null)(NavbarGeneral)
+export default connect(mapStateToProps, null)(NavbarGeneral);
 // import React from 'react'
 // import {Link} from 'react-router-dom'
 // import './NavbarGeneral.css'

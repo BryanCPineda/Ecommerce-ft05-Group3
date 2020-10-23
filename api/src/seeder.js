@@ -296,40 +296,29 @@ function productsSeeder()               //This function create several products
 function usersSeeder(){
     Users.bulkCreate([
         {
-            name: 'Martin',
-            lastname: 'Borchardt',
-            email: 'soyhenry@gmail.com',
-            password: '024681012',
+            name: 'Master',
+            lastname: 'Master',
+            email: 'master@master.com',
+            password: '$2a$10$aZTF9aJ9VVxQeay7RafikuEvwsf87SKy0HhF4zsnPbw7tniAESDEa', //masterpass
             userType: 'admin',
-            adress: 'Buenos Aires',
-            image: 'bortincho.png'
         },
         {
-            name: 'Lianel',
-            lastname: 'Artiles',
-            email: 'larts@gmail.es',
-            password: '132456789',
-            usertype: 'admin',
-            adress: 'mataderos',
-            image: 'sotolia_future_developer.jpeg'
+            name: 'Test',
+            lastname: 'User',
+            email: 'test@test.com',
+            password: '$2a$10$NbdBSL8O5UY91h8AnWv8w.wVw2U2KLvOUNkOQ34alTc0R/V6x4/BW', //testpass
         },
         {
-            name: 'Franco',
-            lastname: 'Etcheverri',
-            email: 'franco@gmail.com',
-            password: '135791113',
-            userType: 'admin',
-            adress: 'en algun lugar de la mancha',
-            image: 'franco.gif'
+            name: 'Test2',
+            lastname: 'User',
+            email: 'test2@test.com',
+            password: '$2a$10$4/hynp5ZAKwbxXeZ8gD5EOUKZB0igrdOxRwwR5XwUpK9XwpSIdHrq', //testpass
         },
         {
-            name: 'Agustin',
-            lastname: 'Amani',
-            email: 'agusamani@gmail.com',
-            password: 'abcdfghi',
-            userType: 'admin',
-            adress: 'San Miguel de Tucumán',
-            image: 'lo_probemos.psd'
+            name: 'Test3',
+            lastname: 'User',
+            email: 'test3@test.com',
+            password: '$2a$10$NbdBSL8O5UY91h8AnWv8w.wVw2U2KLvOUNkOQ34alTc0R/V6x4/BW', //testpass
         },
     ])
 }
