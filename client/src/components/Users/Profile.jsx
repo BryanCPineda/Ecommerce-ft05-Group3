@@ -11,7 +11,8 @@ import {
 import { FiShoppingCart } from "react-icons/fi";
 import { BsFillDashCircleFill, BsCheck } from "react-icons/bs";
 import { connect } from "react-redux";
-import Review from "../Reviews.jsx";
+import AddReview from "../Reviews/AddReview.jsx";
+import EditReview from "../Reviews/EditReview.jsx";
 import "./Profile.css";
 import { showCompletedOrders } from "../../actions/userAction";
 import CompletedOrderline from "./completedOrdersline";
@@ -32,6 +33,7 @@ const UserProfile = ({ showCompletedOrders, user, order }) => {
 
   //const orders = showCompletedOrders();
   const producto = order.product && order.product[0];
+
   return (
     <div>
       <Row className="products-container">

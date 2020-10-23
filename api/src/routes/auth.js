@@ -46,37 +46,42 @@ server.post(
       if (!passwordMatch) {
         return res.status(400).json({ errors: ["Invalid credentials"] });
       }
+      jwt.sign(
+          { id: user.id },
+          DB_KEY,
+          { expiresIn: '1d' },
+          ((err, token) => {
+              if(err) throw err
+              res.send({
+                  token,
+                  user: {
+                  id: user.id,
+                  name: user.name,
+                  email: user.email,
+                  rol: user.usertype
+                  }
+              })
 
-      jwt.sign({ id: user.id }, DB_KEY, { expiresIn: "1d" }, (err, token) => {
-        if (err) throw err;
-        res.send({
-          token,
-
-          user: {
-            id: user.id,
-            name: user.name,
-            email: user.email,
-            rol: user.usertype,
-          },
-        });
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  }
-);
+          })
+      )
+      } catch (error) {
+        console.log(error)
+      }
+    })
 
 //authenticate
-server.get("/", auth, async (req, res) => {
-  const user = await Users.findByPk(req.user.id);
-  res.send({
-    id: user.id,
-    name: user.name,
-    lastname: user.lastname,
-    email: user.email,
-    rol: user.usertype,
-  });
-});
+server.get("/", auth, (req, res) => {
+
+  Users.findByPk(req.user.id).then(user => {
+    res.send({
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        rol: user.usertype
+    })
+    .catch(err => console.log(err))
+  })
+})
 
 //Promote User
 server.post("/promote", auth, (req, res) => {

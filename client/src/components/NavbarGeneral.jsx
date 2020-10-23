@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./NavbarGeneral.css";
 import SearchBar from "./SearchBar/SearchBar";
@@ -7,8 +7,9 @@ import SignIn from "./Users/userLogin"; //importamos el componente UserLogin (me
 import Logout from "./Users/Logout"; //importamos el componente Logout (boton)
 import { Button, Row, Col } from "react-bootstrap";
 import { IoIosCart } from "react-icons/io";
+import UserLoged from './Users/UserLoged'
+import AddReview from "./Reviews/AddReview";
 import { connect } from "react-redux";
-import UserLoged from "./Users/UserLoged";
 import UserProfile from "./Users/Profile";
 
 function NavbarGeneral({ isAuthenticated, user }) {
@@ -18,13 +19,18 @@ function NavbarGeneral({ isAuthenticated, user }) {
   // 	header.classList.toggle('scrolling-active', windowPosition);
   // })
 
+const [state, setState] = useState({modal:''})
+ function handleOpenLoginCloseReg(){
+    setState({modal:true})
+ }
+
   const guest = (
     <div className="d-flex mt-3">
       <span>
-        <SignIn />
+        <SignIn state={state} />
       </span>
       <span className="ml-2">
-        <SignUp />
+        <SignUp handler={handleOpenLoginCloseReg}/>
       </span>
     </div>
   );
@@ -67,14 +73,15 @@ function NavbarGeneral({ isAuthenticated, user }) {
               ></img>
             </div>
           </Link>
-          <div
-            className="d-flex align-items-center"
-            style={{ height: "50px", width: "70px" }}
-          >
+          {user && user.rol === "admin" ? 
+            <div className="d-flex align-items-center" style={{height: "50px", width: '70px'}}>
             <Link to="/admin" class="nav-link admin-icono-navbar">
               Admin
             </Link>
-          </div>
+           </div>
+           :
+           null
+          }  
           <div className="searchbar-navbar">
             <SearchBar />
           </div>

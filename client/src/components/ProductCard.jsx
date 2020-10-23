@@ -9,8 +9,8 @@ import { addProductToCart} from '../actions/cartActions';
 import {reloadProductCard} from '../actions/product';
 import {getProductsFromCart} from '../actions/cartActions';
 
+function ProductCard({currentProducts, current, name, price, stock, images, id, addProductToCart, cartProducts, user }) {
 
-function ProductCard({currentProducts, current, name, price, stock, images, id, addProductToCart, cartProducts}) {
 
   const body = {
     quantity: 1,
@@ -20,9 +20,13 @@ function ProductCard({currentProducts, current, name, price, stock, images, id, 
   const[showCard, setShowCard] = useState("")
 
   const handleClick = (id) => {
-    body.productId = id;
+    if(user) {
+      body.productId = id;
     setShowCard(false);
-    addProductToCart(body);
+    addProductToCart(user.id, body); //idUser
+    } else {
+      alert("no user")
+    }
    }
 
   useEffect(()=>{
@@ -79,15 +83,17 @@ function ProductCard({currentProducts, current, name, price, stock, images, id, 
 function mapStateToProps(state) {
   return {
         cartState: state.cartReducer.cart,
+        user: state.userReducer.user,
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    addProductToCart: (body) => dispatch(addProductToCart(body)),
+    addProductToCart: (idUser, body) => dispatch(addProductToCart(idUser, body)),
     getProductById: (id) => dispatch(getProductById(id)),
     reloadProductCard: () => dispatch(reloadProductCard()),
-    getProductsFromCart: () => dispatch(getProductsFromCart())
+    getProductsFromCart: (idUser) => dispatch(getProductsFromCart(idUser)),
+
   }
 }
 

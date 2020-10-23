@@ -13,7 +13,8 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { DB_KEY } = process.env;
 
-const auth = require("../middleware/auth");
+const isAdmin = require('../middleware/isAdmin')
+const auth = require('../middleware/auth')
 
 // Giving all users and counting them
 server.get("/", (req, res, next) => {
@@ -143,31 +144,38 @@ server.post(
 
         await userCreate.save();
 
-        jwt.sign(
-          { id: userCreate.id },
-          DB_KEY,
-          { expiresIn: "1d" },
-          (err, token) => {
-            if (err) throw err;
-            res.status(200).send({
-              token,
-              user: {
-                id: userCreate.id,
-                name: userCreate.name,
-                email: userCreate.email,
-                rol: userCreate.usertype,
-              },
-            });
+
+    const salt = await bcrypt.genSalt(10)
+    const hashedPassword = await bcrypt.hash(password, salt)
+    userCreate.password = hashedPassword;
+
+    await userCreate.save()
+
+    jwt.sign(
+      { id: userCreate.id },
+      DB_KEY,
+      { expiresIn: '1d' },
+      ((err, token) => {
+        if(err) throw err;
+        res.status(200).send({
+          token,
+          user: {
+            id: userCreate.id,
+            name: userCreate.name,
+            lastname: userCreate.lastname,
+            email: userCreate.email,
+            rol: userCreate.usertype
           }
         );
       }
     } catch (error) {
       console.log(error);
     }
+
   }
 );
 
-server.put("/:id", (req, res) => {
+server.put("/:id", auth, (req, res) => {
   const { id } = req.params;
   const {
     name,
@@ -493,6 +501,46 @@ server.post("/passwordReset", auth, (req, res) => {
 });
 
 // complete orders for user profile
+server.get("/:idUser/profile", (req, res) => {
+  const { idUser } = req.params;
+  Order.findOne({
+    where: {
+      userId: idUser,
+      state: "Complete",
+    },
+    include: [
+      {
+        model: Product,
+
+        include: [
+          {
+            model: Image,
+          },
+        ],
+      },
+    ],
+  })
+    .then((order) => {
+      Orderline.findAll({
+        where: {
+          orderId: order.id,
+        },
+      }).then((orderlines) => {
+        const orderLinePlusProduct = {
+          product: order.products,
+          orderlines: orderlines,
+          orderId: order.id,
+        };
+        res.send(orderLinePlusProduct);
+      });
+    })
+    .catch((err) => {
+      res.send({ data: err }).status(400);
+    });
+});
+
+/*----------------------------------------------------*/
+
 server.get("/:idUser/profile", (req, res) => {
   const { idUser } = req.params;
   Order.findOne({

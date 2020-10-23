@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import {addProductToCart} from '../actions/cartActions';
 import {getProductById} from '../actions/product';
 import {getProductsFromCart} from '../actions/cartActions';
-import Review from './Reviews.jsx'
+import Review from './Reviews/Reviews';
 import {
   getProductReviews, 
   getOneStarReviews, 
@@ -78,9 +78,9 @@ function ProductsMati({getProductsFromCart, addProductToCart, product, getProduc
 
   return (
     <div>
-    <Row>
+    <Row style={{marginTop: '700px'}}>
       <Col xs={2}></Col>
-      <Col className="products-container">
+      <Col className="products-container" style={{height: '700px'}}>
       <Container>
         <div className="d-flex">
           <div className="products-image-div">

@@ -27,9 +27,8 @@ const UserLoged = ({ user }) => {
       <Dropdown.Item id="user-loged-profile"><Link to="/user/profile">
         <Button className="button" style={{ backgroundColor: "#8a2be2" }}>Profile</Button>
         </Link></Dropdown.Item>
-      <Dropdown.Item href="#/action-2">
-        <Logout />
-      </Dropdown.Item>
+
+    <button style={{border: 'none', marginLeft: '2rem'}} onClick={() => window.location.reload()}><Logout/></button>
     </DropdownButton>
   );
 };
