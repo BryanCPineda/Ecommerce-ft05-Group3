@@ -8,9 +8,9 @@ import {getProductById} from '../actions/product';
 import { addProductToCart} from '../actions/cartActions';
 import {reloadProductCard} from '../actions/product';
 import {getProductsFromCart} from '../actions/cartActions';
-import {constructor, getCarrito, addItemCarrito} from './GuestCart'
+// import {constructor, getCarrito, addItemCarrito} from './GuestCart'
 
-function ProductCard({currentProducts, current, name, price, stock, images, id, addProductToCart, cartProducts, constructor, getCarrito, addItemCarrito}) {
+function ProductCard({currentProducts, current, name, price, stock, images, id, addProductToCart, cartProducts}) {
 
 
   const body = {
@@ -31,7 +31,7 @@ function ProductCard({currentProducts, current, name, price, stock, images, id, 
         name: name,
         price: price,
         stock: stock-1,
-        images: images,
+        images: images ? [images] : "",
         quantity: 1
       }
   getCart.push(product)
@@ -43,7 +43,7 @@ function ProductCard({currentProducts, current, name, price, stock, images, id, 
       let productos = JSON.parse(localStorage.getItem('carrito'))
       let prodLocal = productos && productos.find(product => product.id == id)
       setCantidad(prodLocal ? prodLocal.quantity:0)
-      console.log(cantidad)
+      // console.log(cantidad)
     }
   }, []);
   // manejo de carrito de guest------------
@@ -54,6 +54,8 @@ function ProductCard({currentProducts, current, name, price, stock, images, id, 
     if (!logueado){
       setItemToCart(id)
       setShowCard(false);
+      let cant = 1
+      setCantidad(cant)
       return
     }
     body.productId = id;

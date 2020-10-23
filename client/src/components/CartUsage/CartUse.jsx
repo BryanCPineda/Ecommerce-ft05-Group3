@@ -31,7 +31,50 @@ const [total, setTotal] = useState();
 
 console.log("ahora el total es", total);
 
- //  console.log("estado local", total)
+// manejo de carrito de guest------------
+const logueado = false
+const [cantidad, setCantidad] = useState(0)
+let inicioCart = JSON.parse(localStorage.getItem('carrito'))
+console.log('inicio',inicioCart)
+let itemsCart = []
+inicioCart && inicioCart.map(item =>{
+        let product = {
+          id: item.id,
+          name: item.name,
+          price: item.price,
+          stock: item.stock,
+          images: item.images,
+          orderline: {
+            quantity: item.quantity,
+            id: item.id
+          }
+        }
+        itemsCart.push(product)
+})
+
+const quitarItemGuest = (id) => {
+    let items = []
+    let quitar = itemsCart.findIndex(e => e.id === id)
+    itemsCart.splice(quitar,1)
+    console.log('quitar', quitar)
+  
+    quitar = itemsCart ? itemsCart.forEach(e =>{
+      let item = {
+      id: e.id,
+      name: e.name,
+      price: e.price,
+      quantity: e.orderline.quantity,
+      stock: e.stock,
+      images: e.images,
+      }
+      items.push(item)
+
+    }) : ''
+    
+    localStorage.setItem("carrito", JSON.stringify(items))
+}
+
+
 // ------------------redireccionar --------------
 const [stateRedirect, setRedirect] = useState({ redirect: null })
 // ------------------redireccionar --------------
@@ -43,7 +86,6 @@ useEffect(() => {
   setState({
     products: order.product
     })
-      
     console.log("escuche que quitaste un item del carrito")
 }, [state.bandera, total])
     
@@ -51,9 +93,22 @@ useEffect(() => {
 
 const quantityChange = (e, id) =>{
   let cantCambiada = e
+  console.log('id', id)
   totalCost = 0;
+  if (!logueado) {
+    let item = itemsCart ? itemsCart.forEach( e=>{
+      if(e.id === id){
+        e.stock = e.stock + e.orderline.quantity - cantCambiada
+        e.orderline.quantity = cantCambiada
+      }
+    }) : ""
+    item = itemsCart ? itemsCart.forEach( e=>{
+        totalCost += e.price * e.orderline.quantity
+    }) : ""
+    setTotal(totalCost) 
+    return
+  }
   prod = order.product
-
   prod ? prod.forEach( e => {
     if (e.orderline.id === id){
       e.stock = e.stock + e.orderline.quantity - cantCambiada
@@ -66,9 +121,6 @@ const quantityChange = (e, id) =>{
     }
   ) : console.log('nada')
   
-  //setTotal((state) =>{
-  //  return {totalCost: }
-  //})
   
 
   setTotal(totalCost) 
@@ -90,8 +142,15 @@ const handleDelete = (id) =>{
   })
   .then((willDelete) => {
     if (willDelete) {
+      if (!logueado){
+        quitarItemGuest(id) 
+        setState({
+          bandera: !state.bandera
+        })
+      } else {
       quantityChange(0,id)
       quitarItemCarrito(id);
+      }
       setState({
         bandera: !state.bandera
       })
@@ -99,7 +158,7 @@ const handleDelete = (id) =>{
       swal("Your Item Has Been Deleted!", {
         icon: "success",
       }).then(() =>  {
-                    window.location.reload();    
+                    // window.location.reload();    
       })
   } } )
    
@@ -140,7 +199,11 @@ const handleVaciarCarrito = () =>{
   })
   .then((willDelete) => {
     if (willDelete) {
-      vaciarCarrito()
+      if (!logueado){
+        itemsCart =[]
+        localStorage.clear()
+      } else {
+      vaciarCarrito()}
       setTotal(()=>{
             return setTotal(0); 
       })
@@ -176,7 +239,6 @@ if (stateRedirect.redirect) {
                 </span>
               </Col>
               {/* ------------------ */}
-              {console.log('order.product', order.product)}
               <Col>
                 <Row>
                   <Col xs={6} md={4} className="text-center number" >
@@ -204,7 +266,29 @@ if (stateRedirect.redirect) {
             <Col>
               <Row className="bg-light text-center py-2  ">
                 <Col className="mx-3">
-                  {products ? (
+                  {/* {console.log("productos-----", products)}
+                  {console.log("guestproducts---", itemsCart)} */}
+                  {(!logueado)? (itemsCart ? (
+                    itemsCart.map((e) => (
+                      <OrderUse
+                        orderline={e}
+                        quantityChange={quantityChange}
+                        handleDelete={handleDelete}
+                      />
+                    ))
+                  ) : (
+                    <div>
+                      <p>
+                        <img
+                          src="../images/shopping_Sad-512.png"
+                          alt="sad cart"
+                        ></img>
+                        <h3> Your cart is empty!</h3> <br></br> Add something to
+                        make me happy :)
+                      </p>
+                    </div>
+                  )): ""}
+                  {logueado? (products ? (
                     products.map((e) => (
                       <OrderUse
                         orderline={e}
@@ -223,7 +307,7 @@ if (stateRedirect.redirect) {
                         make me happy :)
                       </p>
                     </div>
-                  )}
+                  )):""}
                 </Col>
               </Row>
             </Col>
