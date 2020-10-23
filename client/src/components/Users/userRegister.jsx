@@ -128,7 +128,10 @@ class UserRegister extends React.Component {
           backdrop="static"
           keyboard={false}
         >
-          <Modal.Header style={{ backgroundColor: "#8a2be2", color: "white" }}>
+          <Modal.Header 
+            style={{ backgroundColor: "#8a2be2", color: "white" }}
+            closeButton={true}
+          >
             <Modal.Title>Register</Modal.Title>
           </Modal.Header>
           <Modal.Body>

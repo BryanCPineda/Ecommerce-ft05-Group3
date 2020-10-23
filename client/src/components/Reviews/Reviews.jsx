@@ -3,7 +3,6 @@ import './Reviews.css';
 import { connect } from 'react-redux';
 import { Container, Row, Col } from "react-bootstrap";
 import {BsStarFill, BsStarHalf, BsStar} from 'react-icons/bs'
-import ProgressBar from 'react-bootstrap/ProgressBar'
 
 function Review({reviews, oneStarReviews, twoStarsReviews, threeStarsReviews, fourStarsReviews, fiveStarsReviews}) {
 { 
@@ -29,7 +28,6 @@ function Review({reviews, oneStarReviews, twoStarsReviews, threeStarsReviews, fo
 
   let promedio = totalStars / totalReviews;
   promedio = promedio.toFixed(1);
-  const now = 60;
 
   return (
     <Container>
@@ -227,12 +225,12 @@ function Review({reviews, oneStarReviews, twoStarsReviews, threeStarsReviews, fo
         </Col>
         <Col sm="2"></Col>
       </Row>
-      <hr/>
       <Row>
         <Col>
           <div>
             {
               reviews && reviews.map(review=>{
+                console.log('REVIEW', review)
                 return (
                   review.qualification==='1' ? (
                     <div>
@@ -246,13 +244,16 @@ function Review({reviews, oneStarReviews, twoStarsReviews, threeStarsReviews, fo
                       <div className='calification'> 
                         Muy malo
                       </div>
-                      <p>
-                        {review.description}
-                      </p>
+                      <Row>
+                        <Col lg='6'>{review.description}</Col>
+                        <Col lg='2'></Col>
+                        <Col lg='4'>{review.updatedAt}</Col>
+                      </Row>
                     </div>
                   ) :
-                    review.qualification==='2' ? (
-                      <div>
+                  review.qualification==='2' ? (
+                    <div>
+                    <hr/>
                         <div className='bsStars'>
                           <BsStarFill/>
                           <BsStarFill/>
@@ -263,9 +264,11 @@ function Review({reviews, oneStarReviews, twoStarsReviews, threeStarsReviews, fo
                         <div className='calification'>
                           Malo
                         </div>
-                        <p>
-                          {review.description}
-                        </p>
+                        <Row>
+                          <Col lg='6'>{review.description}</Col>
+                          <Col lg='2'></Col>
+                          <Col lg='4'>{review.updatedAt}</Col>
+                        </Row>
                       </div>
                     ) : 
                       review.qualification==='3' ? (
@@ -280,9 +283,11 @@ function Review({reviews, oneStarReviews, twoStarsReviews, threeStarsReviews, fo
                           <div className='calification'>
                             Bueno
                           </div>
-                          <p>
-                            {review.description}
-                          </p>
+                          <Row>
+                          <Col lg='6'>{review.description}</Col>
+                          <Col lg='2'></Col>
+                          <Col lg='4'>{review.updatedAt}</Col>
+                        </Row>
                         </div>
                       ) : 
                         review.qualification==='4' ? (

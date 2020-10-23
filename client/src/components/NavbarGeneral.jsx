@@ -9,6 +9,7 @@ import { Button, Row, Col } from "react-bootstrap";
 import { IoIosCart } from "react-icons/io";
 import { connect } from 'react-redux';
 import UserLoged from './Users/UserLoged'
+import AddReview from "./Reviews/AddReview";
 
 function NavbarGeneral({ isAuthenticated, user }) {
 
@@ -66,6 +67,9 @@ function NavbarGeneral({ isAuthenticated, user }) {
             </div>
           <div className="searchbar-navbar">
             <SearchBar />
+          </div>
+          <div>
+            <AddReview/>
           </div>
           <div className="d-flex align-items-center ml-5" style={{width: "60px", height: '50px'}}>
               <Link to="/user/cart" class="nav-link cart-icono-navbar d-flex">   
