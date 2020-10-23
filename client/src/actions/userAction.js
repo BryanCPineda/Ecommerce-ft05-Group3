@@ -88,14 +88,16 @@ export const createUser = (user) => (dispatch) => {
       dispatch({ type: REGISTER_SUCCESS, payload: res.data });
     })
     .catch((error) => {
-      dispatch(
-        returnErrors(
-          error.response.data,
-          error.response.status,
-          "REGISTER_FAIL"
+      if(error.response.status === 400 ) {
+        dispatch(
+          returnErrors(
+            error.response.data,
+            error.response.status,
+            "REGISTER_FAIL"
+          )
         )
-      );
-      dispatch({ type: REGISTER_FAIL })
+        dispatch({ type: REGISTER_FAIL })
+      }  
     });
 };
 
