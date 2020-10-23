@@ -23,7 +23,7 @@ import { connect } from "react-redux";
 
 const UserLoged = ({ user }) => {
   return (
-    <DropdownButton id="user-loged" title={user.name}>
+    <DropdownButton id="user-loged" title={user && user.name}>
       <Dropdown.Item id="user-loged-profile"><Link to="/user/profile">
         <Button className="button" style={{ backgroundColor: "#8a2be2" }}>Profile</Button>
         </Link></Dropdown.Item>

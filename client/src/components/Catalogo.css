@@ -5,7 +5,7 @@
   }
   
 .catalogo {
-  margin-top: -250px;
+  margin-top: -350px;
   
 }
 
@@ -27,4 +27,11 @@
   height: 6rem;
   margin-left: 30rem;
   margin-top: 20rem;
+}
+
+@media (min-width: 600px) {
+  .catalogo {
+    margin-top: -350px;
+    
+  }
 }

@@ -22,10 +22,11 @@ function SearchBar(props) {
     <form onSubmit={handleOnSubmit}>
       <td>
         <input
-          className="search"
+          style={{width: '300px',height: '50px'}}
+          className="search d-flex align-self-center"
           name="search"
           type="text"
-          placeholder="Search Product"
+          placeholder="Search Product ..."
           onChange={handleChange}
         />
       </td>

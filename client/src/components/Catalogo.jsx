@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Container } from "react-bootstrap";
 import ProductCard from "./ProductCard";
 import Filter from './Filter';
 import SideComponent from './SideComponent';
@@ -84,7 +84,7 @@ function Catalogo({
 
    
   return (
-    <Row md={12} className="catalogo">
+    <Container fluid className="catalogo d-flex">
       <Col xs={0} xl={1}></Col>
       <Col xs={2}>
         <SideComponent /> 
@@ -128,7 +128,8 @@ function Catalogo({
         </div>
       </Col>
       <Col xs={0} xl={1}></Col>
-    </Row>
+      
+    </Container>
   );
 } 
 

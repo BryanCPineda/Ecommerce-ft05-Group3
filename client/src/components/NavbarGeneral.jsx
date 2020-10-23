@@ -5,7 +5,7 @@ import SearchBar from "./SearchBar/SearchBar";
 import SignUp from "./Users/userRegister"; //importamos el componente UserRegister (menu modal)
 import SignIn from "./Users/userLogin"; //importamos el componente UserLogin (menu modal)
 import Logout from "./Users/Logout"; //importamos el componente Logout (boton)
-import { Button, Row, Col } from "react-bootstrap";
+import { Button, Row, Col, Container, Nav, Navbar } from "react-bootstrap";
 import { IoIosCart } from "react-icons/io";
 import UserLoged from './Users/UserLoged'
 import AddReview from "./Reviews/AddReview";
@@ -60,13 +60,12 @@ const [state, setState] = useState({modal:''})
     // <body className='fontuse'>
     //     <header>
     //         <div class="container">
-    <nav className="background-al-nav-general d-flex justify-content-center">
-      <Row class="">
-        <Col xs={2}></Col>
-        <Col className="d-flex mt-5">
+    <Navbar className="background-al-nav-general">
+        <Container className="d-flex justify-content-center">
           <Link to="/user/catalogo">
             <div class="logo">
               <img
+                style={{width: '150px', height: '150px'}}
                 class="image-brand"
                 src={"/images/brand4.png"}
                 alt="logo"
@@ -101,16 +100,8 @@ const [state, setState] = useState({modal:''})
             {isAuthenticated ? userLoaded : guest}
           </div>
           {isAuthenticated && <UserLoged id="UserLoged" user={user} />}
-        </Col>
-        <Col xs={2}></Col>
-
-        {/* <a href="#" id="nav-cta">Login</a> */}
-      </Row>
-    </nav>
-    //         </div>
-    //     </header>
-    // </body>
-    // 		</div>
+        </Container>
+        </Navbar>
   );
 }
 
