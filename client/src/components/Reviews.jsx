@@ -32,7 +32,9 @@ function Review({reviews, oneStarReviews, twoStarsReviews, threeStarsReviews, fo
   const now = 60;
 
   return (
-    <Container>
+    <div>
+      <Row>
+      <Container>
       <br/>
       <Row className="justify-content-md-center">
         <Col lg="7">
@@ -326,6 +328,8 @@ function Review({reviews, oneStarReviews, twoStarsReviews, threeStarsReviews, fo
         </Col>
       </Row>
     </Container>
+      </Row>
+    </div>
   )
 }
 

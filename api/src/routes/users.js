@@ -500,4 +500,44 @@ server.post('/passwordReset', auth, (req, res) => {
   })
 })
 
+/*----------------------------------------------------*/
+
+server.get("/:idUser/profile", (req, res) => {
+  const { idUser } = req.params;
+  Order.findOne({
+    where: {
+      userId: idUser,
+      state: "Complete",
+    },
+    include: [
+      {
+        model: Product,
+
+        include: [
+          {
+            model: Image,
+          },
+        ],
+      },
+    ],
+  })
+    .then((order) => {
+      Orderline.findAll({
+        where: {
+          orderId: order.id,
+        },
+      }).then((orderlines) => {
+        const orderLinePlusProduct = {
+          product: order.products,
+          orderlines: orderlines,
+          orderId: order.id,
+        };
+        res.send(orderLinePlusProduct);
+      });
+    })
+    .catch((err) => {
+      res.send({ data: err }).status(400);
+    });
+});
+
 module.exports = server;

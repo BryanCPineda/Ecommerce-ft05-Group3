@@ -78,9 +78,9 @@ function ProductsMati({getProductsFromCart, addProductToCart, product, getProduc
 
   return (
     <div>
-    <Row>
+    <Row style={{marginTop: '700px'}}>
       <Col xs={2}></Col>
-      <Col className="products-container">
+      <Col className="products-container" style={{height: '700px'}}>
       <Container>
         <div className="d-flex">
           <div className="products-image-div">

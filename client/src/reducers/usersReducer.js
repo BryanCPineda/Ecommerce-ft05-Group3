@@ -13,6 +13,7 @@ import {
   LOGOUT_SUCCESS,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
+  USER_COMPLETED
 } from "../constants/userConstants";
 
 const initialState = {
@@ -38,7 +39,6 @@ export default function userReducer(state = initialState, action) {
       return {
         ...state,
       };
-
 
     case USER_LOADED:
       return {
@@ -66,6 +66,11 @@ export default function userReducer(state = initialState, action) {
         token: null,
         isAuthenticated: false,
         user: null,
+      };
+    case USER_COMPLETED:
+      return {
+        ...state,
+        allUsers: action.payload,
       };
     default:
       return state;
