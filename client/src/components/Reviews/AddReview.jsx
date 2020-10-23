@@ -1,9 +1,10 @@
 import React,  {useEffect} from 'react';
 import { useState } from 'react';
 import { Button, Container, Modal, Col, Row, Form, InputGroup, FormControl } from 'react-bootstrap';
-import ReactStars from 'react-stars';
+import Stars from 'react-stars';
 import {addReview} from '../../actions/reviewsActions';
 import {connect} from 'react-redux';
+import store from '../../store'
 
 function AddReview({addReview, user, product}) {
   const[show, setShow] = useState(false);
@@ -31,7 +32,16 @@ function AddReview({addReview, user, product}) {
     addReview(id, review);
     setShow(false);
   }
-  
+  // const usuario = store.getState(store.userReducer.user);
+
+  // console.log('USER', usuario)
+  const star = {
+    count:5,
+    onChange: stars=>setStars(stars),
+    size: 74,
+    color2: '#8a2be2',
+    half: false,
+  }
   return (
     <React.Fragment>
       <Button 
@@ -59,12 +69,7 @@ function AddReview({addReview, user, product}) {
         <Modal.Body>
           <h4>Rate your product.</h4>
           <Form>
-            <ReactStars
-              count={5}
-              onChange={stars=>setStars(stars)}
-              size={54}
-              color2={'#8a2be2'} 
-            />
+            <Stars {...star} key={'starskey'}/>
             <hr/>
             <h4>Give us a product review.</h4>
             <InputGroup>
