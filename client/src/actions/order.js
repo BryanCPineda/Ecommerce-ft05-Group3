@@ -1,12 +1,71 @@
+
 import Axios from 'axios'
 const GET_ORDER_CART = 'GET_ORDER_CART'
 const CART_CHANGE = 'CART_CHANGE'
 const EMPTY_CART = 'EMPTY_CART'
 const DELETE_ITEM_CART = 'DELETE_ITEM_CART'
+const MODIFY_TOTAL = "MODIFY_TOTAL"
+const ADD_PRODUCT_TO_CART = "ADD_PRODUCT_TO_CART"
+const GET_PRODUCTS_FROM_CART = "GET_PRODUCTS_FROM_CART"
+const RELOAD_CART = "RELOAD_CART"
 
-export function getOrder() {
+
+export function reloadCart() {
+  return dispatch => {
+          dispatch({type: RELOAD_CART})
+}
+}
+
+
+export function addProductToCart (idUser, body) {
+return (dispatch, getState) => {
+
+  const config = {
+    headers: {
+      "Content-type": "Application/json"
+    },
+  }
+
+  const token = getState().userReducer.token
+
+  if(token) {
+    config.headers["x-auth-token"] = token
+  }
+  
+    return Axios.post(`http://localhost:4000/users/${idUser}/cart`, body, config)
+    .then( res => res.data)
+    .then((res) => {
+      dispatch({ type: ADD_PRODUCT_TO_CART, payload: res});
+    });
+}};
+
+export function getProductsFromCart(idUser){
+   return (dispatch, getState) =>  {
+
+    // const config = {
+    //   headers: {
+    //     "Content-type": "Application/json"
+    //   }
+    // }
+  
+    // const token = getState().userReducer.token
+  
+    // if(token) {
+    //   config.headers["x-auth-token"] = token
+    // }
+
+     return Axios.get(`http://localhost:4000/users/${idUser}/cart`)
+     .then( res => res.data)
+      .then((res) => { 
+           dispatch({ type: GET_PRODUCTS_FROM_CART, payload: res });
+  })
+}
+};
+
+
+export function getOrder(idUser) {
     return dispatch => {
-       return Axios.get("http://localhost:4000/users/1/cart")
+       return Axios.get(`http://localhost:4000/users/${idUser}/cart`)
         .then( res => res.data)
         .then( res => {console.log('get order', res)
 
@@ -17,19 +76,46 @@ export function cambioEstadoCarrito(id, status){
     let estado = {
         state : "Created"
     }
-    return dispatch => {
-        return Axios.put("http://localhost:4000/orders/"+id, estado)
+    return (dispatch, getState) => {
+
+        const config = {
+            headers: {
+              "Content-type": "Application/json"
+            },
+            estado
+          }
+        
+          const token = getState().userReducer.token
+        
+          if(token) {
+            config.headers["x-auth-token"] = token
+          }
+
+        return Axios.put("http://localhost:4000/orders/"+id, config)
         .then( res => res.data)
         .then( res => {console.log('compra creada', res)
 
-            dispatch({ type: CART_CHANGE, payload: res})}
-        )
-    }
+        dispatch({ type: CART_CHANGE, payload: res });
+      });
+  };
 }
 
-export function vaciarCarrito(){
-    return dispatch => {
-        return Axios.delete("http://localhost:4000/users/1/cart")
+export function vaciarCarrito(idUser){
+    return (dispatch, getState) => {
+
+        const config = {
+            headers: {
+              "Content-type": "Application/json"
+            },
+          }
+        
+          const token = getState().userReducer.token
+        
+          if(token) {
+            config.headers["x-auth-token"] = token
+          }
+
+        return Axios.delete(`http://localhost:4000/users/${idUser}/cart`)
         .then( res => res.data)
         .then( res => 
             dispatch({ type: EMPTY_CART, payload: res})
@@ -39,9 +125,22 @@ export function vaciarCarrito(){
 
 // server.delete("/:idUser/cart/:itemId"
 
-export function quitarItemCarrito(id){
-    return dispatch => {
-        return Axios.delete("http://localhost:4000/users/1/cart/"+id)
+export function quitarItemCarrito(idUser, id){
+    return (dispatch, getState) => {
+
+        const config = {
+            headers: {
+              "Content-type": "Application/json"
+            },
+          }
+        
+          const token = getState().userReducer.token
+        
+          if(token) {
+            config.headers["x-auth-token"] = token
+          }
+
+        return Axios.delete(`http://localhost:4000/users/${idUser}/cart/`+id)
         .then( res => res.data)
         .then( res => {
             
@@ -49,3 +148,10 @@ export function quitarItemCarrito(id){
       })
     }
 }
+
+export function handleTotalReducer(valor) { 
+    return dispatch => {
+        dispatch({ type: MODIFY_TOTAL, payload: valor})
+    }
+} 
+

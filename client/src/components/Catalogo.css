@@ -5,8 +5,18 @@
   }
   
 .catalogo {
-  margin-top: -250px;
+  margin-top: -350px;
   
+}
+
+.margin-right-catalogo {
+  margin-right: 150px;
+}
+
+.sidebar-component-catalogo {
+  
+  margin-left: 150px;
+  margin-right: 50px;
 }
 
 .column-productcard {
@@ -27,4 +37,20 @@
   height: 6rem;
   margin-left: 30rem;
   margin-top: 20rem;
+}
+
+@media (max-width: 1100px) {
+  .catalogo {
+    margin-top: -350px;
+    
+  }
+
+  .sidebar-component-catalogo {
+    margin-right: 0px;
+    margin-left: 20px;
+  }
+
+  .margin-right-catalogo {
+    margin-right: 0px;
+  }
 }

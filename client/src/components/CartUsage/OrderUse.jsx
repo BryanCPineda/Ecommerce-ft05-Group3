@@ -13,7 +13,7 @@ function OrderUse(prod) {
     const [state, setState] = useState({
         cantidad: prod.orderline.orderline.quantity
     })
-    console.log('producto', prod)
+    
 
     useEffect(() => {
 

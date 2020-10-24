@@ -44,7 +44,6 @@
     color: white;
     background-color: transparent;   
 }
-
 .claseform {
     display: inline-flex;
     justify-content: space-around;
@@ -64,14 +63,14 @@
 
 ::-webkit-input-placeholder {
     color:    white;
-    font-size: 75%;
+    font-size: 17px
 }
 
-.brand {
-}
+/* .brand {
+} */
 
-.sign {
-}
+/* .sign {
+} */
 
 .image-brand {
     margin-bottom: 1rem;

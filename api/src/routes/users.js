@@ -13,8 +13,8 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { DB_KEY } = process.env;
 
-const auth = require('../middleware/auth');
-
+const isAdmin = require('../middleware/isAdmin')
+const auth = require('../middleware/auth')
 
 // Giving all users and counting them
 server.get("/", (req, res, next) => {
@@ -72,34 +72,78 @@ server.post(
       .withMessage("Password must have at least 8 characters"),
   ],
   async (req, res) => {
-    try {
-      const { name, lastname, email, password } = req.body;
+      /******PRIMERO SE VALIDA SI SE QUIERE INGRESAR CON GOOGLE *******/
 
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        return res
-          .status(400)
-          .json({ errors: errors.array().map((ele) => ele.msg) });
-      }
+      const { whitGoogle } = req.body;
+      let newGoogleUser;
 
-      const user = await Users.findOne({ where: { email: email } });
+      if (whitGoogle === true) {
+        newGoogleUser = {
+          name: req.body.name,
+          lastname: req.body.lastname,
+          email: req.body.email,
+          password: req.body.password,
+          image: req.body.image,
+        };
 
-      if (user) {
-        return res.status(400).json({ errors: ["User already exists!"] });
-      }
+        Users.findOrCreate({
+          where: {
+            name: newGoogleUser.name,
+            lastname: newGoogleUser.lastname,
+            email: newGoogleUser.email,
+            password: newGoogleUser.password,
+            image: newGoogleUser.image,
+          },
+        })
+          .then((sendUser) => {
+            let user = sendUser[0];
+            jwt.sign(
+              { id: user.id },
+              DB_KEY,
+              { expiresIn: "1d" },
+              (err, token) => {
+                if (err) throw err;
+                res.status(200).send({
+                  token,
+                  user,
+                });
+              }
+            );
+          })
 
-      const userCreate = await Users.create({
-        name,
-        lastname,
-        email,
-        password,
-      });
+          .catch((err) => {
+            return res.send(err).status(500);
+          });
+      } else {
+        /******HASTA AQUI SE CREA UN NUEVO USUARIO EN LA DB CON LOS DATOS DE GOOGLE, O SE BUSCA Y SE RETORNA CON UN JWT *******/
+        try {
+          const { name, lastname, email, password } = req.body;
 
-    const salt = await bcrypt.genSalt(10)
-    const hashedPassword = await bcrypt.hash(password, salt)
-    userCreate.password = hashedPassword;
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+          return res
+            .status(400)
+            .json({ errors: errors.array().map((ele) => ele.msg) });
+        }
 
-    await userCreate.save()
+        const user = await Users.findOne({ where: { email: email } });
+
+        if (user) {
+          return res.status(400).json({ errors: ["User already exists!"] });
+        }
+
+        const userCreate = await Users.create({
+          name,
+          lastname,
+          email,
+          password,
+        });
+
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+        userCreate.password = hashedPassword;
+
+        await userCreate.save();
 
     jwt.sign(
       { id: userCreate.id },
@@ -112,19 +156,18 @@ server.post(
           user: {
             id: userCreate.id,
             name: userCreate.name,
+            lastname: userCreate.lastname,
             email: userCreate.email,
             rol: userCreate.usertype
           }
-        })
-      })
-    )
-    } catch (error) {
-      console.log(error);
-    }
-  }
-);
+        });
+      }))
+        } catch (error) {
+          console.log(error);
+        }
+  }});
 
-server.put("/:id", (req, res) => {
+server.put("/:id", auth, (req, res) => {
   const { id } = req.params;
   const {
     name,
@@ -393,6 +436,7 @@ server.get("/:id/orders", (req, res) => {
   Order.findAll({
     where: {
       userId: userId,
+      state: Complete,
     },
   })
     .then((orders) => {
@@ -425,28 +469,67 @@ server.delete("/:id", (req, res) => {
     });
 });
 
-
 //password Reset
-server.post('/passwordReset', auth, (req, res) => {
- 
+server.post("/passwordReset", auth, (req, res) => {
   const { id } = req.user.id;
   const { newPassword } = req.body;
 
-  const hashedPassword = bcrypt.hash(newPassword, 10)
-  .then((hashedPassword)=>{
-          Users.update(
-            {
-              password: hashedPassword
-            },
-            {
-            where: { id : id}
-            }
-          ).then(()=>{
-            res.send("Password Has been reset")
-          }).catch((err)=>{
-        res.send({data: err}).status(500);
-    })
-  })
-})
+  const hashedPassword = bcrypt.hash(newPassword, 10).then((hashedPassword) => {
+    Users.update(
+      {
+        password: hashedPassword,
+      },
+      {
+        where: { id: id },
+      }
+    )
+      .then(() => {
+        res.send("Password Has been reset");
+      })
+      .catch((err) => {
+        res.send({ data: err }).status(500);
+      });
+  });
+});
+
+server.get("/:idUser/profile", async (req, res) => {
+
+ 
+  try {
+    const { idUser } = req.params;
+    const order = await Order.findAll({ where: { userId: idUser } });
+    let ordersId = [];
+    const ordersArray = order.map((ele) => ordersId.push(ele.dataValues.id));
+
+    i = 0;
+    let orderlinesArray = [];
+    while (i <= ordersArray.length - 1) {
+      let arrayTemp = []
+      let arrayProdTemp = []
+      let orderlines = await Orderline.findAll({
+        where: { orderId: ordersArray[i] },
+      });
+      orderlines.map(async (ele) => {
+        arrayTemp.push(ele.dataValues);
+        let products = await Product.findAll({
+          where: { id: ele.dataValues.productId },
+        });
+        products.map((ele) =>
+        arrayProdTemp.unshift(ele.dataValues.name, ele.dataValues.id)
+        );
+        arrayTemp.push(arrayProdTemp)
+      });
+      orderlinesArray.push(arrayTemp)
+
+      i++;
+      if (ordersArray.length === orderlinesArray.length) {
+        res.status(200).send(orderlinesArray);
+      }
+    }
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
+
 
 module.exports = server;

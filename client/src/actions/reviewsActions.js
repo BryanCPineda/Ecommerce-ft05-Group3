@@ -5,60 +5,86 @@ import {
   THREE_STARS_REVIEWS,
   FOUR_STARS_REVIEWS,
   FIVE_STARS_REVIEWS,
-  GET_PRODUCT_REVIEWS
+  GET_PRODUCT_REVIEWS,
+  ADD_REVIEW,
+  EDIT_REVIEW,
+  DELETE_REVIEW
 } from '../constants/reviewsConstants';
 
 export function getProductReviews(id){
   return dispatch => {
-    return Axios.get(`http://localhost:4000/products/${id}/review`)
-      .then(res => res.data)
-      .then(res=>{
+    return Axios.get(`http://localhost:4000/reviews/product/${id}/review`)
+      .then(res=> {
         dispatch({type: GET_PRODUCT_REVIEWS, payload: res.data})
       })
   }
 }
 export function getOneStarReviews(id){
   return dispatch => {
-    return Axios.get(`http://localhost:4000/products/${id}/oneStarReviews`)
-      .then(res => res.data)
-      .then(data=>{
-        dispatch({type: ONE_STAR_REVIEWS, payload: data.count})
+    return Axios.get(`http://localhost:4000/reviews/product/${id}/oneStarReviews`)
+      .then(res=> {
+        dispatch({type: ONE_STAR_REVIEWS, payload: res.data.count})
       })
+    }
   }
-}
-export function getTwoStarsReviews(id){
-  return dispatch => {
-    return Axios.get(`http://localhost:4000/products/${id}/twoStarsReviews`)
-      .then(res => res.data)
-      .then(data=>{
-        dispatch({type: TWO_STARS_REVIEWS, payload: data.count})
+  export function getTwoStarsReviews(id){
+    return dispatch => {
+      return Axios.get(`http://localhost:4000/reviews/product/${id}/twoStarsReviews`)
+      .then(res=> {
+        dispatch({type: TWO_STARS_REVIEWS, payload: res.data.count})
       })
   }
 }
 export function getThreeStarsReviews(id){
   return dispatch => {
-    return Axios.get(`http://localhost:4000/products/${id}/threeStarsReviews`)
-      .then(res => res.data)
-      .then(data=>{
-        dispatch({type: THREE_STARS_REVIEWS, payload: data.count})
+    return Axios.get(`http://localhost:4000/reviews/product/${id}/threeStarsReviews`)
+      .then(res => {
+        dispatch({type: THREE_STARS_REVIEWS, payload: res.data.count})
       })
   }
 }
 export function getFourStarsReviews(id){
   return dispatch => {
-    return Axios.get(`http://localhost:4000/products/${id}/fourStarsReviews`)
-      .then(res => res.data)
-      .then(data=>{
-        dispatch({type: FOUR_STARS_REVIEWS, payload: data.count})
+    return Axios.get(`http://localhost:4000/reviews/product/${id}/fourStarsReviews`)
+      .then(res => {
+        dispatch({type: FOUR_STARS_REVIEWS, payload: res.data.count})
       })
   }
 }
 export function getFiveStarsReviews(id){
   return dispatch => {
-    return Axios.get(`http://localhost:4000/products/${id}/fiveStarsReviews`)
-      .then(res => res.data)
-      .then(data=>{
-        dispatch({type: FIVE_STARS_REVIEWS, payload: data.count})
-      })
+    return Axios.get(`http://localhost:4000/reviews/product/${id}/fiveStarsReviews`)
+    .then(res => {
+      dispatch({type: FIVE_STARS_REVIEWS, payload: res.data.count})
+    })
+  }
+}
+export function addReview(id, review) {
+  return dispatch => {
+    return Axios.post(`http://localhost:4000/reviews/product/${id}/review`, review)
+    .then(res => {
+      console.log('ProductId', id)
+      dispatch({type: ADD_REVIEW, payload: res.data})
+    })
+  }
+}
+export function editReview(id, review) {
+  return dispatch => {
+    return Axios.post(`http://localhost:4000/reviews/${id}`, review)
+    .then(res => {
+      console.log('ReviewId', id)
+      console.log('Review', review)
+      dispatch({type: EDIT_REVIEW, payload: res.data})
+    })
+  }
+}
+export function deleteReview(id, review) {
+  return dispatch => {
+    return Axios.post(`http://localhost:4000/reviews/${id}`, review)
+    .then(res => {
+      console.log('ReviewId', id)
+      console.log('Review', review)
+      dispatch({type: DELETE_REVIEW, payload: res.data})
+    })
   }
 }

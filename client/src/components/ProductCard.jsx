@@ -5,13 +5,11 @@ import "./ProductCard.css";
 import { BsFillDashCircleFill, BsCheck } from "react-icons/bs";
 import { connect } from 'react-redux';
 import {getProductById} from '../actions/product';
-import { addProductToCart} from '../actions/cartActions';
+import { addProductToCart, getProductsFromCart,} from '../actions/order';
 import {reloadProductCard} from '../actions/product';
-import {getProductsFromCart} from '../actions/cartActions';
-// import {constructor, getCarrito, addItemCarrito} from './GuestCart'
+// import {constructor, getCarrito, addItemCarrito} from './GuestCart' 
 
-function ProductCard({currentProducts, current, name, price, stock, images, id, addProductToCart, cartProducts, isAuthenticated}) {
-
+function ProductCard({currentProducts, current, name, price, stock, images, id, addProductToCart, cartProducts, user, isAuthenticated }) {
 
   const body = {
     quantity: 1,
@@ -59,9 +57,14 @@ function ProductCard({currentProducts, current, name, price, stock, images, id, 
       setCantidad(cant)
       return
     }
-    body.productId = id;
+
+    if(user) {
+      body.productId = id;
     setShowCard(false);
-    addProductToCart(body);
+     
+    addProductToCart(user.id, body); //idUser
+    
+  } 
    }
 
   useEffect(()=>{
@@ -85,7 +88,7 @@ function ProductCard({currentProducts, current, name, price, stock, images, id, 
       </div>
       <Link to={`/user/product/${id}`} className="title-card" > 
         <div className="title-card">
-          <p style={{ color: "black" }}>{name}</p>
+          <p style={{ color: "black" }} >{name}</p>
         </div>
       </Link>
       <div className="d-flex justify-content-around stock-price-cart">
@@ -126,18 +129,19 @@ function ProductCard({currentProducts, current, name, price, stock, images, id, 
 
 function mapStateToProps(state) {
   return {
-        cartState: state.cartReducer.cart,
-        isAuthenticated: state.userReducer.isAuthenticated
+        cartState: state.orderReducer.cart,
+        isAuthenticated: state.userReducer.isAuthenticated,
+        user: state.userReducer.user,
   }
 }
 
-
 function mapDispatchToProps(dispatch) {
   return {
-    addProductToCart: (body) => dispatch(addProductToCart(body)),
+    addProductToCart: (idUser, body) => dispatch(addProductToCart(idUser, body)),
     getProductById: (id) => dispatch(getProductById(id)),
     reloadProductCard: () => dispatch(reloadProductCard()),
-    getProductsFromCart: () => dispatch(getProductsFromCart()),
+    getProductsFromCart: (idUser) => dispatch(getProductsFromCart(idUser)),
+
   }
 }
 

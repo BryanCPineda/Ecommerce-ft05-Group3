@@ -1,8 +1,13 @@
 .products-container {
-    margin-top: 4rem;
-    margin-bottom: 4rem;
+    /* margin-top: 4rem; */
     background-color: white;
-    margin-top: -200px;
+    margin-top: -250px;
+
+}
+.reviews-container {
+    background-color: white;
+    position: relative;
+    bottom: 150px
 }
 
 .products-title {
@@ -62,9 +67,8 @@
 .products-image-div {
     display: flex;
     align-items: center;
+    width: 600px;
     margin-left: 2rem;
-    margin-top: 3rem;
-    margin-bottom: 3rem;
 }
 
 .products-image-div-second {

@@ -4,14 +4,39 @@ import './ProductsMati.css';
 import { FiShoppingCart } from "react-icons/fi";
 import { BsFillDashCircleFill, BsCheck } from "react-icons/bs";
 import { connect } from 'react-redux';
-import {addProductToCart} from '../actions/cartActions';
+import {addProductToCart, getProductsFromCart} from '../actions/order';
 import {getProductById} from '../actions/product';
-import {getProductsFromCart} from '../actions/cartActions';
-import Review from './Reviews.jsx'
-function ProductsMati({getProductsFromCart, addProductToCart, product, getProductById, match, cartProducts, cartState, isAuthenticated}) {
+import Review from './Reviews/Reviews';
+import {
+  getProductReviews, 
+  getOneStarReviews, 
+  getTwoStarsReviews, 
+  getThreeStarsReviews, 
+  getFourStarsReviews, 
+  getFiveStarsReviews
+} from '../actions/reviewsActions';
 
-  var body = {
-      quantity: "",
+function ProductsMati({ 
+  user, 
+  getProductsFromCart, 
+  addProductToCart, 
+  product, 
+  getProductById, 
+  match, 
+  cartProducts, 
+  cartState, 
+  getProductReviews, 
+  getOneStarReviews, 
+  getTwoStarsReviews, 
+  getThreeStarsReviews, 
+  getFourStarsReviews, 
+  getFiveStarsReviews,
+  isAuthenticated
+  
+}) {
+
+    var body = {
+      quantity: '',
       productId:"" 
   }
 
@@ -35,7 +60,7 @@ const setItemToCart = (id) => {
     localStorage.setItem('carrito','[]')}
 
 let getCart = JSON.parse(localStorage.getItem('carrito'))
-
+console.log('quantity------', body.quantity)
 let producto = {
       id: product.id,
       name: product.name,
@@ -54,13 +79,26 @@ const [state, setState] = useState({
   showCard: true,
 })
 
-useEffect(()=>{
-  getProductsFromCart().then(()=>{
-    getProductById(match.params.id).then(()=>{
-    })  
-  })
-}, [cartState]);
-
+  useEffect(()=>{
+    if(user){
+    getProductsFromCart(user.id).then(()=>{
+      getProductById(match.params.id).then(()=>{})  
+    })}
+    else{
+      getProductsFromCart().then(()=>{
+        getProductById(match.params.id).then(()=>{})  
+      })
+    }
+  }, [cartState]);
+  const id = match.params.id;
+  useEffect(()=>{
+    getProductReviews(id);
+    getOneStarReviews(id);
+    getTwoStarsReviews(id); 
+    getThreeStarsReviews(id); 
+    getFourStarsReviews(id);
+    getFiveStarsReviews(id);
+  },[]);
 
   useEffect(()=>{
      // mapear el localStorage para setear los botones-----------------------
@@ -88,34 +126,36 @@ useEffect(()=>{
         showCard: false,
       })
       return
-    }
+    } else if(user){
     body.productId = id;
-    if(body.quantity === ""){
-          body.quantity=1
-          addProductToCart(body);
-    setState({
-      showCard: false,
-    })
-          /* window.alert("agregue cantidad" )*/
-    }else{
-    addProductToCart(body);
-    setState({
-      showCard: false,
-    })
-}
+            if(body.quantity === ""){
+                  body.quantity=1
+                  addProductToCart(user.id, body);
+               
+                  setState({
+                    showCard: false,
+                  })
+                  /* window.alert("agregue cantidad" )*/
+            }   else{
+                    addProductToCart(user.id, body);
+                 
+                    setState({
+                      showCard: false,
+                    })
+                }
+    } 
+
   }
 
   const onChangeQuantity = (quantity, stock) => {
+    
       body.quantity = quantity;
   }
 
   return (
     <div>
-    <Row>
-      <Col xs={2}></Col>
-      <Col className="products-container">
-      <Container>
-        <div className="d-flex">
+    <Container style={{marginTop: '700px'}} className="d-flex justify-content-center">
+        <div className="d-flex justify-content-around products-container flex-wrap" style={{width: '1500px'}}>
           <div className="products-image-div">
             <div className="products-image-div-second">
               <Carousel>
@@ -144,7 +184,7 @@ useEffect(()=>{
               </Carousel>
             </div>
           </div>
-          <div>
+          <div style={{width: '600px', height: '600px', marginTop: ' 6rem'}} >
             {product.name && <p className="ml-5 products-title">{product.name}</p>}
             {product.description && (
               <p className="products-description">{product.description}</p>
@@ -165,7 +205,7 @@ useEffect(()=>{
                   </button>
                 )) :
                 ( product.price && state.showCard ? 
-              <button className="addtocart-productsMati" onClick={()=> handleClick(product.id)}   >
+              <button className="addtocart-productsMati" onClick={()=> handleClick(product.id, product.price)}   >
                 Add to Cart&nbsp;<FiShoppingCart /> 
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${product.price}
               </button> 
@@ -187,7 +227,7 @@ useEffect(()=>{
               )
             }
             <div className="d-flex ">
-                <Col className="col-3">
+                <div className="col-3">
                       {product.stock > 0 &&  (
                           <Form.Control
                               placeholder="1"
@@ -199,40 +239,45 @@ useEffect(()=>{
                               className="form-control-lg"
                           />
                       )}
-                  </Col>
+                  </div>
             </div>
           </div>
           </div>
         </div>
-      </Container>
-      </Col>
-      <Col xs={2}></Col>
-    </Row>
-    <Row>
-      <Col xs={3}></Col>
+    </Container>
+    <div>
+      <Container fluid='sm' className="reviews-container">
         <div>
-          <Review/>
+          <Review />
         </div>
-      <Col xs={3}></Col>
-    </Row>
+      </Container>
+    </div>
     </div>
   );
 }
 function mapStateToProps(state) {
   return {
-        product: state.productReducer.product,
-        cartProducts: state.cartReducer.products,
-        cartState: state.cartReducer.cart,
-        isAuthenticated: state.userReducer.isAuthenticated
+    product: state.productReducer.product,
+    cartProducts: state.orderReducer.cartProducts,
+    cartState: state.orderReducer.cart,
+    user: state.userReducer.user,
+    isAuthenticated: state.userReducer.isAuthenticated
   }
 }
 
 
 function mapDispatchToProps(dispatch) {
   return {
-    addProductToCart: (body) => dispatch(addProductToCart(body)),
+    addProductToCart: (idUser, body) => dispatch(addProductToCart(idUser, body)),
     getProductById: (id) => dispatch(getProductById(id)),
-    getProductsFromCart: () => dispatch(getProductsFromCart()),
+    getProductsFromCart: (idUser) => dispatch(getProductsFromCart(idUser)),
+    getProductReviews: (id)=> dispatch(getProductReviews(id)),
+    getOneStarReviews: (id)=> dispatch(getOneStarReviews(id)),
+    getTwoStarsReviews: (id)=>dispatch(getTwoStarsReviews(id)),
+    getThreeStarsReviews: (id)=>dispatch(getThreeStarsReviews(id)),
+    getFourStarsReviews: (id)=>dispatch(getFourStarsReviews(id)),
+    getFiveStarsReviews: (id)=>dispatch(getFiveStarsReviews(id)),
+   
   }
 }
 

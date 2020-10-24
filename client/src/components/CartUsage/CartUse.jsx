@@ -15,17 +15,36 @@ import {
   cambioEstadoCarrito,
   vaciarCarrito,
   quitarItemCarrito,
+  getProductsFromCart,
+  reloadCart
 } from "../../actions/order";
 import { getProducts, updateProduct } from "../../actions/product";
 
-const Cart = ({order, getOrder, products, getProducts, updateProduct, cambioEstadoCarrito, vaciarCarrito, quitarItemCarrito, isAuthenticated}) => {
-    
-    
-  const [state, setState] = useState({
-    products: order.product,
-    bandera: true
-    })
 
+const Cart = ({order, 
+  getOrder, 
+  products, 
+  getProducts, 
+  updateProduct, 
+  cambioEstadoCarrito, 
+  vaciarCarrito, 
+  quitarItemCarrito, 
+  user, 
+  totalReducer, 
+  cartProducts,
+  getProductsFromCart,
+  cart,
+  reload,
+  reloadCart,
+  isAuthenticated
+}) => {
+    
+
+  const [state, setState] = useState({ 
+    products: order.product,
+    bandera: true,
+    total: ''
+    })
 
 const [total, setTotal] = useState();
 
@@ -81,22 +100,40 @@ const [stateRedirect, setRedirect] = useState({ redirect: null })
 let prod = []
 let totalCost = 0;
 
+/***********************CALCULO DEL PRECIO POR MEDIO DE LAS ORDER LINE******************************** */
+
+ 
+useEffect(()=>{ 
+  if(user){
+  getProductsFromCart(user.id).then( ()=>{
+    let totalCost2 = 0;
+      cartProducts.orderlines && cartProducts.orderlines.map(e => {
+          totalCost2 = totalCost2 +  (e.price * e.quantity) 
+      })
+      setState({
+        ...state,
+        total: totalCost2})
+      })
+  }
+},[reload]) 
+
+/***********************CALCULO DEL PRECIO POR MEDIO DE LAS ORDER LINE******************************** */
+
 useEffect(() => {
-  getOrder()
-  setState({
+  if(user) {   
+    getOrder(user.id)
+    setState({
     products: order.product
     })
-    console.log("escuche que quitaste un item del carrito")
-}, [state.bandera, total])
-    
-
+  }
+  
+}, [])
 
 const quantityChange = (e, id) =>{
   let cantCambiada = e
-  console.log('id', id)
   totalCost = 0;
   if (!logueado) {
-    let item = itemsCart ? itemsCart.forEach( e=>{
+    let item = itemsCart ? itemsCart.forEach( e =>{
       if(e.id === id){
         e.stock = e.stock + e.orderline.quantity - cantCambiada
         e.orderline.quantity = cantCambiada
@@ -105,7 +142,11 @@ const quantityChange = (e, id) =>{
     item = itemsCart ? itemsCart.forEach( e=>{
         totalCost += e.price * e.orderline.quantity
     }) : ""
-    setTotal(totalCost) 
+    setState({
+      ...state,
+      total: totalCost
+    })
+
     return
   }
   prod = order.product
@@ -116,18 +157,16 @@ const quantityChange = (e, id) =>{
     }}
   ) : console.log('nada')
 
-  prod ? prod.forEach( e =>{
+  prod && prod.forEach( e =>{
     totalCost += e.price * e.orderline.quantity
-    }
-  ) : console.log('nada')
-  
-  
-
-  setTotal(totalCost) 
+    
+    })
    
   setState({
     ...state,
-    products: prod})
+    products: prod,
+    total: totalCost
+  })
 
 }
 
@@ -148,21 +187,22 @@ const handleDelete = (id) =>{
           bandera: !state.bandera
         })
       } else {
-      quantityChange(0,id)
-      quitarItemCarrito(id);
+              quitarItemCarrito(user.id, id).then(()=>{
+              getProductsFromCart(user.id).then(()=>{
+                reloadCart();
+                
+              })
+          
+        })
       }
       setState({
-        bandera: !state.bandera
+        bandera: false
       })
       
       swal("Your Item Has Been Deleted!", {
         icon: "success",
-      }).then(() =>  {
-                    // window.location.reload();    
       })
   } } )
-   
-
 }
 
 const handleFinCompra =() =>{
@@ -203,9 +243,10 @@ const handleVaciarCarrito = () =>{
         itemsCart =[]
         localStorage.clear()
       } else {
-      vaciarCarrito()}
-      setTotal(()=>{
-            return setTotal(0); 
+        vaciarCarrito(user.id)
+        setState({
+          ...state,
+            total: 0
       })
       swal("Your cart is Empty!", {
         icon: "success",
@@ -213,13 +254,17 @@ const handleVaciarCarrito = () =>{
         
       setRedirect({ redirect: "/user/catalogo" });
         })
-
-  } } )
-
+    } } 
+  })
 }
+
+
 if (stateRedirect.redirect) {
         return <Redirect to={stateRedirect.redirect} />
       }
+
+    
+
   return (
     <Row>
       <Col xs={2}></Col>
@@ -241,16 +286,16 @@ if (stateRedirect.redirect) {
               {/* ------------------ */}
               <Col>
                 <Row>
-                  <Col xs={6} md={4} className="text-center number" >
+                  <Col xs={6} md={4} className="text-center number" style={{color: 'white'}}>
                     <span className="h6">Products</span>
                   </Col>
-                  <Col xs={6} md={3} className="text-left ml-2 number">
+                  <Col xs={6} md={3} className="text-left ml-2 number" style={{color: 'white'}}>
                     <span className="h6">Quantity</span>
                   </Col>
-                  <Col className="text-center number">
+                  <Col className="text-center number" style={{color: 'white'}}>
                     <span className="h6">Price</span>
                   </Col>
-                  <Col className="text-left ml-4 number">
+                  <Col className="text-left ml-4 number" style={{color: 'white'}}> 
                     <span className="h3">
                       <IoMdTrash />
                     </span>
@@ -319,7 +364,7 @@ if (stateRedirect.redirect) {
                 Total:
                 <NumberFormat
                   prefix=" $"
-                  value={total}
+                  value={state.total}
                   decimalScale={2}
                   fixedDecimalScale={true}
                   displayType={"text"}
@@ -354,21 +399,29 @@ if (stateRedirect.redirect) {
 
 function mapStateToProps(state) {
   return {
-    order: state.orderReducer.order,
+    order: state.orderReducer.order, 
     products: state.orderReducer.products,
+    user: state.userReducer.user,
+    totalReducer: state.orderReducer.total,
+    cartProducts: state.orderReducer.cartProducts,
+    cart: state.orderReducer.cart,
+    reload: state.orderReducer.reloadCart,
     isAuthenticated: state.userReducer.isAuthenticated
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    getOrder: () => dispatch(getOrder()),
+    getOrder: (idUser) => dispatch(getOrder(idUser)),
     getProducts: () => dispatch(getProducts()),
     cambioEstadoCarrito: (id, status) =>
-      dispatch(cambioEstadoCarrito(id, status)),
+    dispatch(cambioEstadoCarrito(id, status)),
     updateProduct: (id, prod) => dispatch(updateProduct(id, prod)),
-    vaciarCarrito: () => dispatch(vaciarCarrito()),
-    quitarItemCarrito: (id) => dispatch(quitarItemCarrito(id)),
+    vaciarCarrito: (idUser) => dispatch(vaciarCarrito(idUser)),
+    quitarItemCarrito: (idUser, id) => dispatch(quitarItemCarrito(idUser, id)),
+    getProductsFromCart: (idUser) => dispatch(getProductsFromCart(idUser)),
+    reloadCart: ()  =>  dispatch (reloadCart () ),
+    
   };
 }
 

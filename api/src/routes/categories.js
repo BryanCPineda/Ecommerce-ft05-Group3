@@ -1,5 +1,7 @@
 const server = require("express").Router();
 const { Categories } = require("../db.js");
+const auth = require('../middleware/auth');
+const isAdmin = require ('../middleware/isAdmin');
 
 server.get("/", (req, res, next) => {
   Categories.findAll()
@@ -11,10 +13,11 @@ server.get("/", (req, res, next) => {
     });
 });
 
-server.post("/", (req, res, next) => {
-  /* this route is for creating new categories :B */
 
-  const { name, description } = req.body;
+server.post("/", auth, isAdmin,  (req, res, next) => {
+  /* this route is for creating new categories :B */
+  
+  const { name, description } = req.body.category;
   Categories.findOrCreate({
     where: { name: name, description: description },
   })
@@ -26,7 +29,7 @@ server.post("/", (req, res, next) => {
     });
 });
 
-server.delete("/:id", (req, res, next) => {
+server.delete("/:id", auth, isAdmin, (req, res, next) => {
   /* this one is for deleting existing rouTes ;) */
   const { id } = req.params;
   Categories.destroy(
@@ -45,7 +48,7 @@ server.delete("/:id", (req, res, next) => {
     });
 });
 
-server.put("/:id", (req, res, next) => {
+server.put("/:id", auth, isAdmin, (req, res, next) => {
   /* and this other one is for modifying our existing routes :O */
   const { id } = req.params;
   const {
