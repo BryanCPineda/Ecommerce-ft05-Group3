@@ -1,13 +1,70 @@
-#user-loged{
-    border: none;
-    height: 2.5rem;
-    width: 5rem;
-    background-color: darkviolet;
-    color: white;
-    border-radius: 5px;
+/* ---------USERLOGED.JSX------------------ */
 
-    display:flex;
-    position:relative;
-    bottom: -18px;
+/* ---------DROPDOWN PROFILE------------------ */
+#user-loged-dropdown {
+  display: flex;
+  position: relative;
+  bottom: -20px;
+  border: none;
+  background-color: #8a2be2;
+  border-radius: 5px;
+}
+#user-loged-dropdown:hover {
+  background-color: darkviolet;
+}
+#user-loged-dropdown:focus {
+  background-color: #8a2be2;
+  outline: none !important;
+  box-shadow: none;
+}
+#user-loged-dropdown:active {
+  background-color: #8a2be2;
+  outline: none !important;
+  box-shadow: none;
 }
 
+/* ---------DROPDOWN MENU------------------ */
+#user-loged-dropdown-menu {
+  border-color: #8a2be2;
+  border-radius: var(--border-radius);
+  background-color: #8a2be2;
+}
+
+/* ---------DROPDOWN MENU ITEMS------------------ */
+#user-loged-profile-item {
+  transition: background var(--speed);
+}
+#user-loged-profile-item:hover {
+  background-color: purple;
+}
+
+#user-profile-logout-item {
+  transition: background var(--speed);
+}
+#user-profile-logout-item:hover {
+  background-color: purple;
+}
+
+/* ---------DROPDOWN MENU BUTTONS------------------ */
+#user-loged-profile-button {
+  border: none;
+  background: none;
+  color: white;
+}
+#user-loged-profile-button:hover {
+  border: none;
+  background: none;
+  color: darkviolet;
+}
+
+/* ---------LOGOUT.JSX------------------ */
+#user-logout-button {
+  border: none;
+  background: none;
+  color: white;
+}
+#user-logout-button:hover {
+  border: none;
+  background: none;
+  color: darkviolet;
+}
