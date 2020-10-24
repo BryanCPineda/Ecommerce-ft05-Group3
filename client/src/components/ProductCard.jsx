@@ -5,9 +5,9 @@ import "./ProductCard.css";
 import { BsFillDashCircleFill, BsCheck } from "react-icons/bs";
 import { connect } from 'react-redux';
 import {getProductById} from '../actions/product';
-import { addProductToCart} from '../actions/cartActions';
+import { addProductToCart, getProductsFromCart,} from '../actions/order';
 import {reloadProductCard} from '../actions/product';
-import {getProductsFromCart} from '../actions/cartActions';
+
 
 function ProductCard({currentProducts, current, name, price, stock, images, id, addProductToCart, cartProducts, user }) {
 
@@ -23,8 +23,10 @@ function ProductCard({currentProducts, current, name, price, stock, images, id, 
     if(user) {
       body.productId = id;
     setShowCard(false);
+     
     addProductToCart(user.id, body); //idUser
-    } else {
+    
+  } else {
       alert("no user")
     }
    }
@@ -82,7 +84,7 @@ function ProductCard({currentProducts, current, name, price, stock, images, id, 
 
 function mapStateToProps(state) {
   return {
-        cartState: state.cartReducer.cart,
+        cartState: state.orderReducer.cart,
         user: state.userReducer.user,
   }
 }
@@ -93,7 +95,7 @@ function mapDispatchToProps(dispatch) {
     getProductById: (id) => dispatch(getProductById(id)),
     reloadProductCard: () => dispatch(reloadProductCard()),
     getProductsFromCart: (idUser) => dispatch(getProductsFromCart(idUser)),
-
+  
   }
 }
 
