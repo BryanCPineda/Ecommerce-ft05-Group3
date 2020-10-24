@@ -6,15 +6,15 @@ import {
   Col,
   Modal,
   Button,
-  DropdownButton,
   Dropdown,
+  DropdownButton,
 } from "react-bootstrap";
 import { IoMdTrash, IoMdPhotos, IoIosCart } from "react-icons/io";
 import NumberFormat from "react-number-format";
 import swal from "sweetalert";
 import { Redirect } from "react-router-dom";
 import { Link } from "react-router-dom";
-import "./UserLoged.css";
+import "./UserLoged.css"
 import Logout from "./Logout";
 //import UserProfile from "./Profile";
 
@@ -23,13 +23,34 @@ import { connect } from "react-redux";
 
 const UserLoged = ({ user }) => {
   return (
-    <DropdownButton id="user-loged" title={user.name} >
-      <Dropdown.Item id="user-loged-profile"><Link to="/user/profile">
-        <Button className="button" style={{ backgroundColor: "#8a2be2" }}>Profile</Button>
-        </Link></Dropdown.Item>
+    <Dropdown>
+      <Dropdown.Toggle
+        style={{
+          display: "flex",
+          position: "relative",
+          bottom: "-20px",
+          border: "none",
+          backgroundColor: "#8a2be2",
+          borderRadius: "5px",
+        }}
+        id="loged-basic"
+      >
+        {user.name}
+      </Dropdown.Toggle>
 
-    <button style={{border: 'none', marginLeft: '2rem'}} onClick={() => window.location.reload()}><Logout/></button>
-    </DropdownButton>
+      <Dropdown.Menu id="dropdown-menu">
+        <Dropdown.Item href="#/action-1" id="user-loged-profile">
+          <Link to="/user/profile">
+            <Button  style={{ border:"none", backgroundColor: "#8a2be2" }}>
+              Profile
+            </Button>
+          </Link>
+        </Dropdown.Item>
+        <Dropdown.Item href="#/action-2">
+            <Logout onClick={() => window.location.reload()}/>
+        </Dropdown.Item>
+      </Dropdown.Menu>
+    </Dropdown>
   );
 };
 

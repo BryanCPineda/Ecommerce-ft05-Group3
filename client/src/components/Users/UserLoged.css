@@ -1,13 +1,6 @@
-#user-loged{
-    border: none;
-    
+#dropdown-menu{
+    border-radius: var(--border-radius);
     background-color: #8a2be2;
-    color: white;
-    border-radius: 5px;
-
-    display:flex;
-    position:relative;
-    bottom: -18px;
-    
 }
+
 

@@ -7,9 +7,8 @@ function Logout({ logout }) {
   return (
     <div>
       <Button
-        className="button"
-        style={{ backgroundColor: "#8a2be2" }}
         onClick={logout}
+        style={{ border:"none", backgroundColor: "#8a2be2" }}
       >
         Logout
       </Button>
