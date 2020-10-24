@@ -3,8 +3,6 @@ import {
   CREATE_USER,
   DELETE_USER,
   UPDATE_USER,
-} from "../constants/userConstants";
-import {
   USER_LOADING,
   USER_LOADED,
   AUTH_ERROR,
@@ -17,6 +15,7 @@ import {
 } from "../constants/userConstants";
 
 const initialState = {
+
   token: localStorage.getItem('token'),
   isAuthenticated: false,
   user: null,

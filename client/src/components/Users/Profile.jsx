@@ -15,19 +15,18 @@ import AddReview from "../Reviews/AddReview.jsx";
 import EditReview from "../Reviews/EditReview.jsx";
 import "./Profile.css";
 import { showCompletedOrders } from "../../actions/userAction";
+import CompletedOrderline from "./completedOrdersline";
 
 const UserProfile = ({ showCompletedOrders, user, order }) => {
+  
   const idUser = user && user.id;
-
-  // const [state, setState] = useState({
-  //   orders: order.allUsers,
-  // });
 
   useEffect(() => {
     showCompletedOrders(idUser);
   }, []);
 
   //const orders = showCompletedOrders();
+  const producto = order.product && order.product[0];
 
   return (
     <div>
@@ -39,60 +38,13 @@ const UserProfile = ({ showCompletedOrders, user, order }) => {
           <div>
             <p>Name: {user && user.name}</p>
             <p>LastName:{user && user.lastname}</p>
-        {/* <Col> */}
-          {/* {console.log("erkferfiehrfuer", user)}
-          <h2>Personal information:</h2>
-          <br></br>
-          <div>
-            <p>First name: {user && user.name}</p>
-            <p>Last name: {user && user.lastname}</p> */}
             <p>Email: {user && user.email}</p>
           </div>
           <div className="flex-orders">
-            <h3>Previous orders:</h3>
-              <h1>{order && order.orderId}</h1>
-              {/* <div>
-              {order && order.product.map((ele, index) => (
-              <div key={index}>
-                <li>{ele.name}</li>
-              </div>
-            ))}  
-              </div> */}
-              {/* <div>
-              {order && order.orderlines.map((ele, index) => (
-              <div key={index}>
-                <li>{ele.name}</li>
-              </div>
-            ))}  
-              </div>       */}
-            {console.log("producttttt", order.product)}
-            {console.log("ordeline aqui----------------", order.orderlines)}
-            {console.log("soy un idddddddddddddddddddddddddd- ---------------", order.orderId)}
-
-            <p>Producto: {}</p>
-            <p>Precio:{user && user.lastname}</p>
-            <p>Cantidad: {user && user.email}</p>
+            <CompletedOrderline />
           </div>
         </Container>
         <Col xs={2}></Col>
-      </Row>
-      <Row>
-        <Container fluid="sm" className="reviews-container">
-          <Row>
-            <Col lg='8'>
-              The product go here
-            </Col>
-            <Col lg='4'>
-              <Row >
-                <AddReview/>
-              </Row>
-              <br/>
-              <Row>
-                <EditReview/>
-              </Row>
-            </Col>
-          </Row>
-        </Container>
       </Row>
     </div>
   );

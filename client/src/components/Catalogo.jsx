@@ -84,13 +84,12 @@ function Catalogo({
 
    
   return (
-    <Container fluid className="catalogo d-flex">
-      <Col xs={0} xl={1}></Col>
-      <Col xs={2}>
+    <div fluid className="catalogo d-flex" style={{width: '100%'}}>
+      <div className="sidebar-component-catalogo">
         <SideComponent /> 
-      </Col>
-      <Col>
-        <Row>
+      </div>
+      <div className="margin-right-catalogo">
+        <div className="d-flex flex-wrap">
           {loading ? (
             <div
               className="spinner-border spinner-catalogo"
@@ -102,7 +101,7 @@ function Catalogo({
 
             currentProducts.map((ele, index) => (
                        
-              <div key={index} className="column-productcard">
+              <div key={index} className="column-productcard flex-wrap">
                 <ProductCard
                   id={ele.id} 
                   name={ele.name}
@@ -122,14 +121,12 @@ function Catalogo({
               <h1 className="no-products">NO PRODUCTS TO DISPLAY</h1>
             </div>
           )} 
-        </Row>
+        </div>
         <div className="d-flex justify-content-center mt-5">
           <Pagination elementsPerPage={elementsPerPage} totalElements={products.length} paginate={paginate}/>
         </div>
-      </Col>
-      <Col xs={0} xl={1}></Col>
-      
-    </Container>
+      </div >      
+    </div>
   );
 } 
 

@@ -60,8 +60,9 @@ const [state, setState] = useState({modal:''})
     // <body className='fontuse'>
     //     <header>
     //         <div class="container">
-    <Navbar className="background-al-nav-general">
-        <Container className="d-flex justify-content-center">
+    <div className="background-al-nav-general navbar">
+        <div className="d-flex justify-content-center container" >
+        
           <Link to="/user/catalogo">
             <div class="logo">
               <img
@@ -84,9 +85,12 @@ const [state, setState] = useState({modal:''})
           <div className="searchbar-navbar">
             <SearchBar />
           </div>
-          <div> {isAuthenticated && <UserProfile usuario={user} />}</div>
-          <div
-            className="d-flex align-items-center ml-5"
+          <buttton className="navbar-toggler hidden-sm-up" data-toggle="collapse" data-target="#collapseElements" style={{fontSize: '40px'}}>
+              &#9776;
+          </buttton>
+          <div>
+          <div id="collapseElements"
+            className="d-flex align-items-center ml-5 collapse navbar-collapse" id="mynavbar"
             style={{ width: "60px", height: "50px" }}
           >
             <Link to="/user/cart" class="nav-link cart-icono-navbar d-flex">
@@ -100,8 +104,9 @@ const [state, setState] = useState({modal:''})
             {isAuthenticated ? userLoaded : guest}
           </div>
           {isAuthenticated && <UserLoged id="UserLoged" user={user} />}
-        </Container>
-        </Navbar>
+        </div>
+        </div>
+        </div>
   );
 }
 
@@ -149,3 +154,44 @@ export default connect(mapStateToProps, null)(NavbarGeneral);
 // }
 
 // export default NavbarGeneral
+
+
+
+
+
+
+
+
+
+
+
+    // try {
+    //   const { idUser } = req.params;
+    //   const order = await Order.findAll({ where: { userId: idUser }})
+    //   let ordersId = []
+    //   const ordersArray = order.map(ele => ordersId.push(ele.dataValues.id))
+
+    //   i = 0;
+    //   let orderlinesArray = [];
+    //   while(i <= ordersArray.length -1) {
+    //     let orderlines = await Orderline.findAll({ where: { orderId: ordersArray[i] } })
+    //     let orderlinesId = []
+    //     orderlines.map(ele => orderlinesId.push(ele.dataValues.productId))
+        
+    //     let arrayProducts = await Promise.all(orderlinesId.map(async (ele) => Product.findAll({ where: { id: ele }})))
+    //     console.log("gggg", arrayProducts)
+    //      orderlines.map(async (ele) => {
+    //       orderlinesArray.push(ele.dataValues)
+    //       let products = await Product.findAll({ where: { id: ele.dataValues.productId }})
+    //       products.map(ele => orderlines.push(ele.dataValues.name, ele.dataValues.id))
+
+    //     })
+    //     i++
+    //     if(i === 5){
+          
+    //       res.status(200).send(orderlinesArray)
+    //     }
+    //   }
+    // } catch (error) {
+    //   res.status(400).send(error)
+    // }
