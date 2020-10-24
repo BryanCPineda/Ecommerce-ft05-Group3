@@ -66,9 +66,9 @@
 .products-image-div {
     display: flex;
     align-items: center;
+    width: 600px;
     margin-left: 2rem;
-    margin-top: 3rem;
-    margin-bottom: 3rem;
+    background-color: violet;
 }
 
 .products-image-div-second {

@@ -18,19 +18,12 @@ import { showCompletedOrders } from "../../actions/userAction";
 const CompletedOrderline = ({ showCompletedOrders, user, order }) => {
   const idUser = user && user.id;
 
-  const [state, setState] = useState({
-    orders: order.allUsers,
-  });
-
   useEffect(() => {
     showCompletedOrders();
-    setState({
-      orders: order.allUsers,
-    });
-  }, [state.orders]);
+  }, []);
 
   //const orders = showCompletedOrders();
-  const producto = order.product && order.product[0];
+  const ordernes = order;
   return (
     <div>
       <h3>Previous Orders</h3>
@@ -42,14 +35,11 @@ const CompletedOrderline = ({ showCompletedOrders, user, order }) => {
           >
             <table className="table table-ligth table-sm table-bordered table-hover">
               <thead>
-                {console.log("cosas a mapear", producto)}
+                {console.log("cosas a mapear", ordernes)}
                 <tr className="text-center">
-                  <th>Order Id</th>
-                  <th> Email </th>
                   <th>Products</th>
                   <th>Price</th>
                   <th>Quantity</th>
-                  <th>Total Price</th>
                 </tr>
               </thead>
               <tbody>
@@ -57,14 +47,9 @@ const CompletedOrderline = ({ showCompletedOrders, user, order }) => {
                   order.map((order, index) => {
                     return (
                       <tr key={index} className="text-center">
-                        <td>{order.id && order.id}</td>
                         <td>{order.product[0] && order.product[0]}</td>
                         <td>{}</td>
                         <td>{}</td>
-                        <td>
-                          {order.orderline.price && order.orderline.price}{" "}
-                        </td>
-                        <td> {order.state}</td>\
                       </tr>
                     );
                   })} */}

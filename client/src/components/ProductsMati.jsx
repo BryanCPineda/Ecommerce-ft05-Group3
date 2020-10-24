@@ -78,11 +78,8 @@ function ProductsMati({getProductsFromCart, addProductToCart, product, getProduc
 
   return (
     <div>
-    <Row style={{marginTop: '700px'}}>
-      <Col xs={2}></Col>
-      <Col className="products-container" style={{height: '700px'}}>
-      <Container>
-        <div className="d-flex">
+    <Container style={{marginTop: '700px'}} className="d-flex justify-content-center">
+        <div className="d-flex justify-content-around products-container flex-wrap" style={{width: '1500px'}}>
           <div className="products-image-div">
             <div className="products-image-div-second">
               <Carousel>
@@ -111,7 +108,7 @@ function ProductsMati({getProductsFromCart, addProductToCart, product, getProduc
               </Carousel>
             </div>
           </div>
-          <div>
+          <div style={{width: '600px', height: '600px', marginTop: ' 6rem'}} >
             {product.name && <p className="ml-5 products-title">{product.name}</p>}
             {product.description && (
               <p className="products-description">{product.description}</p>
@@ -155,7 +152,7 @@ function ProductsMati({getProductsFromCart, addProductToCart, product, getProduc
               )
             }
             <div className="d-flex ">
-                <Col className="col-3">
+                <div className="col-3">
                       {product.stock > 0 &&  (
                           <Form.Control
                               placeholder="1"
@@ -167,22 +164,19 @@ function ProductsMati({getProductsFromCart, addProductToCart, product, getProduc
                               className="form-control-lg"
                           />
                       )}
-                  </Col>
+                  </div>
             </div>
           </div>
           </div>
         </div>
-      </Container>
-      </Col>
-      <Col xs={2}></Col>
-    </Row>
-    <Row>
+    </Container>
+    <div>
       <Container fluid='sm' className="reviews-container">
         <div>
           <Review />
         </div>
       </Container>
-    </Row>
+    </div>
     </div>
   );
 }

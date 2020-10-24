@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, Redirect } from "react-router-dom";
 import "./NavbarAdmin.css";
-import { Row, Col, Button } from "react-bootstrap";
+import { Row, Col, Button, Container } from "react-bootstrap";
 import { connect } from 'react-redux';
 
 import { getAllProducts } from '../actions/catalogoActions'
@@ -30,9 +30,8 @@ function NavbarAdmin({ users, orders, products, categories, getAllProducts, getA
         </div>
       </div>
       <div className="admin-panel-container">
-        <Row>
-          <Col xs={2}></Col>
-          <Col className="d-flex justify-content-around">
+        <Container fluid>
+          <div className="d-flex justify-content-around">
             <Link to="">
               <Button className="select-options-admin">
                 <div>Users</div>
@@ -58,9 +57,8 @@ function NavbarAdmin({ users, orders, products, categories, getAllProducts, getA
                 <div className="h5 mt-1">{categories.length} categories</div>
               </Button>
             </Link>
-          </Col>
-          <Col xs={2}></Col>
-        </Row>
+          </div>
+        </Container>
       </div>
     </React.Fragment>
   );

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import AddCategoryForm from "./AddCategoryFrom";
 import EditCategoryForm from "./EditCategoryForm";
-import { Modal, Table, Row, Col, Button } from "react-bootstrap";
+import { Modal, Table, Row, Col, Button, Container } from "react-bootstrap";
 import axios from 'axios';
 import './FormCategories.css'
 import { FiTrash2 } from 'react-icons/fi';
@@ -90,9 +90,8 @@ function FormCategories({
   const paginate = (pageNumber) => setCurrentPage(pageNumber); 
 
   return (
-    <Row className="table-categories mt-4">
-      <Col xs={0} sm={2}></Col>
-      <Col>
+    <Container className="table-categories mt-4">
+      <div>
         <div className="d-flex justify-content-between mb-4 mt-4">
           <h2 style={{ color: "white" }}>Categories</h2>
           <Button
@@ -188,9 +187,8 @@ function FormCategories({
         <div className="d-flex justify-content-center mt-5">
           <Pagination elementsPerPage={elementsPerPage} totalElements={allCategories.length} paginate={paginate}/>
         </div>
-      </Col>
-      <Col xs={0} sm={2}></Col>
-    </Row>
+      </div>
+    </Container>
   );
 }
 
