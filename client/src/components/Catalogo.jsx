@@ -4,7 +4,7 @@ import ProductCard from "./ProductCard";
 import Filter from './Filter';
 import SideComponent from './SideComponent';
 import Pagination from './Pagination';
-import axios from 'axios';
+import * as Promise from "bluebird";
 import './Catalogo.css';
 import { connect } from 'react-redux';
 
@@ -13,8 +13,8 @@ import {
   getAllProducts,
   setProductsLoading,
 } from "../actions/catalogoActions";
+import { addProductToCart, getProductsFromCart,} from '../actions/order';
 
-import {getProductsFromCart} from '../actions/order';
 
 function Catalogo({
   getAllProducts,
@@ -27,6 +27,8 @@ function Catalogo({
   cart,
   products2,
   products3,
+  isAuthenticated,
+  addProductToCart,
   user
 }) {
 
@@ -46,7 +48,6 @@ function Catalogo({
         reload: reload,
         cartProducts: []
     })
-    
 
     useEffect(()=>{
       if(products2){
@@ -81,7 +82,29 @@ function Catalogo({
     
   }, [reload, state.reload, cartProducts,  ]);
 
-  
+  //----------chequear que exista el carrito de guest cuando se loguea
+  useEffect(()=>{
+    if (isAuthenticated) {
+      if(!localStorage.getItem("carrito")) {
+        console.log('----no hay nada', localStorage.getItem("carrito"))
+        return}
+      let carrito = JSON.parse(localStorage.getItem("carrito"))
+      console.log('carrito---------------------', carrito)
+      
+      let promises = carrito.map(async function (e) {
+          let body = {
+            quantity: e.quantity,
+            productId:e.id 
+        }
+        return await addProductToCart(user.id, body);
+      })
+
+      Promise.each(promises).catch(e => console.log('error',e))
+
+      localStorage.clear()
+     }
+      },[isAuthenticated])
+    //----------chequear que exista el carrito de guest cuando se loguea
 
 
    
@@ -140,6 +163,7 @@ const mapStateToProps = (state) => {
     products: state.catalogo.allProducts,
     products2: state.catalogo.allProducts2,
     products3: state.catalogo.allProducts3,
+    isAuthenticated: state.userReducer.isAuthenticated,
     user: state.userReducer.user,
     cart: state.orderReducer.cart 
   }
@@ -150,6 +174,7 @@ const mapDispatchToProps = (dispatch) => {
     setProductsLoading: () => dispatch(setProductsLoading()),
     getAllProducts: () => dispatch(getAllProducts()),
     getProductsFromCart: (idUser) => dispatch(getProductsFromCart(idUser)),
+    addProductToCart: (idUser, body) => dispatch(addProductToCart(idUser, body)),
   }
 }
 

@@ -105,7 +105,10 @@ handleBoth=()=>{
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                                 //////////////////////// LOGIN WITH GOOGLE  ////////////////////////
    responseGoogle = (response) =>{                      //la respuesta son los datos del usuario de google autenticado
-                                    //console.log(response) //si consologuean la respuesta van a ver todos los datos que devuevle google
+                                    console.log(response) //si consologuean la respuesta van a ver todos los datos que devuevle google
+  if (response.error){
+    return alert('cookies are blocked, please enable them')
+  } else {
     let newGoogleUser = {                               //se arma un nuevo objeto con los datos que requerimos para nuesra DB
       name: response.profileObj.givenName,          
       lastname: response.profileObj.familyName,
@@ -116,7 +119,7 @@ handleBoth=()=>{
     }
     this.props.createUser(newGoogleUser)
 
-
+  }
   }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   
