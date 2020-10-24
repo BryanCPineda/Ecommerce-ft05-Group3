@@ -4,7 +4,7 @@ import { Button, Container, Modal, Col, Row, Form, InputGroup, FormControl } fro
 import Stars from 'react-stars';
 import {addReview} from '../../actions/reviewsActions';
 import {connect} from 'react-redux';
-import store from '../../store'
+// import store from '../../store'
 
 function AddReview({addReview, user, product}) {
   const[show, setShow] = useState(false);
@@ -32,9 +32,10 @@ function AddReview({addReview, user, product}) {
     addReview(id, review);
     setShow(false);
   }
-  // const usuario = store.getState(store.userReducer.user);
-
+  // const state = store.getState();
+  // const usuario = state.userReducer.user
   // console.log('USER', usuario)
+
   const star = {
     count:5,
     onChange: stars=>setStars(stars),

@@ -2,22 +2,23 @@ const server = require("express").Router();
 const { Reviews, Product, Users } = require("../db.js");
 
 
-server.get("/product/:id/review", (req, res) => {
+server.get("/product/:id/review", async (req, res) => {
   const id = req.params.id;
-  Reviews.findAndCountAll({
-    where:{
-      productId:id,
-    },
-    // include: [{
-    //   model: Users,
-    // }]
-  })
-  .then((reviews) => {
-      res.status(200).send(reviews);
+  try {
+    let reviews = await Reviews.findAndCountAll({
+      where:{
+        productId: id,
+      }
     })
-    .catch((err) => {
-      return res.send({ data: err }).status(400);
-    });
+    let userIds = await Reviews.map(review=>{
+      console.log('REVIEWS', userIds)
+      return review.row[0].dataValues.userId
+    })
+    res.status(200).send(reviews);
+    
+  } catch (err) {
+    return res.send({ data: err }).status(400);
+  }
 })
 
 server.get('/product/:id/oneStarReviews', async (req, res)=>{
