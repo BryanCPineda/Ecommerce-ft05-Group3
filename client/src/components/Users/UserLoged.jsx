@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { FiPlus } from "react-icons/fi";
 import {
   Container,
   Row,
@@ -14,8 +13,8 @@ import NumberFormat from "react-number-format";
 import swal from "sweetalert";
 import { Redirect } from "react-router-dom";
 import { Link } from "react-router-dom";
-import "./UserLoged.css"
 import Logout from "./Logout";
+import "./UserLoged.css"
 //import UserProfile from "./Profile";
 
 //-------------- Redux ------------------------
@@ -25,28 +24,20 @@ const UserLoged = ({ user }) => {
   return (
     <Dropdown>
       <Dropdown.Toggle
-        style={{
-          display: "flex",
-          position: "relative",
-          bottom: "-20px",
-          border: "none",
-          backgroundColor: "#8a2be2",
-          borderRadius: "5px",
-        }}
-        id="loged-basic"
+        id="user-loged-dropdown" 
       >
         {user.name}
       </Dropdown.Toggle>
 
-      <Dropdown.Menu id="dropdown-menu">
-        <Dropdown.Item href="#/action-1" id="user-loged-profile">
+      <Dropdown.Menu id="user-loged-dropdown-menu">
+        <Dropdown.Item href="#/action-1" id="user-loged-profile-item">
           <Link to="/user/profile">
-            <Button  style={{ border:"none", backgroundColor: "#8a2be2" }}>
+            <Button id="user-loged-profile-button" style={{ border:"none", background:"none", color:"black"}}>
               Profile
             </Button>
           </Link>
         </Dropdown.Item>
-        <Dropdown.Item href="#/action-2">
+        <Dropdown.Item href="#/action-2" id="user-profile-logout-item">
             <Logout onClick={() => window.location.reload()}/>
         </Dropdown.Item>
       </Dropdown.Menu>

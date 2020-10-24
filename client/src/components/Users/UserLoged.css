@@ -1,6 +1,59 @@
-#dropdown-menu{
+
+/* ---------USERLOGED.JSX------------------ */
+
+/* ---------DROPDOWN PROFILE------------------ */
+#user-loged-dropdown{
+    display: flex;
+    position: relative;
+    bottom: -20px;
+    border: none;
+    background-color: #8a2be2;
+    
+    border-radius: 5px;
+}
+#user-loged-dropdown:hover{
+    background-color: darkviolet;
+}
+#user-loged-dropdown:focus{
+    background-color: #8a2be2;
+    outline: none !important;
+    box-shadow: none;
+}
+#user-loged-dropdown:active{
+    background-color: #8a2be2;
+    outline: none !important;
+    box-shadow: none;
+}
+
+/* ---------DROPDOWN MENU------------------ */
+#user-loged-dropdown-menu{
+    border-color: #8a2be2;
     border-radius: var(--border-radius);
     background-color: #8a2be2;
 }
 
+/* ---------DROPDOWN MENU ITEMS------------------ */
+#user-loged-profile-item{
+    transition: background var(--speed);
+}
+#user-loged-profile-item:hover{
+    background-color: white;
+}
 
+
+#user-profile-logout-item{
+    transition: background var(--speed);
+}
+#user-profile-logout-item:hover{
+    background-color: white;
+}
+
+/* ---------DROPDOWN MENU BUTTONS------------------ */
+#user-loged-profile-button{
+    background-color: white;
+}
+
+/* ---------LOGOUT.JSX------------------ */
+#user-logout-button{
+    background-color: white;
+}

@@ -1,14 +1,21 @@
 import React from "react";
-import { Button } from "react-bootstrap";
 import { connect } from "react-redux";
 import { logout } from "../../actions/userAction";
+
+import {
+  Button,
+} from "react-bootstrap";
+
+import "./UserLoged.css";
+
 
 function Logout({ logout }) {
   return (
     <div>
       <Button
+        id="user-logout-button"
         onClick={logout}
-        style={{ border:"none", backgroundColor: "#8a2be2" }}
+        style={{ border:"none", background:"none", color:"black"}}
       >
         Logout
       </Button>
