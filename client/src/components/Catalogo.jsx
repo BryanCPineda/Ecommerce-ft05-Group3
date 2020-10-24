@@ -14,7 +14,7 @@ import {
   setProductsLoading,
 } from "../actions/catalogoActions";
 
-import {getProductsFromCart} from '../actions/cartActions';
+import {getProductsFromCart} from '../actions/order';
 
 function Catalogo({
   getAllProducts,
@@ -24,7 +24,7 @@ function Catalogo({
   reload,
   getProductsFromCart,
   cartProducts,
-  cartState,
+  cart,
   products2,
   products3,
   user
@@ -32,7 +32,7 @@ function Catalogo({
 
   /*------------------Pagination---------------------*/
 
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1); 
   const [elementsPerPage] = useState(9);
 
   const indexOfLastProduct = currentPage * elementsPerPage;
@@ -63,8 +63,10 @@ function Catalogo({
     if(user){
       getProductsFromCart(user.id);
     }
-  },[currentPage, cartState, ])
+    
+  },[currentPage, user, cart ]) 
 
+  console.log("el cart state",  cart)
 
   useEffect(() => {   
     
@@ -134,14 +136,14 @@ function Catalogo({
 
 const mapStateToProps = (state) => {
   return {
-    cartState: state.cartReducer.cart,
     loading: state.catalogo.loading,
     reload: state.productReducer.reload,
-    cartProducts: state.cartReducer.products,
+    cartProducts: state.orderReducer.cartProducts,
     products: state.catalogo.allProducts,
     products2: state.catalogo.allProducts2,
     products3: state.catalogo.allProducts3,
     user: state.userReducer.user,
+    cart: state.orderReducer.cart 
   }
 }
 
