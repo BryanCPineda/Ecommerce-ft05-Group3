@@ -1,3 +1,4 @@
+
 import Axios from 'axios'
 const GET_ORDER_CART = 'GET_ORDER_CART'
 const CART_CHANGE = 'CART_CHANGE'
@@ -93,9 +94,9 @@ export function cambioEstadoCarrito(id, status){
         .then( res => res.data)
         .then( res => {console.log('compra creada', res)
 
-            dispatch({ type: CART_CHANGE, payload: res})}
-        )
-    }
+        dispatch({ type: CART_CHANGE, payload: res });
+      });
+  };
 }
 
 export function vaciarCarrito(idUser){
@@ -152,3 +153,4 @@ export function handleTotalReducer(valor) {
         dispatch({ type: MODIFY_TOTAL, payload: valor})
     }
 } 
+

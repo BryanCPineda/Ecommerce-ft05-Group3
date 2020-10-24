@@ -12,9 +12,9 @@ const { check, validationResult, body } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { DB_KEY } = process.env;
+
 const isAdmin = require('../middleware/isAdmin')
 const auth = require('../middleware/auth')
-
 
 // Giving all users and counting them
 server.get("/", (req, res, next) => {
@@ -73,77 +73,77 @@ server.post(
   ],
   async (req, res) => {
     try {
-
       /******PRIMERO SE VALIDA SI SE QUIERE INGRESAR CON GOOGLE *******/
-      
-      const {whitGoogle} = req.body
+
+      const { whitGoogle } = req.body;
       let newGoogleUser;
-     
-      if(whitGoogle === true){
 
-          newGoogleUser={
-            name: req.body.name,
-            lastname: req.body.lastname,
-            email: req.body.email,
-            password: req.body.password,
-            image: req.body.image
-          }
-         
-     Users.findOrCreate({
-        where: {
-          name: newGoogleUser.name,
-          lastname: newGoogleUser.lastname,
-          email: newGoogleUser.email,
-          password: newGoogleUser.password,
-          image: newGoogleUser.image
-        },
-      }).then((sendUser)=>{
-          let user = sendUser[0]
-        jwt.sign(
-          { id: user.id },
-          DB_KEY,
-          { expiresIn: '1d' },
-          ((err, token) => {
-            if(err) throw err;
-            res.status(200).send({
-              token,
-              user
-              })
+      if (whitGoogle === true) {
+        newGoogleUser = {
+          name: req.body.name,
+          lastname: req.body.lastname,
+          email: req.body.email,
+          password: req.body.password,
+          image: req.body.image,
+        };
+
+        Users.findOrCreate({
+          where: {
+            name: newGoogleUser.name,
+            lastname: newGoogleUser.lastname,
+            email: newGoogleUser.email,
+            password: newGoogleUser.password,
+            image: newGoogleUser.image,
+          },
+        })
+          .then((sendUser) => {
+            let user = sendUser[0];
+            jwt.sign(
+              { id: user.id },
+              DB_KEY,
+              { expiresIn: "1d" },
+              (err, token) => {
+                if (err) throw err;
+                res.status(200).send({
+                  token,
+                  user,
+                });
+              }
+            );
           })
-        )
+          .catch((err) => {
+            return res.send(err).status(500);
+          });
+      } else {
+        /******HASTA AQUI SE CREA UN NUEVO USUARIO EN LA DB CON LOS DATOS DE GOOGLE, O SE BUSCA Y SE RETORNA CON UN JWT *******/
+        const { name, lastname, email, password } = req.body;
 
-      }).catch((err) => {
-        return res.send(err).status(500);
-      })
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+          return res
+            .status(400)
+            .json({ errors: errors.array().map((ele) => ele.msg) });
+        }
 
-    }
+        const user = await Users.findOne({ where: { email: email } });
 
-      /******HASTA AQUI SE CREA UN NUEVO USUARIO EN LA DB CON LOS DATOS DE GOOGLE, O SE BUSCA Y SE RETORNA CON UN JWT *******/
+        if (user) {
+          return res.status(400).json({ errors: ["User already exists!"] });
+        }
 
+        const userCreate = await Users.create({
+          name,
+          lastname,
+          email,
+          password,
+        });
 
-      else {
-        const {name, lastname, email, password} = req.body;
-        
-      
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        return res
-          .status(400)
-          .json({ errors: errors.array().map((ele) => ele.msg) });
-      }
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+        userCreate.password = hashedPassword;
 
-      const user = await Users.findOne({ where: { email: email } });
+        await userCreate.save();
 
-      if (user) {
-        return res.status(400).json({ errors: ["User already exists!"] });
-      }
-
-      const userCreate = await Users.create({
-        name,
-        lastname,
-        email,
-        password,
-      });
 
     const salt = await bcrypt.genSalt(10)
     const hashedPassword = await bcrypt.hash(password, salt)
@@ -166,9 +166,8 @@ server.post(
             email: userCreate.email,
             rol: userCreate.usertype
           }
-        })
-      })
-    )}
+        );
+      }
     } catch (error) {
       console.log(error);
     }
@@ -445,6 +444,7 @@ server.get("/:id/orders", (req, res) => {
   Order.findAll({
     where: {
       userId: userId,
+      state: Complete,
     },
   })
     .then((orders) => {
@@ -477,29 +477,67 @@ server.delete("/:id", (req, res) => {
     });
 });
 
-
 //password Reset
-server.post('/passwordReset', auth, (req, res) => {
- 
+server.post("/passwordReset", auth, (req, res) => {
   const { id } = req.user.id;
   const { newPassword } = req.body;
 
-  const hashedPassword = bcrypt.hash(newPassword, 10)
-  .then((hashedPassword)=>{
-          Users.update(
-            {
-              password: hashedPassword
-            },
-            {
-            where: { id : id}
-            }
-          ).then(()=>{
-            res.send("Password Has been reset")
-          }).catch((err)=>{
-        res.send({data: err}).status(500);
-    })
+  const hashedPassword = bcrypt.hash(newPassword, 10).then((hashedPassword) => {
+    Users.update(
+      {
+        password: hashedPassword,
+      },
+      {
+        where: { id: id },
+      }
+    )
+      .then(() => {
+        res.send("Password Has been reset");
+      })
+      .catch((err) => {
+        res.send({ data: err }).status(500);
+      });
+  });
+});
+
+// complete orders for user profile
+server.get("/:idUser/profile", (req, res) => {
+  const { idUser } = req.params;
+  Order.findOne({
+    where: {
+      userId: idUser,
+      state: "Complete",
+    },
+    include: [
+      {
+        model: Product,
+
+        include: [
+          {
+            model: Image,
+          },
+        ],
+      },
+    ],
   })
-})
+    .then((order) => {
+      Orderline.findAll({
+        where: {
+          orderId: order.id,
+        },
+      }).then((orderlines) => {
+        const orderLinePlusProduct = {
+          product: order.products,
+          orderlines: orderlines,
+          orderId: order.id,
+        };
+        res.send(orderLinePlusProduct);
+      });
+    })
+    .catch((err) => {
+      res.send({ data: err }).status(400);
+    });
+});
 
 /*----------------------------------------------------*/
 
