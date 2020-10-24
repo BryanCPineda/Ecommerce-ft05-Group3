@@ -1,18 +1,37 @@
 const initialState = {
+    cart:[],
     order: {},
     products: [],
-    total: 0
+    cartProducts:[], 
+    total: 0,
+    reloadCart: true
 }
 
 export default function orderReducer(state = initialState, action) {
     switch (action.type) {
+        case 'RELOAD_CART':   
+            return {
+                ...state,
+                reloadCart: !state.reloadCart,
+            }
+        
+        case 'ADD_PRODUCT_TO_CART':   
+            return {
+                ...state,
+                cart: action.payload,
+            }
+        case "GET_PRODUCTS_FROM_CART":
+            return {
+                ...state,
+                cartProducts: action.payload
+            }
         case 'GET_ORDER_CART':  // trae todos los productos
             return {
                 ...state,
                 order: action.payload,
                 products: action.payload.product
        
-            }
+            } 
         case 'CART_CHANGE':
             return {
                 ...state, 
@@ -27,10 +46,10 @@ export default function orderReducer(state = initialState, action) {
                 products: state.products.filter(e => e.id !== action.payload)
                 //state.order.orderlines.filter(e => e.id === action.id)
             }
-        case 'MODIFY_TOTAL':
+        case 'MODIFY_TOTAL':  
             return {
                 ...state,
-                total: action.payload
+                total: (state.total + parseInt(action.payload))
             }
         default:
             return state;

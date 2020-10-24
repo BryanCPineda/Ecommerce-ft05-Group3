@@ -4,9 +4,9 @@ import './ProductsMati.css';
 import { FiShoppingCart } from "react-icons/fi";
 import { BsFillDashCircleFill, BsCheck } from "react-icons/bs";
 import { connect } from 'react-redux';
-import {addProductToCart} from '../actions/cartActions';
+import {addProductToCart} from '../actions/order';
 import {getProductById} from '../actions/product';
-import {getProductsFromCart} from '../actions/cartActions';
+import {getProductsFromCart} from '../actions/order';
 import Review from './Reviews/Reviews';
 import {
   getProductReviews, 
@@ -18,10 +18,26 @@ import {
 } from '../actions/reviewsActions';
 
 
-function ProductsMati({getProductsFromCart, addProductToCart, product, getProductById, match, cartProducts, cartState, getProductReviews, getOneStarReviews, getTwoStarsReviews, getThreeStarsReviews, getFourStarsReviews, getFiveStarsReviews}) {
+function ProductsMati({ 
+  user, 
+  getProductsFromCart, 
+  addProductToCart, 
+  product, 
+  getProductById, 
+  match, 
+  cartProducts, 
+  cartState, 
+  getProductReviews, 
+  getOneStarReviews, 
+  getTwoStarsReviews, 
+  getThreeStarsReviews, 
+  getFourStarsReviews, 
+  getFiveStarsReviews,
+  
+}) {
 
-  var body = {
-      quantity: "",
+    var body = {
+      quantity: '',
       productId:"" 
   }
 
@@ -29,9 +45,15 @@ function ProductsMati({getProductsFromCart, addProductToCart, product, getProduc
     showCard: true,
   })
   useEffect(()=>{
-    getProductsFromCart().then(()=>{
+    if(user){
+    getProductsFromCart(user.id).then(()=>{
       getProductById(match.params.id).then(()=>{})  
-    })
+    })}
+    else{
+      getProductsFromCart().then(()=>{
+        getProductById(match.params.id).then(()=>{})  
+      })
+    }
   }, [cartState]);
   const id = match.params.id;
   useEffect(()=>{
@@ -55,21 +77,28 @@ function ProductsMati({getProductsFromCart, addProductToCart, product, getProduc
     }
   },[cartProducts]);
 
-  const handleClick = (id) => {
+  const handleClick = (id, price) => {
+    if(user){
     body.productId = id;
-    if(body.quantity === ""){
-          body.quantity=1
-          addProductToCart(body);
-    setState({
-      showCard: false,
-    })
-          /* window.alert("agregue cantidad" )*/
-    }else{
-    addProductToCart(body);
-    setState({
-      showCard: false,
-    })
-}
+            if(body.quantity === ""){
+                  body.quantity=1
+                  addProductToCart(user.id, body);
+               
+                  setState({
+                    showCard: false,
+                  })
+                  /* window.alert("agregue cantidad" )*/
+            }   else{
+                    addProductToCart(user.id, body);
+                 
+                    setState({
+                      showCard: false,
+                    })
+                }
+    } else {
+      alert("no user");
+     }
+
   }
 
   const onChangeQuantity = (quantity, stock) => {
@@ -130,7 +159,7 @@ function ProductsMati({getProductsFromCart, addProductToCart, product, getProduc
                   </button>
                 )) :
                 ( product.price && state.showCard ? 
-              <button className="addtocart-productsMati" onClick={()=> handleClick(product.id)}   >
+              <button className="addtocart-productsMati" onClick={()=> handleClick(product.id, product.price)}   >
                 Add to Cart&nbsp;<FiShoppingCart /> 
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${product.price}
               </button> 
@@ -183,23 +212,25 @@ function ProductsMati({getProductsFromCart, addProductToCart, product, getProduc
 function mapStateToProps(state) {
   return {
     product: state.productReducer.product,
-    cartProducts: state.cartReducer.products,
-    cartState: state.cartReducer.cart,
+    cartProducts: state.orderReducer.cartProducts,
+    cartState: state.orderReducer.cart,
+    user: state.userReducer.user,
   }
 }
 
 
 function mapDispatchToProps(dispatch) {
   return {
-    addProductToCart: (body) => dispatch(addProductToCart(body)),
+    addProductToCart: (idUser, body) => dispatch(addProductToCart(idUser, body)),
     getProductById: (id) => dispatch(getProductById(id)),
-    getProductsFromCart: () => dispatch(getProductsFromCart()),
+    getProductsFromCart: (idUser) => dispatch(getProductsFromCart(idUser)),
     getProductReviews: (id)=> dispatch(getProductReviews(id)),
     getOneStarReviews: (id)=> dispatch(getOneStarReviews(id)),
     getTwoStarsReviews: (id)=>dispatch(getTwoStarsReviews(id)),
     getThreeStarsReviews: (id)=>dispatch(getThreeStarsReviews(id)),
     getFourStarsReviews: (id)=>dispatch(getFourStarsReviews(id)),
-    getFiveStarsReviews: (id)=>dispatch(getFiveStarsReviews(id))
+    getFiveStarsReviews: (id)=>dispatch(getFiveStarsReviews(id)),
+   
   }
 }
 

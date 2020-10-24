@@ -494,59 +494,41 @@ server.post("/passwordReset", auth, (req, res) => {
 
 server.get("/:idUser/profile", async (req, res) => {
 
-  const { idUser } = req.params;
-  Order.findAll({ where: { userId: idUser } }).then(order => {
-    let ordersId = [];
-    order.map(ele => ordersId.push(ele.dataValues.id))
-    console.log(ordersId)
-    let i = 0;
-    let orderlinesArray = [];
-    while(i <= ordersId.length - 1) {
-    let arrayTemp = []
-    let arrayProdTemp = []
-    Orderline.findAll({ where: { orderId: ordersId[i] }}).then(orderlines => {
-      console.log(orderlines)
-    })
-    }
-      res.status(200).send("llegue")
-  })
-  .catch(err => console.log(err))
-
  
-  // try {
-  //   const { idUser } = req.params;
-  //   const order = await Order.findAll({ where: { userId: idUser } });
-  //   let ordersId = [];
-  //   const ordersArray = order.map((ele) => ordersId.push(ele.dataValues.id));
+  try {
+    const { idUser } = req.params;
+    const order = await Order.findAll({ where: { userId: idUser } });
+    let ordersId = [];
+    const ordersArray = order.map((ele) => ordersId.push(ele.dataValues.id));
 
-  //   i = 0;
-  //   let orderlinesArray = [];
-  //   while (i <= ordersArray.length - 1) {
-  //     let arrayTemp = []
-  //     let arrayProdTemp = []
-  //     let orderlines = await Orderline.findAll({
-  //       where: { orderId: ordersArray[i] },
-  //     });
-  //     orderlines.map(async (ele) => {
-  //       arrayTemp.push(ele.dataValues);
-  //       let products = await Product.findAll({
-  //         where: { id: ele.dataValues.productId },
-  //       });
-  //       products.map((ele) =>
-  //       arrayProdTemp.unshift(ele.dataValues.name, ele.dataValues.id)
-  //       );
-  //       arrayTemp.push(arrayProdTemp)
-  //     });
-  //     orderlinesArray.push(arrayTemp)
+    i = 0;
+    let orderlinesArray = [];
+    while (i <= ordersArray.length - 1) {
+      let arrayTemp = []
+      let arrayProdTemp = []
+      let orderlines = await Orderline.findAll({
+        where: { orderId: ordersArray[i] },
+      });
+      orderlines.map(async (ele) => {
+        arrayTemp.push(ele.dataValues);
+        let products = await Product.findAll({
+          where: { id: ele.dataValues.productId },
+        });
+        products.map((ele) =>
+        arrayProdTemp.unshift(ele.dataValues.name, ele.dataValues.id)
+        );
+        arrayTemp.push(arrayProdTemp)
+      });
+      orderlinesArray.push(arrayTemp)
 
-  //     i++;
-  //     if (i === ordersArray.length) {
-  //       res.status(200).send(orderlinesArray);
-  //     }
-  //   }
-  // } catch (error) {
-  //   res.status(400).send(error);
-  // }
+      i++;
+      if (ordersArray.length === orderlinesArray.length) {
+        res.status(200).send(orderlinesArray);
+      }
+    }
+  } catch (error) {
+    res.status(400).send(error);
+  }
 });
 
 
