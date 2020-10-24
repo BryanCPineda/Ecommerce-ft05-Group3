@@ -3,7 +3,6 @@ import {
   CREATE_USER,
   DELETE_USER,
   UPDATE_USER,
-  USER_COMPLETED,
   USER_LOADING,
   USER_LOADED,
   AUTH_ERROR,
@@ -85,14 +84,17 @@ export const createUser = (user) => (dispatch) => {
       dispatch({ type: REGISTER_SUCCESS, payload: res.data });
     })
     .catch((error) => {
-      dispatch(
-        returnErrors(
-          error.response.data,
-          error.response.status,
-          "REGISTER_FAIL"
+      if(error.response.status === 400 ) {
+        dispatch(
+          returnErrors(
+            error.response.data,
+            error.response.status,
+            "REGISTER_FAIL"
+          )
         )
-      );
-      dispatch({ type: REGISTER_FAIL });
+        dispatch({ type: REGISTER_FAIL })
+      }  
+
     });
 };
 
@@ -116,9 +118,22 @@ export const loginUser = (user) => (dispatch) => {
 };
 
 export function showCompletedOrders(idUser) {
-  return (dispatch) => {
-    return axios
-      .get(`http://localhost:4000/users/1/profile`)
+
+  return (dispatch, getState) => {
+
+    // const config = {
+    //   headers: {
+    //     "Content-type": "Application/json"
+    //   }
+    // }
+  
+    // const token = getState().userReducer.token
+  
+    // if(token) {
+    //   config.headers["x-auth-token"] = token
+    // }
+
+    return axios.get(`http://localhost:4000/users/${idUser}/profile`)
       .then((res) => res.data)
       .then((res) => {
         dispatch({ type: USER_COMPLETED, payload: res });
@@ -132,13 +147,3 @@ export const logout = () => {
 
 /*--------------------------------------------------*/
 
-export function showCompletedOrders(idUser) {
-  return (dispatch) => {
-    return axios
-      .get(`http://localhost:4000/users/${idUser}/profile`)
-      .then((res) => res.data)
-      .then((res) => {
-        dispatch({ type: USER_COMPLETED, payload: res });
-      });
-  };
-}

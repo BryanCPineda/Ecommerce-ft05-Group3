@@ -72,7 +72,6 @@ server.post(
       .withMessage("Password must have at least 8 characters"),
   ],
   async (req, res) => {
-    try {
       /******PRIMERO SE VALIDA SI SE QUIERE INGRESAR CON GOOGLE *******/
 
       const { whitGoogle } = req.body;
@@ -111,12 +110,14 @@ server.post(
               }
             );
           })
+
           .catch((err) => {
             return res.send(err).status(500);
           });
       } else {
         /******HASTA AQUI SE CREA UN NUEVO USUARIO EN LA DB CON LOS DATOS DE GOOGLE, O SE BUSCA Y SE RETORNA CON UN JWT *******/
-        const { name, lastname, email, password } = req.body;
+        try {
+          const { name, lastname, email, password } = req.body;
 
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -144,13 +145,6 @@ server.post(
 
         await userCreate.save();
 
-
-    const salt = await bcrypt.genSalt(10)
-    const hashedPassword = await bcrypt.hash(password, salt)
-    userCreate.password = hashedPassword;
-
-    await userCreate.save()
-
     jwt.sign(
       { id: userCreate.id },
       DB_KEY,
@@ -166,14 +160,12 @@ server.post(
             email: userCreate.email,
             rol: userCreate.usertype
           }
-        );
-      }
-    } catch (error) {
-      console.log(error);
-    }
-
-  }
-);
+        });
+      }))
+        } catch (error) {
+          console.log(error);
+        }
+  }});
 
 server.put("/:id", auth, (req, res) => {
   const { id } = req.params;
@@ -500,83 +492,44 @@ server.post("/passwordReset", auth, (req, res) => {
   });
 });
 
-// complete orders for user profile
-server.get("/:idUser/profile", (req, res) => {
-  const { idUser } = req.params;
-  Order.findOne({
-    where: {
-      userId: idUser,
-      state: "Complete",
-    },
-    include: [
-      {
-        model: Product,
+server.get("/:idUser/profile", async (req, res) => {
 
-        include: [
-          {
-            model: Image,
-          },
-        ],
-      },
-    ],
-  })
-    .then((order) => {
-      Orderline.findAll({
-        where: {
-          orderId: order.id,
-        },
-      }).then((orderlines) => {
-        const orderLinePlusProduct = {
-          product: order.products,
-          orderlines: orderlines,
-          orderId: order.id,
-        };
-        res.send(orderLinePlusProduct);
+ 
+  try {
+    const { idUser } = req.params;
+    const order = await Order.findAll({ where: { userId: idUser } });
+    let ordersId = [];
+    const ordersArray = order.map((ele) => ordersId.push(ele.dataValues.id));
+
+    i = 0;
+    let orderlinesArray = [];
+    while (i <= ordersArray.length - 1) {
+      let arrayTemp = []
+      let arrayProdTemp = []
+      let orderlines = await Orderline.findAll({
+        where: { orderId: ordersArray[i] },
       });
-    })
-    .catch((err) => {
-      res.send({ data: err }).status(400);
-    });
+      orderlines.map(async (ele) => {
+        arrayTemp.push(ele.dataValues);
+        let products = await Product.findAll({
+          where: { id: ele.dataValues.productId },
+        });
+        products.map((ele) =>
+        arrayProdTemp.unshift(ele.dataValues.name, ele.dataValues.id)
+        );
+        arrayTemp.push(arrayProdTemp)
+      });
+      orderlinesArray.push(arrayTemp)
+
+      i++;
+      if (ordersArray.length === orderlinesArray.length) {
+        res.status(200).send(orderlinesArray);
+      }
+    }
+  } catch (error) {
+    res.status(400).send(error);
+  }
 });
 
-/*----------------------------------------------------*/
-
-server.get("/:idUser/profile", (req, res) => {
-  const { idUser } = req.params;
-  Order.findOne({
-    where: {
-      userId: idUser,
-      state: "Complete",
-    },
-    include: [
-      {
-        model: Product,
-
-        include: [
-          {
-            model: Image,
-          },
-        ],
-      },
-    ],
-  })
-    .then((order) => {
-      Orderline.findAll({
-        where: {
-          orderId: order.id,
-        },
-      }).then((orderlines) => {
-        const orderLinePlusProduct = {
-          product: order.products,
-          orderlines: orderlines,
-          orderId: order.id,
-        };
-        res.send(orderLinePlusProduct);
-      });
-    })
-    .catch((err) => {
-      res.send({ data: err }).status(400);
-    });
-});
 
 module.exports = server;

@@ -67,16 +67,15 @@ function AdminProducts({ products, getProducts, createProduct }) {
   // const paginate = (pageNumber) => setCurrentPage(pageNumber); 
 
   return (
-    <Row className="table-categories mt-5">
-      <Col xs={0} sm={2}></Col>
-      <Col>
+    <Container className="table-categories mt-5">
+      <div>
         <Create
           show={state.creating}
           createProduct={handleCreate}
           handleClose={handleCreating}
         />
-        <Row>
-          <Col>
+        <div>
+          <div>
             <div className="d-flex p-2 justify-content-between aling-items-center">
               <h1 style={{ color: "white" }}>Products</h1>
               <span>
@@ -94,21 +93,20 @@ function AdminProducts({ products, getProducts, createProduct }) {
                 </Button>
               </span>
             </div>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
+          </div>
+        </div>
+        <div>
+          <div>
             {state.products.length > 0 && <List products={state.products} />}
             {console.log("state.products", state.products)}
-          </Col>
-        </Row>
+          </div>
+        </div>
         {/* <div className="d-flex justify-content-center mt-5">
           <Pagination elementsPerPage={elementsPerPage} totalElements={state.products.length} paginate={paginate}/>
         </div> */}
 
-      </Col>
-      <Col xs={0} sm={2}></Col>
-    </Row>
+      </div>
+    </Container>
   );
 }
 

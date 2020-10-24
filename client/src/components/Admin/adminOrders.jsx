@@ -84,18 +84,17 @@ function Orders({
     });
   };
   return (
-    <Row>
-      <Col xs={0} sm={2}></Col>
-      <Col>
-        <Row>
-          <Col>
+    <Container >
+      <div>
+        <div>
+          <div>
             <div className="d-flex p-2 justify-content-between aling-items-center mt-4">
               <h1 style={{ color: "white" }}>Orders</h1>
             </div>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
+          </div>
+        </div>
+        <div>
+          <div>
             <div
               className="table-responsive"
               style={{ backgroundColor: "white" }}
@@ -171,11 +170,10 @@ function Orders({
                 <div className="alert alert-info">No orders to Show.</div>
               )}
             </div>
-          </Col>
-        </Row>
-      </Col>
-      <Col xs={0} sm={2}></Col>
-    </Row>
+          </div>
+        </div>
+      </div>
+    </Container>
   );
 }
 

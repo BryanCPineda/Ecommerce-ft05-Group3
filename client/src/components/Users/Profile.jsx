@@ -18,18 +18,12 @@ import { showCompletedOrders } from "../../actions/userAction";
 import CompletedOrderline from "./completedOrdersline";
 
 const UserProfile = ({ showCompletedOrders, user, order }) => {
+  
   const idUser = user && user.id;
 
-  const [state, setState] = useState({
-    orders: order.allUsers,
-  });
-
   useEffect(() => {
-    showCompletedOrders();
-    setState({
-      orders: order.allUsers,
-    });
-  }, [state.orders]);
+    showCompletedOrders(idUser);
+  }, []);
 
   //const orders = showCompletedOrders();
   const producto = order.product && order.product[0];

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Container } from "react-bootstrap";
 import ProductCard from "./ProductCard";
 import Filter from './Filter';
 import SideComponent from './SideComponent';
@@ -86,13 +86,12 @@ function Catalogo({
 
    
   return (
-    <Row md={12} className="catalogo">
-      <Col xs={0} xl={1}></Col>
-      <Col xs={2}>
+    <div fluid className="catalogo d-flex" style={{width: '100%'}}>
+      <div className="sidebar-component-catalogo" style={{width: '400px'}}>
         <SideComponent /> 
-      </Col>
-      <Col>
-        <Row>
+      </div>
+      <Container className="margin-right-catalogo">
+        <div className="d-flex flex-wrap">
           {loading ? (
             <div
               className="spinner-border spinner-catalogo"
@@ -104,7 +103,7 @@ function Catalogo({
 
             currentProducts.map((ele, index) => (
                        
-              <div key={index} className="column-productcard">
+              <div key={index} className="column-productcard flex-wrap">
                 <ProductCard
                   id={ele.id} 
                   name={ele.name}
@@ -124,13 +123,12 @@ function Catalogo({
               <h1 className="no-products">NO PRODUCTS TO DISPLAY</h1>
             </div>
           )} 
-        </Row>
+        </div>
         <div className="d-flex justify-content-center mt-5">
           <Pagination elementsPerPage={elementsPerPage} totalElements={products.length} paginate={paginate}/>
         </div>
-      </Col>
-      <Col xs={0} xl={1}></Col>
-    </Row>
+      </Container >      
+    </div>
   );
 } 
 
