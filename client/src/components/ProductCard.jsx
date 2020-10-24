@@ -5,33 +5,80 @@ import "./ProductCard.css";
 import { BsFillDashCircleFill, BsCheck } from "react-icons/bs";
 import { connect } from 'react-redux';
 import {getProductById} from '../actions/product';
-import { addProductToCart} from '../actions/cartActions';
+import { addProductToCart, getProductsFromCart,} from '../actions/order';
 import {reloadProductCard} from '../actions/product';
-import {getProductsFromCart} from '../actions/cartActions';
+// import {constructor, getCarrito, addItemCarrito} from './GuestCart' 
 
-function ProductCard({currentProducts, current, name, price, stock, images, id, addProductToCart, cartProducts, user }) {
-
+function ProductCard({currentProducts, current, name, price, stock, images, id, addProductToCart, cartProducts, user, isAuthenticated }) {
 
   const body = {
     quantity: 1,
     productId:"" 
 }
+
+// manejo de carrito de guest------------
+  const logueado = isAuthenticated
+
+  const [cantidad, setCantidad] = useState(0)
+  const setItemToCart = (id) => {
+    if (!localStorage.getItem('carrito')){
+      localStorage.setItem('carrito','[]')}
+
+  let getCart = JSON.parse(localStorage.getItem('carrito'))
+  let product = {
+        id: id,
+        name: name,
+        price: price,
+        stock: stock-1,
+        images: images ? [images] : "",
+        quantity: 1
+      }
+  getCart.push(product)
+  localStorage.setItem('carrito', JSON.stringify(getCart))
+  }
+
+  useEffect(()=>{
+    if (!logueado){
+      let productos = JSON.parse(localStorage.getItem('carrito'))
+      let prodLocal = productos && productos.find(product => product.id == id)
+      setCantidad(prodLocal ? prodLocal.quantity:0)
+      // console.log(cantidad)
+    }
+  }, []);
+  // manejo de carrito de guest------------
  
   const[showCard, setShowCard] = useState("")
 
   const handleClick = (id) => {
+    if (!logueado){
+      setItemToCart(id)
+      setShowCard(false);
+      let cant = 1
+      setCantidad(cant)
+      return
+    }
+
     if(user) {
       body.productId = id;
     setShowCard(false);
+     
     addProductToCart(user.id, body); //idUser
-    } else {
-      alert("no user")
-    }
+    
+  } 
    }
 
   useEffect(()=>{
-    cartProducts.product && (cartProducts.product.find(product => product.id === id)) ? setShowCard(false) : setShowCard(true)
-  },[current, currentProducts]);
+    // mapear el localStorage para setear los botones-----------------------
+    if (!logueado){
+      let productos = JSON.parse(localStorage.getItem('carrito'))
+      productos && productos.find(product => product.id == id) ? setShowCard(false) : setShowCard(true)
+      return
+    }
+    // mapear el localStorage para setear los botones-----------------------
+
+      cartProducts.product && (cartProducts.product.find(product => product.id === id)) ? setShowCard(false) : setShowCard(true)
+  } 
+    ,[current, currentProducts]);
 
      
   return (
@@ -52,7 +99,7 @@ function ProductCard({currentProducts, current, name, price, stock, images, id, 
           >
             ${price}
           </p>
-          <p className="stock-card">Stock: {stock}</p>
+          <p className="stock-card">Stock: {stock-cantidad}</p>
         </div>
         <div className="d-flex align-self-center">
           {
@@ -82,7 +129,8 @@ function ProductCard({currentProducts, current, name, price, stock, images, id, 
 
 function mapStateToProps(state) {
   return {
-        cartState: state.cartReducer.cart,
+        cartState: state.orderReducer.cart,
+        isAuthenticated: state.userReducer.isAuthenticated,
         user: state.userReducer.user,
   }
 }

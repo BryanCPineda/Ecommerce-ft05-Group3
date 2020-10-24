@@ -15,63 +15,141 @@ import {
   cambioEstadoCarrito,
   vaciarCarrito,
   quitarItemCarrito,
-  handleTotalReducer
+  getProductsFromCart,
+  reloadCart
 } from "../../actions/order";
 import { getProducts, updateProduct } from "../../actions/product";
 
-const Cart = ({order, getOrder, products, getProducts, updateProduct, cambioEstadoCarrito, vaciarCarrito, quitarItemCarrito, user, totalReducer, handleTotalReducer }) => {
-    
-  // useEffect(() => {
-  //   if(totalReducer) {
-  //     setTotal(totalReducer)
-  //   }
-  // }, [])
-    
-  const [state, setState] = useState({
-    products: order.product,
-    bandera: true
-    })
 
+const Cart = ({order, 
+  getOrder, 
+  products, 
+  getProducts, 
+  updateProduct, 
+  cambioEstadoCarrito, 
+  vaciarCarrito, 
+  quitarItemCarrito, 
+  user, 
+  totalReducer, 
+  cartProducts,
+  getProductsFromCart,
+  cart,
+  reload,
+  reloadCart,
+  isAuthenticated
+}) => {
+    
+
+  const [state, setState] = useState({ 
+    products: order.product,
+    bandera: true,
+    total: ''
+    })
 
 const [total, setTotal] = useState();
 
 console.log("ahora el total es", total);
 
- //  console.log("estado local", total)
+// manejo de carrito de guest------------
+const logueado = isAuthenticated
+const [cantidad, setCantidad] = useState(0)
+let inicioCart = JSON.parse(localStorage.getItem('carrito'))
+console.log('inicio',inicioCart)
+let itemsCart = []
+inicioCart && inicioCart.map(item =>{
+        let product = {
+          id: item.id,
+          name: item.name,
+          price: item.price,
+          stock: item.stock,
+          images: item.images,
+          orderline: {
+            quantity: item.quantity,
+            id: item.id
+          }
+        }
+        itemsCart.push(product)
+})
+
+const quitarItemGuest = (id) => {
+    let items = []
+    let quitar = itemsCart.findIndex(e => e.id === id)
+    itemsCart.splice(quitar,1)
+    console.log('quitar', quitar)
+  
+    quitar = itemsCart ? itemsCart.forEach(e =>{
+      let item = {
+      id: e.id,
+      name: e.name,
+      price: e.price,
+      quantity: e.orderline.quantity,
+      stock: e.stock,
+      images: e.images,
+      }
+      items.push(item)
+
+    }) : ''
+    
+    localStorage.setItem("carrito", JSON.stringify(items))
+}
+
+
 // ------------------redireccionar --------------
 const [stateRedirect, setRedirect] = useState({ redirect: null })
 // ------------------redireccionar --------------
 let prod = []
 let totalCost = 0;
 
+/***********************CALCULO DEL PRECIO POR MEDIO DE LAS ORDER LINE******************************** */
+
+ 
+useEffect(()=>{ 
+  if(user){
+  getProductsFromCart(user.id).then( ()=>{
+    let totalCost2 = 0;
+      cartProducts.orderlines && cartProducts.orderlines.map(e => {
+          totalCost2 = totalCost2 +  (e.price * e.quantity) 
+      })
+      setState({
+        ...state,
+        total: totalCost2})
+      })
+  }
+},[reload]) 
+
+/***********************CALCULO DEL PRECIO POR MEDIO DE LAS ORDER LINE******************************** */
+
 useEffect(() => {
-  if(user) {
-    console.log("idddddddd", user.id)
+  if(user) {   
     getOrder(user.id)
-  setState({
+    setState({
     products: order.product
     })
-      
-    console.log("escuche que quitaste un item del carrito")
   }
   
-}, [state.bandera, total])
-    
-useEffect(() => {
-  if(user) {
-    getOrder(user.id)
-  setState({
-    products: order.product
-    })
-  }
 }, [])
-  
 
 const quantityChange = (e, id) =>{
   let cantCambiada = e
   totalCost = 0;
-  prod = order.product
+  if (!logueado) {
+    let item = itemsCart ? itemsCart.forEach( e =>{
+      if(e.id === id){
+        e.stock = e.stock + e.orderline.quantity - cantCambiada
+        e.orderline.quantity = cantCambiada
+      }
+    }) : ""
+    item = itemsCart ? itemsCart.forEach( e=>{
+        totalCost += e.price * e.orderline.quantity
+    }) : ""
+    setState({
+      ...state,
+      total: totalCost
+    })
 
+    return
+  }
+  prod = order.product
   prod ? prod.forEach( e => {
     if (e.orderline.id === id){
       e.stock = e.stock + e.orderline.quantity - cantCambiada
@@ -83,47 +161,48 @@ const quantityChange = (e, id) =>{
     totalCost += e.price * e.orderline.quantity
     
     })
- 
-  
-  //setTotal((state) =>{
-  //  return {totalCost: }
-  //})
-  
-
-  // setTotal(totalReducer) 
- setTotal(totalCost) 
    
   setState({
     ...state,
-    products: prod})
-
-  // handleTotalReducer(totalReducer);
+    products: prod,
+    total: totalCost
+  })
 
 }
 
 
-const handleDelete = (id) => {
-  if(user) {
-    swal({
-      title: "Are you sure?",
-      text: "You will delete this item from your cart!",
-      icon: "warning",
-      buttons: true,
-      dangerMode: true,
-    })
-    .then((willDelete) => {
-      if (willDelete) {
-        quantityChange(0,id)
-        quitarItemCarrito(user.id, id);
+const handleDelete = (id) =>{
+  swal({
+    title: "Are you sure?",
+    text: "You will delete this item from your cart!",
+    icon: "warning",
+    buttons: true,
+    dangerMode: true,
+  })
+  .then((willDelete) => {
+    if (willDelete) {
+      if (!logueado){
+        quitarItemGuest(id) 
         setState({
           bandera: !state.bandera
         })
-        
-        swal("Your Item Has Been Deleted!", {
-          icon: "success",
+      } else {
+              quitarItemCarrito(user.id, id).then(()=>{
+              getProductsFromCart(user.id).then(()=>{
+                reloadCart();
+                
+              })
+          
         })
-    } } )
-  }
+      }
+      setState({
+        bandera: false
+      })
+      
+      swal("Your Item Has Been Deleted!", {
+        icon: "success",
+      })
+  } } )
 }
 
 const handleFinCompra =() =>{
@@ -151,33 +230,41 @@ const handleFinCompra =() =>{
   }
 
 const handleVaciarCarrito = () =>{
-  if(user) {
-    swal({
-      title: "Are you sure?",
-      text: "You will empty your cart!",
-      icon: "warning",
-      buttons: true,
-      dangerMode: true,
-    })
-    .then((willDelete) => {
-      if (willDelete) {
+  swal({
+    title: "Are you sure?",
+    text: "You will empty your cart!",
+    icon: "warning",
+    buttons: true,
+    dangerMode: true,
+  })
+  .then((willDelete) => {
+    if (willDelete) {
+      if (!logueado){
+        itemsCart =[]
+        localStorage.clear()
+      } else {
         vaciarCarrito(user.id)
-        setTotal(()=>{
-              return setTotal(0); 
+        setState({
+          ...state,
+            total: 0
+      })
+      swal("Your cart is Empty!", {
+        icon: "success",
+      }).then(() => {
+        
+      setRedirect({ redirect: "/user/catalogo" });
         })
-        swal("Your cart is Empty!", {
-          icon: "success",
-        }).then(() => {
-          
-        setRedirect({ redirect: "/user/catalogo" });
-          })
-    } } )
-  }
-  
+    } } 
+  })
 }
+
+
 if (stateRedirect.redirect) {
         return <Redirect to={stateRedirect.redirect} />
       }
+
+    
+
   return (
     <Row>
       <Col xs={2}></Col>
@@ -224,7 +311,29 @@ if (stateRedirect.redirect) {
             <Col>
               <Row className="bg-light text-center py-2  ">
                 <Col className="mx-3">
-                  {products ? (
+                  {/* {console.log("productos-----", products)}
+                  {console.log("guestproducts---", itemsCart)} */}
+                  {(!logueado)? (itemsCart ? (
+                    itemsCart.map((e) => (
+                      <OrderUse
+                        orderline={e}
+                        quantityChange={quantityChange}
+                        handleDelete={handleDelete}
+                      />
+                    ))
+                  ) : (
+                    <div>
+                      <p>
+                        <img
+                          src="../images/shopping_Sad-512.png"
+                          alt="sad cart"
+                        ></img>
+                        <h3> Your cart is empty!</h3> <br></br> Add something to
+                        make me happy :)
+                      </p>
+                    </div>
+                  )): ""}
+                  {logueado? (products ? (
                     products.map((e) => (
                       <OrderUse
                         orderline={e}
@@ -243,7 +352,7 @@ if (stateRedirect.redirect) {
                         make me happy :)
                       </p>
                     </div>
-                  )}
+                  )):""}
                 </Col>
               </Row>
             </Col>
@@ -255,7 +364,7 @@ if (stateRedirect.redirect) {
                 Total:
                 <NumberFormat
                   prefix=" $"
-                  value={total}
+                  value={state.total}
                   decimalScale={2}
                   fixedDecimalScale={true}
                   displayType={"text"}
@@ -290,10 +399,14 @@ if (stateRedirect.redirect) {
 
 function mapStateToProps(state) {
   return {
-    order: state.orderReducer.order,
+    order: state.orderReducer.order, 
     products: state.orderReducer.products,
     user: state.userReducer.user,
-    totalReducer: state.orderReducer.total
+    totalReducer: state.orderReducer.total,
+    cartProducts: state.orderReducer.cartProducts,
+    cart: state.orderReducer.cart,
+    reload: state.orderReducer.reloadCart,
+    isAuthenticated: state.userReducer.isAuthenticated
   };
 }
 
@@ -302,11 +415,13 @@ function mapDispatchToProps(dispatch) {
     getOrder: (idUser) => dispatch(getOrder(idUser)),
     getProducts: () => dispatch(getProducts()),
     cambioEstadoCarrito: (id, status) =>
-      dispatch(cambioEstadoCarrito(id, status)),
+    dispatch(cambioEstadoCarrito(id, status)),
     updateProduct: (id, prod) => dispatch(updateProduct(id, prod)),
     vaciarCarrito: (idUser) => dispatch(vaciarCarrito(idUser)),
     quitarItemCarrito: (idUser, id) => dispatch(quitarItemCarrito(idUser, id)),
-    handleTotalReducer: (totalReducer) => dispatch(handleTotalReducer(totalReducer))
+    getProductsFromCart: (idUser) => dispatch(getProductsFromCart(idUser)),
+    reloadCart: ()  =>  dispatch (reloadCart () ),
+    
   };
 }
 

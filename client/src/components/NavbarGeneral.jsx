@@ -5,7 +5,7 @@ import SearchBar from "./SearchBar/SearchBar";
 import SignUp from "./Users/userRegister"; //importamos el componente UserRegister (menu modal)
 import SignIn from "./Users/userLogin"; //importamos el componente UserLogin (menu modal)
 import Logout from "./Users/Logout"; //importamos el componente Logout (boton)
-import { Button, Row, Col } from "react-bootstrap";
+import { Button, Row, Col, Container, Nav, Navbar } from "react-bootstrap";
 import { IoIosCart } from "react-icons/io";
 import UserLoged from './Users/UserLoged'
 import AddReview from "./Reviews/AddReview";
@@ -60,13 +60,13 @@ const [state, setState] = useState({modal:''})
     // <body className='fontuse'>
     //     <header>
     //         <div class="container">
-    <nav className="background-al-nav-general d-flex justify-content-center">
-      <Row class="">
-        <Col xs={2}></Col>
-        <Col className="d-flex mt-5">
+    <div className="background-al-nav-general navbar">
+        <div className="d-flex justify-content-center container" >
+        
           <Link to="/user/catalogo">
             <div class="logo">
               <img
+                style={{width: '150px', height: '150px'}}
                 class="image-brand"
                 src={"/images/brand4.png"}
                 alt="logo"
@@ -85,9 +85,12 @@ const [state, setState] = useState({modal:''})
           <div className="searchbar-navbar">
             <SearchBar />
           </div>
-          <div> {isAuthenticated && <UserProfile usuario={user} />}</div>
-          <div
-            className="d-flex align-items-center ml-5"
+          <buttton className="navbar-toggler hidden-sm-up" data-toggle="collapse" data-target="#collapseElements" style={{fontSize: '40px'}}>
+              &#9776;
+          </buttton>
+          <div>
+          <div id="collapseElements"
+            className="d-flex align-items-center ml-5 collapse navbar-collapse" id="mynavbar"
             style={{ width: "60px", height: "50px" }}
           >
             <Link to="/user/cart" class="nav-link cart-icono-navbar d-flex">
@@ -101,16 +104,9 @@ const [state, setState] = useState({modal:''})
             {isAuthenticated ? userLoaded : guest}
           </div>
           {isAuthenticated && <UserLoged id="UserLoged" user={user} />}
-        </Col>
-        <Col xs={2}></Col>
-
-        {/* <a href="#" id="nav-cta">Login</a> */}
-      </Row>
-    </nav>
-    //         </div>
-    //     </header>
-    // </body>
-    // 		</div>
+        </div>
+        </div>
+        </div>
   );
 }
 
@@ -158,3 +154,44 @@ export default connect(mapStateToProps, null)(NavbarGeneral);
 // }
 
 // export default NavbarGeneral
+
+
+
+
+
+
+
+
+
+
+
+    // try {
+    //   const { idUser } = req.params;
+    //   const order = await Order.findAll({ where: { userId: idUser }})
+    //   let ordersId = []
+    //   const ordersArray = order.map(ele => ordersId.push(ele.dataValues.id))
+
+    //   i = 0;
+    //   let orderlinesArray = [];
+    //   while(i <= ordersArray.length -1) {
+    //     let orderlines = await Orderline.findAll({ where: { orderId: ordersArray[i] } })
+    //     let orderlinesId = []
+    //     orderlines.map(ele => orderlinesId.push(ele.dataValues.productId))
+        
+    //     let arrayProducts = await Promise.all(orderlinesId.map(async (ele) => Product.findAll({ where: { id: ele }})))
+    //     console.log("gggg", arrayProducts)
+    //      orderlines.map(async (ele) => {
+    //       orderlinesArray.push(ele.dataValues)
+    //       let products = await Product.findAll({ where: { id: ele.dataValues.productId }})
+    //       products.map(ele => orderlines.push(ele.dataValues.name, ele.dataValues.id))
+
+    //     })
+    //     i++
+    //     if(i === 5){
+          
+    //       res.status(200).send(orderlinesArray)
+    //     }
+    //   }
+    // } catch (error) {
+    //   res.status(400).send(error)
+    // }

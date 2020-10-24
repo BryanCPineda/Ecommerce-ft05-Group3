@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Container } from "react-bootstrap";
 import ProductCard from "./ProductCard";
 import Filter from './Filter';
 import SideComponent from './SideComponent';
 import Pagination from './Pagination';
-import axios from 'axios';
+import * as Promise from "bluebird";
 import './Catalogo.css';
 import { connect } from 'react-redux';
 
@@ -13,8 +13,8 @@ import {
   getAllProducts,
   setProductsLoading,
 } from "../actions/catalogoActions";
+import { addProductToCart, getProductsFromCart,} from '../actions/order';
 
-import {getProductsFromCart} from '../actions/cartActions';
 
 function Catalogo({
   getAllProducts,
@@ -24,15 +24,17 @@ function Catalogo({
   reload,
   getProductsFromCart,
   cartProducts,
-  cartState,
+  cart,
   products2,
   products3,
+  isAuthenticated,
+  addProductToCart,
   user
 }) {
 
   /*------------------Pagination---------------------*/
 
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1); 
   const [elementsPerPage] = useState(9);
 
   const indexOfLastProduct = currentPage * elementsPerPage;
@@ -46,7 +48,6 @@ function Catalogo({
         reload: reload,
         cartProducts: []
     })
-    
 
     useEffect(()=>{
       if(products2){
@@ -63,8 +64,10 @@ function Catalogo({
     if(user){
       getProductsFromCart(user.id);
     }
-  },[currentPage, cartState, ])
+    
+  },[currentPage, user, cart ]) 
 
+  console.log("el cart state",  cart)
 
   useEffect(() => {   
     
@@ -79,18 +82,39 @@ function Catalogo({
     
   }, [reload, state.reload, cartProducts,  ]);
 
-  
+  //----------chequear que exista el carrito de guest cuando se loguea
+  useEffect(()=>{
+    if (isAuthenticated) {
+      if(!localStorage.getItem("carrito")) {
+        console.log('----no hay nada', localStorage.getItem("carrito"))
+        return}
+      let carrito = JSON.parse(localStorage.getItem("carrito"))
+      console.log('carrito---------------------', carrito)
+      
+      let promises = carrito.map(async function (e) {
+          let body = {
+            quantity: e.quantity,
+            productId:e.id 
+        }
+        return await addProductToCart(user.id, body);
+      })
+
+      Promise.each(promises).catch(e => console.log('error',e))
+
+      localStorage.clear()
+     }
+      },[isAuthenticated])
+    //----------chequear que exista el carrito de guest cuando se loguea
 
 
    
   return (
-    <Row md={12} className="catalogo">
-      <Col xs={0} xl={1}></Col>
-      <Col xs={2}>
+    <div fluid className="catalogo d-flex" style={{width: '100%'}}>
+      <div className="sidebar-component-catalogo" style={{width: '400px'}}>
         <SideComponent /> 
-      </Col>
-      <Col>
-        <Row>
+      </div>
+      <Container className="margin-right-catalogo">
+        <div className="d-flex flex-wrap">
           {loading ? (
             <div
               className="spinner-border spinner-catalogo"
@@ -102,7 +126,7 @@ function Catalogo({
 
             currentProducts.map((ele, index) => (
                        
-              <div key={index} className="column-productcard">
+              <div key={index} className="column-productcard flex-wrap">
                 <ProductCard
                   id={ele.id} 
                   name={ele.name}
@@ -122,26 +146,26 @@ function Catalogo({
               <h1 className="no-products">NO PRODUCTS TO DISPLAY</h1>
             </div>
           )} 
-        </Row>
+        </div>
         <div className="d-flex justify-content-center mt-5">
           <Pagination elementsPerPage={elementsPerPage} totalElements={products.length} paginate={paginate}/>
         </div>
-      </Col>
-      <Col xs={0} xl={1}></Col>
-    </Row>
+      </Container >      
+    </div>
   );
 } 
 
 const mapStateToProps = (state) => {
   return {
-    cartState: state.cartReducer.cart,
     loading: state.catalogo.loading,
     reload: state.productReducer.reload,
-    cartProducts: state.cartReducer.products,
+    cartProducts: state.orderReducer.cartProducts,
     products: state.catalogo.allProducts,
     products2: state.catalogo.allProducts2,
     products3: state.catalogo.allProducts3,
+    isAuthenticated: state.userReducer.isAuthenticated,
     user: state.userReducer.user,
+    cart: state.orderReducer.cart 
   }
 }
 
@@ -150,6 +174,7 @@ const mapDispatchToProps = (dispatch) => {
     setProductsLoading: () => dispatch(setProductsLoading()),
     getAllProducts: () => dispatch(getAllProducts()),
     getProductsFromCart: (idUser) => dispatch(getProductsFromCart(idUser)),
+    addProductToCart: (idUser, body) => dispatch(addProductToCart(idUser, body)),
   }
 }
 

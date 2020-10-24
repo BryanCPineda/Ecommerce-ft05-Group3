@@ -10,13 +10,13 @@ import { connect } from 'react-redux'
 
 function OrderUse(prod) {
     let cantidad = []
-
     const [state, setState] = useState({
         cantidad: prod.orderline.orderline.quantity
     })
-    console.log('state', state)
+    
 
     useEffect(() => {
+
         prod.quantityChange(state.cantidad, prod.orderline.orderline.id)
     }, [state])
 

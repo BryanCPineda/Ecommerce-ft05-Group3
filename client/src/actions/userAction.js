@@ -3,8 +3,6 @@ import {
   CREATE_USER,
   DELETE_USER,
   UPDATE_USER,
-} from "../constants/userConstants";
-import {
   USER_LOADING,
   USER_LOADED,
   AUTH_ERROR,
@@ -25,17 +23,16 @@ export const getAllUsers = () => (dispatch) => {
 };
 
 export const loadUser = () => (dispatch, getState) => {
-
   const config = {
     headers: {
-      "Content-type": "Application/json"
-    }
-  }
+      "Content-type": "Application/json",
+    },
+  };
 
-  const token = getState().userReducer.token
+  const token = getState().userReducer.token;
 
-  if(token) {
-    config.headers["x-auth-token"] = token
+  if (token) {
+    config.headers["x-auth-token"] = token;
   }
   console.log(config)
 
@@ -59,22 +56,21 @@ export const loadUser = () => (dispatch, getState) => {
 export const createUser = (user) => (dispatch) => {
   let userEnv;
 
-  if(user.whitGoogle === true){
-    userEnv={  
-    name: user.name,
-    lastname: user.lastname,
-    email: user.email,
-    password: user.password,
-    image: user.image,
-    whitGoogle: user.whitGoogle   
-  }
-
-  } else {
-     userEnv = {
+  if (user.whitGoogle === true) {
+    userEnv = {
       name: user.name,
       lastname: user.lastname,
       email: user.email,
-      password: user.password,  
+      password: user.password,
+      image: user.image,
+      whitGoogle: user.whitGoogle,
+    };
+  } else {
+    userEnv = {
+      name: user.name,
+      lastname: user.lastname,
+      email: user.email,
+      password: user.password,
       //EL USERTYPE NO SE AGREGA SOLO UN ADMIN PUEDE HACER A OTRO USER ADMIN, ASI QUE NO SE ENVIA CUANDO SE CREA EL USUARIO POR DEFAULT ES CLIENT
       //EL ADREESS SOLO SE PEDIA CUANDO EL USUARIO HAGA UN CHECKOUT
       //EL USUARIO DECIDIRA SI QUIERE O NO SUBIR UNA IMAGEN
@@ -84,18 +80,21 @@ export const createUser = (user) => (dispatch) => {
   return axios
     .post("http://localhost:4000/users", userEnv)
     .then((res) => {
-      console.log(res.data)
+      console.log(res.data);
       dispatch({ type: REGISTER_SUCCESS, payload: res.data });
     })
     .catch((error) => {
-      dispatch(
-        returnErrors(
-          error.response.data,
-          error.response.status,
-          "REGISTER_FAIL"
+      if(error.response.status === 400 ) {
+        dispatch(
+          returnErrors(
+            error.response.data,
+            error.response.status,
+            "REGISTER_FAIL"
+          )
         )
-      );
-      dispatch({ type: REGISTER_FAIL })
+        dispatch({ type: REGISTER_FAIL })
+      }  
+
     });
 };
 
@@ -112,15 +111,35 @@ export const loginUser = (user) => (dispatch) => {
     })
     .catch((error) => {
       dispatch(
-        returnErrors(
-          error.response.data,
-          error.response.status,
-          "LOGIN_FAIL"
-        )
+        returnErrors(error.response.data, error.response.status, "LOGIN_FAIL")
       );
-      dispatch({ type: LOGIN_FAIL })
+      dispatch({ type: LOGIN_FAIL });
     });
 };
+
+export function showCompletedOrders(idUser) {
+
+  return (dispatch, getState) => {
+
+    // const config = {
+    //   headers: {
+    //     "Content-type": "Application/json"
+    //   }
+    // }
+  
+    // const token = getState().userReducer.token
+  
+    // if(token) {
+    //   config.headers["x-auth-token"] = token
+    // }
+
+    return axios.get(`http://localhost:4000/users/${idUser}/profile`)
+      .then((res) => res.data)
+      .then((res) => {
+        dispatch({ type: USER_COMPLETED, payload: res });
+      });
+  };
+}
 
 export const logout = () => {
   return({ type: LOGOUT_SUCCESS })
@@ -128,13 +147,3 @@ export const logout = () => {
 
 /*--------------------------------------------------*/
 
-export function showCompletedOrders(idUser) {
-  return (dispatch) => {
-    return axios
-      .get(`http://localhost:4000/users/${idUser}/profile`)
-      .then((res) => res.data)
-      .then((res) => {
-        dispatch({ type: USER_COMPLETED, payload: res });
-      });
-  };
-}
