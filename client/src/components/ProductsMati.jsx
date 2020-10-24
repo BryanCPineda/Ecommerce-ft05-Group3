@@ -8,7 +8,7 @@ import {addProductToCart} from '../actions/cartActions';
 import {getProductById} from '../actions/product';
 import {getProductsFromCart} from '../actions/cartActions';
 import Review from './Reviews.jsx'
-function ProductsMati({getProductsFromCart, addProductToCart, product, getProductById, match, cartProducts, cartState}) {
+function ProductsMati({getProductsFromCart, addProductToCart, product, getProductById, match, cartProducts, cartState, isAuthenticated}) {
 
   var body = {
       quantity: "",
@@ -17,7 +17,7 @@ function ProductsMati({getProductsFromCart, addProductToCart, product, getProduc
 
 // manejo de carrito de guest------------
 const [stock, setStock] = useState(0)
-const logueado = false
+const logueado = isAuthenticated
 
 useEffect(()=>{
   if (!logueado){
@@ -223,6 +223,7 @@ function mapStateToProps(state) {
         product: state.productReducer.product,
         cartProducts: state.cartReducer.products,
         cartState: state.cartReducer.cart,
+        isAuthenticated: state.userReducer.isAuthenticated
   }
 }
 

@@ -10,7 +10,7 @@ import {reloadProductCard} from '../actions/product';
 import {getProductsFromCart} from '../actions/cartActions';
 // import {constructor, getCarrito, addItemCarrito} from './GuestCart'
 
-function ProductCard({currentProducts, current, name, price, stock, images, id, addProductToCart, cartProducts}) {
+function ProductCard({currentProducts, current, name, price, stock, images, id, addProductToCart, cartProducts, isAuthenticated}) {
 
 
   const body = {
@@ -19,7 +19,8 @@ function ProductCard({currentProducts, current, name, price, stock, images, id, 
 }
 
 // manejo de carrito de guest------------
-  const logueado = false
+  const logueado = isAuthenticated
+
   const [cantidad, setCantidad] = useState(0)
   const setItemToCart = (id) => {
     if (!localStorage.getItem('carrito')){
@@ -126,6 +127,7 @@ function ProductCard({currentProducts, current, name, price, stock, images, id, 
 function mapStateToProps(state) {
   return {
         cartState: state.cartReducer.cart,
+        isAuthenticated: state.userReducer.isAuthenticated
   }
 }
 

@@ -7,7 +7,7 @@ import {
 
     export const addProductToCart = (body) => (dispatch) => {
         
-        axios.post("http://localhost:4000/users/1/cart", body)
+        return axios.post("http://localhost:4000/users/1/cart", body)
         .then( res => res.data)
         .then((res) => {
           dispatch({ type: ADD_PRODUCT_TO_CART, payload: res});

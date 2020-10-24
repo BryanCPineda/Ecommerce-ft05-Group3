@@ -18,7 +18,7 @@ import {
 } from "../../actions/order";
 import { getProducts, updateProduct } from "../../actions/product";
 
-const Cart = ({order, getOrder, products, getProducts, updateProduct, cambioEstadoCarrito, vaciarCarrito, quitarItemCarrito}) => {
+const Cart = ({order, getOrder, products, getProducts, updateProduct, cambioEstadoCarrito, vaciarCarrito, quitarItemCarrito, isAuthenticated}) => {
     
     
   const [state, setState] = useState({
@@ -32,7 +32,7 @@ const [total, setTotal] = useState();
 console.log("ahora el total es", total);
 
 // manejo de carrito de guest------------
-const logueado = false
+const logueado = isAuthenticated
 const [cantidad, setCantidad] = useState(0)
 let inicioCart = JSON.parse(localStorage.getItem('carrito'))
 console.log('inicio',inicioCart)
@@ -356,6 +356,7 @@ function mapStateToProps(state) {
   return {
     order: state.orderReducer.order,
     products: state.orderReducer.products,
+    isAuthenticated: state.userReducer.isAuthenticated
   };
 }
 

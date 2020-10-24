@@ -4,7 +4,7 @@ import ProductCard from "./ProductCard";
 import Filter from './Filter';
 import SideComponent from './SideComponent';
 import Pagination from './Pagination';
-import axios from 'axios';
+import * as Promise from "bluebird";
 import './Catalogo.css';
 import { connect } from 'react-redux';
 
@@ -13,6 +13,7 @@ import {
   getAllProducts,
   setProductsLoading,
 } from "../actions/catalogoActions";
+import {addProductToCart} from '../actions/cartActions';
 
 import {getProductsFromCart} from '../actions/cartActions';
 
@@ -26,7 +27,9 @@ function Catalogo({
   cartProducts,
   cartState,
   products2,
-  products3
+  products3,
+  isAuthenticated,
+  addProductToCart
 }) {
 
   /*------------------Pagination---------------------*/
@@ -45,7 +48,6 @@ function Catalogo({
         reload: reload,
         cartProducts: []
     })
-    
 
     useEffect(()=>{
       if(products2){
@@ -78,7 +80,29 @@ function Catalogo({
     
   }, [reload, state.reload, cartProducts,  ]);
 
-  
+  //----------chequear que exista el carrito de guest cuando se loguea
+  useEffect(()=>{
+    if (isAuthenticated) {
+      if(!localStorage.getItem("carrito")) {
+        console.log('----no hay nada', localStorage.getItem("carrito"))
+        return}
+      let carrito = JSON.parse(localStorage.getItem("carrito"))
+      console.log('carrito---------------------', carrito)
+      
+      let promises = carrito.map(function (e) {
+          let body = {
+            quantity: e.quantity,
+            productId:e.id 
+        }
+        return addProductToCart(body);
+      })
+
+      Promise.each(promises).catch(e => console.log('error',e))
+
+      localStorage.clear()
+     }
+      },[isAuthenticated])
+    //----------chequear que exista el carrito de guest cuando se loguea
 
 
    
@@ -140,6 +164,7 @@ const mapStateToProps = (state) => {
     products: state.catalogo.allProducts,
     products2: state.catalogo.allProducts2,
     products3: state.catalogo.allProducts3,
+    isAuthenticated: state.userReducer.isAuthenticated
   }
 }
 
@@ -148,6 +173,7 @@ const mapDispatchToProps = (dispatch) => {
     setProductsLoading: () => dispatch(setProductsLoading()),
     getAllProducts: () => dispatch(getAllProducts()),
     getProductsFromCart: () => dispatch(getProductsFromCart()),
+    addProductToCart: (body) => dispatch(addProductToCart(body))
   }
 }
 
