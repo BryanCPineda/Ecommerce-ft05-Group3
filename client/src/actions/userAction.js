@@ -117,9 +117,7 @@ export const loginUser = (user) => (dispatch) => {
     });
 };
 
-export function showCompletedOrders(idUser) {
-
-  return (dispatch, getState) => {
+export const showCompletedOrders = (idUser) => async (dispatch, getState) => {
 
     // const config = {
     //   headers: {
@@ -133,13 +131,9 @@ export function showCompletedOrders(idUser) {
     //   config.headers["x-auth-token"] = token
     // }
 
-    return axios.get(`http://localhost:4000/users/${idUser}/profile`)
-      .then((res) => res.data)
-      .then((res) => {
-        dispatch({ type: USER_COMPLETED, payload: res });
-      });
-  };
-}
+    const res = await axios.get(`http://localhost:4000/users/${idUser}/profile`)
+      dispatch({ type: USER_COMPLETED, payload: res.data })
+  }
 
 export const logout = () => {
   return({ type: LOGOUT_SUCCESS })

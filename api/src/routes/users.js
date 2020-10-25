@@ -494,41 +494,21 @@ server.post("/passwordReset", auth, (req, res) => {
 
 server.get("/:idUser/profile", async (req, res) => {
 
- 
-  try {
-    const { idUser } = req.params;
-    const order = await Order.findAll({ where: { userId: idUser } });
-    let ordersId = [];
-    const ordersArray = order.map((ele) => ordersId.push(ele.dataValues.id));
+  const {idUser} = req.params;
 
-    i = 0;
-    let orderlinesArray = [];
-    while (i <= ordersArray.length - 1) {
-      let arrayTemp = []
-      let arrayProdTemp = []
-      let orderlines = await Orderline.findAll({
-        where: { orderId: ordersArray[i] },
-      });
-      orderlines.map(async (ele) => {
-        arrayTemp.push(ele.dataValues);
-        let products = await Product.findAll({
-          where: { id: ele.dataValues.productId },
-        });
-        products.map((ele) =>
-        arrayProdTemp.unshift(ele.dataValues.name, ele.dataValues.id)
-        );
-        arrayTemp.push(arrayProdTemp)
-      });
-      orderlinesArray.push(arrayTemp)
-
-      i++;
-      if (ordersArray.length === orderlinesArray.length) {
-        res.status(200).send(orderlinesArray);
-      }
-    }
-  } catch (error) {
-    res.status(400).send(error);
-  }
+  Order.findAll({
+    where:{
+      userId: idUser
+    },
+    include:[{
+      model: Product
+    }]
+  }).then((orders)=>{
+        res.send(orders)
+       
+  }).catch((err)=>{
+        res.send(err)
+  })
 });
 
 

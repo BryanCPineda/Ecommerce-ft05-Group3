@@ -57,6 +57,7 @@ server.post(
                   user: {
                   id: user.id,
                   name: user.name,
+                  lastname: user.lastname,
                   email: user.email,
                   rol: user.usertype
                   }
@@ -76,6 +77,7 @@ server.get("/", auth, (req, res) => {
     res.send({
         id: user.id,
         name: user.name,
+        lastname: user.lastname,
         email: user.email,
         rol: user.usertype
     })

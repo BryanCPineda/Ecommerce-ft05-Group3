@@ -19,45 +19,80 @@ const CompletedOrderline = ({ showCompletedOrders, user, order }) => {
   const idUser = user && user.id;
 
   useEffect(() => {
-    showCompletedOrders();
+    if(user){
+      showCompletedOrders(user.id);
+    }
   }, []);
 
   //const orders = showCompletedOrders();
-  const ordernes = order;
   return (
     <div>
-      <h3>Previous Orders</h3>
+      <h3 style={{color: 'white'}}>Previous Orders</h3>
       <Row>
         <Col>
           <div
             className="table-responsive"
             style={{ backgroundColor: "white" }}
           >
-            <table className="table table-ligth table-sm table-bordered table-hover">
+            <table class="table">
               <thead>
-                {console.log("cosas a mapear", ordernes)}
-                <tr className="text-center">
-                  <th>Products</th>
-                  <th>Price</th>
-                  <th>Quantity</th>
+                <tr>
+                  <th scope="col">Order</th>
+                  <th scope="col">Product</th>
+                  <th scope="col">Price</th>
+                  <th scope="col">Quantity</th>
                 </tr>
               </thead>
               <tbody>
-                {/* {order &&
-                  order.map((order, index) => {
-                    return (
-                      <tr key={index} className="text-center">
-                        <td>{order.product[0] && order.product[0]}</td>
-                        <td>{}</td>
-                        <td>{}</td>
-                      </tr>
-                    );
-                  })} */}
+                <tr>
+                  <td>
+                    {order &&
+                      order.map((order, index) => (
+                        <div key={index}>
+                          <td>{order.id}</td>
+                        </div>
+                      ))}
+                      
+                  </td>
+                  <td>
+                    {order && order.map((order, index) => (
+                <div key={index}>
+                  {order.products.map((product, index) => (
+                    <div key={index}>
+                      <p>{product.name}</p>
+                    </div>
+                    
+                  ))}   
+                </div>
+                ))}
+                  </td>
+                  <td>
+                    {order && order.map((ele, index) => (
+                <div key={index}>
+                  {ele.products.map((ele, index) => (
+                    <div key={index}>
+                      {ele.orderline.price}
+                    </div>
+                    
+                  ))}   
+                </div>
+                ))}
+                  </td>
+                  <td>
+                    {order && order.map((ele, index) => (
+                <div key={index}>
+                  {ele.products.map((ele, index) => (
+                    <div key={index}>
+                      {ele.orderline.quantity}
+                    </div>
+                    
+                  ))}   
+                </div>
+                ))}
+                  </td>
+                </tr>
               </tbody>
             </table>
-            {/* {order &&
-              Object.keys(order).length ===
-                0(<div className="alert alert-info">No orders to Show.</div>)} */}
           </div>
         </Col>
       </Row>
