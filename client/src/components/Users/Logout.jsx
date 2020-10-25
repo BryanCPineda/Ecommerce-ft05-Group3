@@ -10,9 +10,9 @@ function Logout({ logout }) {
   return (
     <div>
 
-      <Button id="user-logout-button" onClick={logout}>
+      <span onClick={logout}>
         Logout
-      </Button>
+      </span>
       
     </div>
   );

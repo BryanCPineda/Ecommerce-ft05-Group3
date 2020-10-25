@@ -162,18 +162,30 @@ header {
 }
 
 .cart-icono-navbar {
-  position: relative;
+  /* position: relative;
   top: 8px;
-  color: #fff;
+  color: #fff; */
 }
 
 .cart-navbar-letters {
   position: relative;
   top: 20px;
   margin-right: 5px;
+  font-size: 20px;
+}
+.cart-navbar-letters:hover {
+  position: relative;
+  top: 20px;
+  margin-right: 5px;
+  color: white;
 }
 
 .admin-icono-navbar {
+  position: relative;
+  top: 12px;
+  color: #fff;
+}
+.admin-icono-navbar:hover {
   position: relative;
   top: 12px;
   color: #fff;
@@ -186,9 +198,31 @@ header {
 }
 
 .sign-logout {
-  display: flex;
-  margin-left: 6rem;
+  position: relative;
+  top: 15px;
+}
+
+.admin-hamburguer {
+  opacity: 0;
 }
 
 
+@media (max-width: 800px) {
+  .searchbar-navbar {
+    position: fixed;
+    left: 100px;
+    top: 200px;
+  }
+  .admin-hamburguer {
+    opacity: 1;
+  }
 
+  .admin-navbar-normal {
+    opacity: 0;
+  }
+
+  .hamburguer {
+    border: 1px white solid;
+    color: white;
+  }
+}

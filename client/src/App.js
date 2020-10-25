@@ -27,6 +27,7 @@ import CartUse from "./components/CartUsage/CartUse";
 import isAdmin from './components/roles/IsAdmin'
 import isUser from './components/roles/IsAdmin'
 import Error404 from './components/Error404';
+import Navbar from './components/Navbar';
 
 import { connect } from 'react-redux';
 import { loadUser } from './actions/userAction';
@@ -56,6 +57,9 @@ function App({ loadUser }) {
           <Route path="/user/cart" component={CartUse} />
           <Route path="/error404" component={Error404} />
           <Route path="/user/profile" component={UserProfile} />
+
+
+          <Route path="/navbar" component={Navbar} />
           <Route path="/user" component={Footer} />
           
 
