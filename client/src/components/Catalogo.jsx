@@ -91,15 +91,17 @@ function Catalogo({
       let carrito = JSON.parse(localStorage.getItem("carrito"))
       console.log('carrito---------------------', carrito)
       
-      let promises = carrito.map(async function (e) {
+      let promises = carrito.map( function (e) {
           let body = {
             quantity: e.quantity,
             productId:e.id 
         }
-        return await addProductToCart(user.id, body);
+        return new Promise(() => addProductToCart(user.id, body))
       })
 
-      Promise.each(promises).catch(e => console.log('error',e))
+      Promise.each(promises)
+      .then(e => console.log('respuesta promesa---------------------', e))
+      .catch(e => console.log('error',e))
 
       localStorage.clear()
      }
