@@ -74,7 +74,7 @@ function Catalogo({
     setTimeout(() => {
       getAllProducts();
       
-    }, 500);
+    }, 2000);
   
     setState({
       reload: !reload
@@ -91,15 +91,21 @@ function Catalogo({
       let carrito = JSON.parse(localStorage.getItem("carrito"))
       console.log('carrito---------------------', carrito)
       
-      let promises = carrito.map( function (e) {
-          let body = {
-            quantity: e.quantity,
-            productId:e.id 
-        }
-        return new Promise(() => addProductToCart(user.id, body))
-      })
 
-      Promise.each(promises)
+      let promises = carrito.map( function (e) {
+        let body = {
+          quantity: e.quantity,
+          productId:e.id 
+      }
+      setTimeout(() => {
+            return new Promise(() => addProductToCart(user.id, body))
+        
+      }, 1000*e.id)
+    })
+
+    console.log('promises-----', promises)
+
+      Promise.all(promises)
       .then(e => console.log('respuesta promesa---------------------', e))
       .catch(e => console.log('error',e))
 
