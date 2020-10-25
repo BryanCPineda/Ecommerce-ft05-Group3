@@ -68,3 +68,34 @@
   background: none;
   color: darkviolet;
 }
+
+
+.button-logout {
+  border: none;
+  height: 2.5rem;
+  width: 5rem;
+  background-color: #8a2be2;
+  color: white;
+  border-radius: 5px;
+}
+.button-logout:hover {
+  border: none;
+  height: 2.5rem;
+  width: 5rem;
+  background-color: darkviolet;
+  color: white;
+  border-radius: 5px;
+  text-decoration:none;
+}
+.button-logout:focus {
+  border: none;
+  height: 2.5rem;
+  width: 5rem;
+  background-color: darkviolet;
+  color: white;
+  border-radius: 5px;
+}
+
+.nombre-apellido-profile:hover {
+  text-decoration: none;
+}

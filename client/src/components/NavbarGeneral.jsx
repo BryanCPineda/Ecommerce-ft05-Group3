@@ -35,17 +35,7 @@ const [state, setState] = useState({modal:''})
     </div>
   );
 
-  const userLoaded = (
-    <div className="d-flex mt-3" style={{ height: "50px" }}>
-      <div
-        className="h6 mr-3 d-flex align-items-center"
-        style={{ color: "white" }}
-      >
-        {user ? `Hi ${user.name} !` : null}
-      </div>
-      {/* <div ><Logout /></div> */}
-    </div>
-  );
+
 
   return (
     // 		<div style={{backgroundColor: 'blue'}} className="navegacion-general">
@@ -74,7 +64,7 @@ const [state, setState] = useState({modal:''})
             </div>
           </Link>
           {user && user.rol === "admin" ? 
-            <div className="d-flex align-items-center" style={{height: "50px", width: '70px'}}>
+            <div className="d-flex align-items-center" style={{height: "50px", width: '70px', fontSize: '20px'}}>
             <Link to="/admin" class="nav-link admin-icono-navbar">
               Admin
             </Link>
@@ -85,26 +75,18 @@ const [state, setState] = useState({modal:''})
           <div className="searchbar-navbar">
             <SearchBar />
           </div>
-          <buttton className="navbar-toggler hidden-sm-up" data-toggle="collapse" data-target="#collapseElements" style={{fontSize: '40px'}}>
-              &#9776;
-          </buttton>
-          <div>
-          <div id="collapseElements"
-            className="d-flex align-items-center ml-5 collapse navbar-collapse" id="mynavbar"
-            style={{ width: "60px", height: "50px" }}
-          >
+          <div className="d-flex">
             <Link to="/user/cart" class="nav-link cart-icono-navbar d-flex">
-              <span className="cart-navbar-letters">Cart </span>
-              <span style={{ fontSize: "35px" }}>
+              <span className="cart-navbar-letters" style={{color: 'white'}}>Cart </span>
+              <span style={{ fontSize: "35px", color: 'white' }}>
                 <IoIosCart />
               </span>
             </Link>
+            <div >
+              {isAuthenticated ? null : guest}
+            </div>
+            {isAuthenticated && <UserLoged id="UserLoged" user={user} />}
           </div>
-          <div className="sign-logout">
-            {isAuthenticated ? userLoaded : guest}
-          </div>
-          {isAuthenticated && <UserLoged id="UserLoged" user={user} />}
-        </div>
         </div>
         </div>
   );
@@ -154,44 +136,3 @@ export default connect(mapStateToProps, null)(NavbarGeneral);
 // }
 
 // export default NavbarGeneral
-
-
-
-
-
-
-
-
-
-
-
-    // try {
-    //   const { idUser } = req.params;
-    //   const order = await Order.findAll({ where: { userId: idUser }})
-    //   let ordersId = []
-    //   const ordersArray = order.map(ele => ordersId.push(ele.dataValues.id))
-
-    //   i = 0;
-    //   let orderlinesArray = [];
-    //   while(i <= ordersArray.length -1) {
-    //     let orderlines = await Orderline.findAll({ where: { orderId: ordersArray[i] } })
-    //     let orderlinesId = []
-    //     orderlines.map(ele => orderlinesId.push(ele.dataValues.productId))
-        
-    //     let arrayProducts = await Promise.all(orderlinesId.map(async (ele) => Product.findAll({ where: { id: ele }})))
-    //     console.log("gggg", arrayProducts)
-    //      orderlines.map(async (ele) => {
-    //       orderlinesArray.push(ele.dataValues)
-    //       let products = await Product.findAll({ where: { id: ele.dataValues.productId }})
-    //       products.map(ele => orderlines.push(ele.dataValues.name, ele.dataValues.id))
-
-    //     })
-    //     i++
-    //     if(i === 5){
-          
-    //       res.status(200).send(orderlinesArray)
-    //     }
-    //   }
-    // } catch (error) {
-    //   res.status(400).send(error)
-    // }
