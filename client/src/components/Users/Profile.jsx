@@ -22,31 +22,31 @@ const UserProfile = ({ showCompletedOrders, user, order }) => {
   const idUser = user && user.id;
 
   useEffect(() => {
-    showCompletedOrders(idUser);
+    if(user) {
+      showCompletedOrders(user.id);
+    }
   }, []);
 
   //const orders = showCompletedOrders();
-  const producto = order.product && order.product[0];
+  const producto = order
 
   return (
-    <div>
-      <Row className="products-container">
-        <Col xs={2}></Col>
-        <Container className="flex-orders">
-          <h2>Personal information:</h2>
+    <React.Fragment>
+      <div className="d-flex justify-content-center" style={{color: 'white'}}>
+        <div className="flex-orders d-flex flex-column" style={{marginTop: '-350px'}}>
+          <h2 style={{color: 'white'}}>Personal information:</h2>
           <br></br>
           <div>
             <p>Name: {user && user.name}</p>
-            <p>LastName:{user && user.lastname}</p>
+            <p>Lastname:{user && user.lastname}</p>
             <p>Email: {user && user.email}</p>
           </div>
-          <div className="flex-orders">
-            <CompletedOrderline />
-          </div>
-        </Container>
-        <Col xs={2}></Col>
-      </Row>
-    </div>
+        </div>
+      </div>
+      <Container style={{marginTop: '-300px'}}>
+      <CompletedOrderline />
+    </Container>
+    </React.Fragment>
   );
 };
 function mapStateToProps(state) {
