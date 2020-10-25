@@ -69,8 +69,8 @@ header {
 }
 
 .nav-link {
-  margin: 0 2rem;
   position: relative;
+  margin: 0 2rem;
 }
 
 .nav-link::after {
@@ -153,12 +153,10 @@ header {
 }
 
 .searchbar-navbar {
-
   display: flex;
   margin-left: 8rem;
   /* position: relative;
   left: 400px; */
-
 }
 
 .cart-icono-navbar {
@@ -189,6 +187,3 @@ header {
   display: flex;
   margin-left: 6rem;
 }
-
-
-

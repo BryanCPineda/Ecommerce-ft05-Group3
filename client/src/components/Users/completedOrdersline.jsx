@@ -11,7 +11,7 @@ import {
 import { FiShoppingCart } from "react-icons/fi";
 import { BsFillDashCircleFill, BsCheck } from "react-icons/bs";
 import { connect } from "react-redux";
-import Review from '../Reviews/Reviews';
+import Review from "../Reviews/Reviews";
 import "./Profile.css";
 import { showCompletedOrders } from "../../actions/userAction";
 
@@ -19,7 +19,7 @@ const CompletedOrderline = ({ showCompletedOrders, user, order }) => {
   const idUser = user && user.id;
 
   useEffect(() => {
-    if(user){
+    if (user) {
       showCompletedOrders(user.id);
     }
   }, []);
@@ -27,7 +27,7 @@ const CompletedOrderline = ({ showCompletedOrders, user, order }) => {
   //const orders = showCompletedOrders();
   return (
     <div>
-      <h3 style={{color: 'white'}}>Previous Orders</h3>
+      <h3 style={{ color: "white" }}>Previous Orders</h3>
       <Row>
         <Col>
           <div
@@ -36,12 +36,12 @@ const CompletedOrderline = ({ showCompletedOrders, user, order }) => {
           >
             <table class="table">
               <thead>
-                <tr>
-                  <th scope="col">Order</th>
-                  <th scope="col">Product</th>
-                  <th scope="col">Price</th>
-                  <th scope="col">Quantity</th>
-                </tr>
+                <tr></tr>
+
+                <th scope="col">Order</th>
+                <th scope="col">Product</th>
+                <th scope="col">Price</th>
+                <th scope="col">Quantity</th>
               </thead>
               <tbody>
                 <tr>
@@ -52,46 +52,46 @@ const CompletedOrderline = ({ showCompletedOrders, user, order }) => {
                           <td>{order.id}</td>
                         </div>
                       ))}
-                      
                   </td>
                   <td>
-                    {order && order.map((order, index) => (
-                <div key={index}>
-                  {order.products.map((product, index) => (
-                    <div key={index}>
-                      <p>{product.name}</p>
-                    </div>
-                    
-                  ))}   
-                </div>
-                ))}
+                    {order &&
+                      order.map((order, index) => (
+                        <div key={index}>
+                          {order.products.map((product, index) => (
+                            <div key={index}>
+                              <p>{product.name}</p>
+                            </div>
+                          ))}
+                        </div>
+                      ))}
                   </td>
                   <td>
-                    {order && order.map((ele, index) => (
-                <div key={index}>
-                  {ele.products.map((ele, index) => (
-                    <div key={index}>
-                      {ele.orderline.price}
-                    </div>
-                    
-                  ))}   
-                </div>
-                ))}
+                    {order &&
+                      order.map((ele, index) => (
+                        <div key={index}>
+                          {ele.products.map((ele, index) => (
+                            <div key={index}>{ele.orderline.price}</div>
+                          ))}
+                        </div>
+                      ))}
                   </td>
                   <td>
-                    {order && order.map((ele, index) => (
-                <div key={index}>
-                  {ele.products.map((ele, index) => (
-                    <div key={index}>
-                      {ele.orderline.quantity}
-                    </div>
-                    
-                  ))}   
-                </div>
-                ))}
+                    {order &&
+                      order.map((ele, index) => (
+                        <div key={index}>
+                          {ele.products.map((ele, index) => (
+                            <div key={index}>{ele.orderline.quantity}</div>
+                          ))}
+                        </div>
+                      ))}
                   </td>
                 </tr>
               </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="3">Total</td>
+                </tr>
+              </tfoot>
             </table>
           </div>
         </Col>
