@@ -32,7 +32,7 @@ function Navbar({ isAuthenticated, user }) {
       </span>
     </div>
   );
-
+ 
   return (
     <nav class="background-al-nav-general navbar navbar-expand-lg navbar-light bg-light rounded">
       <Container className="d-flex justify-content-center">
