@@ -52,6 +52,7 @@ const CompletedOrderline = ({ showCompletedOrders, user, order }) => {
                           <td>{order.id}</td>
                         </div>
                       ))}
+                      
                   </td>
                   <td>
                     {order && order.map((order, index) => (
