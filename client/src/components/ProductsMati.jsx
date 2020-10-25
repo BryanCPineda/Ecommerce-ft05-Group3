@@ -4,9 +4,8 @@ import './ProductsMati.css';
 import { FiShoppingCart } from "react-icons/fi";
 import { BsFillDashCircleFill, BsCheck } from "react-icons/bs";
 import { connect } from 'react-redux';
-import {addProductToCart} from '../actions/order';
+import {addProductToCart, getProductsFromCart} from '../actions/order';
 import {getProductById} from '../actions/product';
-import {getProductsFromCart} from '../actions/order';
 import Review from './Reviews/Reviews';
 import {
   getProductReviews, 
@@ -16,7 +15,6 @@ import {
   getFourStarsReviews, 
   getFiveStarsReviews
 } from '../actions/reviewsActions';
-
 
 function ProductsMati({ 
   user, 
@@ -33,6 +31,7 @@ function ProductsMati({
   getThreeStarsReviews, 
   getFourStarsReviews, 
   getFiveStarsReviews,
+  isAuthenticated
   
 }) {
 
@@ -41,9 +40,45 @@ function ProductsMati({
       productId:"" 
   }
 
-  const [state, setState] = useState({
-    showCard: true,
-  })
+// manejo de carrito de guest------------
+const [stock, setStock] = useState(0)
+const logueado = isAuthenticated
+
+useEffect(()=>{
+  if (!logueado){
+    let productos = JSON.parse(localStorage.getItem('carrito'))
+    let prodLocal = productos && productos.find(product => product.id == match.params.id)
+    setStock(prodLocal ? prodLocal.quantity:0)
+    console.log(stock)
+  }
+}, []);
+
+
+
+const setItemToCart = (id) => {
+  if (!localStorage.getItem('carrito')){
+    localStorage.setItem('carrito','[]')}
+
+let getCart = JSON.parse(localStorage.getItem('carrito'))
+console.log('quantity------', body.quantity)
+let producto = {
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      stock: product.stock-(body.quantity ? body.quantity : 1),
+      images: product.images,
+      quantity: body.quantity ? body.quantity : 1
+    }
+setStock(producto.quantity)
+getCart.push(producto)
+localStorage.setItem('carrito', JSON.stringify(getCart))
+}
+// manejo de carrito de guest------------
+
+const [state, setState] = useState({
+  showCard: true,
+})
+
   useEffect(()=>{
     if(user){
     getProductsFromCart(user.id).then(()=>{
@@ -66,19 +101,32 @@ function ProductsMati({
   },[]);
 
   useEffect(()=>{
-    let variable  
-    if (cartProducts.product && product){
-      variable = cartProducts.product.find(item => item.id == match.params.id)
-    } 
-    if(variable) {
-      setState({
-        showCard: false
-      })
+     // mapear el localStorage para setear los botones-----------------------
+     if (!logueado){
+      let productos = JSON.parse(localStorage.getItem('carrito'))
+      productos && productos.find(product => product.id == match.params.id) ? setState({showCard: false}) : setState({showCard: true})
+      return
+    }
+    // mapear el localStorage para setear los botones-----------------------
+      let variable  
+      if (cartProducts.product && product){
+        variable = cartProducts.product.find(item => item.id == match.params.id)
+      } 
+      if(variable) {
+        setState({
+          showCard: false
+        })
     }
   },[cartProducts]);
 
-  const handleClick = (id, price) => {
-    if(user){
+  const handleClick = (id) => {
+    if (!logueado){
+      setItemToCart(id)
+      setState({
+        showCard: false,
+      })
+      return
+    } else if(user){
     body.productId = id;
             if(body.quantity === ""){
                   body.quantity=1
@@ -95,13 +143,12 @@ function ProductsMati({
                       showCard: false,
                     })
                 }
-    } else {
-      alert("no user");
-     }
+    } 
 
   }
 
   const onChangeQuantity = (quantity, stock) => {
+    
       body.quantity = quantity;
   }
 
@@ -150,8 +197,7 @@ function ProductsMati({
                 ))}
             </div>
             <div className="d-flex justify-content-center">
-              {    
-              !product.stock ? (product.price && (
+              {!product.stock ? (product.price && (
                   <button disabled={true} className="RO-products-button">
                     Runned Out &nbsp;&nbsp;&nbsp; 
                     <BsFillDashCircleFill />
@@ -177,7 +223,7 @@ function ProductsMati({
               <p className="products-stock">Sorry! There is no Stock available</p>
             ) :
               product.stock && (
-                <p className="products-stock">Stock: {product.stock}</p>
+                <p className="products-stock">Stock: {product.stock-stock}</p>
               )
             }
             <div className="d-flex ">
@@ -187,7 +233,7 @@ function ProductsMati({
                               placeholder="1"
                               onChange={(e) =>{ onChangeQuantity(e.target.value) }}
                               min="2"
-                              max={product.stock}
+                              max={product.stock-stock}
                               type="number"
                               style={{width: '8rem', fontSize: '17px', height: '3rem'}}
                               className="form-control-lg"
@@ -215,6 +261,7 @@ function mapStateToProps(state) {
     cartProducts: state.orderReducer.cartProducts,
     cartState: state.orderReducer.cart,
     user: state.userReducer.user,
+    isAuthenticated: state.userReducer.isAuthenticated
   }
 }
 

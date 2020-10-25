@@ -17,7 +17,8 @@ export function reloadCart() {
 }
 
 
-export const addProductToCart = (idUser, body) => (dispatch, getState) => {
+export function addProductToCart (idUser, body) {
+return (dispatch, getState) => {
 
   const config = {
     headers: {
@@ -31,12 +32,12 @@ export const addProductToCart = (idUser, body) => (dispatch, getState) => {
     config.headers["x-auth-token"] = token
   }
   
-    Axios.post(`http://localhost:4000/users/${idUser}/cart`, body, config)
+    return Axios.post(`http://localhost:4000/users/${idUser}/cart`, body, config)
     .then( res => res.data)
     .then((res) => {
       dispatch({ type: ADD_PRODUCT_TO_CART, payload: res});
     });
-};
+}};
 
 export function getProductsFromCart(idUser){
    return (dispatch, getState) =>  {
