@@ -498,7 +498,7 @@ server.get("/:idUser/profile", async (req, res) => {
 
   Order.findAll({
     where:{
-      userId: idUser
+      userId: idUser,
     },
     include:[{
       model: Product

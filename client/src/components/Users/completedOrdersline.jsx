@@ -37,7 +37,7 @@ const CompletedOrderline = ({ showCompletedOrders, user, order }) => {
             <table class="table">
               <thead>
                 <tr>
-                  <th scope="col">Order</th>
+                  {/* <th scope="col">Order</th> */}
                   <th scope="col">Product</th>
                   <th scope="col">Price</th>
                   <th scope="col">Quantity</th>
@@ -45,45 +45,48 @@ const CompletedOrderline = ({ showCompletedOrders, user, order }) => {
               </thead>
               <tbody>
                 <tr>
-                  <td>
+                  {/* <td className="d-flex justify-content-between flex-column" >
                     {order &&
                       order.map((order, index) => (
                         <div key={index}>
-                          <td>{order.id}</td>
+                          <p className="mt-4">{order.id}</p>
                         </div>
                       ))}
                       
+                  </td> */}
+                  <td>
+                    {order && order.map((order, index) => (
+                <div key={index}>
+                  {order.state === "Complete" &&
+                  order.products.map((product, index) => (
+                    <div key={index}>
+                      <p>{product.name}</p>
+                    </div>      
+                  ))}
+                </div>
+                ))}
+                  </td>
+
+                  <td>
+                    {order && order.map((order, index) => (
+                <div key={index}>
+                  {order.state === "Complete" &&
+                  order.products.map((ele, index) => (
+                    <div key={index}>
+                      <p>{ele.orderline.price}</p>
+                    </div>
+                    
+                  ))}   
+                </div>
+                ))}
                   </td>
                   <td>
                     {order && order.map((order, index) => (
                 <div key={index}>
-                  {order.products.map((product, index) => (
+                  {order.state === "Complete" &&
+                  order.products.map((ele, index) => (
                     <div key={index}>
-                      <p>{product.name}</p>
-                    </div>
-                    
-                  ))}   
-                </div>
-                ))}
-                  </td>
-                  <td>
-                    {order && order.map((ele, index) => (
-                <div key={index}>
-                  {ele.products.map((ele, index) => (
-                    <div key={index}>
-                      {ele.orderline.price}
-                    </div>
-                    
-                  ))}   
-                </div>
-                ))}
-                  </td>
-                  <td>
-                    {order && order.map((ele, index) => (
-                <div key={index}>
-                  {ele.products.map((ele, index) => (
-                    <div key={index}>
-                      {ele.orderline.quantity}
+                      <p>{ele.orderline.quantity}</p>
                     </div>
                     
                   ))}   

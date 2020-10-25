@@ -101,7 +101,7 @@ let prod = []
 let totalCost = 0;
 
 /***********************CALCULO DEL PRECIO POR MEDIO DE LAS ORDER LINE******************************** */
-
+const token = localStorage.getItem("token")
  
 useEffect(()=>{ 
   if(user){
@@ -217,7 +217,7 @@ const handleFinCompra =() =>{
         categories:'',
         images: ''
       }
-      updateProduct(e.id, prodEnviar)}
+      updateProduct(e.id, prodEnviar)} //NO TIENE SENTIDO
     ) 
   cambioEstadoCarrito(order.orderId, 'Created')
   swal("Order Created!", {
