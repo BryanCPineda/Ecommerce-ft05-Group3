@@ -92,7 +92,7 @@ server.post("/promote", auth, (req, res) => {
       usertype: "admin",
     },
     {
-      where: { id: req.user.id },
+      where: { id: req.body.id },
     }
   )
     .then(() => {

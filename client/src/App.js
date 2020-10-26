@@ -15,6 +15,7 @@ import NavbarAdmin from "./components/NavbarAdmin";
 import UserProfile from "./components/Users/Profile";
 
 import AdminOrders from "./components/Admin/adminOrders";
+import AdminUsers from "./components/Admin/adminUsers";
 // import Login from "./components/Login";
 import SignUp from "./components/Users/userRegister";
 
@@ -52,6 +53,7 @@ function App({ loadUser }) {
           <Route exact path="/admin/categories" component={FormCategories} />
           <Route exact path={"/user/carrito"} component={CartUse} />
           <Route exact path="/admin/product" component={AdminProducts} />
+          <Route exact path="/admin/users" component={AdminUsers} />
           <Route exact path="/admin/orders" component={AdminOrders} />
           <Route exact path="/user/product/:id" component={PrductsMati} />
           <Route path="/user/cart" component={CartUse} />
