@@ -15,3 +15,9 @@ html, body {
   * {
     box-sizing: border-box;
   }
+
+
+ .login-with-github {
+   text-decoration: none;
+   color: blue;
+ }

@@ -6,6 +6,7 @@
     margin-top: 3rem;
     margin-left: 10rem;
     color: white;
+    font-size: 30px;
 }
 
 .navbar-admin {
@@ -55,4 +56,8 @@
     border-radius: 5px;
     height: 100px;
     width: 200px;
+}
+
+.border-botones-navbar-admin {
+    border: 1px white solid;
 }

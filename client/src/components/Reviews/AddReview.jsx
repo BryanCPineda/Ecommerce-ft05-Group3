@@ -41,7 +41,8 @@ function AddReview({addReview, user, product, productId}) {
     <React.Fragment>
       <Button 
         onClick={(e)=>handleOnclick(e)}
-        className=""
+        style={{backgroundColor: '#8a2be2', border: '#8a2be2', marginTop: '-30px', height: '32px'}}
+        className="m-1"
       >
         Add review
       </Button>
