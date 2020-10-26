@@ -95,6 +95,7 @@ function Catalogo({
       let carrito = JSON.parse(localStorage.getItem("carrito"))
       
 
+
       let promises = carrito.map( function (e) {
         let body = {
           quantity: e.quantity,

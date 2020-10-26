@@ -41,6 +41,30 @@ server.put('/:id', auth, isAdmin, (req, res, next) => {
     });
 })
 
+// ruta para finalizar la compra del carrito----------------------------------------------
+server.put('/checkout/:id', (req, res) => {
+  const {state} = req.body
+  const {id} = req.params
+  console.log('cambio estado carrito', req.body)
+  Order.update(
+    {
+      state: state
+    }, 
+    { where: { id: id } }
+  )
+    .then((value) => {
+      console.log('result', value)
+      const result = value[0];
+      if (result) {
+        return res.status(202).send("Element updated");
+      }
+      return res.status(400).send("Order not found!");
+    })
+    .catch((err) => {
+      return res.send({ data: err }).status(400);
+    });
+})
+
 server.get("/:id", (req,res)=>{
   const {id} = req.params;
   Order.findAll({
@@ -70,6 +94,22 @@ server.delete('/:id', auth, isAdmin, (req, res)=>{
           order.destroy();
           res.send("Order Deleted")
     }).catch(err => res.send({data: err}).status(400));
+})
+
+server.post('/', async (req, res) => {
+  try {
+    const status = req.body.state;
+    console.log(status)
+    const orders = await Order.findAll({
+      where: {
+        state: status
+      }
+    })
+    if(orders)res.send(orders)
+  } 
+  catch (err) {
+    return res.send({data: err}).status(400)
+  }
 })
 
 

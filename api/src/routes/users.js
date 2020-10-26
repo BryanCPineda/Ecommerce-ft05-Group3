@@ -3,6 +3,7 @@ const {
   Product,
   Categories,
   Image,
+  Reviews,
   Users,
   Order,
   Orderline,
@@ -14,7 +15,7 @@ const jwt = require("jsonwebtoken");
 const { DB_KEY } = process.env;
 
 const isAdmin = require('../middleware/isAdmin')
-const auth = require('../middleware/auth')
+const auth = require('../middleware/auth');
 
 // Giving all users and counting them
 server.get("/", (req, res, next) => {
@@ -207,6 +208,7 @@ server.put("/:userId/cart", async (req, res) => {
   // PUT /users/:idUser/cart
   const id = req.params.userId; // Me llega el userId desde el login.
   const { orderlineId, orderlineQuantity } = req.body; // Se trigerean desde el body los campos de la Orderline
+  
   try {
     const order = await Order.findOne({
       // Obtengo la orden del usuario
@@ -236,9 +238,10 @@ server.put("/:userId/cart", async (req, res) => {
           `You reached the maximun stock, you can buy till ${product.stock} items.`
         );
       }
-      product.stock -= orderlineQuantity;
+      product.stock = product.stock + orderlineToChange.quantity - orderlineQuantity;
       const updatedProduct = await product.save();
       orderlineToChange.quantity = Number(orderlineQuantity);
+      orderlineToChange.save();
       return res.send(orderlineToChange);
     }
   } catch (err) {
@@ -386,20 +389,9 @@ server.delete("/:idUser/cart/:idProduct", (req, res) => {
   const idUser = req.params.idUser;
   const idProduct = req.params.idProduct;
 
-  Order.findOne({
-    where: {
-      userId: idUser,
-      state: "Cart",
-    },
-  }).then((order) => {
-    if (!order) {
-      res.send("La orden para el usuario  " + idUser + ",no fue encontrada");
-      return;
-    }
-    let orderId = order.id;
     Orderline.findOne({
       where: {
-        orderId: orderId,
+        productId: idProduct,
       },
     }).then((orderline) => {
       if (!orderline) {
@@ -411,9 +403,13 @@ server.delete("/:idUser/cart/:idProduct", (req, res) => {
           id: idProduct,
         },
       }).then((product) => {
-        product.stock = product.stock + orderline.quantity;
-        product.save();
-      });
+        let nuevoStock = product.stock + orderline.dataValues.quantity;
+        Product.update({
+          stock: nuevoStock
+        },{
+          where: {id: product.id}
+        });
+      })
 
       Orderline.destroy({
         where: {
@@ -427,7 +423,6 @@ server.delete("/:idUser/cart/:idProduct", (req, res) => {
           return res.send(error).status(500);
         });
     });
-  });
 });
 
 // Getting all orders from one user
@@ -491,25 +486,29 @@ server.post("/passwordReset", auth, (req, res) => {
       });
   });
 });
-
+// Profile route
 server.get("/:idUser/profile", async (req, res) => {
-
   const {idUser} = req.params;
-
   Order.findAll({
     where:{
-      userId: idUser
+      userId: idUser,
+      state: 'Complete'
     },
-    include:[{
-      model: Product
-    }]
-  }).then((orders)=>{
-        res.send(orders)
-       
-  }).catch((err)=>{
-        res.send(err)
+    include: {
+      model: Product,
+      include: {
+        model: Users
+      }
+    }
+  })
+  .then((orders)=>{
+    res.send(orders)
+  })
+  .catch((err)=>{
+    res.send(err)
   })
 });
+// This function brings necesary data for the ReviewCard component
 
 
 module.exports = server;

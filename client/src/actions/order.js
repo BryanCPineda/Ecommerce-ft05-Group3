@@ -8,6 +8,7 @@ const MODIFY_TOTAL = "MODIFY_TOTAL"
 const ADD_PRODUCT_TO_CART = "ADD_PRODUCT_TO_CART"
 const GET_PRODUCTS_FROM_CART = "GET_PRODUCTS_FROM_CART"
 const RELOAD_CART = "RELOAD_CART"
+const UPDATE_PRODUCT_TO_CART = 'UPDATE_PRODUCT_TO_CART'
 
 
 export function reloadCart() {
@@ -38,6 +39,30 @@ return (dispatch, getState) => {
       dispatch({ type: ADD_PRODUCT_TO_CART, payload: res});
     });
 }};
+
+
+
+export function updateProductToCart (idUser, body) {
+  return (dispatch, getState) => {
+  
+    const config = {
+      headers: {
+        "Content-type": "Application/json"
+      },
+    }
+  
+    const token = getState().userReducer.token
+  
+    if(token) {
+      config.headers["x-auth-token"] = token
+    }
+    
+      return Axios.put(`http://localhost:4000/users/${idUser}/cart`, body, config)
+      .then( res => res.data)
+      .then((res) => {
+        dispatch({ type: UPDATE_PRODUCT_TO_CART, payload: res});
+      });
+  }};
 
 export function getProductsFromCart(idUser){
    return (dispatch, getState) =>  {
@@ -76,27 +101,28 @@ export function cambioEstadoCarrito(id, status){
     let estado = {
         state : "Created"
     }
-    return (dispatch, getState) => {
 
-        const config = {
-            headers: {
-              "Content-type": "Application/json"
-            },
-            estado
-          }
-        
-          const token = getState().userReducer.token
-        
-          if(token) {
-            config.headers["x-auth-token"] = token
-          }
+    // return (dispatch, getState) => {
 
-        return Axios.put("http://localhost:4000/orders/"+id, config)
+    //     const config = {
+    //         headers: {
+    //           "Content-type": "Application/json"
+    //         },
+    //         estado
+    //       }
+        
+    //       const token = getState().userReducer.token
+       
+    //       if(token) {
+    //         config.headers["x-auth-token"] = token
+    //       }
+    return (dispatch) =>{
+        return Axios.put("http://localhost:4000/orders/checkout/"+id, estado)
         .then( res => res.data)
         .then( res => {console.log('compra creada', res)
 
         dispatch({ type: CART_CHANGE, payload: res });
-      });
+      }).catch(error=> console.log(error))
   };
 }
 

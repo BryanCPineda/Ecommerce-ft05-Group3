@@ -12,6 +12,7 @@ import "./CartUse.css";
 import { connect } from "react-redux";
 import {
   getOrder,
+  updateProductToCart,
   cambioEstadoCarrito,
   vaciarCarrito,
   quitarItemCarrito,
@@ -26,6 +27,7 @@ const Cart = ({order,
   products, 
   getProducts, 
   updateProduct, 
+  updateProductToCart,
   cambioEstadoCarrito, 
   vaciarCarrito, 
   quitarItemCarrito, 
@@ -101,7 +103,7 @@ let prod = []
 let totalCost = 0;
 
 /***********************CALCULO DEL PRECIO POR MEDIO DE LAS ORDER LINE******************************** */
-
+const token = localStorage.getItem("token")
  
 useEffect(()=>{ 
   if(user){
@@ -135,6 +137,7 @@ const quantityChange = (e, id) =>{
   if (!logueado) {
     let item = itemsCart ? itemsCart.forEach( e =>{
       if(e.id === id){
+        if(cantCambiada === e.orderline.quantity) return;
         e.stock = e.stock + e.orderline.quantity - cantCambiada
         e.orderline.quantity = cantCambiada
       }
@@ -149,13 +152,25 @@ const quantityChange = (e, id) =>{
 
     return
   }
+  let updateProd = {}
+  let diferencia = 0
   prod = order.product
+  console.log('productooooo', order.product)
   prod ? prod.forEach( e => {
     if (e.orderline.id === id){
+       if(cantCambiada === e.orderline.quantity) return;
       e.stock = e.stock + e.orderline.quantity - cantCambiada
       e.orderline.quantity = cantCambiada
+      let body = {
+        orderlineQuantity: e.orderline.quantity,
+        orderlineId:e.orderline.id
+      }
+      updateProd = body
     }}
-  ) : console.log('nada')
+  ) : console.log('')
+  console.log(updateProd)
+  //hago update del carrito y update del stock------------------------
+    updateProductToCart(user.id, updateProd)
 
   prod && prod.forEach( e =>{
     totalCost += e.price * e.orderline.quantity
@@ -207,18 +222,19 @@ const handleDelete = (id) =>{
 
 const handleFinCompra =() =>{
 
-  let prodEnviar = []
-    products.map (e => {
-      prodEnviar = {
-        name: e.name,
-        description: e.description,
-        price: e.price,
-        stock: e.stock,
-        categories:'',
-        images: ''
-      }
-      updateProduct(e.id, prodEnviar)}
-    ) 
+
+  // let prodEnviar = []
+  //   products.map (e => {
+  //     prodEnviar = {
+  //       name: e.name,
+  //       description: e.description,
+  //       price: e.price,
+  //       stock: e.stock,
+  //       categories:'',
+  //       images: ''
+  //     }
+  //     updateProduct(e.id, prodEnviar)}
+  //   ) 
   cambioEstadoCarrito(order.orderId, 'Created')
   swal("Order Created!", {
     icon: "success",
@@ -416,7 +432,8 @@ function mapDispatchToProps(dispatch) {
     getProducts: () => dispatch(getProducts()),
     cambioEstadoCarrito: (id, status) =>
     dispatch(cambioEstadoCarrito(id, status)),
-    updateProduct: (id, prod) => dispatch(updateProduct(id, prod)),
+    updateProductToCart: (idUser, body) => dispatch(updateProductToCart(idUser, body)),
+    // updateProduct: (id, prod) => dispatch(updateProduct(id, prod)),
     vaciarCarrito: (idUser) => dispatch(vaciarCarrito(idUser)),
     quitarItemCarrito: (idUser, id) => dispatch(quitarItemCarrito(idUser, id)),
     getProductsFromCart: (idUser) => dispatch(getProductsFromCart(idUser)),

@@ -78,13 +78,11 @@ export function editReview(id, review) {
     })
   }
 }
-export function deleteReview(id, review) {
+export function deleteReview(id) {
   return dispatch => {
-    return Axios.post(`http://localhost:4000/reviews/${id}`, review)
+    return Axios.post(`http://localhost:4000/reviews/${id}`)
     .then(res => {
-      console.log('ReviewId', id)
-      console.log('Review', review)
-      dispatch({type: DELETE_REVIEW, payload: res.data})
+      dispatch({type: DELETE_REVIEW, payload: res})
     })
   }
 }

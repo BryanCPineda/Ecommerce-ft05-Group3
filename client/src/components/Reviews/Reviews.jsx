@@ -5,14 +5,8 @@ import { Container, Row, Col } from "react-bootstrap";
 import {BsStarFill, BsStarHalf, BsStar} from 'react-icons/bs'
 
 function Review({reviews, oneStarReviews, twoStarsReviews, threeStarsReviews, fourStarsReviews, fiveStarsReviews}) {
-{ 
-  // var promedio = Math.floor(Math.random()*(5*10-1*10)+1*10)/(1*10); 
-  // const oneStarReviews = Math.floor(Math.random() * 100);
-  // const twoStarReviews = Math.floor(Math.random() * 100);
-  // const threeStarReviews = Math.floor(Math.random() * 100);
-  // const fourStarReviews = Math.floor(Math.random() * 100);
-  // const fiveStarReviews = Math.floor(Math.random() * 100);
-}
+// var promedio = Math.floor(Math.random()*(5*10-1*10)+1*10)/(1*10); 
+
   const totalReviews = 
     fiveStarsReviews+
     fourStarsReviews+
@@ -25,7 +19,7 @@ function Review({reviews, oneStarReviews, twoStarsReviews, threeStarsReviews, fo
     (threeStarsReviews * 3)+
     (twoStarsReviews * 2)+
     oneStarReviews;
-
+  
   let promedio = totalStars / totalReviews;
   promedio = promedio.toFixed(1);
 

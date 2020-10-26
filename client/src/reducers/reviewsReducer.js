@@ -60,7 +60,6 @@ export default function reviewsReducer(state = initialState, action) {
     case DELETE_REVIEW:
       return {
         ...state,
-        reviews: action.payload
       }
     default:
       return state;

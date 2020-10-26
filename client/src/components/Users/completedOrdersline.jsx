@@ -11,13 +11,16 @@ import {
 import { FiShoppingCart } from "react-icons/fi";
 import { BsFillDashCircleFill, BsCheck } from "react-icons/bs";
 import { connect } from "react-redux";
-import Review from '../Reviews/Reviews';
+import AddReview from '../Reviews/AddReview';
 import "./Profile.css";
 import { showCompletedOrders } from "../../actions/userAction";
 
-const CompletedOrderline = ({ showCompletedOrders, user, order }) => {
+const CompletedOrderline = ({ showCompletedOrders, user, orders }) => {
   const idUser = user && user.id;
-
+  const pId = orders && orders.map(order=>{
+    order.products.map(product => product.id)
+  })
+  console.log('orders', pId)
   useEffect(() => {
     if(user){
       showCompletedOrders(user.id);
@@ -37,58 +40,63 @@ const CompletedOrderline = ({ showCompletedOrders, user, order }) => {
             <table class="table">
               <thead>
                 <tr>
-                  <th scope="col">Order</th>
                   <th scope="col">Product</th>
                   <th scope="col">Price</th>
                   <th scope="col">Quantity</th>
+                  <th scope="col">Add Review</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <td>
-                    {order &&
-                      order.map((order, index) => (
-                        <div key={index}>
-                          <td>{order.id}</td>
-                        </div>
-                      ))}
-                      
+                    {orders && orders.map((order, index) => (
+                      <div key={index}>
+                        {order &&
+                        order.products.map((product, index) => (
+                          <div key={index}>
+                            <p>{product.name}</p>
+                          </div>      
+                        ))}
+                      </div>
+                    ))}
                   </td>
                   <td>
-                    {order && order.map((order, index) => (
-                <div key={index}>
-                  {order.products.map((product, index) => (
-                    <div key={index}>
-                      <p>{product.name}</p>
-                    </div>
-                    
-                  ))}   
-                </div>
-                ))}
+                    {orders && orders.map((order, index) => (
+                      <div key={index}>
+                        {order && order.products.map((ele, index) => (
+                          <div key={index}>
+                            <p>{ele.orderline.price}</p>
+                          </div>
+                        ))}   
+                      </div>
+                    ))}
                   </td>
                   <td>
-                    {order && order.map((ele, index) => (
-                <div key={index}>
-                  {ele.products.map((ele, index) => (
-                    <div key={index}>
-                      {ele.orderline.price}
-                    </div>
-                    
-                  ))}   
-                </div>
-                ))}
+                    {orders && orders.map((order, index) => (
+                      <div key={index}>
+                        {order &&
+                        order.products.map((ele, index) => (
+                          <div key={index}>
+                            <p>{ele.orderline.quantity}</p>
+                          </div>
+                        ))}   
+                      </div>
+                    ))}
                   </td>
-                  <td>
-                    {order && order.map((ele, index) => (
-                <div key={index}>
-                  {ele.products.map((ele, index) => (
-                    <div key={index}>
-                      {ele.orderline.quantity}
-                    </div>
-                    
-                  ))}   
-                </div>
-                ))}
+                  <td className="d-flex justify-content-between flex-column" >
+                  {orders && orders.map((order, index) => (
+                      <div key={index}>
+                        {order &&
+                        order.products.map((ele, index) => (
+                          <div key={index}>
+                            <span>{
+                              <AddReview 
+                                productId={ele.id} 
+                              />}</span>
+                          </div>
+                        ))}   
+                      </div>
+                    ))}
                   </td>
                 </tr>
               </tbody>
@@ -102,7 +110,7 @@ const CompletedOrderline = ({ showCompletedOrders, user, order }) => {
 function mapStateToProps(state) {
   return {
     user: state.userReducer.user,
-    order: state.userReducer.allUsers,
+    orders: state.userReducer.allUsers,
   };
 }
 function mapDispatchToProps(dispatch) {

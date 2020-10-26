@@ -87,3 +87,17 @@
 .stock-card {
     font-size: 18px;
 }
+
+@media (max-width: 1100px) {
+    
+.product-card {
+    height: 28rem;
+    width: 19rem;
+    padding: 1rem;
+    margin-left: 1rem;
+    margin-top: 3rem;
+    margin-bottom: 2rem;
+    position: relative;
+    background-color: white;
+}
+  }
