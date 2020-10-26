@@ -1,7 +1,8 @@
 const server = require("express").Router();
 const { Order, Users } = require("../db.js");
 const isAdmin = require('../middleware/isAdmin')
-const auth = require('../middleware/auth')
+const auth = require('../middleware/auth');
+const { response } = require("express");
 
 server.get('/', (req, res, next) => {
  
@@ -20,21 +21,21 @@ server.get('/', (req, res, next) => {
   })
 })
 
+// modifica el estado de una orden------------------------------------
+
 server.put('/:id', auth, isAdmin, (req, res, next) => {
-  const {state} = req.body
+  const {state} = req.body.estado
   const {id} = req.params
-  Order.update(
-    {
-      state: state
-    }, 
+  Order.findOne(
     { where: { id: id } }
   )
-    .then((value) => {
-      const result = value[0];
-      if (result) {
-        return res.status(202).send("Element updated");
-      }
-      return res.status(400).send("Order not found!");
+    .then((order) => {
+      console.log('datavalues-------', order.dataValues.state)
+      console.log('stateeeeee', state)
+      order.dataValues.state = state
+      order.save().then(response =>
+        res.send({ data: response }).status(200))
+ 
     })
     .catch((err) => {
       return res.send({ data: err }).status(400);
