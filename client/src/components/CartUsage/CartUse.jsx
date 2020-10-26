@@ -133,6 +133,7 @@ useEffect(() => {
 
 const quantityChange = (e, id) =>{
   let cantCambiada = e
+  let itemsChange=[]
   totalCost = 0;
   if (!logueado) {
     let item = itemsCart ? itemsCart.forEach( e =>{
@@ -142,6 +143,19 @@ const quantityChange = (e, id) =>{
         e.orderline.quantity = cantCambiada
       }
     }) : ""
+    item = itemsCart ? itemsCart.forEach( e =>{
+      let item = {
+        id: e.id,
+        name: e.name,
+        price: e.price,
+        quantity: e.orderline.quantity,
+        stock: e.stock,
+        images: e.images,
+        }
+        itemsChange.push(item)
+    }) : ''
+    console.log('items cambiados', itemsChange)
+    localStorage.setItem("carrito", JSON.stringify(itemsChange))
     item = itemsCart ? itemsCart.forEach( e=>{
         totalCost += e.price * e.orderline.quantity
     }) : ""
@@ -235,6 +249,16 @@ const handleFinCompra =() =>{
   //     }
   //     updateProduct(e.id, prodEnviar)}
   //   ) 
+  if (!logueado){
+    swal("Order Created!", {
+      icon: "success",
+    }).then(() => {
+        localStorage.clear()
+        setRedirect({ redirect: "/user/catalogo" });
+      }
+    )
+    return
+  } 
   cambioEstadoCarrito(order.orderId, 'Created')
   swal("Order Created!", {
     icon: "success",
@@ -258,6 +282,7 @@ const handleVaciarCarrito = () =>{
       if (!logueado){
         itemsCart =[]
         localStorage.clear()
+        setRedirect({ redirect: "/user/catalogo" });
       } else {
         vaciarCarrito(user.id)
         setState({
@@ -352,6 +377,7 @@ if (stateRedirect.redirect) {
                   {logueado? (products ? (
                     products.map((e) => (
                       <OrderUse
+                        logueado={logueado}
                         orderline={e}
                         quantityChange={quantityChange}
                         handleDelete={handleDelete}

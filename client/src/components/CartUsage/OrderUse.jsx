@@ -9,7 +9,7 @@ import './CartUse.css'
 import { connect } from 'react-redux'
 
 function OrderUse(prod) {
-    let cantidad = []
+    // let cantidad = []
     const [state, setState] = useState({
         cantidad: prod.orderline.orderline.quantity
     })
@@ -21,18 +21,21 @@ function OrderUse(prod) {
     }, [state])
 
     const handleCant = (value) => {
-      if (value <= prod.orderline.stock+prod.orderline.orderline.quantity){
-      setState({
+       setState({
         ...state,
-        cantidad: value})}
-        else{
-          setState({
-            ...state,
-            cantidad})
-            swal("insufficient Stock!", {
-              icon: "warning",
-            })
-        }
+        cantidad: value})
+      // if (value <= prod.orderline.stock+prod.orderline.orderline.quantity){
+      // setState({
+      //   ...state,
+      //   cantidad: value})}
+      //   else{
+      //     setState({
+      //       ...state,
+      //       cantidad})
+      //       swal("insufficient Stock!", {
+      //         icon: "warning",
+      //       })
+      //   }
     }
     
     return (
@@ -50,7 +53,10 @@ function OrderUse(prod) {
                   </Col>
                   <Col xs={6} md={3} className="mb-3 text-center">
                     {console.log('stock------', prod.orderline.stock, 'cantidad------', prod.orderline.orderline.quantity)}
-                  <NumericInput className={'numberformat'} min={0} max={prod.orderline.stock+ prod.orderline.orderline.quantity} value={prod.orderline.orderline.quantity} onChange={value => handleCant(value)}/>
+                  <NumericInput className={'numberformat'} min={0} max={50} value={
+                    prod.logueado?
+                    prod.orderline.orderline.quantity: state.cantidad
+                    } onChange={value => handleCant(value)}/>
                   </Col>
                   <Col className="text-left">
                     <span className="h6">
