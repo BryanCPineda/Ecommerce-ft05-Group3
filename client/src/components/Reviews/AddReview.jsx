@@ -6,7 +6,7 @@ import {addReview} from '../../actions/reviewsActions';
 import {connect} from 'react-redux';
 // import store from '../../store'
 
-function AddReview({addReview, user, product}) {
+function AddReview({addReview, user, product, productId}) {
   const[show, setShow] = useState(false);
   const [stars, setStars] = useState(0);
   const [description, setDescription] = useState('');
@@ -18,23 +18,17 @@ function AddReview({addReview, user, product}) {
   const handleOnChange = (e) => {
     e.preventDefault();
     setDescription(e.target.value)
-    console.log(e.target.value)
   }
-  
-  const handleOnSubmit = (e) => {
+  let review = {
+    description: description,
+    qualification: stars,
+    userId: user.id
+  }
+  const handleOnSubmit = (e, productId) => {
     e.preventDefault();
-    const review = {
-      description: description,
-      qualification: Math.round(stars),
-      userdId: user.id
-    };
-    const id = product.id
-    addReview(id, review);
+    addReview(productId, review);
     setShow(false);
   }
-  // const state = store.getState();
-  // const usuario = state.userReducer.user
-  // console.log('USER', usuario)
 
   const star = {
     count:5,
@@ -100,7 +94,7 @@ function AddReview({addReview, user, product}) {
               <Col lg='3'>
                 <Button
                   className="button-register mt-1"
-                  onClick={handleOnSubmit}
+                  onClick={e =>handleOnSubmit(e, productId)}
                 >Send
                 </Button>
               </Col>

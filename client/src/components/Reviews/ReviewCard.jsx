@@ -8,34 +8,6 @@ import DeleteReview from './AddReview';
 function ReviewCard() {
   const[show, setShow] = useState(false);
 
-  // const handleOnclick = (e) => {
-  //   e.preventDefault();
-  //   setShow(true);
-  // }
-  const state = store.getState();
-  const orders = state.ordersReducer.orders;
-  const reviews = state.reviewsReducer.reviews;
-  const products = state.productsReducer.reviews;
-  console.log('ORDERS', orders);
-  console.log('REVIEWS', reviews);
-  console.log('PRODUCTS', products);
-  
-  const array = [];
-  const p = products.map(product=>{
-    array.push({
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      qualification: qualification = ()=>{reviews.find(review.productId === product.id)}
-    })
-  })
-  let createMyCustomArray = () => {
-    for (let i = 0; i < array.length; i++) {
-      
-    }
-    return
-  }
-
   return (
     <React.Fragment>
       <Modal size='xl'>
@@ -47,32 +19,7 @@ function ReviewCard() {
           Your products reviews
         </Modal.Header>
         <Modal.Body>
-        <Table striped bordered hover className="table table-ligth table-sm table-bordered table-hover">
-              <thead>
-                <tr className="text-center">
-                  <th>Price</th>
-                  <th>Product</th>
-                  <th>Stars</th>
-                  <th>Description</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {order &&
-                  order.map((order, index) => {
-                    return (
-                      <tr key={index} className="text-center">
-                        <td>{order.product[0] && order.product[0]}</td>
-                        <td>{}</td>
-                        <td>{}</td>
-                        <td>{}</td>
-                        <td>{<EditReview/>}{<DeleteReview/>}</td>
-                      </tr>
-                    );
-                  })
-                }
-              </tbody>
-            </Table>
+        
         </Modal.Body>
         <Modal.Footer>
           <Row>
@@ -85,7 +32,7 @@ function ReviewCard() {
             </Col>
             <Col lg='7'></Col>
             <Col lg='3'>
-              <AddReview/>
+              <EditReview/>
             </Col>
           </Row>
         </Modal.Footer>

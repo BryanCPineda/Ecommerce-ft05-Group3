@@ -117,10 +117,10 @@ server.post("/product/:id/review",(req,res)=>{
   const {id} = req.params
     //  const iD = req.params.id
   Reviews.create({
-          userId:userId,
-          productId:id,
-          description:description,
-          qualification:qualification
+    userId:userId,
+    productId:id,
+    description:description,
+    qualification:qualification
   })
   .then((reviews) => {
       res.status(200).send(reviews);

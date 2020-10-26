@@ -37,8 +37,8 @@ const UserProfile = ({ showCompletedOrders, user, order }) => {
           <h2 style={{color: 'white'}}>Personal information:</h2>
           <br></br>
           <div>
-            <p>Name: {user && user.name}</p>
-            <p>Lastname:{user && user.lastname}</p>
+            <p>First Name: {user && user.name}</p>
+            <p>Last Name: {user && user.lastname}</p>
             <p>Email: {user && user.email}</p>
           </div>
         </div>
