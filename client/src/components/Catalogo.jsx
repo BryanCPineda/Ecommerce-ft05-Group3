@@ -61,20 +61,25 @@ function Catalogo({
     },[products, products2, products3])
 
   useEffect(() =>{
+
     if(user){
-      getProductsFromCart(user.id);
+      getProductsFromCart(user.id).then(()=>{
+      getAllProducts();
+    })
+    }else {
+        getAllProducts();
     }
     
   },[currentPage, user, cart ]) 
 
-  console.log("el cart state",  cart)
+
 
   useEffect(() => {   
     
     setTimeout(() => {
       getAllProducts();
       
-    }, 500);
+    }, 2000);
   
     setState({
       reload: !reload
@@ -86,20 +91,23 @@ function Catalogo({
   useEffect(()=>{
     if (isAuthenticated) {
       if(!localStorage.getItem("carrito")) {
-        console.log('----no hay nada', localStorage.getItem("carrito"))
         return}
       let carrito = JSON.parse(localStorage.getItem("carrito"))
-      console.log('carrito---------------------', carrito)
       
-      let promises = carrito.map( function (e) {
-          let body = {
-            quantity: e.quantity,
-            productId:e.id 
-        }
-        return new Promise(() => addProductToCart(user.id, body))
-      })
 
-      Promise.each(promises)
+
+      let promises = carrito.map( function (e) {
+        let body = {
+          quantity: e.quantity,
+          productId:e.id 
+      }
+      setTimeout(() => {
+            return new Promise(() => addProductToCart(user.id, body))
+        
+      }, 100*e.id)
+    })
+
+    Promise.all(promises)
       .then(e => console.log('respuesta promesa---------------------', e))
       .catch(e => console.log('error',e))
 
