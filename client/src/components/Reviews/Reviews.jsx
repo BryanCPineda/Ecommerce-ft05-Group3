@@ -40,9 +40,9 @@ const totalReviews =
     createMyObj();
     
   return (
-    <Container>
+    <Container style={{paddingBottom: '30px'}}>
       <br/>
-      <Row className="justify-content-md-center">
+      <Row className="justify-content-md-center" >
         <Col lg="7">
           <div>
             <h1>Opiniones sobre el producto</h1>

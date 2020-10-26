@@ -29,8 +29,8 @@ const CompletedOrderline = ({ showCompletedOrders, user, orders }) => {
 
   //const orders = showCompletedOrders();
   return (
-    <div>
-      <h3 style={{color: 'white'}}>Previous Orders</h3>
+    <div className="mt-5">
+      <h3 style={{color: 'white'}}>Shopping History</h3>
       <Row>
         <Col>
           <div
@@ -48,7 +48,7 @@ const CompletedOrderline = ({ showCompletedOrders, user, orders }) => {
               </thead>
               <tbody>
                 <tr>
-                  <td>
+                  <td style={{ padding: '0px'}}>
                     {orders && orders.map((order, index) => (
                       <div key={index}>
                         {order &&
@@ -60,7 +60,7 @@ const CompletedOrderline = ({ showCompletedOrders, user, orders }) => {
                       </div>
                     ))}
                   </td>
-                  <td>
+                  <td style={{ padding: '0px'}}>
                     {orders && orders.map((order, index) => (
                       <div key={index}>
                         {order && order.products.map((ele, index) => (
@@ -71,7 +71,7 @@ const CompletedOrderline = ({ showCompletedOrders, user, orders }) => {
                       </div>
                     ))}
                   </td>
-                  <td>
+                  <td style={{ padding: '0px'}}>
                     {orders && orders.map((order, index) => (
                       <div key={index}>
                         {order &&
@@ -83,7 +83,7 @@ const CompletedOrderline = ({ showCompletedOrders, user, orders }) => {
                       </div>
                     ))}
                   </td>
-                  <td className="d-flex justify-content-between flex-column" >
+                  <td className="d-flex justify-content-between flex-column p-0" style={{ padding: '0px'}}>
                   {orders && orders.map((order, index) => (
                       <div key={index}>
                         {order &&

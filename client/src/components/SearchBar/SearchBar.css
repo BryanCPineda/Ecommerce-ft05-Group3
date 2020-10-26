@@ -136,3 +136,28 @@
     color: white;
     border-radius: 5px;
 }
+
+.button-login-sprint-3 {
+    border: none;
+    height: 2.5rem;
+    width: 3rem;
+    background-color: #8a2be2;
+    color: white;
+    border-radius: 5px;
+}
+.button-login-sprint-3:hover {
+    border: none;
+    height: 2.5rem;
+    width: 3rem;
+    background-color: darkviolet;
+    color: white;
+    border-radius: 5px;
+}
+.button-login-sprint-3:focus {
+    border: none;
+    height: 2.5rem;
+    width: 3rem;
+    background-color: darkviolet;
+    color: white;
+    border-radius: 5px;
+}

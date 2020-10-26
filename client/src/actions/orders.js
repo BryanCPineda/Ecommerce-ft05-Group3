@@ -55,6 +55,21 @@ import {
       axios.delete("http://localhost:4000/orders/"+id, config).then((res)=>{
          dispatch({type: DELETE_ORDER, payload: res.data})
       })
+    }
 
-
-    };
+    export const filterOrders = (state) => (dispatch, getState) => {
+        const config = {
+          headers: {
+            "Content-type": "Application/json"
+          }
+        }
+      
+        const token = getState().userReducer.token
+      
+        if(token) {
+          config.headers["x-auth-token"] = token
+        }
+         axios.post(`http://localhost:4000/orders/${state}`, config).then(res => {
+          dispatch({ type: "FILTER_ORDERS", payload: res.data })
+        })   
+      }

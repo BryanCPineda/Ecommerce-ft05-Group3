@@ -41,7 +41,12 @@ const UserLoged = ({ user }) => {
     <div className="sign-logout"> 
       <Link to="/user/profile"><span className="mr-3"
        style={{color: 'white', fontSize: '28px'}}><CgProfile /></span>
-       <span className="mr-4 nombre-apellido-profile" style={{color: 'white', fontSize: '22px'}}>{user.name}{" "}{user.lastname}</span></Link>
+       {user.name === user.lastname ?
+      <span className="mr-4 nombre-apellido-profile" style={{color: 'white', fontSize: '22px'}}>{user.name}</span>
+      :
+      <span className="mr-4 nombre-apellido-profile" style={{color: 'white', fontSize: '22px'}}>{user.name}{" "}{user.lastname}</span>
+       }
+       </Link>
       <button className="button-logout"><Logout /></button>
     </div>
   );
