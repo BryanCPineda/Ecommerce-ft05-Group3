@@ -49,7 +49,8 @@ function OrderUse(prod) {
                       <h4 >{prod.orderline.name} </h4>
                   </Col>
                   <Col xs={6} md={3} className="mb-3 text-center">
-                  <NumericInput className={'numberformat'} min={0} max={prod.orderline.stock+ prod.orderline.orderline.quantity} value={state.cantidad} onChange={value => handleCant(value)}/>
+                    {console.log('stock------', prod.orderline.stock, 'cantidad------', prod.orderline.orderline.quantity)}
+                  <NumericInput className={'numberformat'} min={0} max={prod.orderline.stock+ prod.orderline.orderline.quantity} value={prod.orderline.orderline.quantity} onChange={value => handleCant(value)}/>
                   </Col>
                   <Col className="text-left">
                     <span className="h6">

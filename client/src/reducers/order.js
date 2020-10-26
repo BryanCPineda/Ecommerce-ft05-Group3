@@ -20,6 +20,12 @@ export default function orderReducer(state = initialState, action) {
                 ...state,
                 cart: action.payload,
             }
+
+        case 'UPDATE_PRODUCT_TO_CART':
+            return {
+                ...state,
+                cart: action.payload
+            }
         case "GET_PRODUCTS_FROM_CART":
             return {
                 ...state,
