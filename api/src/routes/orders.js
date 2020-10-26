@@ -1,8 +1,7 @@
 const server = require("express").Router();
 const { Order, Users } = require("../db.js");
 const isAdmin = require('../middleware/isAdmin')
-const auth = require('../middleware/auth');
-const { response } = require("express");
+const auth = require('../middleware/auth')
 
 server.get('/', (req, res, next) => {
  
@@ -21,21 +20,43 @@ server.get('/', (req, res, next) => {
   })
 })
 
-// modifica el estado de una orden------------------------------------
-
 server.put('/:id', auth, isAdmin, (req, res, next) => {
-  const {state} = req.body.estado
+  const {state} = req.body
   const {id} = req.params
-  Order.findOne(
+  Order.update(
+    {
+      state: state
+    }, 
     { where: { id: id } }
   )
-    .then((order) => {
-      console.log('datavalues-------', order.dataValues.state)
-      console.log('stateeeeee', state)
-      order.dataValues.state = state
-      order.save().then(response =>
-        res.send({ data: response }).status(200))
- 
+    .then((value) => {
+      const result = value[0];
+      if (result) {
+        return res.status(202).send("Element updated");
+      }
+      return res.status(400).send("Order not found!");
+    })
+    .catch((err) => {
+      return res.send({ data: err }).status(400);
+    });
+})
+
+// ruta para finalizar la compra del carrito----------------------------------------------
+server.put('/checkout/:id', (req, res) => {
+  const {state} = req.body
+  const {id} = req.params
+  Order.update(
+    {
+      state: state
+    }, 
+    { where: { id: id } }
+  )
+    .then((value) => {
+      const result = value[0];
+      if (result) {
+        return res.status(202).send("Element updated");
+      }
+      return res.status(400).send("Order not found!");
     })
     .catch((err) => {
       return res.send({ data: err }).status(400);
