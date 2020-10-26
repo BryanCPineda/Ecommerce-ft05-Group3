@@ -4,8 +4,11 @@ import {
 
 const initialState = {
   reviews: {
-    count: 0,
-    rows: []
+    reviews: {
+      count: 0,
+      rows: []
+    },
+    users: []
   },
   oneStarReviews: 0,
   twoStarsReviews: 0,

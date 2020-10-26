@@ -4,8 +4,9 @@ import { connect } from 'react-redux';
 import { Container, Row, Col } from "react-bootstrap";
 import {BsStarFill, BsStarHalf, BsStar} from 'react-icons/bs'
 
-function Review({reviews, oneStarReviews, twoStarsReviews, threeStarsReviews, fourStarsReviews, fiveStarsReviews}) {
+function Review({reviews, users, oneStarReviews, twoStarsReviews, threeStarsReviews, fourStarsReviews, fiveStarsReviews}) {
 // var promedio = Math.floor(Math.random()*(5*10-1*10)+1*10)/(1*10); 
+// console.log('reviewssss', reviews)
 
   const totalReviews = 
     fiveStarsReviews+
@@ -22,11 +23,23 @@ function Review({reviews, oneStarReviews, twoStarsReviews, threeStarsReviews, fo
   
   let promedio = totalStars / totalReviews;
   promedio = promedio.toFixed(1);
+  
+  const myObjs = []
+  
+  const createMyObj = () =>{
+    for (let i = 0; i < reviews.length; i++) {
+      myObjs.push({
+        name: users[i].name,
+        lastname: users[i].lastname,
+        qualification: reviews[i].qualification,
+        description: reviews[i].description
+      })
+    }
+    return myObjs;
+  }
 
   return (
-    <div>
-      <Row>
-      <Container>
+    <Container>
       <br/>
       <Row className="justify-content-md-center">
         <Col lg="7">
@@ -225,10 +238,11 @@ function Review({reviews, oneStarReviews, twoStarsReviews, threeStarsReviews, fo
         <Col>
           <div>
             {
-              reviews && reviews.map(review=>{
+              myObjs && myObjs.map((obj, index)=>{
                 return (
-                  review.qualification==='1' ? (
-                    <div>
+                  obj.qualification==='1' ? (
+                    <div key={index}>
+                      <hr/>
                       <div className='bsStars'>
                         <BsStarFill/>
                         <BsStar/>
@@ -240,14 +254,18 @@ function Review({reviews, oneStarReviews, twoStarsReviews, threeStarsReviews, fo
                         Muy malo
                       </div>
                       <Row>
-                        <Col lg='6'>{review.description}</Col>
+                        <Col lg='6'>{obj.description}</Col>
                         <Col lg='2'></Col>
-                        <Col lg='4'>{review.updatedAt}</Col>
+                        <Col lg='4'>{obj.updatedAt}</Col>
+                      </Row>
+                      <Row>
+                        <Col lg='3'><b>{obj.name} {obj.lastname}</b></Col>
+                        <Col lg='9'></Col>
                       </Row>
                     </div>
                   ) :
-                  review.qualification==='2' ? (
-                    <div>
+                    obj.qualification==='2' ? (
+                    <div key={index}>
                     <hr/>
                         <div className='bsStars'>
                           <BsStarFill/>
@@ -260,14 +278,19 @@ function Review({reviews, oneStarReviews, twoStarsReviews, threeStarsReviews, fo
                           Malo
                         </div>
                         <Row>
-                          <Col lg='6'>{review.description}</Col>
+                          <Col lg='6'>{obj.description}</Col>
                           <Col lg='2'></Col>
-                          <Col lg='4'>{review.updatedAt}</Col>
+                          <Col lg='4'>{obj.updatedAt}</Col>
+                        </Row>
+                        <Row>
+                          <Col lg='3'><b>{obj.name} {obj.lastname}</b></Col>
+                          <Col lg='9'></Col>
                         </Row>
                       </div>
                     ) : 
-                      review.qualification==='3' ? (
-                        <div>
+                      obj.qualification==='3' ? (
+                        <div key={index}>
+                          <hr/>
                           <div className='bsStars'>
                             <BsStarFill/>
                             <BsStarFill/>
@@ -279,14 +302,19 @@ function Review({reviews, oneStarReviews, twoStarsReviews, threeStarsReviews, fo
                             Promedio
                           </div>
                           <Row>
-                            <Col lg='6'>{review.description}</Col>
+                            <Col lg='6'>{obj.description}</Col>
                             <Col lg='2'></Col>
-                            <Col lg='4'>{review.updatedAt}</Col>
+                            <Col lg='4'>{obj.updatedAt}</Col>
+                          </Row>
+                          <Row>
+                            <Col lg='3'><b>{obj.name} {obj.lastname}</b></Col>
+                            <Col lg='9'></Col>
                           </Row>
                         </div>
                       ) : 
-                        review.qualification==='4' ? (
-                          <div>
+                        obj.qualification==='4' ? (
+                          <div key={index}>
+                            <hr/>
                             <div className='bsStars'>
                               <BsStarFill/>
                               <BsStarFill/>
@@ -298,14 +326,19 @@ function Review({reviews, oneStarReviews, twoStarsReviews, threeStarsReviews, fo
                               Bueno
                             </div> 
                             <Row>
-                              <Col lg='6'>{review.description}</Col>
+                              <Col lg='6'>{obj.description}</Col>
                               <Col lg='2'></Col>
-                              <Col lg='4'>{review.updatedAt}</Col>
+                              <Col lg='4'>{obj.updatedAt}</Col>
+                            </Row>
+                            <Row>
+                              <Col lg='3'><b>{obj.name} {obj.lastname}</b></Col>
+                              <Col lg='9'></Col>
                             </Row>
                           </div>
                         ) : 
                           (
-                            <div>
+                            <div key={index}>
+                              <hr/>
                               <div className='bsStars'>
                                 <BsStarFill/>
                                 <BsStarFill/>
@@ -317,9 +350,13 @@ function Review({reviews, oneStarReviews, twoStarsReviews, threeStarsReviews, fo
                                 Excelente
                               </div>
                               <Row>
-                                <Col lg='6'>{review.description}</Col>
+                                <Col lg='6'>{obj.description}</Col>
                                 <Col lg='2'></Col>
-                                <Col lg='4'>{review.updatedAt}</Col>
+                                <Col lg='4'>{obj.updatedAt}</Col>
+                              </Row>
+                              <Row>
+                                <Col lg='3'><b>{obj.name} {obj.lastname}</b></Col>
+                                <Col lg='9'></Col>
                               </Row>
                             </div>
                           ) 
@@ -330,14 +367,12 @@ function Review({reviews, oneStarReviews, twoStarsReviews, threeStarsReviews, fo
         </Col>
       </Row>
     </Container>
-      </Row>
-    </div>
   )
 }
-
 const mapStateToProps = (state)=>{
   return {
-    reviews: state.reviewsReducer.reviews.rows,
+    users: state.reviewsReducer.reviews.users,
+    reviews: state.reviewsReducer.reviews.reviews.rows,
     oneStarReviews: state.reviewsReducer.oneStarReviews,
     twoStarsReviews: state.reviewsReducer.twoStarsReviews,
     threeStarsReviews: state.reviewsReducer.threeStarsReviews,
