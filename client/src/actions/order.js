@@ -82,7 +82,6 @@ export function cambioEstadoCarrito(id, status){
             headers: {
               "Content-type": "Application/json"
             },
-            estado
           }
         
           const token = getState().userReducer.token
@@ -91,7 +90,7 @@ export function cambioEstadoCarrito(id, status){
             config.headers["x-auth-token"] = token
           }
 
-        return Axios.put("http://localhost:4000/orders/"+id, config)
+        return Axios.put("http://localhost:4000/orders/"+id, estado, config)
         .then( res => res.data)
         .then( res => {console.log('compra creada', res)
 
