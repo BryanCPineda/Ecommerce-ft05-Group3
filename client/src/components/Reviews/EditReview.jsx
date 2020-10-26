@@ -31,7 +31,13 @@ function EditReview({editReview, user, product}) {
     editReview(id, review);
     setShow(false);
   }
-  
+  const star = {
+    count:5,
+    onChange: stars=>setStars(stars),
+    size: 74,
+    color2: '#8a2be2',
+    half: false,
+  }
   return (
     <React.Fragment>
       <Button 
@@ -56,12 +62,7 @@ function EditReview({editReview, user, product}) {
         <Modal.Body>
           <h4>Rate the product.</h4>
           <Form>
-            <ReactStars
-              count={5}
-              onChange={stars=>setStars(stars)}
-              size={54}
-              color2={'#8a2be2'} 
-            />
+            <ReactStars {...star}/>
             <hr/>
             <h4>The new product review?</h4>
             <InputGroup>

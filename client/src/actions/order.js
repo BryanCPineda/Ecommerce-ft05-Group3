@@ -101,6 +101,7 @@ export function cambioEstadoCarrito(id, status){
     let estado = {
         state : "Created"
     }
+
     // return (dispatch, getState) => {
 
     //     const config = {
@@ -111,7 +112,7 @@ export function cambioEstadoCarrito(id, status){
     //       }
         
     //       const token = getState().userReducer.token
-        
+       
     //       if(token) {
     //         config.headers["x-auth-token"] = token
     //       }

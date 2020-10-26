@@ -103,7 +103,7 @@ let prod = []
 let totalCost = 0;
 
 /***********************CALCULO DEL PRECIO POR MEDIO DE LAS ORDER LINE******************************** */
-
+const token = localStorage.getItem("token")
  
 useEffect(()=>{ 
   if(user){
@@ -221,6 +221,7 @@ const handleDelete = (id) =>{
 }
 
 const handleFinCompra =() =>{
+
 
   // let prodEnviar = []
   //   products.map (e => {

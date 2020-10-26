@@ -3,6 +3,7 @@ const {
   Product,
   Categories,
   Image,
+  Reviews,
   Users,
   Order,
   Orderline,
@@ -14,7 +15,7 @@ const jwt = require("jsonwebtoken");
 const { DB_KEY } = process.env;
 
 const isAdmin = require('../middleware/isAdmin')
-const auth = require('../middleware/auth')
+const auth = require('../middleware/auth');
 
 // Giving all users and counting them
 server.get("/", (req, res, next) => {
@@ -485,25 +486,29 @@ server.post("/passwordReset", auth, (req, res) => {
       });
   });
 });
-
+// Profile route
 server.get("/:idUser/profile", async (req, res) => {
-
   const {idUser} = req.params;
-
   Order.findAll({
     where:{
-      userId: idUser
+      userId: idUser,
+      state: 'Complete'
     },
-    include:[{
-      model: Product
-    }]
-  }).then((orders)=>{
-        res.send(orders)
-       
-  }).catch((err)=>{
-        res.send(err)
+    include: {
+      model: Product,
+      include: {
+        model: Users
+      }
+    }
+  })
+  .then((orders)=>{
+    res.send(orders)
+  })
+  .catch((err)=>{
+    res.send(err)
   })
 });
+// This function brings necesary data for the ReviewCard component
 
 
 module.exports = server;
