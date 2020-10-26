@@ -19,7 +19,7 @@ function ReviewCard() {
   console.log('ORDERS', orders);
   console.log('REVIEWS', reviews);
   console.log('PRODUCTS', products);
-
+  
   const array = [];
   const p = products.map(product=>{
     array.push({
