@@ -14,11 +14,12 @@ function NavbarAdmin({ users, orders, products, categories, getAllProducts, getA
   const token = localStorage.getItem('token')
   console.log(token)
   const iAmAdmin = (
-    <React.Fragment>
+    <React.Fragment >
       <div className="navbar-admin d-flex justify-content-center">
         <Link to="/user/catalogo">
-          <div className="brand logo-admin ">
+          <div className="brand logo-admin mt-2">
             <img
+              style={{width: '150px', height: '150px'}}
               className="image-brand"
               src={"/images/brand4.png"}
               alt="logo"
@@ -26,7 +27,7 @@ function NavbarAdmin({ users, orders, products, categories, getAllProducts, getA
           </div>
         </Link>
         <div className="">
-          <h2 className="brand title-admin">Admin Panel</h2>
+          <p className="brand title-admin">Admin Panel</p>
         </div>
       </div>
       <div className="admin-panel-container">

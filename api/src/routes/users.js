@@ -3,8 +3,8 @@ const {
   Product,
   Categories,
   Image,
-  Users,
   Reviews,
+  Users,
   Order,
   Orderline,
 } = require("../db.js");
@@ -15,7 +15,7 @@ const jwt = require("jsonwebtoken");
 const { DB_KEY } = process.env;
 
 const isAdmin = require('../middleware/isAdmin')
-const auth = require('../middleware/auth')
+const auth = require('../middleware/auth');
 
 // Giving all users and counting them
 server.get("/", (req, res, next) => {
@@ -493,24 +493,29 @@ server.post("/passwordReset", auth, (req, res) => {
   });
 });
 
-// server.get("/:idUser/profile", async (req, res) => {
-
-//   const {idUser} = req.params;
-
-//   Order.findAll({
-//     where:{
-//       userId: idUser,
-//     },
-//     include:[{
-//       model: Product
-//     }]
-//   }).then((orders)=>{
-//         res.send(orders)
-       
-//   }).catch((err)=>{
-//         res.send(err)
-//   })
-// });
+// Profile route
+server.get("/:idUser/profile", async (req, res) => {
+  const {idUser} = req.params;
+  Order.findAll({
+    where:{
+      userId: idUser,
+      state: 'Complete'
+    },
+    include: {
+      model: Product,
+      include: {
+        model: Users
+      }
+    }
+  })
+  .then((orders)=>{
+    res.send(orders)
+  })
+  .catch((err)=>{
+    res.send(err)
+  })
+});
+// This function brings necesary data for the ReviewCard component
 
 // server.get("/:idUser/profile", async (req, res) => {
 //   const { idUser } = req.params;
@@ -533,27 +538,27 @@ server.post("/passwordReset", auth, (req, res) => {
 // });
 
 
-server.get("/:idUser/profile", (req, res) => {
-  const { idUser } = req.params;
+// server.get("/:idUser/profile", (req, res) => {
+//   const { idUser } = req.params;
 
-  Order.findAll({ where: { userId: idUser, state: "Complete" } })
-    .then((orders) => {
-      const ordersIds = orders.map(ele => ele.dataValues.id)
-      ordersIds.map(ele => Orderline.findAll({ where: { orderId: ele } }).then(orderlines => {
-        const productsIds = orderlines.map(ele => ele.dataValues.productId)
-        productsIds.map(ele => Reviews.findAll({ where: { productId: ele, userId: idUser }}).then(products => {
-          console.log(products)
-        })
+//   Order.findAll({ where: { userId: idUser, state: "Complete" } })
+//     .then((orders) => {
+//       const ordersIds = orders.map(ele => ele.dataValues.id)
+//       ordersIds.map(ele => Orderline.findAll({ where: { orderId: ele } }).then(orderlines => {
+//         const productsIds = orderlines.map(ele => ele.dataValues.productId)
+//         productsIds.map(ele => Reviews.findAll({ where: { productId: ele, userId: idUser }}).then(products => {
+//           console.log(products)
+//         })
         
-        )
-      })
+//         )
+//       })
 
-      )
+//       )
       
-    })
-    .catch((err) => {
-      res.send(err);
-    });
-});
+//     })
+//     .catch((err) => {
+//       res.send(err);
+//     });
+// });
 
 module.exports = server;
