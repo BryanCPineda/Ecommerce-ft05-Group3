@@ -4,6 +4,7 @@ import { Button, Container, Modal, Col, Row, Form, InputGroup, FormControl } fro
 import Stars from 'react-stars';
 import {addReview} from '../../actions/reviewsActions';
 import {connect} from 'react-redux';
+import swal from 'sweetalert'
 // import store from '../../store'
 
 function AddReview({addReview, user, product, productId}) {
@@ -27,6 +28,9 @@ function AddReview({addReview, user, product, productId}) {
   const handleOnSubmit = (e, productId) => {
     e.preventDefault();
     addReview(productId, review);
+    swal("review added successfully!", {
+      icon: "success",
+    })
     setShow(false);
   }
 
@@ -41,7 +45,8 @@ function AddReview({addReview, user, product, productId}) {
     <React.Fragment>
       <Button 
         onClick={(e)=>handleOnclick(e)}
-        className=""
+        style={{backgroundColor: '#8a2be2', border: '#8a2be2', marginTop: '-30px', height: '32px'}}
+        className="m-1"
       >
         Add review
       </Button>

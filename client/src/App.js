@@ -32,6 +32,7 @@ import Navbar from './components/Navbar';
 
 import { connect } from 'react-redux';
 import { loadUser } from './actions/userAction';
+import Reviews from "./components/Reviews/Reviews";
 
 function App({ loadUser }) {
 

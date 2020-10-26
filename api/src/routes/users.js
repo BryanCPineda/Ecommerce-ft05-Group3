@@ -486,6 +486,7 @@ server.post("/passwordReset", auth, (req, res) => {
       });
   });
 });
+
 // Profile route
 server.get("/:idUser/profile", async (req, res) => {
   const {idUser} = req.params;
@@ -510,5 +511,48 @@ server.get("/:idUser/profile", async (req, res) => {
 });
 // This function brings necesary data for the ReviewCard component
 
+// server.get("/:idUser/profile", async (req, res) => {
+//   const { idUser } = req.params;
+//   try {
+//     const orders = await Order.findAll({
+//       where: { userId: idUser, state: "Complete" },
+//     });
+//     const ordersIds = orders.map((element) => element.dataValues.id);
+//     const orderlines = await Promise.all(
+//       ordersIds.map(
+//         async (element) =>
+//           await Orderline.findAll({ where: { orderId: element } })
+//       )
+//     );
+//     console.log(orderlines);
+//     res.send(orderlines);
+//   } catch (error) {
+//     res.send(error);
+//   }
+// });
+
+
+// server.get("/:idUser/profile", (req, res) => {
+//   const { idUser } = req.params;
+
+//   Order.findAll({ where: { userId: idUser, state: "Complete" } })
+//     .then((orders) => {
+//       const ordersIds = orders.map(ele => ele.dataValues.id)
+//       ordersIds.map(ele => Orderline.findAll({ where: { orderId: ele } }).then(orderlines => {
+//         const productsIds = orderlines.map(ele => ele.dataValues.productId)
+//         productsIds.map(ele => Reviews.findAll({ where: { productId: ele, userId: idUser }}).then(products => {
+//           console.log(products)
+//         })
+        
+//         )
+//       })
+
+//       )
+      
+//     })
+//     .catch((err) => {
+//       res.send(err);
+//     });
+// });
 
 module.exports = server;

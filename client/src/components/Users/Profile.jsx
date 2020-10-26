@@ -34,12 +34,12 @@ const UserProfile = ({ showCompletedOrders, user, order }) => {
     <React.Fragment>
       <div className="d-flex justify-content-center" style={{color: 'white'}}>
         <div className="flex-orders d-flex flex-column" style={{marginTop: '-350px'}}>
-          <h2 style={{color: 'white'}}>Personal information:</h2>
+          <p style={{color: 'white', fontSize: '40px'}}>Personal information:</p>
           <br></br>
           <div>
-            <p>First Name: {user && user.name}</p>
-            <p>Last Name: {user && user.lastname}</p>
-            <p>Email: {user && user.email}</p>
+            <p style={{fontSize: '25px'}}>First Name: {user && user.name}</p>
+            <p style={{fontSize: '25px'}}>Last Name: {user && user.lastname}</p>
+            <p style={{fontSize: '25px'}}>Email: {user && user.email}</p>
           </div>
         </div>
       </div>
