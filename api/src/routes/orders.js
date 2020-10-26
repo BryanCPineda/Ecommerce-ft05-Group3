@@ -72,15 +72,21 @@ server.delete('/:id', auth, isAdmin, (req, res)=>{
     }).catch(err => res.send({data: err}).status(400));
 })
 
-server.get("/asd", (req, res) => {
-  Order.findAll()
-    .then((orders) => {
-      res.status(200).send(orders);
+server.post('/', async (req, res) => {
+  try {
+    const status = req.body.state;
+    console.log(status)
+    const orders = await Order.findAll({
+      where: {
+        state: status
+      }
     })
-    .catch((err) => {
-      return res.send({ data: err }).status(400);
-    });
-});
+    if(orders)res.send(orders)
+  } 
+  catch (err) {
+    return res.send({data: err}).status(400)
+  }
+})
 
 
 module.exports = server;
