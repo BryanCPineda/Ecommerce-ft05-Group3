@@ -42,7 +42,6 @@ function ProductCard({currentProducts, current, name, price, stock, images, id, 
       let productos = JSON.parse(localStorage.getItem('carrito'))
       let prodLocal = productos && productos.find(product => product.id == id)
       setCantidad(prodLocal ? prodLocal.quantity:0)
-      // console.log(cantidad)
     }
   }, []);
   // manejo de carrito de guest------------
@@ -78,7 +77,7 @@ function ProductCard({currentProducts, current, name, price, stock, images, id, 
 
       cartProducts.product && (cartProducts.product.find(product => product.id === id)) ? setShowCard(false) : setShowCard(true)
   } 
-    ,[current, currentProducts]);
+    ,[current, currentProducts, isAuthenticated]);
 
      
   return (
