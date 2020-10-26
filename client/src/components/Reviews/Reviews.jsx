@@ -32,7 +32,7 @@ function Review({reviews, oneStarReviews, twoStarsReviews, threeStarsReviews, fo
   return (
     <div>
       <Row>
-      <Container>
+      <Container style={{paddingBottom: '30px'}}>
       <br/>
       <Row className="justify-content-md-center">
         <Col lg="7">

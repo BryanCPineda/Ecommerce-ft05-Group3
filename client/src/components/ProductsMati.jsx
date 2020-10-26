@@ -154,7 +154,7 @@ const [state, setState] = useState({
 
   return (
     <div>
-    <Container style={{marginTop: '700px'}} className="d-flex justify-content-center">
+    <Container style={{marginTop: '-100px'}} className="d-flex justify-content-center">
         <div className="d-flex justify-content-around products-container flex-wrap" style={{width: '1500px'}}>
           <div className="products-image-div">
             <div className="products-image-div-second">
@@ -246,7 +246,7 @@ const [state, setState] = useState({
         </div>
     </Container>
     <div>
-      <Container fluid='sm' className="reviews-container">
+      <Container fluid='sm' className="reviews-container" style={{marginTop: '200px'}}>
         <div>
           <Review />
         </div>
