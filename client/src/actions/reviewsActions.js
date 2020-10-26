@@ -15,6 +15,7 @@ export function getProductReviews(id){
   return dispatch => {
     return Axios.get(`http://localhost:4000/reviews/product/${id}/review`)
       .then(res=> {
+        console.log('res.data', res.data)
         dispatch({type: GET_PRODUCT_REVIEWS, payload: res.data})
       })
   }
@@ -72,8 +73,6 @@ export function editReview(id, review) {
   return dispatch => {
     return Axios.post(`http://localhost:4000/reviews/${id}`, review)
     .then(res => {
-      console.log('ReviewId', id)
-      console.log('Review', review)
       dispatch({type: EDIT_REVIEW, payload: res.data})
     })
   }

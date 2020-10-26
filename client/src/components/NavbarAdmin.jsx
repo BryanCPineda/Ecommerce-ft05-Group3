@@ -33,7 +33,7 @@ function NavbarAdmin({ users, orders, products, categories, getAllProducts, getA
       <div className="admin-panel-container">
         <Container fluid>
           <div className="d-flex justify-content-around">
-            <Link to="">
+            <Link to="user/catalogo">
               <Button className="select-options-admin border-botones-navbar-admin">
                 <div>Users</div>
                 <div className="h5 mt-1"></div>

@@ -154,102 +154,102 @@ const [state, setState] = useState({
 
   return (
     <div>
-    <Container style={{marginTop: '-100px'}} className="d-flex justify-content-center">
-        <div className="d-flex justify-content-around products-container flex-wrap" style={{width: '1500px'}}>
-          <div className="products-image-div">
-            <div className="products-image-div-second">
-              <Carousel>
-                {product.images &&
-                  product.images.map((image, index) => {
-                    if (index !== -1) {
-                      return (
-                        <Carousel.Item key={index}>
-                          <div>
-                            <img
-                              className="products-image"
-                              src={image.image}
-                              alt={
-                                "Imagen " +
-                                (index + 1) +
-                                " del producto: " +
-                                product.name
-                              }
-                            />
-                          </div>
-                        </Carousel.Item>
-                      );
-                    }
-                    return null;
-                  })}
-              </Carousel>
+      <Container  className="d-flex justify-content-center">
+          <div className="d-flex justify-content-around products-container flex-wrap" style={{width: '1500px'}}>
+            <div className="products-image-div">
+              <div className="products-image-div-second">
+                <Carousel>
+                  {product.images &&
+                    product.images.map((image, index) => {
+                      if (index !== -1) {
+                        return (
+                          <Carousel.Item key={index}>
+                            <div>
+                              <img
+                                className="products-image"
+                                src={image.image}
+                                alt={
+                                  "Imagen " +
+                                  (index + 1) +
+                                  " del producto: " +
+                                  product.name
+                                }
+                              />
+                            </div>
+                          </Carousel.Item>
+                        );
+                      }
+                      return null;
+                    })}
+                </Carousel>
+              </div>
             </div>
-          </div>
-          <div style={{width: '600px', height: '600px', marginTop: ' 6rem'}} >
-            {product.name && <p className="ml-5 products-title">{product.name}</p>}
-            {product.description && (
-              <p className="products-description">{product.description}</p>
-            )}
-            <p className="products-categories">Categories:</p>
-            <div className="d-flex justify-content-center">
-              {product.categories &&
-                product.categories.map((ele, index) => (
-                  <p key={index} className="mr-4 h6">{ele.name}</p>
-                ))}
-            </div>
-            <div className="d-flex justify-content-center">
-              {!product.stock ? (product.price && (
-                  <button disabled={true} className="RO-products-button">
-                    Runned Out &nbsp;&nbsp;&nbsp; 
-                    <BsFillDashCircleFill />
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${product.price}
-                  </button>
-                )) :
-                ( product.price && state.showCard ? 
-              <button className="addtocart-productsMati" onClick={()=> handleClick(product.id, product.price)}   >
-                Add to Cart&nbsp;<FiShoppingCart /> 
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${product.price}
-              </button> 
-              :
-              <button disabled={true} className="RO-products-button mb-4">
-                Added  &nbsp;&nbsp;
-              <BsCheck />
-            </button>
-            )
-            }
-            </div>
-            <div className="d-flex">
-            {
-            !product.stock ? (
-              <p className="products-stock">Sorry! There is no Stock available</p>
-            ) :
-              product.stock && (
-                <p className="products-stock">Stock: {product.stock-stock}</p>
+            <div style={{width: '600px', height: '600px', marginTop: ' 6rem'}} >
+              {product.name && <p className="ml-5 products-title">{product.name}</p>}
+              {product.description && (
+                <p className="products-description">{product.description}</p>
+              )}
+              <p className="products-categories">Categories:</p>
+              <div className="d-flex justify-content-center">
+                {product.categories &&
+                  product.categories.map((ele, index) => (
+                    <p key={index} className="mr-4 h6">{ele.name}</p>
+                  ))}
+              </div>
+              <div className="d-flex justify-content-center">
+                {!product.stock ? (product.price && (
+                    <button disabled={true} className="RO-products-button">
+                      Runned Out &nbsp;&nbsp;&nbsp; 
+                      <BsFillDashCircleFill />
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${product.price}
+                    </button>
+                  )) :
+                  ( product.price && state.showCard ? 
+                <button className="addtocart-productsMati" onClick={()=> handleClick(product.id, product.price)}   >
+                  Add to Cart&nbsp;<FiShoppingCart /> 
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${product.price}
+                </button> 
+                :
+                <button disabled={true} className="RO-products-button mb-4">
+                  Added  &nbsp;&nbsp;
+                <BsCheck />
+              </button>
               )
-            }
-            <div className="d-flex ">
-                <div className="col-3">
-                      {product.stock > 0 &&  (
-                          <Form.Control
-                              placeholder="1"
-                              onChange={(e) =>{ onChangeQuantity(e.target.value) }}
-                              min="2"
-                              max={product.stock-stock}
-                              type="number"
-                              style={{width: '8rem', fontSize: '17px', height: '3rem'}}
-                              className="form-control-lg"
-                          />
-                      )}
-                  </div>
+              }
+              </div>
+              <div className="d-flex">
+              {
+              !product.stock ? (
+                <p className="products-stock">Sorry! There is no Stock available</p>
+              ) :
+                product.stock && (
+                  <p className="products-stock">Stock: {product.stock-stock}</p>
+                )
+              }
+              <div className="d-flex ">
+                  <div className="col-3">
+                        {product.stock > 0 &&  (
+                            <Form.Control
+                                placeholder="1"
+                                onChange={(e) =>{ onChangeQuantity(e.target.value) }}
+                                min="2"
+                                max={product.stock-stock}
+                                type="number"
+                                style={{width: '8rem', fontSize: '17px', height: '3rem'}}
+                                className="form-control-lg"
+                            />
+                        )}
+                    </div>
+              </div>
+            </div>
             </div>
           </div>
-          </div>
-        </div>
-    </Container>
-    <div>
-      <Container fluid='sm' className="reviews-container" style={{marginTop: '200px'}}>
-          <Review />
       </Container>
-    </div>
+      <Container fluid='sm' className="reviews-container" style={{marginTop: '250px'}}>
+        <div>
+          <Review />
+        </div>
+      </Container>
     </div>
   );
 }
