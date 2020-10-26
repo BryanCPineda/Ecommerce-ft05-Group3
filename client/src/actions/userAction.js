@@ -11,14 +11,15 @@ import {
   LOGOUT_SUCCESS,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
-  USER_COMPLETED
+  USER_COMPLETED,
+  PROMOTE_USER,
 } from "../constants/userConstants";
 import { returnErrors } from "./errorActions";
 import axios from "axios";
 
 export const getAllUsers = () => (dispatch) => {
   axios.get("http://localhost:4000/users").then((res) => {
-    dispatch({ type: GET_ALL_USERS, payload: res.data.rows });
+    dispatch({ type: GET_ALL_USERS, payload: res.data.rows }); 
   });
 };
 
@@ -137,6 +138,40 @@ export const showCompletedOrders = (idUser) => async (dispatch, getState) => {
 
 export const logout = () => {
   return({ type: LOGOUT_SUCCESS })
+}
+
+
+export const promoteUser = (id) => (dispatch, getState,) => {
+  console.log(id)
+  const config = {
+    headers: {
+      "Content-type": "Application/json",
+    },
+   
+  };
+
+  const token = getState().userReducer.token;
+
+  if (token) {
+    config.headers["x-auth-token"] = token;
+  }
+  console.log(config)
+
+  axios.post("http://localhost:4000/auth/promote", {id: id}, config).then(res => {
+    dispatch({ type: PROMOTE_USER, payload: res.data })
+  })
+  .catch(error => { 
+    // if(error.response.status === 401) {
+      // if(error) {
+      //   dispatch({ type: AUTH_ERROR })
+      // }
+    //   console.log('unauthorized, logging out ...');
+    // return Promise.reject(error.response);
+    // }
+    console.log(error.message)
+    //dispatch({ type: AUTH_ERROR })
+   }
+  )
 }
 
 /*--------------------------------------------------*/
