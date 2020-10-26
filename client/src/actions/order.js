@@ -101,27 +101,27 @@ export function cambioEstadoCarrito(id, status){
     let estado = {
         state : "Created"
     }
-    return (dispatch, getState) => {
+    // return (dispatch, getState) => {
 
-        const config = {
-            headers: {
-              "Content-type": "Application/json"
-            },
-            estado
-          }
+    //     const config = {
+    //         headers: {
+    //           "Content-type": "Application/json"
+    //         },
+    //         estado
+    //       }
         
-          const token = getState().userReducer.token
+    //       const token = getState().userReducer.token
         
-          if(token) {
-            config.headers["x-auth-token"] = token
-          }
-
-        return Axios.put("http://localhost:4000/orders/"+id, config)
+    //       if(token) {
+    //         config.headers["x-auth-token"] = token
+    //       }
+    return (dispatch) =>{
+        return Axios.put("http://localhost:4000/orders/checkout/"+id, estado)
         .then( res => res.data)
         .then( res => {console.log('compra creada', res)
 
         dispatch({ type: CART_CHANGE, payload: res });
-      });
+      }).catch(error=> console.log(error))
   };
 }
 

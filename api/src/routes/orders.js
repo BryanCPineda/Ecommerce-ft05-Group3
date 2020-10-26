@@ -45,6 +45,7 @@ server.put('/:id', auth, isAdmin, (req, res, next) => {
 server.put('/checkout/:id', (req, res) => {
   const {state} = req.body
   const {id} = req.params
+  console.log('cambio estado carrito', req.body)
   Order.update(
     {
       state: state
@@ -52,6 +53,7 @@ server.put('/checkout/:id', (req, res) => {
     { where: { id: id } }
   )
     .then((value) => {
+      console.log('result', value)
       const result = value[0];
       if (result) {
         return res.status(202).send("Element updated");
