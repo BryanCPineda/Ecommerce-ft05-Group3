@@ -6,38 +6,39 @@ import {BsStarFill, BsStarHalf, BsStar} from 'react-icons/bs'
 
 function Review({reviews, users, oneStarReviews, twoStarsReviews, threeStarsReviews, fourStarsReviews, fiveStarsReviews}) {
 // var promedio = Math.floor(Math.random()*(5*10-1*10)+1*10)/(1*10); 
-// console.log('reviewssss', reviews)
 
-  const totalReviews = 
+const totalReviews = 
     fiveStarsReviews+
     fourStarsReviews+
     threeStarsReviews+
     twoStarsReviews+
     oneStarReviews;
-  const totalStars = 
+    const totalStars = 
     (fiveStarsReviews * 5)+
     (fourStarsReviews * 4)+
     (threeStarsReviews * 3)+
     (twoStarsReviews * 2)+
     oneStarReviews;
-  
-  let promedio = totalStars / totalReviews;
-  promedio = promedio.toFixed(1);
-  
-  const myObjs = []
-  
-  const createMyObj = () =>{
-    for (let i = 0; i < reviews.length; i++) {
-      myObjs.push({
-        name: users[i].name,
-        lastname: users[i].lastname,
-        qualification: reviews[i].qualification,
-        description: reviews[i].description
-      })
+    
+    let promedio = totalStars / totalReviews;
+    promedio = promedio.toFixed(1);
+    const myReviews = reviews.reviews.rows
+    const myUsers = reviews.users
+    const myObjs = []
+    
+    const createMyObj = () =>{
+      for (let i = 0; i < myReviews.length; i++) {
+        myObjs.push({
+          name: myUsers[i].name,
+          lastname: myUsers[i].lastname,
+          qualification: myReviews[i].qualification,
+          description: myReviews[i].description
+        })
+      }
+      return myObjs;
     }
-    return myObjs;
-  }
-
+    createMyObj();
+    
   return (
     <Container>
       <br/>
@@ -372,7 +373,7 @@ function Review({reviews, users, oneStarReviews, twoStarsReviews, threeStarsRevi
 const mapStateToProps = (state)=>{
   return {
     users: state.reviewsReducer.reviews.users,
-    reviews: state.reviewsReducer.reviews.reviews.rows,
+    reviews: state.reviewsReducer.reviews,
     oneStarReviews: state.reviewsReducer.oneStarReviews,
     twoStarsReviews: state.reviewsReducer.twoStarsReviews,
     threeStarsReviews: state.reviewsReducer.threeStarsReviews,
