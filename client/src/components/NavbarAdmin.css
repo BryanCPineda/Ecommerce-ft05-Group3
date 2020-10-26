@@ -57,3 +57,7 @@
     height: 100px;
     width: 200px;
 }
+
+.border-botones-navbar-admin {
+    border: 1px white solid;
+}

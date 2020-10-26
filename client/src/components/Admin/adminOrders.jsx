@@ -91,6 +91,7 @@ function Orders({
   const handleFilterOrders = (e) => {
     if(e.target.value === "-") {
       getAllOrders();
+      window.location.reload();
     }
     filterOrders(e.target.value)
   }
@@ -102,7 +103,7 @@ function Orders({
           <div>
             <div className="d-flex p-2 justify-content-between aling-items-center mt-5">
               <h1 style={{ color: "white" }}>Orders</h1>
-              {/* <Form>
+              <Form>
                 <Form.Group className="d-flex">
                   <Form.Label className="mr-2" style={{color: 'white', fontSize: '25px', width: '300px'}}>Filter Orders:</Form.Label>
                   <Form.Control style={{color: 'black'}} as="select" value={stateOrders} onChange={handleFilterOrders}>
@@ -111,7 +112,7 @@ function Orders({
                   ))}
                   </Form.Control>
                 </Form.Group>
-              </Form> */}
+              </Form>
             </div>
           </div>
         </div>

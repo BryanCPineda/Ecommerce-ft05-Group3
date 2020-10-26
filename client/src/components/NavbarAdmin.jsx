@@ -34,26 +34,26 @@ function NavbarAdmin({ users, orders, products, categories, getAllProducts, getA
         <Container fluid>
           <div className="d-flex justify-content-around">
             <Link to="">
-              <Button className="select-options-admin">
+              <Button className="select-options-admin border-botones-navbar-admin">
                 <div>Users</div>
                 <div className="h5 mt-1"></div>
               </Button>
             </Link>
             <Link to="/admin/orders">
-              <Button className="select-options-admin">
+              <Button className="select-options-admin border-botones-navbar-admin">
                 <div>Orders</div>
                 <div className="h5 mt-1">{orders.length} orders</div>{" "}
               </Button>
             </Link>
             <Link to="/admin/product">
-              <Button className="select-options-admin">
+              <Button className="select-options-admin border-botones-navbar-admin">
                 <div>Products</div>
                 <div className="h5 mt-1">{products.length} products</div>{" "}
               </Button>
             </Link>
             <Link to="/admin/categories">
               {" "}
-              <Button className="select-options-admin">
+              <Button className="select-options-admin border-botones-navbar-admin">
                 <div>Categories</div>
                 <div className="h5 mt-1">{categories.length} categories</div>
               </Button>

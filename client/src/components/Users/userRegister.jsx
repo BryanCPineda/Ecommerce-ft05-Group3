@@ -21,10 +21,12 @@ import { getAllUsers, createUser } from "../../actions/userAction";
 import { clearErrors } from "../../actions/errorActions";
 
 /*--------LOGIN WHIT GOOGLE ---------*/
-import {GoogleLogin, GoogleLogout } from "react-google-login"; 
+import {GoogleLogin, GoogleLogout } from "react-google-login";
+import { FcGoogle } from 'react-icons/fc' 
 
 /*--------LOGIN WHIT GITHUB ---------*/
 import { GithubLoginButton } from "react-social-login-buttons";
+import { VscGithub } from 'react-icons/vsc'
 import Axios from "axios";
 
 
@@ -177,7 +179,7 @@ handleBoth=()=>{
           backdrop="static"
           keyboard={false}
         >
-          <Modal.Header 
+          <Modal.Header
             style={{ backgroundColor: "#8a2be2", color: "white" }}
             closeButton={true}
           >
@@ -264,13 +266,14 @@ handleBoth=()=>{
               </Form.Group>
 
               <Form.Group className="d-flex justify-content-between">
-                <span className="mt-2">
+                <span>
                   ¿Do you have an account?{"     "}
                   <Button
                     onClick={this.handleBoth}
                     className="button-register mt-1"
-                    style={{ width: "5rem" }}                  
-                  >Login                
+                    style={{ width: "4rem" }}
+                  >
+                    Login
                   </Button>
                 </span>
                 <Button
@@ -283,42 +286,45 @@ handleBoth=()=>{
                   {this.state.loading ? "Loading..." : "Create Account"}
                 </Button>
               </Form.Group>
+              <div
+                className="d-flex justify-content-end"
+                style={{ marginTop: "35px" }}
+              >
+                <button
+                  className="btn"
+                  style={{ backgroundColor: "#8a2be2", color: "white" }}
+                  onClick={this.handleClose}
+                >
+                  Close
+                </button>
+              </div>
             </Form>
           </Modal.Body>
-          <Modal.Footer>
-                      <h6> --------- OR ---------</h6>
-                                 {/*///////////////////////////////////////////////////////////////////////////////////*/}
-                                               
-                                                               {/*LOGIN WHIT GITHUB*/}
-
-                      <GithubLoginButton onClick={()=> alert("este boton no hace nada")} />    {/** BOTON DE GITHUB SOLO ES VISUAL NO HACE NADA  **/}    
-                     
-                              <a href="http://localhost:4000/gitHub"> LOGIN GITHUB </a>         {/** BOTON DE REDIRECCIONAMIENTO A GITHUB PARA HACER LA AUTENTICACION DESDE SU PAGINA  **/}
-                     
-                                 {/*///////////////////////////////////////////////////////////////////////////////////*/}
-
-
-                                                                {/*LOGIN WHIT GOOGLE*/}
-                  
-                      <GoogleLogin                                                      //LIBRERIA QUE TIENE IMPLEMETANDO EL BOTON PARA LOGUEARSE CON GOOGLE
-                        clientId="807609632644-ken5ulpg4t4gjuinurpjfuif4ord8e0s.apps.googleusercontent.com" //ESTE ID SE CREA EN console.developers.google.com -> CREDENCIALES, leer documentacion sobre como crear un OAuth con google Credencials
-                        buttonText="Login With Google"                      //EL TEXTO DEL NOMBRE DEL BOTON
-                        onSuccess={this.responseGoogle}                     //SI LA RESPUESTA DE GOOGLE FUE EXITOSA SE LLAMA A LA FUNCION
-                        onFailure={this.responseGoogle}                     //SI LA RESPUES DE GOOGLE FALLA, SE LLAMA A LA FUNCION
-                        cookiePolicy={"single_host_origin"}                 //SE HABILITAN LAS COOKIES PARA NUESTRO SITIO WEB
-                        //   isSignedIn={true}                              //MANTIENE LA SESION INICIADA CON COOKIES NO LO NECESITAMOS PORQUE USAMOS JWT 
-                       /> 
-                                  
-                                  {/*///////////////////////////////////////////////////////////////////////////////////*/}
+          <Modal.Footer className="d-flex justify-content-center flex-column">
+            <p style={{ fontSize: "20px" }}>Sign up with</p>
+            {/*///////////////////////////////////////////////////////////////////////////////////*/}
+            {/*LOGIN WHIT GITHUB*/}
+           
+            {/** BOTON DE GITHUB SOLO ES VISUAL NO HACE NADA  **/}
+            <div style={{ backgroundColor: 'black', height: '50px', width: '180px' }} className="d-flex justify-content-center align-items-center">
+              <a style={{ color: 'white' }} className="login-with-github" href="http://localhost:4000/gitHub"><span style={{fontSize: '21px'}} className="mr-2"><VscGithub /></span>Sign up with Github </a>
+            </div>
             
-            <button
-              className="btn"
-              style={{ backgroundColor: "#8a2be2", color: "white" }}
-              onClick={this.handleClose}
-            >
-              Close
-            </button>
-  
+            {/** BOTON DE REDIRECCIONAMIENTO A GITHUB PARA HACER LA AUTENTICACION DESDE SU PAGINA  **/}
+            {/*///////////////////////////////////////////////////////////////////////////////////*/}
+            {/*LOGIN WHIT GOOGLE*/}
+            <div >
+            <GoogleLogin //LIBRERIA QUE TIENE IMPLEMETANDO EL BOTON PARA LOGUEARSE CON GOOGLE
+              clientId="807609632644-ken5ulpg4t4gjuinurpjfuif4ord8e0s.apps.googleusercontent.com" //ESTE ID SE CREA EN console.developers.google.com -> CREDENCIALES, leer documentacion sobre como crear un OAuth con google Credencials
+              buttonText="Sign up with Google" //EL TEXTO DEL NOMBRE DEL BOTON
+              onSuccess={this.responseGoogle} //SI LA RESPUESTA DE GOOGLE FUE EXITOSA SE LLAMA A LA FUNCION
+              onFailure={this.responseGoogle} //SI LA RESPUES DE GOOGLE FALLA, SE LLAMA A LA FUNCION
+              cookiePolicy={"single_host_origin"} //SE HABILITAN LAS COOKIES PARA NUESTRO SITIO WEB
+              className="botton-google-register"
+              //   isSignedIn={true}                              //MANTIENE LA SESION INICIADA CON COOKIES NO LO NECESITAMOS PORQUE USAMOS JWT
+            />
+            </div>
+            {/*///////////////////////////////////////////////////////////////////////////////////*/}
           </Modal.Footer>
         </Modal>
       </React.Fragment>
