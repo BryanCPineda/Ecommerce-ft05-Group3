@@ -20,14 +20,6 @@ import CompletedOrderline from "./completedOrdersline";
 const UserProfile = ({ showCompletedOrders, user, order }) => {
   
   const idUser = user && user.id;
-
-  useEffect(() => {
-    if(user) {
-      showCompletedOrders(user.id);
-    }
-  }, []);
-
-  //const orders = showCompletedOrders();
   const producto = order
 
   return (

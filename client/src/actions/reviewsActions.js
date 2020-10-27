@@ -8,7 +8,8 @@ import {
   GET_PRODUCT_REVIEWS,
   ADD_REVIEW,
   EDIT_REVIEW,
-  DELETE_REVIEW
+  DELETE_REVIEW,
+  MATCH_REVIEW
 } from '../constants/reviewsConstants';
 
 export function getProductReviews(id){
@@ -82,6 +83,19 @@ export function deleteReview(id) {
     return Axios.post(`http://localhost:4000/reviews/${id}`)
     .then(res => {
       dispatch({type: DELETE_REVIEW, payload: res})
+    })
+  }
+}
+export function matchReview(userId, productId) {
+  var match = {
+      userId: userId,
+      productId: productId
+    };
+  return dispatch => {
+    return Axios.post('http://localhost:4000/reviews/user/product', match)
+    .then(res => {
+      console.log('REPONSE', res.data)
+      dispatch({type: MATCH_REVIEW, payload: res.data})
     })
   }
 }

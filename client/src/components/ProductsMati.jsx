@@ -246,9 +246,7 @@ const [state, setState] = useState({
           </div>
       </Container>
       <Container fluid='sm' className="reviews-container" style={{marginTop: '250px'}}>
-        <div>
           <Review />
-        </div>
       </Container>
     </div>
   );

@@ -50,7 +50,7 @@ Users.hasMany(Order, { foreignKey: 'userId' });
 
 Order.belongsTo(Users, {foreignKey: 'userId'});
 
-
+Reviews.belongsTo(Users);
 Users.belongsToMany(Product, { through: { model: Reviews }}, {foreignKey:"userId"});
 Product.belongsToMany(Users,{ through: { model: Reviews }}, {foreignKey: 'productId'});
 

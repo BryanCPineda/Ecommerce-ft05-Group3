@@ -7,7 +7,7 @@ import {connect} from 'react-redux';
 import swal from 'sweetalert'
 // import store from '../../store'
 
-function AddReview({addReview, user, product, productId}) {
+function AddReview({addReview, user, product, productId, idUser}) {
   const[show, setShow] = useState(false);
   const [stars, setStars] = useState(0);
   const [description, setDescription] = useState('');
@@ -20,11 +20,15 @@ function AddReview({addReview, user, product, productId}) {
     e.preventDefault();
     setDescription(e.target.value)
   }
+  let userid = idUser;
+  // console.log('userid', idUser)
+  
   let review = {
     description: description,
     qualification: stars,
-    userId: user.id
+    userId: userid
   }
+
   const handleOnSubmit = (e, productId) => {
     e.preventDefault();
     addReview(productId, review);
@@ -45,7 +49,7 @@ function AddReview({addReview, user, product, productId}) {
     <React.Fragment>
       <Button 
         onClick={(e)=>handleOnclick(e)}
-        style={{backgroundColor: '#8a2be2', border: '#8a2be2', marginTop: '-30px', height: '32px'}}
+        style={{backgroundColor: '#8a2be2', border: '#8a2be2', marginTop: '-20px', height: '40px'}}
         className="m-1"
       >
         Add review

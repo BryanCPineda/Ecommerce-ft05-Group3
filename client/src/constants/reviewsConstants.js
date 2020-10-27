@@ -7,3 +7,4 @@ export const GET_PRODUCT_REVIEWS = 'GET_PRODUCT_REVIEWS';
 export const ADD_REVIEW = 'ADD_REVIEW';
 export const EDIT_REVIEW = 'EDIT_REVIEW';
 export const DELETE_REVIEW = 'DELETE_REVIEW';
+export const MATCH_REVIEW = 'MATCH_REVIEW';

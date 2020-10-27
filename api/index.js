@@ -25,14 +25,14 @@ const { productsSeeder, categoriesSeeder , imageSeeder, categoy_productSederr, u
 
 
 // Syncing all the models at once.
-conn.sync({ force: true }).then(() => {
+conn.sync({ force: false }).then(() => {
   productsSeeder();
   categoriesSeeder();
  // imageSeeder();
   categoy_productSederr();
   usersSeeder();
- // reviews_productSeeder(); 
- // reviewsSeeder(); 
+  reviews_productSeeder(); 
+  reviewsSeeder(); 
   
   server.listen(4000, () => {
     console.log("%s listening at 4000"); // eslint-disable-line no-console
