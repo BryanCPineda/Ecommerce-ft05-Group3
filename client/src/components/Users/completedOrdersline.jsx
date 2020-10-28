@@ -1,56 +1,42 @@
 import React, { useEffect, useState } from "react";
-import {
-  Container,
-  Row,
-  Col,
-  Card,
-  Carousel,
-  Button,
-  Form,
-  Table
-} from "react-bootstrap";
+import { Row, Col, Table } from "react-bootstrap";
 import '../Reviews/Reviews.css';
-import { FiShoppingCart, BsStarFill, BsStarHalf, BsStar } from "react-icons/bs";
-import { BsFillDashCircleFill, BsCheck } from "react-icons/bs";
 import { connect } from "react-redux";
 import AddReview from '../Reviews/AddReview';
 import "./Profile.css";
-import { showCompletedOrders } from "../../actions/userAction";
+// import { showCompletedOrders } from "../../actions/userAction";
 import { matchReview } from "../../actions/reviewsActions";
+import { getCompletedOrderlines } from "../../actions/completeOrdelinesActions";
 import ShowstarTable from '../Reviews/ShowstarTable'
-const CompletedOrderline = ({ showCompletedOrders, matchReview, user, orders }) => {
+const CompletedOrderline = ({ matchReview, getCompletedOrderlines, user, orderlines }) => {
   const idUser = user && user.id;
+  const orderLines = orderlines.rows;
+  const myTable = []
 
   useEffect(() => {
     if(user){
-      showCompletedOrders(user.id);
+      // showCompletedOrders(user.id);
+      getCompletedOrderlines(idUser)
     }
   }, []);
   
-  let names = orders.map(order=>order.products.map(product=>product.name));
-  let productNames = names.map(product=>product[0]);
-  let ids = orders.map(order=>order.products.map(product=>product.id));
-  let productIds = ids.map(product=>product[0]);
-  let orderlines = orders.map(order=>order.products.map(orderline=>orderline.price));
-  let orderlinePrices = orderlines.map(product=>product[0]);
-  let quantities = orders.map(order=>order.products.map(product=>product.orderline.quantity));
-  let orderlineQuantities = quantities.map(product=>product[0]);
-  
-  const myTable = []
-    
   const createMyTable = () =>{
-    for (let i = 0; i < ids.length; i++) {
+    for (let i = 0; i < orderLines.length; i++) {
       myTable.push({
-        ids: productIds[i],
-        names: productNames[i],
-        prices: orderlinePrices[i],
-        quantities: orderlineQuantities[i],
-        qualification: ''
+        id: orderLines[i].id,
+        name: orderLines[i].product.name,
+        price: orderLines[i].price,
+        quantity: orderLines[i].quantity,
+        date: orderLines[i].updatedAt,
+        qualification: 'review qualification',
+        description: 'review description'
       })
+      matchReview(idUser, orderLines[i].product.id)
     }
     return myTable;
   }
   createMyTable();
+  console.log('myTable', myTable)
 
   return (
     <div className="mt-5">
@@ -64,9 +50,10 @@ const CompletedOrderline = ({ showCompletedOrders, matchReview, user, orders }) 
             <Table striped bordered hover>
               <thead>
                 <tr>
-                  <th scope="col">Product</th>
+                  <th scope="col">Products ({orderLines.length})</th>
                   <th scope="col">Price</th>
                   <th scope="col">Quantity</th>
+                  <th scope="col">Date</th>
                   <th scope="col">Qualification</th>
                   <th scope="col">Add Review</th>
                 </tr>
@@ -76,17 +63,20 @@ const CompletedOrderline = ({ showCompletedOrders, matchReview, user, orders }) 
                   return (
                     <tr>
                       <td>
-                        {row.names}
+                        {row.name}
                       </td>
                       <td>
-                        {row.prices}
+                        {row.price}
                       </td>
                       <td>
-                        {row.quantities}
+                        {row.quantity}
+                      </td>
+                      <td>
+                        {row.date}
                       </td>
                       <td>
                         <ShowstarTable 
-                          productId={row.ids} 
+                          productId={row.id} 
                           idUser={idUser} 
                         />
                       </td>
@@ -94,7 +84,7 @@ const CompletedOrderline = ({ showCompletedOrders, matchReview, user, orders }) 
                         <div key={index}>
                           <span>{
                             <AddReview 
-                              productId={row.ids} 
+                              productId={row.id} 
                               idUser={idUser} 
                             />}
                           </span>
@@ -114,13 +104,14 @@ const CompletedOrderline = ({ showCompletedOrders, matchReview, user, orders }) 
 function mapStateToProps(state) {
   return {
     user: state.userReducer.user,
-    orders: state.userReducer.allUsers,
+    orderlines: state.completedOrderlinesReducer.orderlines,
     // review: state
   };
 }
 function mapDispatchToProps(dispatch) {
   return {
-    showCompletedOrders: (idUser) => dispatch(showCompletedOrders(idUser)),
+    // showCompletedOrders: (idUser) => dispatch(showCompletedOrders(idUser)),
+    getCompletedOrderlines: (id) => dispatch(getCompletedOrderlines(id)),
     matchReview: (userId, productId) => dispatch(matchReview(userId, productId))
   };
 }

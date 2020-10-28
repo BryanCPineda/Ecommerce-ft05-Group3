@@ -3,20 +3,22 @@ import {
 } from '../constants/reviewsConstants';
 
 const initialState = {
-  reviews: {
-    reviews: {
-      count: 0,
-      rows: []
-    }
-  },
+  // reviews: {
+  //   reviews: {
+  //     count: 0,
+  //     rows: []
+  //   }
+  // },
   oneStarReviews: 0,
   twoStarsReviews: 0,
   threeStarsReviews: 0,
   fourStarsReviews: 0,
   fiveStarsReviews: 0,
-  review: {
-
-  },
+  review: {},
+  myReviews: {
+    count: 0,
+    rows: []
+  }
 }
 
 export default function reviewsReducer(state = initialState, action) {
@@ -49,7 +51,7 @@ export default function reviewsReducer(state = initialState, action) {
     case GET_PRODUCT_REVIEWS:
       return {
         ...state,
-        reviews: action.payload
+        myReviews: action.payload
       }
     case ADD_REVIEW:
       return {
@@ -66,9 +68,9 @@ export default function reviewsReducer(state = initialState, action) {
         ...state,
       }
     case MATCH_REVIEW:
-      // console.log('actionPayload', action.payload)
-      // const {productId, userId, response} = action.payload;
-      // const key = productId + '_' + userId
+      console.log('actionPayload', action.payload)
+      const {productId, userId, response} = action.payload;
+      const key = productId + '_' + userId
       return {
         ...state,
         review: action.payload

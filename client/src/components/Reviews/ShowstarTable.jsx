@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react'
 import { matchReview } from "../../actions/reviewsActions";
 import store from '../../store'
 import { BsStarFill, BsStarHalf, BsStar } from "react-icons/bs";
+import { connect } from 'react-redux';
+import './Reviews.css'
 
 function ShowstarTable({productId, idUser}) {
   const [star, setStar] = useState(0);
@@ -12,22 +14,20 @@ function ShowstarTable({productId, idUser}) {
   }, [])  
 
   const state = store.getState();
+  // console.log('STATE', state)
+
 
   return (
+    <React.Fragment>
 
-      <div className='smallStars' style={{ padding: '0px'}} key={'index'}>
-          <BsStarFill/>
-          <BsStar/>
-          <BsStar/>
-          <BsStar/>
-          <BsStar/>
-      </div>
-
+    </React.Fragment>
   )
 }
 
-// const mapDispatchToProps = ()=>{
+const mapDispatchToProps = (dispatch)=>{
+  return {
+    matchReview: (userId, productId) => dispatch(matchReview(userId, productId))
+  }
+}
 
-// }
-
-export default ShowstarTable
+export default connect(null, mapDispatchToProps)(ShowstarTable);

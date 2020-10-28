@@ -28,15 +28,15 @@ export const towStars = (
     <BsStar/>
   </div>
 )
-// export const towAndaHalfStars = (
-//   <div >
-//     <BsStarFill/>
-//     <BsStarFill/>
-//     <BsStarHalf/>
-//     <BsStar/>
-//     <BsStar/>
-//   </div>
-// )
+export const towAndaHalfStars = (
+  <div >
+    <BsStarFill/>
+    <BsStarFill/>
+    <BsStarHalf/>
+    <BsStar/>
+    <BsStar/>
+  </div>
+)
 export const threeStars = (
   <div >
     <BsStarFill/>

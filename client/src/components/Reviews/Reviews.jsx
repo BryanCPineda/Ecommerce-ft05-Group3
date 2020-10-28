@@ -23,24 +23,25 @@ function Review({reviews, oneStarReviews, twoStarsReviews, threeStarsReviews, fo
     
   let promedio = totalStars / totalReviews;
   promedio = promedio.toFixed(1);
-  const myReviews = reviews.rows
-  console.log('REVIEWS', reviews.rows)
+  let myReviews = reviews.rows;
+  console.log('myReviews', myReviews)
   const myObjs = []
   
   const createMyObj = () =>{
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < myReviews.length; i++) {
       myObjs.push({
-        name: 'name' ,
-        lastname: 'lastname',
-        qualification: 'myReviews[i].qualification',
-        description: 'myReviews[i].description',
-        date: 'myReviews[i].updatedAt'
+        name: myReviews[i].user.name,
+        lastname: myReviews[i].user.lastname,
+        qualification: myReviews[i].qualification,
+        description: myReviews[i].description,
+        date: myReviews[i].updatedAt
       })
     }
     return myObjs;
   }
   createMyObj();
-    
+  console.log('myObjs', myObjs)
+
   return (
     <Container style={{paddingBottom: '30px'}}>
       <br/>
@@ -357,8 +358,7 @@ function Review({reviews, oneStarReviews, twoStarsReviews, threeStarsReviews, fo
 }
 const mapStateToProps = (state)=>{
   return {
-    users: state.reviewsReducer.reviews.users,
-    reviews: state.reviewsReducer.reviews,
+    reviews: state.reviewsReducer.myReviews,
     oneStarReviews: state.reviewsReducer.oneStarReviews,
     twoStarsReviews: state.reviewsReducer.twoStarsReviews,
     threeStarsReviews: state.reviewsReducer.threeStarsReviews,

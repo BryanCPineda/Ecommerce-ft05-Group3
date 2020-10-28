@@ -14,7 +14,7 @@ import {
 
 export function getProductReviews(id){
   return dispatch => {
-    return Axios.get(`http://localhost:4000/reviews/product/${id}/review`)
+    return Axios.get(`http://localhost:4000/reviews/product/${id}/reviews`)
       .then(res=> {
         console.log('res.data', res.data)
         dispatch({type: GET_PRODUCT_REVIEWS, payload: res.data})
