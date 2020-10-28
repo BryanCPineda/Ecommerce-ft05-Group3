@@ -140,6 +140,7 @@ export const logout = () => {
   return({ type: LOGOUT_SUCCESS })
 }
 
+/*-------------------------profile-------------------------*/
 
 export const promoteUser = (id) => (dispatch, getState,) => {
   console.log(id)
@@ -176,3 +177,14 @@ export const promoteUser = (id) => (dispatch, getState,) => {
 
 /*--------------------------------------------------*/
 
+export const setImageForUser = (img, idUser) => async (dispatch) => {
+  console.log("ima del actions", img)
+  const res = await axios.post(`http://localhost:4000/users/${idUser}/image`, {img: img})
+  console.log(res)
+  dispatch({ type: 'IMAGE_PROFILE_USER', payload: res.data })
+}
+
+export const getImageOfUser = (idUser) => async (dispatch) => {
+  const res = await axios.get(`http://localhost:4000/users/${idUser}/image`)
+  dispatch({ type: 'GET_IMAGE_PROFILE_USER', payload: res.data })
+}

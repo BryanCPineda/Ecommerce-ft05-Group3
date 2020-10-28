@@ -554,4 +554,30 @@ server.get("/:userId/completedOrderlines", async (req, res) => {
 //     });
 // });
 
+server.get("/:idUser/image", async (req, res) => {
+  try {
+    const { idUser } = req.params;
+
+    const user = await Users.findOne({ where: { id: idUser } });
+    res.status(200).send(user.image);
+  } catch (error) {
+    res.status(400).send({ msg: error });
+  }
+});
+
+
+server.post("/:idUser/image", async (req, res) => {
+  try {
+    const { idUser } = req.params;
+    const { img } = req.body
+
+    const user = await Users.findOne({ where: { id: idUser } });
+    user.image = img;
+    await user.save();
+    res.status(200).send(user.image);
+  } catch (error) {
+    res.status(400).send({ msg: error });
+  }
+});
+
 module.exports = server;
