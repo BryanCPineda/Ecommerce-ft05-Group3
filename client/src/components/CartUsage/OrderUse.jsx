@@ -44,7 +44,7 @@ function OrderUse(prod) {
           <Card.Body className="bg-light text-center class-card">
             <Row>
               <Col xs={3} md={2}>
-                <img alt={'Imagen del producto: '+prod.orderline.name} className="w-75" src={prod.orderline.images.length > 0 ? prod.orderline.images[0].image : 'sin imagen'} /> 
+                <img alt={'Imagen del producto: '+prod.orderline.name} className="w-75" src={prod.orderline.images.length > 0 ? prod.orderline.images[0].image : 'https://bitsofco.de/content/images/2018/12/broken-1.png'} /> 
               </Col>
               <Col>
                 <Row>
