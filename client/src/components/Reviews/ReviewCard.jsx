@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { Col, Modal, Row, Table } from 'react-bootstrap'
 import store from '../../store'
 import AddReview from './AddReview';

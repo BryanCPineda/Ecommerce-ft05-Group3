@@ -11,6 +11,7 @@ import orderReducer from './order';
  
 import errorReducer from './errorReducer';
 import reviewsReducer from './reviewsReducer';
+import completedOrderlinesReducer from './CompletedOrderlinesReducer';
 
 
 export default combineReducers({
@@ -23,5 +24,6 @@ export default combineReducers({
     userReducer: userReducer,
     error: errorReducer,
     ordersReducer: ordersReducer,
-    reviewsReducer: reviewsReducer
+    reviewsReducer: reviewsReducer,
+    completedOrderlinesReducer: completedOrderlinesReducer
 });

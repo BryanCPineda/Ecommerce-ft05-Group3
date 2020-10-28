@@ -2,12 +2,15 @@
     /* margin-top: 4rem; */
     background-color: white;
     margin-top: -250px;
-
+    box-shadow: 5px 5px 10px -2px rgb(53, 49, 56);
+    border-radius: 15px;
 }
 .reviews-container {
     background-color: white;
     position: relative;
-    bottom: 150px
+    bottom: 150px;
+    box-shadow: 5px 5px 10px -2px rgb(53, 49, 56);
+    border-radius: 15px;
 }
 
 .products-title {
@@ -57,6 +60,11 @@
     margin-left: 2rem;
     margin-top: 1rem;
     margin-bottom: 2rem;
+}
+
+.uniamgen{
+    height: 500px;
+    width: 500px;
 }
 
 .products-image {

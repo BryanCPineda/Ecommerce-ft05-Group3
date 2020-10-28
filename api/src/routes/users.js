@@ -509,27 +509,26 @@ server.get("/:idUser/profile", async (req, res) => {
     res.send(err)
   })
 });
-// This function brings necesary data for the ReviewCard component
-
-// server.get("/:idUser/profile", async (req, res) => {
-//   const { idUser } = req.params;
-//   try {
-//     const orders = await Order.findAll({
-//       where: { userId: idUser, state: "Complete" },
-//     });
-//     const ordersIds = orders.map((element) => element.dataValues.id);
-//     const orderlines = await Promise.all(
-//       ordersIds.map(
-//         async (element) =>
-//           await Orderline.findAll({ where: { orderId: element } })
-//       )
-//     );
-//     console.log(orderlines);
-//     res.send(orderlines);
-//   } catch (error) {
-//     res.send(error);
-//   }
-// });
+// This function brings necesary data for the completedOrderlines component
+server.get("/:userId/completedOrderlines", async (req, res) => {
+  const { userId } = req.params;
+  try {
+    const orderlines = await Orderline.findAndCountAll({
+      include: [
+        {model: Order, where:{userId: userId, state: 'Complete'}},
+        {model: Product}
+      ],
+      order: [['updatedAt', 'DESC']]
+    })
+    if(!orderlines){
+      res.send('This user has no completed orders').status(406)
+    }
+    res.send(orderlines);
+  } 
+  catch (error) {
+    res.send(error);
+  }
+});
 
 
 // server.get("/:idUser/profile", (req, res) => {

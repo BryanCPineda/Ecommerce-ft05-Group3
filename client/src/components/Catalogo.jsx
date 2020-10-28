@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { Row, Col, Container } from "react-bootstrap";
 import ProductCard from "./ProductCard";
 import Filter from './Filter';
@@ -7,6 +7,7 @@ import Pagination from './Pagination';
 import * as Promise from "bluebird";
 import './Catalogo.css';
 import { connect } from 'react-redux';
+
 
 /*----------Redux------------*/
 import {
@@ -138,6 +139,7 @@ function Catalogo({
                        
               <div key={index} className="column-productcard flex-wrap">
                 <ProductCard
+                
                   id={ele.id} 
                   name={ele.name}
                   description={ele.description.slice(0, 50) + "..."}
@@ -148,6 +150,7 @@ function Catalogo({
                   current={currentPage}
                   currentProducts={currentProducts}
                 /> 
+                {console.log('mostrame la imagen', ele.images[0])}
               </div>
 
             ))

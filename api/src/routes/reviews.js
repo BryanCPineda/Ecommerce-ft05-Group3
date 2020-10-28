@@ -2,40 +2,17 @@ const server = require("express").Router();
 const { Sequelize } = require("sequelize");
 const { Reviews, Orderline, Users, Order, Product } = require("../db.js");
 
-
-server.get("/product/:id/review", (req, res) => {
+server.get("/product/:id/reviews", (req, res) => {
   const id = req.params.id;
   Reviews.findAndCountAll({
     where:{
       productId:id,
     },
+    include: {
+      model: Users
+    }
   })
-  .then((reviews) => {
-    let usersIds = reviews.rows.map(e => e.dataValues.userId)
-    let infoUsers=[];
-    usersIds.map(id => {
-      Users.findOne({
-        where:{
-          id:id,
-        },
-        attributes: {
-          exclude: ['password']
-        }
-      })
-      .then((user)=>{
-        infoUsers.push(user.dataValues)
-      })
-      .then(() =>{
-        if(infoUsers.length === usersIds.length){
-          let response = {
-            reviews: reviews,
-            users: infoUsers
-          }
-          res.send(response).status(200);
-        }
-      })
-    })
-  })
+  .then(review=> res.send(review))
   .catch((err) => {
     return res.send({ data: err }).status(400);
   });
@@ -171,4 +148,63 @@ server.delete('/:id', (req, res)=>{
   }).catch(err => res.send({data: err}).status(400));
 })
 
+// Match Product-User
+server.post('/user/product', async (req, res) => {
+  try {
+    const userId = req.body.userId;
+    const productId = req.body.productId;
+    const review = await Reviews.findOne({
+      where: {
+        userId: userId,
+        productId: productId
+      }
+    })
+    if(!review){
+      res.send(`No se encuenta una review del userId ${userId} para el productId ${productId}`)
+    }
+    res.send(review)
+  } 
+  catch (err) {
+    console.log('reviewERROR', err)
+    return res.send({data: err}).status(400);
+  }
+})
+
 module.exports = server;
+/*server.get("/product/:id/review", (req, res) => {
+  const id = req.params.id;
+  Reviews.findAndCountAll({
+    where:{
+      productId:id,
+    }
+  })
+  .then((reviews) => {
+    let usersIds = reviews.rows.map(e => e.dataValues.userId)
+    let infoUsers=[];
+    usersIds.map(id => {
+      Users.findOne({
+        where:{
+          id:id,
+        },
+        attributes: {
+          exclude: ['password']
+        }
+      })
+      .then((user)=>{
+        infoUsers.push(user.dataValues)
+      })
+      .then(() =>{
+        if(infoUsers.length === usersIds.length){
+          let response = {
+            reviews: reviews,
+            users: infoUsers
+          }
+          res.send(response).status(200);
+        }
+      })
+    })
+  })
+  .catch((err) => {
+    return res.send({ data: err }).status(400);
+  });
+})*/

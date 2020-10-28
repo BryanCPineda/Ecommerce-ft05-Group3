@@ -23,6 +23,7 @@
   width: 20rem;
   display: flex;
   flex-wrap: wrap;
+  
 }
 
 .no-products {
@@ -47,7 +48,8 @@
 
   .sidebar-component-catalogo {
     margin-right: 0px;
-    margin-left: 20px;
+    margin-left: 20px;box-shadow: 5px 5px 10px -2px rgb(53, 49, 56);
+    border-radius: 15px;
   }
 
   .margin-right-catalogo {

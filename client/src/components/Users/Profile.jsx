@@ -130,7 +130,7 @@ const UserProfile = ({ showCompletedOrders, user, order, setImageForUser, imageU
           </div>
         </div>
       </div>
-      {order.length > 1 ?
+      {order.length >= 1 ?
       <Container style={{ marginTop: "-100px", marginBottom: '200px' }}>
         <CompletedOrderline />
       </Container>

@@ -11,7 +11,8 @@ import {
   LOGOUT_SUCCESS,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
-  USER_COMPLETED
+  USER_COMPLETED,
+  PROMOTE_USER
 } from "../constants/userConstants";
 
 const initialState = {
@@ -20,11 +21,17 @@ const initialState = {
   isAuthenticated: false,
   user: null,
   allUsers: [],
-  imageUser: null
+  imageUser: null,
+  promoteUser: ''
 };
 
 export default function userReducer(state = initialState, action) {
   switch (action.type) {
+    case PROMOTE_USER:
+      return{
+        ...state,
+        promoteUser: action.payload
+      }
     case GET_ALL_USERS: // trae todos los usuarios
       return {
         ...state,
