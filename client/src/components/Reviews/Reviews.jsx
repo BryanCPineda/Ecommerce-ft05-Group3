@@ -4,10 +4,12 @@ import { connect } from 'react-redux';
 import { Container, Row, Col } from "react-bootstrap";
 import {oneStar, towStars, threeStars, fourStars, fiveStars} from './stars';
 import {BsStarFill, BsStarHalf, BsStar} from 'react-icons/bs';
+import moment from "moment";
 
 function Review({reviews, oneStarReviews, twoStarsReviews, threeStarsReviews, fourStarsReviews, fiveStarsReviews}) {
 // var promedio = Math.floor(Math.random()*(5*10-1*10)+1*10)/(1*10); 
-
+  
+  const DATE_FORMAT = "DD/MM/YYYY - HH:mm:ss";
   const totalReviews = 
     fiveStarsReviews+
     fourStarsReviews+
@@ -245,7 +247,7 @@ function Review({reviews, oneStarReviews, twoStarsReviews, threeStarsReviews, fo
                     <Row>
                       <Col lg='6'>{obj.description}</Col>
                       <Col lg='2'></Col>
-                      <Col lg='4'>{obj.date}</Col>
+                      <Col lg='4'>{moment(obj.date).format(DATE_FORMAT)}</Col>
                     </Row>
                     <Row>
                       <Col lg='3'><b>{obj.name} {obj.lastname}</b></Col>
@@ -267,7 +269,7 @@ function Review({reviews, oneStarReviews, twoStarsReviews, threeStarsReviews, fo
                       <Row>
                         <Col lg='6'>{obj.description}</Col>
                         <Col lg='2'></Col>
-                        <Col lg='4'>{obj.date}</Col>
+                        <Col lg='4'>{moment(obj.date).format(DATE_FORMAT)}</Col>
                       </Row>
                       <Row>
                         <Col lg='3'><b>{obj.name} {obj.lastname}</b></Col>
@@ -291,7 +293,7 @@ function Review({reviews, oneStarReviews, twoStarsReviews, threeStarsReviews, fo
                         <Row>
                           <Col lg='6'>{obj.description}</Col>
                           <Col lg='2'></Col>
-                          <Col lg='4'>{obj.date}</Col>
+                          <Col lg='4'>{moment(obj.date).format(DATE_FORMAT)}</Col>
                         </Row>
                         <Row>
                           <Col lg='3'><b>{obj.name} {obj.lastname}</b></Col>
@@ -315,7 +317,7 @@ function Review({reviews, oneStarReviews, twoStarsReviews, threeStarsReviews, fo
                           <Row>
                             <Col lg='6'>{obj.description}</Col>
                             <Col lg='2'></Col>
-                            <Col lg='4'>{obj.date}</Col>
+                            <Col lg='4'>{moment(obj.date).format(DATE_FORMAT)}</Col>
                           </Row>
                           <Row>
                             <Col lg='3'><b>{obj.name} {obj.lastname}</b></Col>
@@ -339,7 +341,7 @@ function Review({reviews, oneStarReviews, twoStarsReviews, threeStarsReviews, fo
                             <Row>
                               <Col lg='6'>{obj.description}</Col>
                               <Col lg='2'></Col>
-                              <Col lg='4'>{obj.date}</Col>
+                              <Col lg='4'>{moment(obj.date).format(DATE_FORMAT)}</Col>
                             </Row>
                             <Row>
                               <Col lg='3'><b>{obj.name} {obj.lastname}</b></Col>

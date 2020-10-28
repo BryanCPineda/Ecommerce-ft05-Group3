@@ -8,10 +8,13 @@ import "./Profile.css";
 import { matchReview } from "../../actions/reviewsActions";
 import { getCompletedOrderlines } from "../../actions/completeOrdelinesActions";
 import ShowstarTable from '../Reviews/ShowstarTable'
+import moment from "moment";
+
 const CompletedOrderline = ({ matchReview, getCompletedOrderlines, user, orderlines }) => {
   const idUser = user && user.id;
   const orderLines = orderlines.rows;
   const myTable = []
+  const DATE_FORMAT = "DD/MM/YYYY - HH:mm:ss";
 
   useEffect(() => {
     if(user){
@@ -72,7 +75,7 @@ const CompletedOrderline = ({ matchReview, getCompletedOrderlines, user, orderli
                         {row.quantity}
                       </td>
                       <td>
-                        {row.date}
+                        {moment(row.date).format(DATE_FORMAT)}
                       </td>
                       <td>
                         <ShowstarTable 

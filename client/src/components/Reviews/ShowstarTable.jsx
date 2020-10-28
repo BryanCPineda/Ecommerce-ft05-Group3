@@ -10,7 +10,7 @@ function ShowstarTable({productId, idUser}) {
   const [star, setStar] = useState(0);
   
   useEffect(() => {
-    matchReview(idUser, productId)
+    // matchReview(idUser, productId)
   }, [])  
 
   const state = store.getState();
