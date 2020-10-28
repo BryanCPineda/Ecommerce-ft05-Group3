@@ -303,21 +303,21 @@ function usersSeeder(){
             userType: 'admin',
         },
         {
-            name: 'Test',
-            lastname: 'User',
-            email: 'test@test.com',
+            name: 'Matías',
+            lastname: 'Lires',
+            email: 'mati@lires.com',
             password: '$2a$10$NbdBSL8O5UY91h8AnWv8w.wVw2U2KLvOUNkOQ34alTc0R/V6x4/BW', //testpass
         },
         {
-            name: 'Test2',
-            lastname: 'User',
-            email: 'test2@test.com',
+            name: 'Verónica',
+            lastname: 'Jujuy',
+            email: 'vero@juju.com',
             password: '$2a$10$4/hynp5ZAKwbxXeZ8gD5EOUKZB0igrdOxRwwR5XwUpK9XwpSIdHrq', //testpass
         },
         {
-            name: 'Test3',
-            lastname: 'User',
-            email: 'test3@test.com',
+            name: 'Matías',
+            lastname: 'Funes',
+            email: 'mati@funes.com',
             password: '$2a$10$NbdBSL8O5UY91h8AnWv8w.wVw2U2KLvOUNkOQ34alTc0R/V6x4/BW', //testpass
         },
     ])

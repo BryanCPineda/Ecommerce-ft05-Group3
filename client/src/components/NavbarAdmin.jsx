@@ -34,10 +34,10 @@ function NavbarAdmin({ users, orders, products, categories, getAllProducts, getA
         <Container fluid>
           <div className="d-flex justify-content-around">
 
-            <Link to="/admin/users">
-              <Button className="select-options-admin">
+            {/* <Link to="/admin/users">
+              <Button className="select-options-admin"> */}
 
-            <Link to="user/catalogo">
+            <Link to="admin/users">
               <Button className="select-options-admin border-botones-navbar-admin">
 
                 <div>Users</div>
