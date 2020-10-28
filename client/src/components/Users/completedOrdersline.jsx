@@ -29,7 +29,9 @@ const CompletedOrderline = ({ showCompletedOrders, user, orders }) => {
 
   //const orders = showCompletedOrders();
   return (
-    <div className="mt-5">
+    <React.Fragment>
+    {orders ?
+      <div className="mt-5">
       <h3 style={{color: 'white'}}>Shopping History</h3>
       <Row>
         <Col>
@@ -105,8 +107,14 @@ const CompletedOrderline = ({ showCompletedOrders, user, orders }) => {
         </Col>
       </Row>
     </div>
+    : 
+    null
+    }
+    </React.Fragment>
   );
 };
+
+
 function mapStateToProps(state) {
   return {
     user: state.userReducer.user,

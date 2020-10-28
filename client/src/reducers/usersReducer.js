@@ -20,6 +20,7 @@ const initialState = {
   isAuthenticated: false,
   user: null,
   allUsers: [],
+  imageUser: null
 };
 
 export default function userReducer(state = initialState, action) {
@@ -71,6 +72,16 @@ export default function userReducer(state = initialState, action) {
         ...state,
         allUsers: action.payload,
       };
+    case 'IMAGE_PROFILE_USER':
+      return {
+        ...state,
+        imageUser: action.payload
+      }
+    case 'GET_IMAGE_PROFILE_USER':
+      return {
+        ...state,
+        imageUser: action.payload
+      }
     default:
       return state;
   }

@@ -140,26 +140,21 @@ export function deleteProduct(id) {
   }}
 
 export function deleteImageToProduct(id) {
-    return (dispatch, getState) => {
-    
-        const config = {
-            headers: {
-              "Content-type": "Application/json"
-            }
-          }
-        
-          const token = getState().userReducer.token
-        
-          if(token) {
-            config.headers["x-auth-token"] = token
-          }
-
-    return Axios.delete('http://localhost:4000/image/'+id, config)
-        .then((res) =>
-                dispatch({ type: DELETE_IMAGE_PRODUCT, payload: res})
-                )
-        
-    } 
+  return (dispatch, getState) => {
+    const config = {
+      headers: {
+        "Content-type": "Application/json",
+      },
+    };
+    const token = getState().userReducer.token;
+    if (token) {
+      config.headers["x-auth-token"] = token;
+    }
+    return Axios.delete(
+      "http://localhost:4000/image/" + id,
+      config
+    ).then((res) => dispatch({ type: DELETE_IMAGE_PRODUCT, payload: res }));
+  };
 }
 
 export function deleteCategoryToProduct(cat, id) {
@@ -185,32 +180,27 @@ export function deleteCategoryToProduct(cat, id) {
     }
 }
 
-export function agregarImagen(id, imagen){
-    return (dispatch, getState) => {
-
-      const imgEnviar = {
-        productId: id,
-        image: imagen
+export function agregarImagen(id, imagen) {
+  return (dispatch, getState) => {
+    const imgEnviar = {
+      productId: id,
+      image: imagen,
+    };
+    const config = {
+      headers: {
+        "Content-type": "Application/json",
+      },
+    };
+    const token = getState().userReducer.token;
+    if (token) {
+      config.headers["x-auth-token"] = token;
     }
-
-        const config = {
-            headers: {
-              "Content-type": "Application/json"
-            },
-          }
-        
-          const token = getState().userReducer.token
-        
-          if(token) {
-            config.headers["x-auth-token"] = token
-          }
-
-      return Axios.post('http://localhost:4000/image',imgEnviar, config) 
-      .then((res) =>
-      dispatch({ type: ADD_IMAGE, payload: res})
-      )
-    
-  } 
+    return Axios.post(
+      "http://localhost:4000/image",
+      imgEnviar,
+      config
+    ).then((res) => dispatch({ type: ADD_IMAGE, payload: res }));
+  };
 }
 
 export function addCategoryToProduct(cat, id) {
