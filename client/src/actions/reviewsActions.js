@@ -9,7 +9,8 @@ import {
   ADD_REVIEW,
   EDIT_REVIEW,
   DELETE_REVIEW,
-  MATCH_REVIEW
+  MATCH_REVIEW,
+  USER_REVIEWS
 } from '../constants/reviewsConstants';
 
 export function getProductReviews(id){
@@ -96,6 +97,15 @@ export function matchReview(userId, productId) {
     .then(res => {
       console.log('REPONSE', res.data)
       dispatch({type: MATCH_REVIEW, payload: res.data})
+    })
+  }
+}
+export function getUserReviews(userId) {
+  return dispatch => {
+    return Axios.get(`http://localhost:4000/reviews/user/${userId}`)
+    .then(res => {
+      console.log('REPONSE', res.data)
+      dispatch({type: USER_REVIEWS, payload: res.data})
     })
   }
 }

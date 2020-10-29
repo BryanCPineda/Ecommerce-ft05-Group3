@@ -5,41 +5,61 @@ import { connect } from "react-redux";
 import AddReview from '../Reviews/AddReview';
 import "./Profile.css";
 // import { showCompletedOrders } from "../../actions/userAction";
-import { matchReview } from "../../actions/reviewsActions";
+import { matchReview, getUserReviews } from "../../actions/reviewsActions";
 import { getCompletedOrderlines } from "../../actions/completeOrdelinesActions";
 import ShowstarTable from '../Reviews/ShowstarTable'
 import moment from "moment";
 
-const CompletedOrderline = ({ matchReview, getCompletedOrderlines, user, orderlines }) => {
+const CompletedOrderline = ({ matchReview, getUserReviews, userReviews, getCompletedOrderlines, user, orderlines }) => {
   const idUser = user && user.id;
-  const orderLines = orderlines.rows;
+  const orderLines = orderlines.rows ? orderlines.rows : [];
   const myTable = []
   const DATE_FORMAT = "DD/MM/YYYY - HH:mm:ss";
+  const reviews = userReviews;
+
+  console.log('reviewsssss', reviews)
+  console.log('orderLines', orderLines)
 
   useEffect(() => {
     if(user){
-      // showCompletedOrders(user.id);
-      getCompletedOrderlines(idUser)
+      getCompletedOrderlines(idUser);
+      getUserReviews(idUser);
     }
   }, []);
+
   
   const createMyTable = () =>{
     for (let i = 0; i < orderLines.length; i++) {
       myTable.push({
-        id: orderLines[i].id,
+        id: orderLines[i].product.id,
         name: orderLines[i].product.name,
         price: orderLines[i].price,
         quantity: orderLines[i].quantity,
         date: orderLines[i].updatedAt,
-        qualification: 'review qualification',
-        description: 'review description'
+        // qualification: '',
+        // description: ''
       })
-      matchReview(idUser, orderLines[i].product.id)
+      console.log('1stFOR ', i, ' ', myTable[i])
     }
     return myTable;
   }
   createMyTable();
   console.log('myTable', myTable)
+  
+  function matching(){
+    for (let i = 0; i < orderLines.length; i++) {
+      if (reviews[i]) {
+        if (reviews[i].productId = orderLines[i].productId) {
+          myTable[i].qualification = reviews[i].qualification || null;
+          myTable[i].description = reviews[i].description || null;
+          myTable[i].reviewid = reviews[i].id || null;
+        }
+      }
+      console.log('2ndFOR ', i, ' ', myTable[i])
+    }
+    return;
+  }
+  matching();
 
   return (
     <React.Fragment>
@@ -54,7 +74,7 @@ const CompletedOrderline = ({ matchReview, getCompletedOrderlines, user, orderli
             <Table striped bordered hover>
               <thead>
                 <tr>
-                  <th scope="col">Products ({orderLines.length})</th>
+                  <th scope="col">Products ({orderlines.count})</th>
                   <th scope="col">Price</th>
                   <th scope="col">Quantity</th>
                   <th scope="col">Date</th>
@@ -79,10 +99,7 @@ const CompletedOrderline = ({ matchReview, getCompletedOrderlines, user, orderli
                         {moment(row.date).format(DATE_FORMAT)}
                       </td>
                       <td>
-                        <ShowstarTable 
-                          productId={row.id} 
-                          idUser={idUser} 
-                        />
+                        {row.qualification ? row.qualification : 'This product has no Review'}
                       </td>
                       <td>
                         <div key={index}>
@@ -112,14 +129,15 @@ function mapStateToProps(state) {
   return {
     user: state.userReducer.user,
     orderlines: state.completedOrderlinesReducer.orderlines,
-    // review: state
+    userReviews: state.reviewsReducer.userReviews
   };
 }
 function mapDispatchToProps(dispatch) {
   return {
     // showCompletedOrders: (idUser) => dispatch(showCompletedOrders(idUser)),
     getCompletedOrderlines: (id) => dispatch(getCompletedOrderlines(id)),
-    matchReview: (userId, productId) => dispatch(matchReview(userId, productId))
+    matchReview: (userId, productId) => dispatch(matchReview(userId, productId)),
+    getUserReviews: (userId) => dispatch(getUserReviews(userId))
   };
 }
 

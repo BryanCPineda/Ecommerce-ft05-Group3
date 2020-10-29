@@ -346,6 +346,7 @@ server.post("/:idUser/cart", async (req, res) => {
       quantity: quantity,
       orderId: order[0].dataValues.id,
       productId: productId,
+      userId: idUser
     });
     return res.status(200).send(orderLine);
   } catch (error) {
@@ -520,39 +521,40 @@ server.post("/passwordReset", auth, (req, res) => {
 
 // Profile route
 server.get("/:idUser/profile", async (req, res) => {
-  const { idUser } = req.params;
+  const {idUser} = req.params;
   Order.findAll({
-    where: {
+    where:{
       userId: idUser,
-      state: "Complete",
+      state: 'Complete'
     },
     include: {
       model: Product,
       include: {
-        model: Users,
-      },
-    },
+        model: Users
+      }
+    }
   })
-    .then((orders) => {
-      res.send(orders);
-    })
-    .catch((err) => {
-      res.send(err);
-    });
+  .then((orders)=>{
+    res.send(orders)
+  })
+  .catch((err)=>{
+    res.send(err)
+  })
 });
+
 // This function brings necesary data for the completedOrderlines component
 server.get("/:userId/completedOrderlines", async (req, res) => {
   const { userId } = req.params;
   try {
     const orderlines = await Orderline.findAndCountAll({
       include: [
-        { model: Order, where: { userId: userId, state: "Complete" } },
+        { model: Order, where: { userId: userId, state: 'Complete' }},
         { model: Product },
       ],
-      order: [["updatedAt", "DESC"]],
-    });
-    if (!orderlines) {
-      res.send("This user has no completed orders").status(406);
+      order: [['productId', 'ASC']]
+    })
+    if(!orderlines){
+      res.send('This user has no completed orders').status(406)
     }
     res.send(orderlines);
   } catch (error) {
