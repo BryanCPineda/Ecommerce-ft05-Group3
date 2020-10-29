@@ -42,7 +42,8 @@ const CompletedOrderline = ({ matchReview, getCompletedOrderlines, user, orderli
   console.log('myTable', myTable)
 
   return (
-    <div className="mt-5">
+    <React.Fragment>
+      <div className="mt-5">
       <h3 style={{color: 'white'}}>Shopping History</h3>
       <Row>
         <Col>
@@ -102,8 +103,11 @@ const CompletedOrderline = ({ matchReview, getCompletedOrderlines, user, orderli
         </Col>
       </Row>
     </div>
+    </React.Fragment>
   );
 };
+
+
 function mapStateToProps(state) {
   return {
     user: state.userReducer.user,

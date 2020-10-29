@@ -1,0 +1,48 @@
+.form {
+    background: transparent;
+    border-radius: 3px;
+    font-size: 16px;
+    border: 0;
+    color: white;
+    width: 95%;
+    padding: 0 30px;
+    box-shadow: 0 3px 5px 2px rgba(111, 111, 111, 0.3);
+}
+.form-title {
+    color: #d9d9d9;
+    font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+    font-size: 200%;
+    height: 80%;
+    width: 25%;
+    margin: 5px;
+    text-shadow: -1px -1px 1px rgba(255, 255, 255, 0.1),
+      1px 1px 1px rgba(0, 0, 0, 0.5);
+    color: #000000;
+    background: transparent;
+}
+
+.container-form {
+    margin-top: -350px;
+  }
+
+  .title {
+    margin-top: 30px;
+    margin-bottom: 50px;
+  }
+
+  .font-title{
+    font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+    font-style: bold;
+    font-size: 150%;
+    color: #fff;
+    height: 80%;
+    width: 25%;
+  }
+
+.boton {
+    background-color: #8a2be2;
+    color: #ffffff;
+    font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+    font-style: bold;
+}
+  

@@ -57,6 +57,11 @@ export default function orderReducer(state = initialState, action) {
                 ...state,
                 total: (state.total + parseInt(action.payload))
             }
+        case 'GET_PRODUCTS_FOR_CHECKOUT':
+            return {
+                ...state,
+                cartProducts: action.payload
+            }
         default:
             return state;
     }

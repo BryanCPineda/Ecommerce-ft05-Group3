@@ -8,6 +8,8 @@ import {
   Button,
   Form,
   Modal,
+  InputGroup,
+  FormControl,
 } from "react-bootstrap";
 import { IconContext } from "react-icons";
 import { FiShoppingCart } from "react-icons/fi";
@@ -17,10 +19,23 @@ import { connect } from "react-redux";
 import AddReview from "../Reviews/AddReview.jsx";
 import EditReview from "../Reviews/EditReview.jsx";
 import "./Profile.css";
-import { showCompletedOrders, resetPassword } from "../../actions/userAction";
+import {
+  showCompletedOrders,
+  resetPassword,
+  setImageForUser,
+  getImageOfUser,
+} from "../../actions/userAction";
 import CompletedOrderline from "./completedOrdersline";
 
-const UserProfile = ({ showCompletedOrders, user, order, resetPassword }) => {
+const UserProfile = ({
+  showCompletedOrders,
+  user,
+  order,
+  resetPassword,
+  setImageForUser,
+  imageUser,
+  getImageOfUser,
+}) => {
   const idUser = user && user.id;
   const producto = order;
   const [state, setState] = useState({
@@ -30,11 +45,56 @@ const UserProfile = ({ showCompletedOrders, user, order, resetPassword }) => {
     password: "",
     send: false,
   });
+  const [baseImage, setBaseImage] = useState("");
+  const [imagen, setImagen] = useState([]);
+
+  const [show, setShow] = useState(false);
+
+  const userId = user && user.id;
+
   const switchPassword = () => {
     //para mostrar o esconder el password
     setState({
       ...state,
       passwordShowing: !state.passwordShowing,
+    });
+  };
+
+  useEffect(() => {
+    if (user) {
+      showCompletedOrders(user.id);
+    }
+  }, []);
+
+  useEffect(() => {
+    getImageOfUser(userId);
+  }, []);
+
+  const handleCloseImg = () => setShow(false);
+  const handleShowImg = () => setShow(true);
+
+  const uploadImage = async (e, idUser) => {
+    if (user) {
+      const file = e.target.files[0];
+      const base64 = await convertBase64(file);
+      setBaseImage(base64);
+      setImagen(base64);
+      setImageForUser(base64, user.id);
+    }
+  };
+
+  const convertBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
     });
   };
 
@@ -49,6 +109,7 @@ const UserProfile = ({ showCompletedOrders, user, order, resetPassword }) => {
     }
     return true;
   };
+
   const handleClose = () => {
     if (state.modal) {
       state.modal = false;
@@ -57,6 +118,7 @@ const UserProfile = ({ showCompletedOrders, user, order, resetPassword }) => {
       modal: false,
     });
   };
+
   const handleShow = () => {
     setState({
       modal: !state.modal,
@@ -74,13 +136,63 @@ const UserProfile = ({ showCompletedOrders, user, order, resetPassword }) => {
             Personal information:
           </p>
           <br></br>
+          <img
+            className="image-profile"
+            src={imageUser}
+            style={{
+              width: "300px",
+              height: "300px",
+              borderRadius: "100%",
+              border: "none",
+              outline: "none",
+              backgroundColor: "lightgray",
+            }}
+          ></img>
+
+          <div className="mt-3 d-flex justify-content-end">
+            <Button
+              style={{
+                backgroundColor: "#8a2be2",
+                color: "white",
+                border: "none",
+              }}
+              onClick={handleShowImg}
+            >
+              Add photo +
+            </Button>
+
+            <Modal show={show} onHide={handleCloseImg}>
+              <Modal.Header closeButton>
+                <Modal.Title>Change user photo</Modal.Title>
+              </Modal.Header>
+              <Modal.Footer>
+                <Button variant="secondary" onClick={handleCloseImg}>
+                  Close
+                </Button>
+                <InputGroup className="mb-3">
+                  <FormControl
+                    aria-label="Recipient's username"
+                    aria-describedby="basic-addon2"
+                    type="file"
+                    onChange={(e) => {
+                      uploadImage(e);
+                    }}
+                  />
+                </InputGroup>
+              </Modal.Footer>
+            </Modal>
+          </div>
           <div>
-            <p style={{ fontSize: "25px" }}>First Name: {user && user.name}</p>
-            <p style={{ fontSize: "25px" }}>
+            <p style={{ fontSize: "25px", color: "black" }}>
+              First Name: {user && user.name}
+            </p>
+            <p style={{ fontSize: "25px", color: "black" }}>
               Last Name: {user && user.lastname}
             </p>
-            <p style={{ fontSize: "25px" }}>Email: {user && user.email}</p>
-            <p style={{ fontSize: "25px" }}>
+            <p style={{ fontSize: "25px", color: "black" }}>
+              Email: {user && user.email}
+            </p>
+            <p style={{ fontSize: "25px", color: "black" }}>
               Reset password:{" "}
               <Button className="button-register" onClick={handleShow}>
                 Here
@@ -183,21 +295,29 @@ const UserProfile = ({ showCompletedOrders, user, order, resetPassword }) => {
           </div>
         </div>
       </div>
-      <Container style={{ marginTop: "-300px" }}>
-        <CompletedOrderline />
-      </Container>
+      {order.length >= 1 ? (
+        <Container style={{ marginTop: "-100px", marginBottom: "200px" }}>
+          <CompletedOrderline />
+        </Container>
+      ) : null}
     </React.Fragment>
   );
 };
+
 function mapStateToProps(state) {
   return {
     user: state.userReducer.user,
     order: state.userReducer.allUsers,
+    imageUser: state.userReducer.imageUser,
   };
 }
 function mapDispatchToProps(dispatch) {
   return {
     showCompletedOrders: (idUser) => dispatch(showCompletedOrders(idUser)),
+    resetPassword: (newPassword) => dispatch(resetPassword(newPassword)),
+    setImageForUser: (image, userId) =>
+      dispatch(setImageForUser(image, userId)),
+    getImageOfUser: (userId) => dispatch(getImageOfUser(userId)),
     resetPassword: (newPassword) => dispatch(resetPassword(newPassword)),
   };
 }
