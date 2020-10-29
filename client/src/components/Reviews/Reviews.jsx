@@ -234,7 +234,7 @@ function Review({reviews, oneStarReviews, twoStarsReviews, threeStarsReviews, fo
           {
             myObjs && myObjs.map((obj, index)=>{
               return (
-                obj.qualification==='1' ? (
+                obj.qualification == '1' ? (
                   <div key={index} >
                     <Row className='bsStars'>
                       <Col>
@@ -256,7 +256,7 @@ function Review({reviews, oneStarReviews, twoStarsReviews, threeStarsReviews, fo
                     <hr/>
                   </div>
                 ) :
-                  obj.qualification==='2' ? (
+                  obj.qualification == '2' ? (
                     <div key={index}>
                       <Row className='bsStars'>
                         <Col>
@@ -278,7 +278,7 @@ function Review({reviews, oneStarReviews, twoStarsReviews, threeStarsReviews, fo
                       <hr/>
                     </div>
                   ) : 
-                    obj.qualification==='3' ? (
+                    obj.qualification == '3' ? (
                       <div key={index}>
                         <Row className='bsStars'>
                           <Col>
@@ -302,7 +302,7 @@ function Review({reviews, oneStarReviews, twoStarsReviews, threeStarsReviews, fo
                         <hr/>
                       </div>
                     ) : 
-                      obj.qualification==='4' ? (
+                      obj.qualification == '4' ? (
                         <div key={index}>
                           <Row className='bsStars'>
                             <Col>

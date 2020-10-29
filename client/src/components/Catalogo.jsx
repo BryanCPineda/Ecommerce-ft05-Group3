@@ -150,7 +150,6 @@ function Catalogo({
                   current={currentPage}
                   currentProducts={currentProducts}
                 /> 
-                {console.log('mostrame la imagen', ele.images[0])}
               </div>
 
             ))

@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { Row, Col, Table } from "react-bootstrap";
+import { Table, Container } from "react-bootstrap";
 import '../Reviews/Reviews.css';
 import { connect } from "react-redux";
 import AddReview from '../Reviews/AddReview';
+import {oneStar, towStars, threeStars, fourStars, fiveStars} from '../Reviews/stars'
 import "./Profile.css";
-// import { showCompletedOrders } from "../../actions/userAction";
-import { matchReview, getUserReviews } from "../../actions/reviewsActions";
+import { getUserReviews } from "../../actions/reviewsActions";
 import { getCompletedOrderlines } from "../../actions/completeOrdelinesActions";
-import ShowstarTable from '../Reviews/ShowstarTable'
 import moment from "moment";
+import ReviewCard from "../Reviews/ReviewCard";
 
-const CompletedOrderline = ({ matchReview, getUserReviews, userReviews, getCompletedOrderlines, user, orderlines }) => {
+const CompletedOrderline = ({ getUserReviews, userReviews, getCompletedOrderlines, user, orderlines }) => {
   const idUser = user && user.id;
   const orderLines = orderlines.rows ? orderlines.rows : [];
   const myTable = []
-  const DATE_FORMAT = "DD/MM/YYYY - HH:mm:ss";
+  const DATE_FORMAT = "DD/MM/YYYY - HH:mm";
   const reviews = userReviews;
 
   console.log('reviewsssss', reviews)
@@ -26,7 +26,6 @@ const CompletedOrderline = ({ matchReview, getUserReviews, userReviews, getCompl
       getUserReviews(idUser);
     }
   }, []);
-
   
   const createMyTable = () =>{
     for (let i = 0; i < orderLines.length; i++) {
@@ -36,10 +35,7 @@ const CompletedOrderline = ({ matchReview, getUserReviews, userReviews, getCompl
         price: orderLines[i].price,
         quantity: orderLines[i].quantity,
         date: orderLines[i].updatedAt,
-        // qualification: '',
-        // description: ''
       })
-      console.log('1stFOR ', i, ' ', myTable[i])
     }
     return myTable;
   }
@@ -48,14 +44,11 @@ const CompletedOrderline = ({ matchReview, getUserReviews, userReviews, getCompl
   
   function matching(){
     for (let i = 0; i < orderLines.length; i++) {
-      if (reviews[i]) {
-        if (reviews[i].productId = orderLines[i].productId) {
-          myTable[i].qualification = reviews[i].qualification || null;
-          myTable[i].description = reviews[i].description || null;
-          myTable[i].reviewid = reviews[i].id || null;
-        }
-      }
-      console.log('2ndFOR ', i, ' ', myTable[i])
+      const foundReview = reviews.find(review=>
+        review.productId === orderLines[i].productId)
+      myTable[i].qualification = foundReview && (foundReview.qualification || null);
+      myTable[i].description = foundReview && (foundReview.description || null);
+      myTable[i].reviewid = foundReview && (foundReview.id || null);
     }
     return;
   }
@@ -63,30 +56,26 @@ const CompletedOrderline = ({ matchReview, getUserReviews, userReviews, getCompl
 
   return (
     <React.Fragment>
-      <div className="mt-5">
+      <Container className="mt-5">
       <h3 style={{color: 'white'}}>Shopping History</h3>
-      <Row>
-        <Col>
-          <div
-            className="table-responsive"
-            style={{ backgroundColor: "white" }}
-          >
-            <Table striped bordered hover>
+          <div className="table-responsive">
+            <Table striped hover style={{borderRadius: '30px', textAlign: 'center'}}>
               <thead>
                 <tr>
-                  <th scope="col">Products ({orderlines.count})</th>
-                  <th scope="col">Price</th>
-                  <th scope="col">Quantity</th>
-                  <th scope="col">Date</th>
-                  <th scope="col">Qualification</th>
-                  <th scope="col">Add Review</th>
+                  <th scope="col"><h4>Products ({orderlines.count})</h4></th>
+                  <th scope="col"><h4>Price</h4></th>
+                  <th scope="col"><h4>Quantity</h4></th>
+                  <th scope="col"><h4>Date</h4></th>
+                  <th scope="col"><h4>Qualification</h4></th>
+                  <th scope="col"><h4>Review Ops</h4></th>
                 </tr>
               </thead>
               <tbody>
                 {myTable && myTable.map((row, index)=>{
+                    console.log('MAP ', row.reviewid)
                   return (
                     <tr>
-                      <td>
+                      <td style={{textAlign: 'left'}}>
                         {row.name}
                       </td>
                       <td>
@@ -98,18 +87,31 @@ const CompletedOrderline = ({ matchReview, getUserReviews, userReviews, getCompl
                       <td>
                         {moment(row.date).format(DATE_FORMAT)}
                       </td>
-                      <td>
-                        {row.qualification ? row.qualification : 'This product has no Review'}
-                      </td>
+                      { 
+                        row.qualification == 1 ? (<td className='bigStars'>{oneStar}</td>) : 
+                        row.qualification == 2 ? (<td className='bigStars'>{towStars}</td>) : 
+                        row.qualification == 3 ? (<td className='bigStars'>{threeStars}</td>) : 
+                        row.qualification == 4 ? (<td className='bigStars'>{fourStars}</td>) : 
+                        row.qualification == 5 ? (<td className='bigStars'>{fiveStars}</td>) : 
+                        <td>You did not review this product yet</td>
+                      }
                       <td>
                         <div key={index}>
                           <span>{
                             <AddReview 
                               productId={row.id} 
                               idUser={idUser} 
+                              reviewQualification={row.qualification}
                             />}
                           </span>
-                          </div>
+                          <span>{
+                            <ReviewCard 
+                              reviewid={row.reviewid} 
+                              reviewQualification={row.qualification}
+                              reviewDescription={row.description}
+                            />}
+                          </span>
+                        </div>
                       </td>
                     </tr>
                   )
@@ -117,9 +119,7 @@ const CompletedOrderline = ({ matchReview, getUserReviews, userReviews, getCompl
               </tbody>
             </Table>
           </div>
-        </Col>
-      </Row>
-    </div>
+    </Container>
     </React.Fragment>
   );
 };
@@ -134,9 +134,7 @@ function mapStateToProps(state) {
 }
 function mapDispatchToProps(dispatch) {
   return {
-    // showCompletedOrders: (idUser) => dispatch(showCompletedOrders(idUser)),
     getCompletedOrderlines: (id) => dispatch(getCompletedOrderlines(id)),
-    matchReview: (userId, productId) => dispatch(matchReview(userId, productId)),
     getUserReviews: (userId) => dispatch(getUserReviews(userId))
   };
 }

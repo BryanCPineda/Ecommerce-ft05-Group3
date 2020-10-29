@@ -17,7 +17,6 @@ export function getProductReviews(id){
   return dispatch => {
     return Axios.get(`http://localhost:4000/reviews/product/${id}/reviews`)
       .then(res=> {
-        console.log('res.data', res.data)
         dispatch({type: GET_PRODUCT_REVIEWS, payload: res.data})
       })
   }
@@ -66,14 +65,13 @@ export function addReview(id, review) {
   return dispatch => {
     return Axios.post(`http://localhost:4000/reviews/product/${id}/review`, review)
     .then(res => {
-      console.log('ProductId', id)
       dispatch({type: ADD_REVIEW, payload: res.data})
     })
   }
 }
 export function editReview(id, review) {
   return dispatch => {
-    return Axios.post(`http://localhost:4000/reviews/${id}`, review)
+    return Axios.put(`http://localhost:4000/reviews/${id}`, review)
     .then(res => {
       dispatch({type: EDIT_REVIEW, payload: res.data})
     })
@@ -81,22 +79,11 @@ export function editReview(id, review) {
 }
 export function deleteReview(id) {
   return dispatch => {
-    return Axios.post(`http://localhost:4000/reviews/${id}`)
+    console.log('reviewIddelete', id)
+    return Axios.delete(`http://localhost:4000/reviews/${id}`)
     .then(res => {
+      console.log('RESPONSE', res.data)
       dispatch({type: DELETE_REVIEW, payload: res})
-    })
-  }
-}
-export function matchReview(userId, productId) {
-  var match = {
-      userId: userId,
-      productId: productId
-    };
-  return dispatch => {
-    return Axios.post('http://localhost:4000/reviews/user/product', match)
-    .then(res => {
-      console.log('REPONSE', res.data)
-      dispatch({type: MATCH_REVIEW, payload: res.data})
     })
   }
 }
@@ -109,3 +96,22 @@ export function getUserReviews(userId) {
     })
   }
 }
+
+
+
+
+
+
+// export function matchReview(userId, productId) {
+//   var match = {
+//       userId: userId,
+//       productId: productId
+//     };
+//   return dispatch => {
+//     return Axios.post('http://localhost:4000/reviews/user/product', match)
+//     .then(res => {
+//       console.log('REPONSE', res.data)
+//       dispatch({type: MATCH_REVIEW, payload: res.data})
+//     })
+//   }
+// }
