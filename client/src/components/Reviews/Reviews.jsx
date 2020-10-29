@@ -26,7 +26,7 @@ function Review({reviews, oneStarReviews, twoStarsReviews, threeStarsReviews, fo
   let promedio = totalStars / totalReviews;
   promedio = promedio.toFixed(1);
   let myReviews = reviews.rows;
-  console.log('myReviews', myReviews)
+  // console.log('myReviews', myReviews)
   const myObjs = []
   
   const createMyObj = () =>{
@@ -42,7 +42,7 @@ function Review({reviews, oneStarReviews, twoStarsReviews, threeStarsReviews, fo
     return myObjs;
   }
   createMyObj();
-  console.log('myObjs', myObjs)
+  // console.log('myObjs', myObjs)
 
   return (
     <Container style={{paddingBottom: '30px'}}>
@@ -247,7 +247,7 @@ function Review({reviews, oneStarReviews, twoStarsReviews, threeStarsReviews, fo
                     <Row>
                       <Col lg='6'>{obj.description}</Col>
                       <Col lg='2'></Col>
-                      <Col lg='4'>{moment(obj.date).format(DATE_FORMAT)}</Col>
+                      <Col lg='4'><b>{moment(obj.date).format(DATE_FORMAT)}</b></Col>
                     </Row>
                     <Row>
                       <Col lg='3'><b>{obj.name} {obj.lastname}</b></Col>
@@ -269,7 +269,7 @@ function Review({reviews, oneStarReviews, twoStarsReviews, threeStarsReviews, fo
                       <Row>
                         <Col lg='6'>{obj.description}</Col>
                         <Col lg='2'></Col>
-                        <Col lg='4'>{moment(obj.date).format(DATE_FORMAT)}</Col>
+                        <Col lg='4'><b>{moment(obj.date).format(DATE_FORMAT)}</b></Col>
                       </Row>
                       <Row>
                         <Col lg='3'><b>{obj.name} {obj.lastname}</b></Col>
@@ -293,7 +293,7 @@ function Review({reviews, oneStarReviews, twoStarsReviews, threeStarsReviews, fo
                         <Row>
                           <Col lg='6'>{obj.description}</Col>
                           <Col lg='2'></Col>
-                          <Col lg='4'>{moment(obj.date).format(DATE_FORMAT)}</Col>
+                          <Col lg='4'><b>{moment(obj.date).format(DATE_FORMAT)}</b></Col>
                         </Row>
                         <Row>
                           <Col lg='3'><b>{obj.name} {obj.lastname}</b></Col>
@@ -317,7 +317,7 @@ function Review({reviews, oneStarReviews, twoStarsReviews, threeStarsReviews, fo
                           <Row>
                             <Col lg='6'>{obj.description}</Col>
                             <Col lg='2'></Col>
-                            <Col lg='4'>{moment(obj.date).format(DATE_FORMAT)}</Col>
+                            <Col lg='4'><b>{moment(obj.date).format(DATE_FORMAT)}</b></Col>
                           </Row>
                           <Row>
                             <Col lg='3'><b>{obj.name} {obj.lastname}</b></Col>
@@ -341,7 +341,7 @@ function Review({reviews, oneStarReviews, twoStarsReviews, threeStarsReviews, fo
                             <Row>
                               <Col lg='6'>{obj.description}</Col>
                               <Col lg='2'></Col>
-                              <Col lg='4'>{moment(obj.date).format(DATE_FORMAT)}</Col>
+                              <Col lg='4'><b>{moment(obj.date).format(DATE_FORMAT)}</b></Col>
                             </Row>
                             <Row>
                               <Col lg='3'><b>{obj.name} {obj.lastname}</b></Col>

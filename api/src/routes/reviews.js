@@ -157,10 +157,30 @@ server.post('/user/product', async (req, res) => {
       where: {
         userId: userId,
         productId: productId
-      }
+      },
     })
     if(!review){
       res.send(`No se encuenta una review del userId ${userId} para el productId ${productId}`)
+    }
+    res.send(review)
+  } 
+  catch (err) {
+    console.log('reviewERROR', err)
+    return res.send({data: err}).status(400);
+  }
+})
+// All reviews from one User
+server.get('/user/:userId', async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const review = await Reviews.findAll({
+      where: {
+        userId: userId,
+      },
+      order: [['productId', 'ASC']]
+    })
+    if(!review){
+      res.send(`El userId ${userId} no tiene reviews`)
     }
     res.send(review)
   } 
