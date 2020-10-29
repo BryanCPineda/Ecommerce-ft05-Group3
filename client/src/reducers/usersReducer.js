@@ -12,7 +12,8 @@ import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
   USER_COMPLETED,
-  PROMOTE_USER
+  PROMOTE_USER,
+  PASSWORD_RESET
 } from "../constants/userConstants";
 
 const initialState = {
@@ -22,7 +23,8 @@ const initialState = {
   user: null,
   allUsers: [],
   imageUser: null,
-  promoteUser: ''
+  promoteUser: '',
+  passwordChanged: false
 };
 
 export default function userReducer(state = initialState, action) {
@@ -89,6 +91,11 @@ export default function userReducer(state = initialState, action) {
         ...state,
         imageUser: action.payload
       }
+      case PASSWORD_RESET:
+        return {
+          ...state,
+          passwordChanged: true
+        }
     default:
       return state;
   }
