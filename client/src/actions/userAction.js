@@ -19,7 +19,7 @@ import axios from "axios";
 
 export const getAllUsers = () => (dispatch) => {
   axios.get("http://localhost:4000/users").then((res) => {
-    dispatch({ type: GET_ALL_USERS, payload: res.data.rows }); 
+    dispatch({ type: GET_ALL_USERS, payload: res.data.rows });
   });
 };
 
@@ -35,24 +35,25 @@ export const loadUser = () => (dispatch, getState) => {
   if (token) {
     config.headers["x-auth-token"] = token;
   }
-  console.log(config)
+  console.log(config);
 
-  axios.get("http://localhost:4000/auth", config).then(res => {
-    dispatch({ type: USER_LOADED, payload: res.data })
-  })
-  .catch(error => {
-    // if(error.response.status === 401) {
+  axios
+    .get("http://localhost:4000/auth", config)
+    .then((res) => {
+      dispatch({ type: USER_LOADED, payload: res.data });
+    })
+    .catch((error) => {
+      // if(error.response.status === 401) {
       // if(error) {
       //   dispatch({ type: AUTH_ERROR })
       // }
-    //   console.log('unauthorized, logging out ...');
-    // return Promise.reject(error.response);
-    // }
-    console.log(error.message)
-    dispatch({ type: AUTH_ERROR })
-   }
-  )
-}
+      //   console.log('unauthorized, logging out ...');
+      // return Promise.reject(error.response);
+      // }
+      console.log(error.message);
+      dispatch({ type: AUTH_ERROR });
+    });
+};
 
 export const createUser = (user) => (dispatch) => {
   let userEnv;
@@ -85,18 +86,20 @@ export const createUser = (user) => (dispatch) => {
       dispatch({ type: REGISTER_SUCCESS, payload: res.data });
     })
     .catch((error) => {
-      if(error.response.status === 400 ) {
+      if (error.response.status === 400) {
         dispatch(
           returnErrors(
             error.response.data,
             error.response.status,
             "REGISTER_FAIL"
           )
-        )
-        dispatch({ type: REGISTER_FAIL })
-      }  
-
+        );
+        dispatch({ type: REGISTER_FAIL });
+      }
     });
+};
+export const resetPassword = (newPassword) => {
+  return axios.post("http://localhost:4000/users/passwordReset", newPassword);
 };
 
 export const loginUser = (user) => (dispatch) => {
@@ -119,35 +122,33 @@ export const loginUser = (user) => (dispatch) => {
 };
 
 export const showCompletedOrders = (idUser) => async (dispatch, getState) => {
+  // const config = {
+  //   headers: {
+  //     "Content-type": "Application/json"
+  //   }
+  // }
 
-    // const config = {
-    //   headers: {
-    //     "Content-type": "Application/json"
-    //   }
-    // }
-  
-    // const token = getState().userReducer.token
-  
-    // if(token) {
-    //   config.headers["x-auth-token"] = token
-    // }
+  // const token = getState().userReducer.token
 
-    const res = await axios.get(`http://localhost:4000/users/${idUser}/profile`)
-      dispatch({ type: USER_COMPLETED, payload: res.data })
-  }
+  // if(token) {
+  //   config.headers["x-auth-token"] = token
+  // }
+
+  const res = await axios.get(`http://localhost:4000/users/${idUser}/profile`);
+  dispatch({ type: USER_COMPLETED, payload: res.data });
+};
+/*-------------------------profile-------------------------*/
 
 export const logout = () => {
-  return({ type: LOGOUT_SUCCESS })
-}
+  return { type: LOGOUT_SUCCESS };
+};
 
-
-export const promoteUser = (id) => (dispatch, getState,) => {
-  console.log(id)
+export const promoteUser = (id) => (dispatch, getState) => {
+  console.log(id);
   const config = {
     headers: {
       "Content-type": "Application/json",
     },
-   
   };
 
   const token = getState().userReducer.token;
@@ -155,24 +156,38 @@ export const promoteUser = (id) => (dispatch, getState,) => {
   if (token) {
     config.headers["x-auth-token"] = token;
   }
-  console.log(config)
+  console.log(config);
 
-  axios.post("http://localhost:4000/auth/promote", {id: id}, config).then(res => {
-    dispatch({ type: PROMOTE_USER, payload: res.data })
-  })
-  .catch(error => { 
-    // if(error.response.status === 401) {
+  axios
+    .post("http://localhost:4000/auth/promote", { id: id }, config)
+    .then((res) => {
+      dispatch({ type: PROMOTE_USER, payload: res.data });
+    })
+    .catch((error) => {
+      // if(error.response.status === 401) {
       // if(error) {
       //   dispatch({ type: AUTH_ERROR })
       // }
-    //   console.log('unauthorized, logging out ...');
-    // return Promise.reject(error.response);
-    // }
-    console.log(error.message)
-    //dispatch({ type: AUTH_ERROR })
-   }
-  )
-}
+      //   console.log('unauthorized, logging out ...');
+      // return Promise.reject(error.response);
+      // }
+      console.log(error.message);
+      //dispatch({ type: AUTH_ERROR })
+    });
+};
 
 /*--------------------------------------------------*/
 
+export const setImageForUser = (img, idUser) => async (dispatch) => {
+  console.log("ima del actions", img);
+  const res = await axios.post(`http://localhost:4000/users/${idUser}/image`, {
+    img: img,
+  });
+  console.log(res);
+  dispatch({ type: "IMAGE_PROFILE_USER", payload: res.data });
+};
+
+export const getImageOfUser = (idUser) => async (dispatch) => {
+  const res = await axios.get(`http://localhost:4000/users/${idUser}/image`);
+  dispatch({ type: "GET_IMAGE_PROFILE_USER", payload: res.data });
+};

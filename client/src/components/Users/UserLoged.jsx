@@ -16,12 +16,20 @@ import { Link } from "react-router-dom";
 import Logout from "./Logout";
 import "./UserLoged.css";
 import { CgProfile } from 'react-icons/cg';
+import { getImageOfUser } from '../../actions/userAction';
 //import UserProfile from "./Profile";
 
 //-------------- Redux ------------------------
 import { connect } from "react-redux";
 
-const UserLoged = ({ user }) => {
+const UserLoged = ({ user, imageUser, getImageOfUser }) => {
+
+  const userId = user && user.id
+
+  useEffect(() => {
+    getImageOfUser(userId);
+  }, [])
+
   return (
     // <Dropdown>
     //   <Dropdown.Toggle id="user-loged-dropdown">{user.name}</Dropdown.Toggle>
@@ -39,8 +47,12 @@ const UserLoged = ({ user }) => {
     //   </Dropdown.Menu>
     // </Dropdown>
     <div className="sign-logout"> 
-      <Link to="/user/profile"><span className="mr-3"
-       style={{color: 'white', fontSize: '28px'}}><CgProfile /></span>
+      <Link to="/user/profile">
+      {imageUser ?
+        <img className="mr-3" src={imageUser} style={{borderRadius: '100%', heigth: '50px', width: '50px'}}></img>
+      :
+      <span className="mr-3" style={{color: 'white', fontSize: '28px'}}><CgProfile /></span>
+      }
        {user.name === user.lastname ?
       <span className="mr-4 nombre-apellido-profile" style={{color: 'white', fontSize: '22px'}}>{user.name}</span>
       :
@@ -54,13 +66,14 @@ const UserLoged = ({ user }) => {
 
 function mapStateToProps(state) {
   return {
-    /* user: state.userReducer.user */
+    imageUser: state.userReducer.imageUser,
+    user: state.userReducer.user,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    /* loadUser: () => dispatch(loadUser()),  */
+    getImageOfUser: (userId) => dispatch(getImageOfUser(userId))
   };
 }
 

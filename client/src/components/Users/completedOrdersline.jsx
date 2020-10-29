@@ -62,7 +62,8 @@ const CompletedOrderline = ({ matchReview, getUserReviews, userReviews, getCompl
   matching();
 
   return (
-    <div className="mt-5">
+    <React.Fragment>
+      <div className="mt-5">
       <h3 style={{color: 'white'}}>Shopping History</h3>
       <Row>
         <Col>
@@ -86,7 +87,7 @@ const CompletedOrderline = ({ matchReview, getUserReviews, userReviews, getCompl
                   return (
                     <tr>
                       <td>
-                        {row.id} {row.name}
+                        {row.name}
                       </td>
                       <td>
                         {row.price}
@@ -98,7 +99,7 @@ const CompletedOrderline = ({ matchReview, getUserReviews, userReviews, getCompl
                         {moment(row.date).format(DATE_FORMAT)}
                       </td>
                       <td>
-                        {row.qualification ? (<p>{row.qualification} <b>id{row.reviewid}</b></p> ) : 'This product has no Review'}
+                        {row.qualification ? row.qualification : 'This product has no Review'}
                       </td>
                       <td>
                         <div key={index}>
@@ -119,8 +120,11 @@ const CompletedOrderline = ({ matchReview, getUserReviews, userReviews, getCompl
         </Col>
       </Row>
     </div>
+    </React.Fragment>
   );
 };
+
+
 function mapStateToProps(state) {
   return {
     user: state.userReducer.user,

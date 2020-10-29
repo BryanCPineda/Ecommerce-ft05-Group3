@@ -14,8 +14,8 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { DB_KEY } = process.env;
 
-const isAdmin = require('../middleware/isAdmin')
-const auth = require('../middleware/auth');
+const isAdmin = require("../middleware/isAdmin");
+const auth = require("../middleware/auth");
 
 // Giving all users and counting them
 server.get("/", (req, res, next) => {
@@ -73,52 +73,52 @@ server.post(
       .withMessage("Password must have at least 8 characters"),
   ],
   async (req, res) => {
-      /******PRIMERO SE VALIDA SI SE QUIERE INGRESAR CON GOOGLE *******/
+    /******PRIMERO SE VALIDA SI SE QUIERE INGRESAR CON GOOGLE *******/
 
-      const { whitGoogle } = req.body;
-      let newGoogleUser;
+    const { whitGoogle } = req.body;
+    let newGoogleUser;
 
-      if (whitGoogle === true) {
-        newGoogleUser = {
-          name: req.body.name,
-          lastname: req.body.lastname,
-          email: req.body.email,
-          password: req.body.password,
-          image: req.body.image,
-        };
+    if (whitGoogle === true) {
+      newGoogleUser = {
+        name: req.body.name,
+        lastname: req.body.lastname,
+        email: req.body.email,
+        password: req.body.password,
+        image: req.body.image,
+      };
 
-        Users.findOrCreate({
-          where: {
-            name: newGoogleUser.name,
-            lastname: newGoogleUser.lastname,
-            email: newGoogleUser.email,
-            password: newGoogleUser.password,
-            image: newGoogleUser.image,
-          },
+      Users.findOrCreate({
+        where: {
+          name: newGoogleUser.name,
+          lastname: newGoogleUser.lastname,
+          email: newGoogleUser.email,
+          password: newGoogleUser.password,
+          image: newGoogleUser.image,
+        },
+      })
+        .then((sendUser) => {
+          let user = sendUser[0];
+          jwt.sign(
+            { id: user.id },
+            DB_KEY,
+            { expiresIn: "1d" },
+            (err, token) => {
+              if (err) throw err;
+              res.status(200).send({
+                token,
+                user,
+              });
+            }
+          );
         })
-          .then((sendUser) => {
-            let user = sendUser[0];
-            jwt.sign(
-              { id: user.id },
-              DB_KEY,
-              { expiresIn: "1d" },
-              (err, token) => {
-                if (err) throw err;
-                res.status(200).send({
-                  token,
-                  user,
-                });
-              }
-            );
-          })
 
-          .catch((err) => {
-            return res.send(err).status(500);
-          });
-      } else {
-        /******HASTA AQUI SE CREA UN NUEVO USUARIO EN LA DB CON LOS DATOS DE GOOGLE, O SE BUSCA Y SE RETORNA CON UN JWT *******/
-        try {
-          const { name, lastname, email, password } = req.body;
+        .catch((err) => {
+          return res.send(err).status(500);
+        });
+    } else {
+      /******HASTA AQUI SE CREA UN NUEVO USUARIO EN LA DB CON LOS DATOS DE GOOGLE, O SE BUSCA Y SE RETORNA CON UN JWT *******/
+      try {
+        const { name, lastname, email, password } = req.body;
 
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -146,27 +146,30 @@ server.post(
 
         await userCreate.save();
 
-    jwt.sign(
-      { id: userCreate.id },
-      DB_KEY,
-      { expiresIn: '1d' },
-      ((err, token) => {
-        if(err) throw err;
-        res.status(200).send({
-          token,
-          user: {
-            id: userCreate.id,
-            name: userCreate.name,
-            lastname: userCreate.lastname,
-            email: userCreate.email,
-            rol: userCreate.usertype
+        jwt.sign(
+          { id: userCreate.id },
+          DB_KEY,
+          { expiresIn: "1d" },
+          (err, token) => {
+            if (err) throw err;
+            res.status(200).send({
+              token,
+              user: {
+                id: userCreate.id,
+                name: userCreate.name,
+                lastname: userCreate.lastname,
+                email: userCreate.email,
+                rol: userCreate.usertype,
+              },
+            });
           }
-        });
-      }))
-        } catch (error) {
-          console.log(error);
-        }
-  }});
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }
+);
 
 server.put("/:id", auth, (req, res) => {
   const { id } = req.params;
@@ -208,7 +211,7 @@ server.put("/:userId/cart", async (req, res) => {
   // PUT /users/:idUser/cart
   const id = req.params.userId; // Me llega el userId desde el login.
   const { orderlineId, orderlineQuantity } = req.body; // Se trigerean desde el body los campos de la Orderline
-  
+
   try {
     const order = await Order.findOne({
       // Obtengo la orden del usuario
@@ -238,7 +241,8 @@ server.put("/:userId/cart", async (req, res) => {
           `You reached the maximun stock, you can buy till ${product.stock} items.`
         );
       }
-      product.stock = product.stock + orderlineToChange.quantity - orderlineQuantity;
+      product.stock =
+        product.stock + orderlineToChange.quantity - orderlineQuantity;
       const updatedProduct = await product.save();
       orderlineToChange.quantity = Number(orderlineQuantity);
       orderlineToChange.save();
@@ -288,21 +292,41 @@ server.get("/:idUser/cart", (req, res) => {
     });
 });
 
-// // Getting all Orderlines in the Cart
-// server.get("/:idUser/cart", async (req, res) => {
-//   try {
-//     const { idUser } = req.params;
-//     const orderUser = await Order.findOne({
-//       where: { userId: idUser, state: "Cart" },
-//     });
-//     const orderLines = await Orderline.findAll({
-//       where: { orderId: orderUser.dataValues.id },
-//     });
-//     return res.status(200).send(orderLines);
-//   } catch (error) {
-//     return res.status(400).send({ data: error });
-//   }
-// });
+// getting all oarders for the checkout
+
+server.get("/:idUser/checkout", (req, res) => {
+  const { idUser } = req.params;
+  Order.findOne({
+    where: {
+      userId: idUser,
+      state: "Created",
+    },
+    include: [
+      {
+        model: Product,
+
+      },
+    ],
+  })
+    .then((order) => {
+      Orderline.findAll({
+        where: {
+          orderId: order.id,
+        },
+      }).then((orderlines) => {
+        const orderLinePlusProduct = {
+          product: order.products,
+          orderlines: orderlines,
+          orderId: order.id,
+          totalPrice: order.totalPrice
+        };
+        res.send(orderLinePlusProduct);
+      });
+    })
+    .catch((err) => {
+      res.send({ data: err }).status(400);
+    });
+});
 
 // Add Orderlines to the Cart
 server.post("/:idUser/cart", async (req, res) => {
@@ -390,40 +414,43 @@ server.delete("/:idUser/cart/:idProduct", (req, res) => {
   const idUser = req.params.idUser;
   const idProduct = req.params.idProduct;
 
-    Orderline.findOne({
+  Orderline.findOne({
+    where: {
+      productId: idProduct,
+    },
+  }).then((orderline) => {
+    if (!orderline) {
+      res.send("La orden para el usuario " + idUser + ", no fue encontrada");
+      return;
+    }
+    Product.findOne({
+      where: {
+        id: idProduct,
+      },
+    }).then((product) => {
+      let nuevoStock = product.stock + orderline.dataValues.quantity;
+      Product.update(
+        {
+          stock: nuevoStock,
+        },
+        {
+          where: { id: product.id },
+        }
+      );
+    });
+
+    Orderline.destroy({
       where: {
         productId: idProduct,
       },
-    }).then((orderline) => {
-      if (!orderline) {
-        res.send("La orden para el usuario " + idUser + ", no fue encontrada");
-        return;
-      }
-      Product.findOne({
-        where: {
-          id: idProduct,
-        },
-      }).then((product) => {
-        let nuevoStock = product.stock + orderline.dataValues.quantity;
-        Product.update({
-          stock: nuevoStock
-        },{
-          where: {id: product.id}
-        });
+    })
+      .then(() => {
+        return res.send("El item fue borrado");
       })
-
-      Orderline.destroy({
-        where: {
-          productId: idProduct,
-        },
-      })
-        .then(() => {
-          return res.send("El item fue borrado");
-        })
-        .catch((error) => {
-          return res.send(error).status(500);
-        });
-    });
+      .catch((error) => {
+        return res.send(error).status(500);
+      });
+  });
 });
 
 // Getting all orders from one user
@@ -467,7 +494,7 @@ server.delete("/:id", (req, res) => {
 
 //password Reset
 server.post("/passwordReset", auth, (req, res) => {
-  const { id } = req.user.id;
+  const { id } = req.user;
   const { newPassword } = req.body;
 
   const hashedPassword = bcrypt.hash(newPassword, 10).then((hashedPassword) => {
@@ -479,8 +506,12 @@ server.post("/passwordReset", auth, (req, res) => {
         where: { id: id },
       }
     )
-      .then(() => {
-        res.send("Password Has been reset");
+      .then((value) => {
+        const valor = value[0];
+        if (valor) {
+          res.send("Password has been reset");
+        }
+        res.send("User not found!");
       })
       .catch((err) => {
         res.send({ data: err }).status(500);
@@ -489,27 +520,27 @@ server.post("/passwordReset", auth, (req, res) => {
 });
 
 // Profile route
-// server.get("/:idUser/profile", async (req, res) => {
-//   const {idUser} = req.params;
-//   Order.findAll({
-//     where:{
-//       userId: idUser,
-//       state: 'Complete'
-//     },
-//     include: {
-//       model: Product,
-//       include: {
-//         model: Users
-//       }
-//     }
-//   })
-//   .then((orders)=>{
-//     res.send(orders)
-//   })
-//   .catch((err)=>{
-//     res.send(err)
-//   })
-// });
+server.get("/:idUser/profile", async (req, res) => {
+  const {idUser} = req.params;
+  Order.findAll({
+    where:{
+      userId: idUser,
+      state: 'Complete'
+    },
+    include: {
+      model: Product,
+      include: {
+        model: Users
+      }
+    }
+  })
+  .then((orders)=>{
+    res.send(orders)
+  })
+  .catch((err)=>{
+    res.send(err)
+  })
+});
 
 // This function brings necesary data for the completedOrderlines component
 server.get("/:userId/completedOrderlines", async (req, res) => {
@@ -526,12 +557,10 @@ server.get("/:userId/completedOrderlines", async (req, res) => {
       res.send('This user has no completed orders').status(406)
     }
     res.send(orderlines);
-  } 
-  catch (error) {
+  } catch (error) {
     res.send(error);
   }
 });
-
 
 // server.get("/:idUser/profile", (req, res) => {
 //   const { idUser } = req.params;
@@ -544,16 +573,42 @@ server.get("/:userId/completedOrderlines", async (req, res) => {
 //         productsIds.map(ele => Reviews.findAll({ where: { productId: ele, userId: idUser }}).then(products => {
 //           console.log(products)
 //         })
-        
+
 //         )
 //       })
 
 //       )
-      
+
 //     })
 //     .catch((err) => {
 //       res.send(err);
 //     });
 // });
+
+server.get("/:idUser/image", async (req, res) => {
+  try {
+    const { idUser } = req.params;
+
+    const user = await Users.findOne({ where: { id: idUser } });
+    res.status(200).send(user.image);
+  } catch (error) {
+    res.status(400).send({ msg: error });
+  }
+});
+
+
+server.post("/:idUser/image", async (req, res) => {
+  try {
+    const { idUser } = req.params;
+    const { img } = req.body
+
+    const user = await Users.findOne({ where: { id: idUser } });
+    user.image = img;
+    await user.save();
+    res.status(200).send(user.image);
+  } catch (error) {
+    res.status(400).send({ msg: error });
+  }
+});
 
 module.exports = server;
