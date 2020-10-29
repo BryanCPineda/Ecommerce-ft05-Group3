@@ -30,7 +30,8 @@ function Catalogo({
   products3,
   isAuthenticated,
   addProductToCart,
-  user
+  user,
+  getProductsFromCategories
 }) {
 
   /*------------------Pagination---------------------*/
@@ -117,9 +118,21 @@ function Catalogo({
       },[isAuthenticated])
     //----------chequear que exista el carrito de guest cuando se loguea
 
+    // const handleProductsFromCategories = (e) => {
+    //   if(e.target.value === "All Products") {
+    //     getAllProducts()
+    //   }
+    //   else {
+    //     getProductsFromCategories();
+    //   }
+    // }
 
    
   return (
+    <React.Fragment>
+    {/* <div className="filter-categories d-flex justify-content-center mb-5">
+        <Filter />
+    </div> */}
     <div fluid className="catalogo d-flex" style={{width: '100%'}}>
       <div className="sidebar-component-catalogo" style={{width: '400px'}}>
         <SideComponent /> 
@@ -150,7 +163,7 @@ function Catalogo({
                   current={currentPage}
                   currentProducts={currentProducts}
                 /> 
-                {console.log('mostrame la imagen', ele.images[0])}
+                {/* {console.log('mostrame la imagen', ele.images[0])} */}
               </div>
 
             ))
@@ -165,6 +178,7 @@ function Catalogo({
         </div>
       </Container >      
     </div>
+    </React.Fragment>
   );
 } 
 

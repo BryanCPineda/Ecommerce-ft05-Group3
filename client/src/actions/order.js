@@ -97,9 +97,10 @@ export function getOrder(idUser) {
             dispatch({ type: GET_ORDER_CART, payload: res})}
         ) }}
 
-export function cambioEstadoCarrito(id, status){
+export function cambioEstadoCarrito(id, status, totalPrice){
     let estado = {
-        state : "Created"
+        state : "Created",
+        totalPrice: totalPrice
     }
 
     // return (dispatch, getState) => {

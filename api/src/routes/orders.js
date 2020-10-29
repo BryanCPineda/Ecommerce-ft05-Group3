@@ -43,12 +43,13 @@ server.put('/:id', auth, isAdmin, (req, res, next) => {
 
 // ruta para finalizar la compra del carrito----------------------------------------------
 server.put('/checkout/:id', (req, res) => {
-  const {state} = req.body
+  const {state, totalPrice} = req.body
   const {id} = req.params
   console.log('cambio estado carrito', req.body)
   Order.update(
     {
-      state: state
+      state: state,
+      totalPrice: totalPrice
     }, 
     { where: { id: id } }
   )
