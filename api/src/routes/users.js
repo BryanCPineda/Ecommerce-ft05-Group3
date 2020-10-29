@@ -288,21 +288,41 @@ server.get("/:idUser/cart", (req, res) => {
     });
 });
 
-// // Getting all Orderlines in the Cart
-// server.get("/:idUser/cart", async (req, res) => {
-//   try {
-//     const { idUser } = req.params;
-//     const orderUser = await Order.findOne({
-//       where: { userId: idUser, state: "Cart" },
-//     });
-//     const orderLines = await Orderline.findAll({
-//       where: { orderId: orderUser.dataValues.id },
-//     });
-//     return res.status(200).send(orderLines);
-//   } catch (error) {
-//     return res.status(400).send({ data: error });
-//   }
-// });
+// getting all oarders for the checkout
+
+server.get("/:idUser/checkout", (req, res) => {
+  const { idUser } = req.params;
+  Order.findOne({
+    where: {
+      userId: idUser,
+      state: "Created",
+    },
+    include: [
+      {
+        model: Product,
+
+      },
+    ],
+  })
+    .then((order) => {
+      Orderline.findAll({
+        where: {
+          orderId: order.id,
+        },
+      }).then((orderlines) => {
+        const orderLinePlusProduct = {
+          product: order.products,
+          orderlines: orderlines,
+          orderId: order.id,
+          totalPrice: order.totalPrice
+        };
+        res.send(orderLinePlusProduct);
+      });
+    })
+    .catch((err) => {
+      res.send({ data: err }).status(400);
+    });
+});
 
 // Add Orderlines to the Cart
 server.post("/:idUser/cart", async (req, res) => {

@@ -29,10 +29,12 @@ import isAdmin from './components/roles/IsAdmin'
 import isUser from './components/roles/IsAdmin'
 import Error404 from './components/Error404';
 import Navbar from './components/Navbar';
+import AddAdress from './components/checkout/AddAdress';
 
 import { connect } from 'react-redux';
 import { loadUser } from './actions/userAction';
 import Reviews from "./components/Reviews/Reviews";
+import Checkout from "./components/checkout/Checkout";
 
 function App({ loadUser }) {
 
@@ -58,6 +60,7 @@ function App({ loadUser }) {
           <Route exact path="/admin/orders" component={AdminOrders} />
           <Route exact path="/user/product/:id" component={PrductsMati} />
           <Route path="/user/cart" component={CartUse} />
+          <Route pach="/user/checkout" component={Checkout} />
           <Route path="/error404" component={Error404} />
           <Route path="/user/profile" component={UserProfile} />
 
