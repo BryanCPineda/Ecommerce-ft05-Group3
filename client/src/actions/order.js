@@ -100,7 +100,7 @@ export function getOrder(idUser) {
 
 export function cambioEstadoCarrito(id, status, totalPrice){
     let estado = {
-        state : "Created",
+        state : status,
         totalPrice: totalPrice
     }
 
