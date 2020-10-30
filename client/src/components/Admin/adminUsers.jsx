@@ -14,24 +14,14 @@ import { connect } from "react-redux";
 import swal from "sweetalert";
 
 //-------------------Redux-----------------//
-import {
-  getAllOrders,
-  createOrder,
-  updateOrder,
-  deleteOrder,
-} from "../../actions/orders";
-
-import {getAllUsers,promoteUser } from '../../actions/userAction';
-
+import {getAllUsers,promoteUser, deleteUser } from '../../actions/userAction';
+ 
 function Orders({
-  allOrders,
-  getAllOrders,
-  createOrder,
-  updateOrder,
-  deleteOrder,
   allUsers,
   getAllUsers,
   promoteUser,
+  deleteUser,
+  
 }) {
   const DATE_FORMAT = "DD/MM/YYYY - HH:mm:ss";
 
@@ -46,7 +36,9 @@ function Orders({
   }, [state.reload]);
 
   const handleUpdate = (id) => {
-   
+    
+
+
     swal({
       title: "Are you sure?",
       text: "You will Promote this Client to Admin",
@@ -55,10 +47,9 @@ function Orders({
       dangerMode: true,
     }).then((willDelete) => {
       if (willDelete) {
-         console.log("oprinio el ok")
-        
+     
         promoteUser(id);
-        swal("Your Order has been changed!", {
+         swal("Client Role has been changed!", {
           icon: "success",
         }).then(() => {
           setState({
@@ -72,18 +63,18 @@ function Orders({
   const handleDelete = (id) => {
     swal({
       title: "Are you sure?",
-      text: "Once Deleted, you will not be able to recover this Order",
+      text: "Once Deleted, you will not be able to recover this User",
       icon: "warning",
       buttons: true,
       dangerMode: true,
     }).then((willDelete) => {
       if (willDelete) {
-       
-        deleteOrder(id);
-        swal("Your Order has been deleted!", {
+        console.log("eliminar el usuario")
+        deleteUser(id);
+        swal("User has been deleted!", {
           icon: "success",
         }).then(() => {
-          setState({
+          setState({ 
             reload: !state.reload,
           });
         });
@@ -112,10 +103,8 @@ function Orders({
                     <th> User Id </th>
                     <th> Name </th>
                     <th> Email </th>
-                    {/*<th>Created At</th>
-                    <th>Update At</th>*/}
                     <th>Current Rol</th>
-                    <th>Promote To</th>
+                    <th>Promote To Admin</th>
                     <th>Delete User</th>
                   </tr>
                 </thead>
@@ -127,27 +116,18 @@ function Orders({
                           <td>{user.id}</td>
                           <td>{user.name}</td>
                           <td>{user.email}</td>
-                          {/*<td>{moment(user.createdAt).format(DATE_FORMAT)}</td>
-                          <td>
-                            {order.createdAt === order.updatedAt
-                              ? "Sin modificaciones"
-                              : moment(order.updatedAt).format(DATE_FORMAT)}
-                          </td>*/}
                           <td> {user.usertype}</td>
                           <td>
-                            <Form.Control
-                              as="select"
-                              name="Rol"
-                              onChange={() => {
+                            <Form.Check 
+                                disabled = {user.usertype === "admin" ? true : false}
+                                type="checkbox"
+                                label=""
+                                onChange={() => {
                                 handleUpdate(user.id);
                               }}
                             >
-                              {/*{onClick={()=> {handleUpdate(order.id)} */}
-                              <option value="null">Select a New Rol</option>
-                              <option value="Admin">Admin</option>
-                            </Form.Control>
+                            </Form.Check>
                           </td>
-
                           <td>
                             <Button
                               onClick={() => handleDelete(user.id)}
@@ -186,11 +166,11 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    getAllOrders: () => dispatch(getAllOrders()),
-    updateOrder: (state) => dispatch(updateOrder(state)),
-    promoteUser: (id) => dispatch(promoteUser(id)),
-    deleteOrder: (id) => dispatch(deleteOrder(id)),
+ 
+    promoteUser: (id) => dispatch(promoteUser(id)),  
     getAllUsers: () => dispatch(getAllUsers()),
+    deleteUser: (id) => dispatch(deleteUser(id)),
+    
 
   };
 }

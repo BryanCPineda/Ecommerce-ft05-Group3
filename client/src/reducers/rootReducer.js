@@ -11,7 +11,7 @@ import orderReducer from './order';
  
 import errorReducer from './errorReducer';
 import reviewsReducer from './reviewsReducer';
-
+import sendEmailReducer from './sendEmailReducer';
 
 export default combineReducers({
     auth: authReducer,
@@ -23,5 +23,6 @@ export default combineReducers({
     userReducer: userReducer,
     error: errorReducer,
     ordersReducer: ordersReducer,
-    reviewsReducer: reviewsReducer
+    reviewsReducer: reviewsReducer,
+    sendEmailReducer: sendEmailReducer
 });

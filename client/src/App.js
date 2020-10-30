@@ -13,6 +13,8 @@ import PrductsMati from "./components/ProductsMati";
 import Footer from "./components/Footer";
 import NavbarAdmin from "./components/NavbarAdmin";
 import UserProfile from "./components/Users/Profile";
+import UserForgotPassword from "./components/Users/UserForgotPassword";
+import passwordResetLink from './components/Users/passwordResetLink';
 
 import AdminOrders from "./components/Admin/adminOrders";
 import AdminUsers from "./components/Admin/adminUsers";
@@ -59,6 +61,8 @@ function App({ loadUser }) {
           <Route exact path="/user/product/:id" component={PrductsMati} />
           <Route path="/user/cart" component={CartUse} />
           <Route path="/error404" component={Error404} />
+          <Route path='/user/password/reset' component={UserForgotPassword} />
+          <Route path='/user/forgotPassword' component={passwordResetLink} />
           <Route path="/user/profile" component={UserProfile} />
 
 

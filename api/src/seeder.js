@@ -320,6 +320,18 @@ function usersSeeder(){
             email: 'test3@test.com',
             password: '$2a$10$NbdBSL8O5UY91h8AnWv8w.wVw2U2KLvOUNkOQ34alTc0R/V6x4/BW', //testpass
         },
+        {
+            name: 'Test4',
+            lastname: 'User',
+            email: 'test4@test.com',
+            password: '$2a$10$NbdBSL8O5UY91h8AnWv8w.wVw2U2KLvOUNkOQ34alTc0R/V6x4/BW', //testpass
+        },
+        {
+            name: 'Test5',
+            lastname: 'User',
+            email: 'test5@test.com',
+            password: '$2a$10$NbdBSL8O5UY91h8AnWv8w.wVw2U2KLvOUNkOQ34alTc0R/V6x4/BW', //testpass
+        },
     ])
 }
 

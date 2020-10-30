@@ -66,7 +66,8 @@ function Catalogo({
       getProductsFromCart(user.id).then(()=>{
       getAllProducts();
     })
-    }else {
+    }
+    else {
         getAllProducts();
     }
     
