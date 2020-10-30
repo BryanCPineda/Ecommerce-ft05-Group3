@@ -25,7 +25,7 @@ const { productsSeeder, categoriesSeeder , imageSeeder, categoy_productSederr, u
 
 
 // Syncing all the models at once.
-conn.sync({ force: true }).then(() => {
+conn.sync({ force: false }).then(() => {
   productsSeeder();
   categoriesSeeder();
  // imageSeeder();

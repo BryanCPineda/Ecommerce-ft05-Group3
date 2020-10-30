@@ -497,7 +497,7 @@ function reviews_productSeeder() {      // This function create several relation
     var userid = 1;
     var j = 1;
     for (let i = 1; i < 29; i++) {
-        if(userid>4){
+        if(userid>6){
             userid=1;
         }
         if(j>14){

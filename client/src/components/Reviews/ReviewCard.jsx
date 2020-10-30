@@ -13,11 +13,22 @@ function ReviewCard({reviewDescription, reviewid, reviewQualification, deleteRev
   console.log('reviewid', id)
   
   const handleOnDelete = (e) => {
-    deleteReview(id);
-    swal("Review deleted successfully!", {
-      icon: "success",
-    });
-    setShow(false);
+    swal({
+      title: "Are you sure?",
+      text: "You are about to delete this Review\nThere's no going back!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+    .then(accepted=>{
+      if(accepted){
+        deleteReview(id) 
+        swal("Review deleted successfully!", {
+          icon: "success",
+        })
+        setShow(false);
+      } 
+    })
   }
   const handleOnclick = (e) => {
     e.preventDefault();

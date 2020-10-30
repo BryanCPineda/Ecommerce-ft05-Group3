@@ -54,10 +54,10 @@ const [state, setState] = useState({modal:''})
         <div className="d-flex justify-content-center container" >
         
           <Link to="/user/catalogo">
-            <div class="logo">
+            <div className="logo">
               <img
                 style={{width: '150px', height: '150px'}}
-                class="image-brand"
+                className="image-brand"
                 src={"/images/brand4.png"}
                 alt="logo"
               ></img>
