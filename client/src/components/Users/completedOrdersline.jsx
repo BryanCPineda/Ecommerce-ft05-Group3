@@ -1,121 +1,141 @@
 import React, { useEffect, useState } from "react";
-import {
-  Container,
-  Row,
-  Col,
-  Card,
-  Carousel,
-  Button,
-  Form,
-} from "react-bootstrap";
-import { FiShoppingCart } from "react-icons/fi";
-import { BsFillDashCircleFill, BsCheck } from "react-icons/bs";
+import { Table, Container } from "react-bootstrap";
+import '../Reviews/Reviews.css';
 import { connect } from "react-redux";
 import AddReview from '../Reviews/AddReview';
+import {oneStar, towStars, threeStars, fourStars, fiveStars} from '../Reviews/stars'
 import "./Profile.css";
-import { showCompletedOrders } from "../../actions/userAction";
+import { getUserReviews } from "../../actions/reviewsActions";
+import { getCompletedOrderlines } from "../../actions/completeOrdelinesActions";
+import moment from "moment";
+import ReviewCard from "../Reviews/ReviewCard";
 
-const CompletedOrderline = ({ showCompletedOrders, user, orders }) => {
+const CompletedOrderline = ({ getUserReviews, userReviews, getCompletedOrderlines, user, orderlines }) => {
   const idUser = user && user.id;
-  const pId = orders && orders.map(order=>{
-    order.products.map(product => product.id)
-  })
-  console.log('orders', pId)
+  const orderLines = orderlines.rows ? orderlines.rows : [];
+  const myTable = []
+  const DATE_FORMAT = "DD/MM/YYYY - HH:mm";
+  const reviews = userReviews;
+
+  console.log('reviewsssss', reviews)
+  console.log('orderLines', orderLines)
+
   useEffect(() => {
     if(user){
-      showCompletedOrders(user.id);
+      getCompletedOrderlines(idUser);
+      getUserReviews(idUser);
     }
   }, []);
+  
+  const createMyTable = () =>{
+    for (let i = 0; i < orderLines.length; i++) {
+      myTable.push({
+        id: orderLines[i].product.id,
+        name: orderLines[i].product.name,
+        price: orderLines[i].price,
+        quantity: orderLines[i].quantity,
+        date: orderLines[i].updatedAt,
+      })
+    }
+    return myTable;
+  }
+  createMyTable();
+  console.log('myTable', myTable)
+  
+  function matching(){
+    for (let i = 0; i < orderLines.length; i++) {
+      const foundReview = reviews.find(review=>
+        review.productId === orderLines[i].productId)
+      myTable[i].qualification = foundReview && (foundReview.qualification || null);
+      myTable[i].description = foundReview && (foundReview.description || null);
+      myTable[i].reviewid = foundReview && (foundReview.id || null);
+    }
+    return;
+  }
+  matching();
 
-  //const orders = showCompletedOrders();
   return (
-    <div className="mt-5">
+    <React.Fragment>
+      <Container className="mt-5">
       <h3 style={{color: 'white'}}>Shopping History</h3>
-      <Row>
-        <Col>
-          <div
-            className="table-responsive"
-            style={{ backgroundColor: "white" }}
-          >
-            <table class="table">
+          <div className="table-responsive">
+            <Table striped hover style={{borderRadius: '30px', textAlign: 'center'}}>
               <thead>
                 <tr>
-                  <th scope="col">Product</th>
-                  <th scope="col">Price</th>
-                  <th scope="col">Quantity</th>
-                  <th scope="col">Add Review</th>
+                  <th scope="col"><h4>Products ({orderlines.count})</h4></th>
+                  <th scope="col"><h4>Price</h4></th>
+                  <th scope="col"><h4>Quantity</h4></th>
+                  <th scope="col"><h4>Date</h4></th>
+                  <th scope="col"><h4>Qualification</h4></th>
+                  <th scope="col"><h4>Review Ops</h4></th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td style={{ padding: '0px'}}>
-                    {orders && orders.map((order, index) => (
-                      <div key={index}>
-                        {order &&
-                        order.products.map((product, index) => (
-                          <div key={index}>
-                            <p>{product.name}</p>
-                          </div>      
-                        ))}
-                      </div>
-                    ))}
-                  </td>
-                  <td style={{ padding: '0px'}}>
-                    {orders && orders.map((order, index) => (
-                      <div key={index}>
-                        {order && order.products.map((ele, index) => (
-                          <div key={index}>
-                            <p>{ele.orderline.price}</p>
-                          </div>
-                        ))}   
-                      </div>
-                    ))}
-                  </td>
-                  <td style={{ padding: '0px'}}>
-                    {orders && orders.map((order, index) => (
-                      <div key={index}>
-                        {order &&
-                        order.products.map((ele, index) => (
-                          <div key={index}>
-                            <p>{ele.orderline.quantity}</p>
-                          </div>
-                        ))}   
-                      </div>
-                    ))}
-                  </td>
-                  <td className="d-flex justify-content-between flex-column p-0" style={{ padding: '0px'}}>
-                  {orders && orders.map((order, index) => (
-                      <div key={index}>
-                        {order &&
-                        order.products.map((ele, index) => (
-                          <div key={index}>
-                            <span>{
-                              <AddReview 
-                                productId={ele.id} 
-                              />}</span>
-                          </div>
-                        ))}   
-                      </div>
-                    ))}
-                  </td>
-                </tr>
+                {myTable && myTable.map((row, index)=>{
+                    console.log('MAP ', row.reviewid)
+                  return (
+                    <tr>
+                      <td style={{textAlign: 'left'}}>
+                        {row.name}
+                      </td>
+                      <td>
+                        {row.price}
+                      </td>
+                      <td>
+                        {row.quantity}
+                      </td>
+                      <td>
+                        {moment(row.date).format(DATE_FORMAT)}
+                      </td>
+                      { 
+                        row.qualification == 1 ? (<td className='bigStars'>{oneStar}</td>) : 
+                        row.qualification == 2 ? (<td className='bigStars'>{towStars}</td>) : 
+                        row.qualification == 3 ? (<td className='bigStars'>{threeStars}</td>) : 
+                        row.qualification == 4 ? (<td className='bigStars'>{fourStars}</td>) : 
+                        row.qualification == 5 ? (<td className='bigStars'>{fiveStars}</td>) : 
+                        <td>You did not review this product yet</td>
+                      }
+                      <td>
+                        <div key={index}>
+                          <span>{
+                            <AddReview 
+                              productId={row.id} 
+                              idUser={idUser} 
+                              reviewQualification={row.qualification}
+                            />}
+                          </span>
+                          <span>{
+                            <ReviewCard 
+                              reviewid={row.reviewid} 
+                              reviewQualification={row.qualification}
+                              reviewDescription={row.description}
+                            />}
+                          </span>
+                        </div>
+                      </td>
+                    </tr>
+                  )
+                })}
               </tbody>
-            </table>
+            </Table>
           </div>
-        </Col>
-      </Row>
-    </div>
+    </Container>
+    </React.Fragment>
   );
 };
+
+
 function mapStateToProps(state) {
   return {
     user: state.userReducer.user,
-    orders: state.userReducer.allUsers,
+    orderlines: state.completedOrderlinesReducer.orderlines,
+    userReviews: state.reviewsReducer.userReviews
   };
 }
 function mapDispatchToProps(dispatch) {
   return {
-    showCompletedOrders: (idUser) => dispatch(showCompletedOrders(idUser)),
+    getCompletedOrderlines: (id) => dispatch(getCompletedOrderlines(id)),
+    getUserReviews: (userId) => dispatch(getUserReviews(userId))
   };
 }
 

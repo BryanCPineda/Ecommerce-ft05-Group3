@@ -1,16 +1,59 @@
-import React,  {useEffect} from 'react';
+import React from 'react';
 import { useState } from 'react';
 import { Button, Container, Modal, Col, Row, Form, InputGroup, FormControl } from 'react-bootstrap';
 import Stars from 'react-stars';
 import {addReview} from '../../actions/reviewsActions';
 import {connect} from 'react-redux';
 import swal from 'sweetalert'
-// import store from '../../store'
 
-function AddReview({addReview, user, product, productId}) {
-  const[show, setShow] = useState(false);
+function AddReview({addReview, user, product, productId, idUser, reviewQualification}) {
+  const [show, setShow] = useState(false);
   const [stars, setStars] = useState(0);
   const [description, setDescription] = useState('');
+  const [Err, setErr] = useState({
+    starsErr: "", 
+    descriptionNullErr: "",
+    descriptionShortErr: ""
+  })
+  
+  function validateForm(){
+    setErr({starsErr:"",  descriptionErr:""});
+    let starsErr = "";
+    let descriptionNullErr = "";
+    let descriptionShortErr = "";
+    
+    if(stars == 0){
+      starsErr= " Forgot to push on the stars?";
+    }
+    if(description.length == ""){
+      descriptionNullErr = " Description can not be empty";
+    }
+    if(description.length < 20){
+      descriptionShortErr = (<p> Please be more verbose ;)<br/> At least 20 characters</p>);
+    }
+    if(starsErr || descriptionShortErr || descriptionNullErr) {
+      setErr({ starsErr, descriptionShortErr, descriptionNullErr });
+      return false;
+    }
+    else return true;
+  }
+  let userid = idUser;
+  let review = {
+    description: description,
+    qualification: stars,
+    userId: userid
+  }
+  const handleOnSubmit = (e, productId) => {
+    e.preventDefault();
+    addReview(productId, review);
+    const valid = validateForm();
+    if(valid){
+      swal("Review added successfully!", {
+        icon: "success",
+      })
+      setShow(false);
+    }
+  }
 
   const handleOnclick = (e) => {
     e.preventDefault();
@@ -20,20 +63,6 @@ function AddReview({addReview, user, product, productId}) {
     e.preventDefault();
     setDescription(e.target.value)
   }
-  let review = {
-    description: description,
-    qualification: stars,
-    userId: user.id
-  }
-  const handleOnSubmit = (e, productId) => {
-    e.preventDefault();
-    addReview(productId, review);
-    swal("review added successfully!", {
-      icon: "success",
-    })
-    setShow(false);
-  }
-
   const star = {
     count:5,
     onChange: stars=>setStars(stars),
@@ -41,15 +70,26 @@ function AddReview({addReview, user, product, productId}) {
     color2: '#8a2be2',
     half: false,
   }
+  let qualification = reviewQualification && reviewQualification;
+
   return (
     <React.Fragment>
-      <Button 
-        onClick={(e)=>handleOnclick(e)}
-        style={{backgroundColor: '#8a2be2', border: '#8a2be2', marginTop: '-30px', height: '32px'}}
-        className="m-1"
-      >
-        Add review
-      </Button>
+      {qualification ?
+        (<Button 
+          onClick={(e)=>handleOnclick(e)}
+          style={{backgroundColor: '#8a2be2', border: '#8a2be2', marginTop: '-20px', height: '40px'}}
+          className="m-1"
+          disabled={true}
+        >Add review
+        </Button>) :
+          (<Button 
+            onClick={(e)=>handleOnclick(e)}
+            style={{backgroundColor: '#8a2be2', border: '#8a2be2', marginTop: '-20px', height: '40px'}}
+            className="m-1"
+            disabled={false}
+          >Add review
+          </Button>)
+      }
       &nbsp;
       &nbsp;
       <Modal 
@@ -66,10 +106,11 @@ function AddReview({addReview, user, product, productId}) {
         >
           <Modal.Title>Product review</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-          <h4>Rate your product.</h4>
-          <Form>
-            <Stars {...star} key={'starskey'}/>
+        <Modal.Body style={{textAlign: 'center'}}>
+          <h4 >Rate your product.</h4>
+          <Form >
+            <Stars {...star} />
+            {Err.starsErr && <p className="mt-2" style={{color: 'red', fontSize: 14, textAlign: 'left'}}>{Err.starsErr}</p>}
             <hr/>
             <h4>Give us a product review.</h4>
             <InputGroup>
@@ -81,8 +122,11 @@ function AddReview({addReview, user, product, productId}) {
                 aria-label="Description" 
                 placeholder="Your review"
                 onChange={e=>handleOnChange(e)}
-              />
+              ></FormControl>
+              <hr/>
             </InputGroup>
+              {Err.descriptionNullErr && <p className="mt-2" style={{color: 'red', fontSize: 14, textAlign: 'left'}}>{Err.descriptionNullErr}</p>}
+              {Err.descriptionShortErr && <div className="mt-2" style={{color: 'red', fontSize: 14, textAlign: 'left'}}>{Err.descriptionShortErr}</div>}
           </Form>
         </Modal.Body>
         <Modal.Footer>
@@ -113,7 +157,6 @@ function AddReview({addReview, user, product, productId}) {
 
 const mapStateToProps = (state) => {
   return {
-    // review: state.reviewsReducer.review,
     user: state.userReducer.user,
     product: state.productReducer.product
   }

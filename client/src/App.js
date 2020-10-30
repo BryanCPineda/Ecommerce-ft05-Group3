@@ -27,21 +27,21 @@ import { Provider } from "react-redux";
 import NavBarGeneral from "./components/NavbarGeneral";
 import NavBarBackground from "./components/NavBarBackground";
 import CartUse from "./components/CartUsage/CartUse";
-import isAdmin from './components/roles/IsAdmin'
-import isUser from './components/roles/IsAdmin'
-import Error404 from './components/Error404';
-import Navbar from './components/Navbar';
+import isAdmin from "./components/roles/IsAdmin";
+import isUser from "./components/roles/IsAdmin";
+import Error404 from "./components/Error404";
+import Navbar from "./components/Navbar";
+import AddAdress from "./components/checkout/AddAdress";
 
-import { connect } from 'react-redux';
-import { loadUser } from './actions/userAction';
+import { connect } from "react-redux";
+import { loadUser } from "./actions/userAction";
 import Reviews from "./components/Reviews/Reviews";
+import Checkout from "./components/checkout/Checkout";
 
 function App({ loadUser }) {
-
   useEffect(() => {
-    loadUser()
-  }, [])
-
+    loadUser();
+  }, []);
 
   return (
     <div>
@@ -59,6 +59,7 @@ function App({ loadUser }) {
           <Route exact path="/admin/users" component={AdminUsers} />
           <Route exact path="/admin/orders" component={AdminOrders} />
           <Route exact path="/user/product/:id" component={PrductsMati} />
+          <Route path="/user/checkout" component={Checkout} />
           <Route path="/user/cart" component={CartUse} />
           <Route path="/error404" component={Error404} />
           <Route path='/user/password/reset' component={UserForgotPassword} />
@@ -66,22 +67,20 @@ function App({ loadUser }) {
           <Route path="/user/profile" component={UserProfile} />
 
 
-          <Route path="/navbar" component={Navbar} />
-          <Route path="/user" component={Footer} />
-          
+        <Route path="/navbar" component={Navbar} />
+        <Route path="/user" component={Footer} />
 
-          {/* <Route path="/SignIn" component={Login} /> */}
-          {/* <Route path="/SignUp" component={SignUp} /> */}
-        </Router>
+        {/* <Route path="/SignIn" component={Login} /> */}
+        {/* <Route path="/SignUp" component={SignUp} /> */}
+      </Router>
     </div>
   );
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadUser: () => dispatch(loadUser())
-  }
-}
+    loadUser: () => dispatch(loadUser()),
+  };
+};
 
-export default connect( null, mapDispatchToProps )(App)
-
+export default connect(null, mapDispatchToProps)(App);

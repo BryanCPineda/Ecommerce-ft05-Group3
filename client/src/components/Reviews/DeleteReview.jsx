@@ -4,29 +4,12 @@ import { Button } from 'react-bootstrap';
 import {deleteReview} from '../../actions/reviewsActions';
 import {connect} from 'react-redux';
 
-function DeleteReview({deleteReview, user, product}) {
-  const [description, setDescription] = useState('');
+function DeleteReview({deleteReview, reviewid}) {
+  const id = reviewid;
 
   const handleOnclick = (e) => {
     e.preventDefault();
-    
-  }
-  const handleOnChange = (e) => {
-    e.preventDefault();
-    setDescription(e.target.value)
-    console.log(e.target.value)
-  }
-  
-  const handleOnSubmit = (e) => {
-    e.preventDefault();
-    const review = {
-      description: description,
-      qualification: Math.round(stars),
-      userdId: user.id
-    };
-    const id = product.id
-    deleteReview(id, review);
-    setShow(false);
+    deleteReview(id);
   }
   
   return (

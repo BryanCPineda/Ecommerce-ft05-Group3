@@ -9,6 +9,7 @@ const ADD_PRODUCT_TO_CART = "ADD_PRODUCT_TO_CART"
 const GET_PRODUCTS_FROM_CART = "GET_PRODUCTS_FROM_CART"
 const RELOAD_CART = "RELOAD_CART"
 const UPDATE_PRODUCT_TO_CART = 'UPDATE_PRODUCT_TO_CART'
+const GET_PRODUCTS_FOR_CHECKOUT = 'GET_PRODUCTS_FOR_CHECKOUT'
 
 
 export function reloadCart() {
@@ -97,9 +98,10 @@ export function getOrder(idUser) {
             dispatch({ type: GET_ORDER_CART, payload: res})}
         ) }}
 
-export function cambioEstadoCarrito(id, status){
+export function cambioEstadoCarrito(id, status, totalPrice){
     let estado = {
-        state : "Created"
+        state : "Created",
+        totalPrice: totalPrice
     }
 
     // return (dispatch, getState) => {
@@ -181,3 +183,13 @@ export function handleTotalReducer(valor) {
     }
 } 
 
+export function getProductsForCheckout(idUser){
+  return (dispatch, getState) =>  {
+
+    return Axios.get(`http://localhost:4000/users/${idUser}/checkout`)
+    .then( res => res.data)
+     .then((res) => { 
+          dispatch({ type: GET_PRODUCTS_FOR_CHECKOUT, payload: res });
+ })
+}
+};

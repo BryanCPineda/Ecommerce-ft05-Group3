@@ -157,9 +157,9 @@ const [state, setState] = useState({
       <Container  className="d-flex justify-content-center">
           <div className="d-flex justify-content-around products-container flex-wrap" style={{width: '1500px'}}>
             <div className="products-image-div">
-              <div className="products-image-div-second">
-                <Carousel>
-                  {product.images &&
+            <div className="products-image-div-second">
+              {product.images && product.images[0]? <Carousel>
+                  {
                     product.images.map((image, index) => {
                       if (index !== -1) {
                         return (
@@ -181,7 +181,8 @@ const [state, setState] = useState({
                       }
                       return null;
                     })}
-                </Carousel>
+                </Carousel> :
+                <img className='uniamgen' src='https://bitsofco.de/content/images/2018/12/broken-1.png' alt="" ></img>}
               </div>
             </div>
             <div style={{width: '600px', height: '600px', marginTop: ' 6rem'}} >
@@ -246,9 +247,7 @@ const [state, setState] = useState({
           </div>
       </Container>
       <Container fluid='sm' className="reviews-container" style={{marginTop: '250px'}}>
-        <div>
           <Review />
-        </div>
       </Container>
     </div>
   );

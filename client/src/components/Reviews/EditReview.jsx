@@ -1,14 +1,20 @@
-import React,  {useEffect} from 'react';
+import React from 'react';
 import { useState } from 'react';
 import { Button, Container, Modal, Col, Row, Form, InputGroup, FormControl } from 'react-bootstrap';
 import ReactStars from 'react-stars';
 import {editReview} from '../../actions/reviewsActions';
 import {connect} from 'react-redux';
+import swal from 'sweetalert';
 
-function EditReview({editReview, user, product}) {
+function EditReview({editReview, user, product, reviewid, reviewDescription }, ) {
   const[show, setShow] = useState(false);
   const [stars, setStars] = useState(0);
   const [description, setDescription] = useState('');
+  const [Err, setErr] = useState({
+    starsErr: "", 
+    descriptionNullErr: "",
+    descriptionShortErr: ""
+  })
 
   const handleOnclick = (e) => {
     e.preventDefault();
@@ -19,17 +25,43 @@ function EditReview({editReview, user, product}) {
     setDescription(e.target.value)
     console.log(e.target.value)
   }
-  
+  const id = reviewid;
+  console.log('reviewid', id)
+
   const handleOnSubmit = (e) => {
-    e.preventDefault();
     const review = {
       description: description,
       qualification: Math.round(stars),
-      userdId: user.id
     };
-    const id = product.id
     editReview(id, review);
-    setShow(false);
+    const valid = validateForm();
+    if(valid){
+      swal("Review edited successfully!", {
+        icon: "success",
+      })
+      setShow(false);
+    }
+  }
+  function validateForm(){
+    setErr({starsErr:"",  descriptionErr:""});
+    let starsErr = "";
+    let descriptionNullErr = "";
+    let descriptionShortErr = "";
+    
+    if(stars == 0){
+      starsErr= " Forgot to push on the stars?";
+    }
+    if(description.length == ""){
+      descriptionNullErr = " Description can not be empty";
+    }
+    if(description.length < 20){
+      descriptionShortErr = (<p> Please be more verbose ;)<br/> At least 20 characters</p>);
+    }
+    if(starsErr || descriptionShortErr || descriptionNullErr) {
+      setErr({ starsErr, descriptionShortErr, descriptionNullErr });
+      return false;
+    }
+    else return true;
   }
   const star = {
     count:5,
@@ -42,9 +74,12 @@ function EditReview({editReview, user, product}) {
     <React.Fragment>
       <Button 
         onClick={(e)=>handleOnclick(e)}
-        className=""
-      >Edit review
+        className="m-1"
+        style={{backgroundColor: '#8a2be2', border: '#8a2be2', marginTop: '-20px', height: '40px'}}
+      >Edit
       </Button>
+      &nbsp;
+      &nbsp;
       <Modal 
         show={show} 
         onHide={()=>setShow(false)}
@@ -60,11 +95,16 @@ function EditReview({editReview, user, product}) {
           <Modal.Title>Change your review</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          <h4>Current Review</h4>
+          <p>
+            {reviewDescription ? reviewDescription : 'Ups! something went wrong'}
+          </p>
           <h4>Rate the product.</h4>
           <Form>
             <ReactStars {...star}/>
+            {Err.starsErr && <p className="mt-2" style={{color: 'red', fontSize: 14, textAlign: 'left'}}>{Err.starsErr}</p>}
             <hr/>
-            <h4>The new product review?</h4>
+            <h4>Type a new product review</h4>
             <InputGroup>
               <InputGroup.Prepend>
                 <InputGroup.Text>Your review</InputGroup.Text>
@@ -72,10 +112,12 @@ function EditReview({editReview, user, product}) {
               <FormControl 
                 as="textarea"  
                 aria-label="Description" 
-                placeholder="I hope it's for better"
+                placeholder="We hope it's for better!"
                 onChange={e=>handleOnChange(e)}
               />
             </InputGroup>
+            {Err.descriptionNullErr && <p className="mt-2" style={{color: 'red', fontSize: 14, textAlign: 'left'}}>{Err.descriptionNullErr}</p>}
+            {Err.descriptionShortErr && <div className="mt-2" style={{color: 'red', fontSize: 14, textAlign: 'left'}}>{Err.descriptionShortErr}</div>}
           </Form>
         </Modal.Body>
         <Modal.Footer>
@@ -114,7 +156,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    editReview: (user, review) => dispatch(editReview(user, review))
+    editReview: (productId, review) => dispatch(editReview(productId, review))
   }
 }
 

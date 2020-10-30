@@ -11,6 +11,7 @@ import orderReducer from './order';
  
 import errorReducer from './errorReducer';
 import reviewsReducer from './reviewsReducer';
+import completedOrderlinesReducer from './CompletedOrderlinesReducer';
 import sendEmailReducer from './sendEmailReducer';
 
 export default combineReducers({
@@ -24,5 +25,6 @@ export default combineReducers({
     error: errorReducer,
     ordersReducer: ordersReducer,
     reviewsReducer: reviewsReducer,
-    sendEmailReducer: sendEmailReducer
+    sendEmailReducer: sendEmailReducer,
+    completedOrderlinesReducer: completedOrderlinesReducer
 });

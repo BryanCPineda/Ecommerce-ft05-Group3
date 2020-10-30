@@ -3,6 +3,13 @@ li{
   list-style: none;
   flex-direction: row;
 }
+.table-responsive{
+  box-shadow: 3px 3px 8px -2px rgb(53, 49, 56);
+  background-color: white;
+  border-radius: 20px;
+  padding: 10px;
+  padding-top: 25px;
+}
 .filled{
   background-color: #8a2be2;
   border-radius: 100px;
@@ -42,6 +49,10 @@ li{
 .bigStars{
   color: #8a2be2;
   font-size: 2em;
+}
+.smallStars{
+  color: #8a2be2;
+  font-size: 1.5em;
 }
 progress[value]::-webkit-progress-bar {
   background-color: #eee;

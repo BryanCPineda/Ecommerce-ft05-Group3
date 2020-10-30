@@ -81,7 +81,7 @@ function Navbar({ isAuthenticated, user }) {
         >
           <div
             id="collapseElements"
-            className="d-flex align-items-center collapse navbar-collapse hamburguer"
+            className="d-flex align-items-end collapse navbar-collapse hamburguer"
             id="mynavbar"
             style={{ width: "10px", color: 'white' }}
           >

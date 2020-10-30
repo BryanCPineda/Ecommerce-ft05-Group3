@@ -31,8 +31,8 @@ conn.sync({ force: true }).then(() => {
  // imageSeeder();
   categoy_productSederr();
   usersSeeder();
- // reviews_productSeeder(); 
- // reviewsSeeder(); 
+  reviews_productSeeder(); 
+  reviewsSeeder(); 
   
   server.listen(4000, () => {
     console.log("%s listening at 4000"); // eslint-disable-line no-console
