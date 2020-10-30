@@ -15,7 +15,6 @@ passport.use(new TwitterStrategy({
       cb(null, profile)
   }
 ));
-
 passport.serializeUser(function (user, done) {
   done(null, user);
 });

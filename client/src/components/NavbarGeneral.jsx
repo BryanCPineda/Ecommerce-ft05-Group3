@@ -53,7 +53,7 @@ const [state, setState] = useState({modal:''})
           </Link>
           {user && user.rol === "admin" ? 
             <div className="d-flex align-items-center" style={{height: "50px", width: '70px', fontSize: '20px'}}>
-            <Link to="/admin" class="nav-link admin-icono-navbar">
+            <Link to="/admin" className="nav-link admin-icono-navbar">
               Admin
             </Link>
           </div>

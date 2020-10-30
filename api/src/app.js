@@ -11,7 +11,6 @@ require('./routes/twitter-config');                     //se importa para toda l
 
 require('./db.js');
 
-
 const server = express();
 
 server.name = 'API';

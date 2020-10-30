@@ -516,7 +516,6 @@ function reviews_productSeeder() {      // This function create several relation
 }
 
 function categoy_productSederr(){             // This function create several relationships between categories and products
-    
     for (let i = 1; i < 14; i++) {
         Product.findByPk(i)
             .then((product)=>{

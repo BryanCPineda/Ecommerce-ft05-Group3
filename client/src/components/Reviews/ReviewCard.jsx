@@ -78,9 +78,7 @@ function ReviewCard({reviewDescription, reviewid, reviewQualification, deleteRev
           closeButton={true} 
           closeLabel={'Close'}
         >
-          <Modal.Title>
-            Your products review
-          </Modal.Title>
+          <Modal.Title>Your products review</Modal.Title>
         </Modal.Header>
         <Modal.Body>
         <h5>Qualification</h5>
