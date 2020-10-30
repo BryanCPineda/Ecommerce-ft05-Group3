@@ -23,6 +23,7 @@ const Review = ({ user, cart, total }) => {
   const classes = useStyles();
 
   const payment = JSON.parse(localStorage.getItem('payment'))
+  const client = JSON.parse(localStorage.getItem('adress'))
   
   const cardNumber = payment[1].slice(payment[1].length - 4, payment[1].length)
   console.log(cardNumber)
@@ -35,13 +36,7 @@ const Review = ({ user, cart, total }) => {
       }
     })
 
-    // { name: 'Product 1', desc: 'A nice thing', price: '$9.99' },
-    // { name: 'Product 2', desc: 'Another thing', price: '$3.45' },
-    // { name: 'Product 3', desc: 'Something else', price: '$6.51' },
-    // { name: 'Product 4', desc: 'Best thing of all', price: '$14.11' },
-    // { name: 'Shipping', desc: '', price: 'Free' },
-
-  const addresses = ['1 Material-UI Drive', 'Reactville', 'Anytown', '99999', 'USA'];
+  const addresses = [client.address1, client.city, client.zip, client.country];
   const payments = [
     { name: 'Card type', detail: payment[0] },
     { name: 'Card holder', detail: `${user.name} ${user.lastname}` },
@@ -74,8 +69,8 @@ const Review = ({ user, cart, total }) => {
           <Typography variant="h6" gutterBottom className={classes.title}>
             Shipping
           </Typography>
-          <Typography gutterBottom>John Smith</Typography>
-          <Typography gutterBottom>{addresses.join(', ')}</Typography>
+        <Typography gutterBottom>{client.name} {client.lastname}</Typography>
+          <Typography gutterBottom>{addresses.join(',  ')}</Typography>
         </Grid>
         <Grid item container direction="column" xs={12} sm={6}>
           <Typography variant="h6" gutterBottom className={classes.title}>

@@ -51,7 +51,7 @@ function ReviewCard({reviewDescription, reviewid, reviewQualification, deleteRev
             style={{backgroundColor: '#8a2be2', border: '#8a2be2', marginTop: '-20px', height: '40px'}}
             className="m-1"
             disabled={false}
-          >Show Review
+          ><b>Show Review</b>
           </Button>)
       }
       <Modal 
