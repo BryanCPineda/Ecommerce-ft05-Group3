@@ -254,7 +254,7 @@ const handleFinCompra =() =>{
       icon: "success",
     }).then(() => {
         localStorage.clear()
-        setRedirect({ redirect: "/user/catalogo" });
+        setRedirect({ redirect: "/user/checkout" });
       }
     )
     return
