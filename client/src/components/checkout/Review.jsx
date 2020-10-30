@@ -35,7 +35,7 @@ const Review = ({ user, cart, total }) => {
       }
     })
 
-  const addresses = [client.address1, client.city, client.zip, client.country];
+  const addresses = client ? [client.address1, client.city, client.zip, client.country] : '';
   const payments = [
     { name: 'Card type', detail: payment[0] },
     { name: 'Card holder', detail: `${user.name} ${user.lastname}` },
@@ -67,8 +67,8 @@ const Review = ({ user, cart, total }) => {
           <Typography variant="h6" gutterBottom className={classes.title}>
             Shipping
           </Typography>
-        <Typography gutterBottom>{client.name} {client.lastname}</Typography>
-          <Typography gutterBottom>{addresses.join(',  ')}</Typography>
+        <Typography gutterBottom>{client && client.name} {client && client.lastname}</Typography>
+          <Typography gutterBottom>{addresses && addresses.join(',  ')}</Typography>
         </Grid>
         <Grid item container direction="column" xs={12} sm={6}>
           <Typography variant="h6" gutterBottom className={classes.title}>
