@@ -19,6 +19,7 @@ import SignIn from "./userLogin"; //importamos el componente UserLogin (menu mod
 /*-------------redux-------------*/
 import { getAllUsers, createUser } from "../../actions/userAction";
 import { clearErrors } from "../../actions/errorActions";
+import {welcomeEmail} from '../../actions/sendEmail';
 
 /*--------LOGIN WHIT GOOGLE ---------*/
 import {GoogleLogin, GoogleLogout } from "react-google-login";
@@ -28,7 +29,8 @@ import { FcGoogle } from 'react-icons/fc'
 import { GithubLoginButton } from "react-social-login-buttons";
 import { VscGithub } from 'react-icons/vsc'
 import Axios from "axios";
-
+import swal from 'sweetalert';
+import store from '../../store';
 
 class UserRegister extends React.Component {
   constructor(props) {
@@ -96,7 +98,17 @@ class UserRegister extends React.Component {
     e.preventDefault();
     const { name, lastname, email, password } = this.state;
     const newUser = { name, lastname, email, password };
-    this.props.createUser(newUser);
+    this.props.createUser(newUser)
+    .then(()=>{                                                   //SE APLICA EL ENVIO DE MAILS A PARTIR DE AQUI
+      swal({
+        title: "We send You a Email, Please check your inbox",    //SE ENVIA EL SWEET ALERT CON EL MENSAJE DE QUE EL MAIL FUE ENVIADO
+      }).then(()=>{                                               
+        const user = store.getState().userReducer.user            //OJO A ESTA PARTE, se debe conectar al store de redux de esta forma                                                           
+                                                                  //para que traiga el estado actualizado del usuario, si no traera el 
+                                                                  //estado anterior osea "null"
+          this.props.welcomeEmail(user);                          //se despacha la accion welcomeEmail y se le envia el usuario
+        })                                                          
+    })
   };
 
 handleBoth=()=>{
@@ -120,6 +132,16 @@ handleBoth=()=>{
       whitGoogle: true                                  // esta ultima propiedad funciona como bandera, para indicarle a la accion "createUser" que el usuario que esta ingresando es externo a nuestra web
     }
     this.props.createUser(newGoogleUser)
+    .then(()=>{                                                   //SE APLICA EL ENVIO DE MAILS A PARTIR DE AQUI
+      swal({
+        title: "We send You a Email, Please check your inbox",    //SE ENVIA EL SWEET ALERT CON EL MENSAJE DE QUE EL MAIL FUE ENVIADO
+      }).then(()=>{                                               
+        const user = store.getState().userReducer.user            //OJO A ESTA PARTE, se debe conectar al store de redux de esta forma                                                           
+                                                                  //para que traiga el estado actualizado del usuario, si no traera el 
+                                                                  //estado anterior osea "null"
+          this.props.welcomeEmail(user);                          //se despacha la accion welcomeEmail y se le envia el usuario
+        })                                                          
+    })
 
   }
   }
@@ -130,7 +152,7 @@ handleBoth=()=>{
 //redireccionamientos a paginas Web de gitHub que no voy a poder leer automaticamente sin el ciclo de vida del componente; si no tendria que 
 //presionar un boton que me lleve a la pagina de github y otro que me haga el login
   componentDidMount =  () => {            //siempre que el componente se "monte", se despacha una petion para preguntarle al back 
-                                          //si es que hay datos de un usuario de gitHub actualemente
+                                       //si es que hay datos de un usuario de gitHub actualemente
     let data;
       Axios({                             //petion para pedir los datos del usuario de github 
         method: "GET",                            //esta peticion no es un axios como los demas pues se deben habilitar las credenciales  
@@ -337,6 +359,7 @@ const mapStateToProps = (state) => {
     allUsers: state.userReducer.users,
     error: state.error,
     isAuthenticated: state.userReducer.isAuthenticated,
+    user: state.userReducer.user
   };
 };
 
@@ -345,6 +368,7 @@ const mapDispatchToProps = (dispatch) => {
     getAllUsers: () => dispatch(getAllUsers()),
     createUser: (user) => dispatch(createUser(user)),
     clearErrors: () => dispatch(clearErrors()),
+    welcomeEmail: (user) => dispatch(welcomeEmail(user)), 
   };
 };
 

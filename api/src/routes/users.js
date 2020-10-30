@@ -477,10 +477,11 @@ server.get("/:id/orders", (req, res) => {
 });
 
 // delete a user
-server.delete("/:id", (req, res) => {
-  const { id } = req.params;
-  Users.destroy({ where: { id: id } })
-    .then((value) => {
+server.delete("/delete/:id", auth, isAdmin, (req, res) => { //RECUERDE PONER LA AUTENTICACION Y ISADMIN
+  
+  const  {id}  = req.params; 
+  Users.destroy({ where: { id: id } }) 
+    .then((value) => { 
       console.log("User delete:", value);
       if (value === 1) {
         return res.status(202).send("User deleted");
@@ -518,6 +519,31 @@ server.post("/passwordReset", auth, (req, res) => {
       });
   });
 });
+
+//password Reset BY forget Password
+server.post("/forgotPassword/:id", (req, res) => {
+  const { id } = req.params;
+  const { newPassword } = req.body;
+
+  const hashedPassword = bcrypt.hash(newPassword, 10).then((hashedPassword) => {
+    Users.update(
+      {
+        password: hashedPassword,
+      },
+      {
+        where: { id: id },
+      }
+    )
+      .then(() => {
+        res.send("Password Has been reset");
+      })
+      .catch((err) => {
+        res.send({ data: err }).status(500);
+      });
+  });
+});
+
+
 
 // Profile route
 server.get("/:idUser/profile", async (req, res) => {

@@ -9,6 +9,7 @@ const userRouter = require ('./users.js');
 const authRouter = require ('./auth.js');
 const reviewRouter = require ('./reviews.js');
 const gitHub = require ('./gitHub-Routes');                 //se importan las rutas para la autenticacion con gitHub
+const sendEmail = require('./sendEmail');
 
 const router = Router();
 
@@ -24,5 +25,6 @@ router.use("/users", userRouter);
 router.use("/auth", authRouter);
 router.use("/reviews", reviewRouter);
 router.use("/gitHub", gitHub);                              //se habilitan las rutas de github 
+router.use("/sendEmail", sendEmail);
 
 module.exports = router;

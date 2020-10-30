@@ -1,7 +1,7 @@
 import {
   GET_ALL_USERS,
   CREATE_USER,
-  DELETE_USER,
+   DELETE_USER,
   UPDATE_USER,
   USER_LOADING,
   USER_LOADED,
@@ -13,16 +13,45 @@ import {
   REGISTER_FAIL,
   USER_COMPLETED,
   PROMOTE_USER,
-  PASSWORD_RESET
+  PASSWORD_RESET,
+  USER_FORGOT_PASSWORD,
 } from "../constants/userConstants";
 import { returnErrors } from "./errorActions";
 import axios from "axios";
+import swal from "sweetalert";
+import {welcomeEmail} from './sendEmail';
 
-export const getAllUsers = () => (dispatch) => {
-  axios.get("http://localhost:4000/users").then((res) => {
-    dispatch({ type: GET_ALL_USERS, payload: res.data.rows });
-  });
-};
+export function userForgotPassword(id,newPassword){
+       
+        return dispatch => {
+          return axios.post("http://localhost:4000/users/forgotPassword/"+id, {newPassword:newPassword})
+            .then(res => res.data)
+            .then(res => {
+                  dispatch({ type: USER_FORGOT_PASSWORD, payload: res });
+            })
+        }
+}
+
+
+
+export function getAllUsers(){
+  return dispatch => { 
+    return axios.get("http://localhost:4000/users")
+            .then( res => res.data)
+            .then( res => {console.log('en actions', res)
+                    const users = res.rows.sort(function (a, b) { 
+            if (a.id > b.id) {
+            return 1;
+            }
+            if (a.id < b.id) {
+            return -1;
+            }
+            return 0;
+                         })
+                dispatch({ type: GET_ALL_USERS, payload: users }); 
+              });
+  }
+}
 
 export const loadUser = () => (dispatch, getState) => {
   const config = {
@@ -83,8 +112,8 @@ export const createUser = (user) => (dispatch) => {
   return axios
     .post("http://localhost:4000/users", userEnv)
     .then((res) => {
-      /* console.log(res.data); */
-      dispatch({ type: REGISTER_SUCCESS, payload: res.data });
+     
+      dispatch({ type: REGISTER_SUCCESS, payload: res.data }) 
     })
     .catch((error) => {
       if (error.response.status === 400) {
@@ -164,8 +193,7 @@ export const logout = () => {
   return { type: LOGOUT_SUCCESS };
 };
 
-export const promoteUser = (id) => (dispatch, getState) => {
-  /* console.log(id); */
+export const promoteUser = (id) => (dispatch, getState,) => {
   const config = {
     headers: {
       "Content-type": "Application/json",
@@ -177,25 +205,42 @@ export const promoteUser = (id) => (dispatch, getState) => {
   if (token) {
     config.headers["x-auth-token"] = token;
   }
- /*  console.log(config); */
+  axios.post("http://localhost:4000/auth/promote", {id: id}, config).then(res => {
+    dispatch({ type: PROMOTE_USER, payload: res.data })
+  })
+  .catch(error => { 
+    console.log(error.message)
+   }
+  )
+}
 
-  axios
-    .post("http://localhost:4000/auth/promote", { id: id }, config)
-    .then((res) => {
-      dispatch({ type: PROMOTE_USER, payload: res.data });
-    })
-    .catch((error) => {
-      // if(error.response.status === 401) {
-      // if(error) {
-      //   dispatch({ type: AUTH_ERROR })
-      // }
-      //   console.log('unauthorized, logging out ...');
-      // return Promise.reject(error.response);
-      // }
-      console.log(error.message);
-      //dispatch({ type: AUTH_ERROR })
-    });
-};
+export const deleteUser = (id) => (dispatch, getState) => {
+  console.log(id)
+  const config = {
+    headers: {
+      "Content-type": "Application/json",
+    },
+  };
+
+  const token = getState().userReducer.token;
+
+  if (token) {
+    config.headers["x-auth-token"] = token;
+  }
+  
+  axios.delete("http://localhost:4000/users/delete/"+id, config).then(res => {
+    dispatch({ type: DELETE_USER, payload: res.data })
+  })
+  .catch(error => { 
+    console.log(error.message)
+   }
+  )
+
+
+}  
+
+ 
+
 
 /*--------------------------------------------------*/
 

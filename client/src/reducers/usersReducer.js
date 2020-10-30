@@ -13,7 +13,8 @@ import {
   REGISTER_FAIL,
   USER_COMPLETED,
   PROMOTE_USER,
-  PASSWORD_RESET
+  PASSWORD_RESET,
+  USER_FORGOT_PASSWORD
 } from "../constants/userConstants";
 
 const initialState = {
@@ -29,6 +30,10 @@ const initialState = {
 
 export default function userReducer(state = initialState, action) {
   switch (action.type) {
+    case DELETE_USER:
+      return{
+        ...state 
+      }
     case PROMOTE_USER:
       return{
         ...state,
@@ -96,6 +101,10 @@ export default function userReducer(state = initialState, action) {
           ...state,
           passwordChanged: true
         }
+     case USER_FORGOT_PASSWORD:
+      return {
+        ...state,
+      }
     default:
       return state;
   }

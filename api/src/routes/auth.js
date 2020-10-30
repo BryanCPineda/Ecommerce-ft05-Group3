@@ -14,7 +14,7 @@ const jwt = require("jsonwebtoken");
 const { DB_KEY } = process.env;
 
 const auth = require("../middleware/auth");
-
+const isAdmin = require("../middleware/isAdmin");
 //login
 server.post(
   "/",
@@ -96,7 +96,7 @@ server.post("/promote", auth, (req, res) => {
     }
   )
     .then(() => {
-      res.send("User has been Promote to Admin").status(200);
+      res.send("User has been Promote").status(200);
     })
     .catch((err) => {
       res.send({ data: err }).status(500);
