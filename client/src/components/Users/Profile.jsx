@@ -12,6 +12,7 @@ import {
   FormControl,
 } from "react-bootstrap";
 import { IconContext } from "react-icons";
+import { Link, Redirect } from "react-router-dom";
 import { FiShoppingCart } from "react-icons/fi";
 import { BsFillDashCircleFill, BsCheck } from "react-icons/bs";
 import { BiShowAlt, BiHide } from "react-icons/bi";
@@ -28,7 +29,6 @@ import {
 } from "../../actions/userAction";
 import CompletedOrderline from "./completedOrdersline";
 
-
 const UserProfile = ({
   showCompletedOrders,
   user,
@@ -37,10 +37,10 @@ const UserProfile = ({
   setImageForUser,
   imageUser,
   getImageOfUser,
-  passwordChanged
+  passwordChanged,
 }) => {
-
-  const [stateRedirect, setRedirect] = useState({ redirect: null })
+  const token = localStorage.getItem("token");
+  const [stateRedirect, setRedirect] = useState({ redirect: null });
   const idUser = user && user.id;
   const producto = order;
   const [state, setState] = useState({
@@ -49,8 +49,8 @@ const UserProfile = ({
     modal: false,
     password: "",
     send: false,
-    passwordMatch:false,
-    newPassword:''
+    passwordMatch: false,
+    newPassword: "",
   });
   const [baseImage, setBaseImage] = useState("");
   const [imagen, setImagen] = useState([]);
@@ -58,7 +58,6 @@ const UserProfile = ({
   const [show, setShow] = useState(false);
 
   const userId = user && user.id;
-
 
   const switchPassword = () => {
     //para mostrar o esconder el password
@@ -111,21 +110,25 @@ const UserProfile = ({
     const pass2 = document.getElementById("password2").value;
 
     if (pass1 != pass2) {
-      swal("Warning!", "Passwords don't match. Please check and send it again", "warning");
+      swal(
+        "Warning!",
+        "Passwords don't match. Please check and send it again",
+        "warning"
+      );
       e.preventDefault();
       setState({
         ...state,
         passwordMatch: false,
-      })
-      return
+      });
+      return;
     }
-    if(pass1.length<8){
+    if (pass1.length < 8) {
       swal("Warning!", "Password must have at least 8 characters", "warning");
       e.preventDefault();
-      return
+      return;
     }
-    resetPassword(pass1); 
-    swal("Success!", "Password changed!", "success")
+    resetPassword(pass1);
+    swal("Success!", "Password changed!", "success");
   };
 
   const handleClose = () => {
@@ -143,10 +146,9 @@ const UserProfile = ({
     });
   };
 
-  
-
   return (
     <React.Fragment>
+      {!token && !user ? <Redirect to="/user/catalogo" /> : null}
       <div className="d-flex justify-content-center" style={{ color: "white" }}>
         <div
           className="flex-orders d-flex flex-column"
@@ -315,7 +317,7 @@ const UserProfile = ({
           </div>
         </div>
       </div>
-      {order.length >= 1? (
+      {order.length >= 1 ? (
         <Container style={{ marginTop: "-100px", marginBottom: "200px" }}>
           <CompletedOrderline />
         </Container>
@@ -329,7 +331,7 @@ function mapStateToProps(state) {
     user: state.userReducer.user,
     order: state.userReducer.allUsers,
     imageUser: state.userReducer.imageUser,
-    passwordChanged: state.userReducer.passwordChanged
+    passwordChanged: state.userReducer.passwordChanged,
   };
 }
 function mapDispatchToProps(dispatch) {
