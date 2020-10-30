@@ -494,8 +494,8 @@ server.delete("/:id", (req, res) => {
 
 //password Reset
 server.post("/passwordReset", auth, (req, res) => {
-  const { id } = req.user;
-  const { newPassword } = req.body;
+ const { newPassword } = req.body;
+ const  {id}  = req.user;
 
   const hashedPassword = bcrypt.hash(newPassword, 10).then((hashedPassword) => {
     Users.update(

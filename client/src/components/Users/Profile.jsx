@@ -18,6 +18,7 @@ import { BiShowAlt, BiHide } from "react-icons/bi";
 import { connect } from "react-redux";
 import AddReview from "../Reviews/AddReview.jsx";
 import EditReview from "../Reviews/EditReview.jsx";
+import swal from "sweetalert";
 import "./Profile.css";
 import {
   showCompletedOrders,
@@ -27,6 +28,7 @@ import {
 } from "../../actions/userAction";
 import CompletedOrderline from "./completedOrdersline";
 
+
 const UserProfile = ({
   showCompletedOrders,
   user,
@@ -35,7 +37,10 @@ const UserProfile = ({
   setImageForUser,
   imageUser,
   getImageOfUser,
+  passwordChanged
 }) => {
+
+  const [stateRedirect, setRedirect] = useState({ redirect: null })
   const idUser = user && user.id;
   const producto = order;
   const [state, setState] = useState({
@@ -44,6 +49,8 @@ const UserProfile = ({
     modal: false,
     password: "",
     send: false,
+    passwordMatch:false,
+    newPassword:''
   });
   const [baseImage, setBaseImage] = useState("");
   const [imagen, setImagen] = useState([]);
@@ -51,6 +58,7 @@ const UserProfile = ({
   const [show, setShow] = useState(false);
 
   const userId = user && user.id;
+
 
   const switchPassword = () => {
     //para mostrar o esconder el password
@@ -103,11 +111,21 @@ const UserProfile = ({
     const pass2 = document.getElementById("password2").value;
 
     if (pass1 != pass2) {
-      alert("Passwords don't match. Please check and send it again.");
+      swal("Warning!", "Passwords don't match. Please check and send it again", "warning");
       e.preventDefault();
-      return false;
+      setState({
+        ...state,
+        passwordMatch: false,
+      })
+      return
     }
-    return true;
+    if(pass1.length<8){
+      swal("Warning!", "Password must have at least 8 characters", "warning");
+      e.preventDefault();
+      return
+    }
+    resetPassword(pass1); 
+    swal("Success!", "Password changed!", "success")
   };
 
   const handleClose = () => {
@@ -124,6 +142,8 @@ const UserProfile = ({
       modal: !state.modal,
     });
   };
+
+  
 
   return (
     <React.Fragment>
@@ -309,16 +329,16 @@ function mapStateToProps(state) {
     user: state.userReducer.user,
     order: state.userReducer.allUsers,
     imageUser: state.userReducer.imageUser,
+    passwordChanged: state.userReducer.passwordChanged
   };
 }
 function mapDispatchToProps(dispatch) {
   return {
     showCompletedOrders: (idUser) => dispatch(showCompletedOrders(idUser)),
-    resetPassword: (newPassword) => dispatch(resetPassword(newPassword)),
+    resetPassword: (nuevaPass) => dispatch(resetPassword(nuevaPass)),
     setImageForUser: (image, userId) =>
       dispatch(setImageForUser(image, userId)),
     getImageOfUser: (userId) => dispatch(getImageOfUser(userId)),
-    resetPassword: (newPassword) => dispatch(resetPassword(newPassword)),
   };
 }
 

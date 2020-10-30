@@ -13,6 +13,7 @@ import {
   REGISTER_FAIL,
   USER_COMPLETED,
   PROMOTE_USER,
+  PASSWORD_RESET
 } from "../constants/userConstants";
 import { returnErrors } from "./errorActions";
 import axios from "axios";
@@ -35,7 +36,7 @@ export const loadUser = () => (dispatch, getState) => {
   if (token) {
     config.headers["x-auth-token"] = token;
   }
-  console.log(config);
+  /* console.log(config); */
 
   axios
     .get("http://localhost:4000/auth", config)
@@ -50,7 +51,7 @@ export const loadUser = () => (dispatch, getState) => {
       //   console.log('unauthorized, logging out ...');
       // return Promise.reject(error.response);
       // }
-      console.log(error.message);
+      /* console.log(error.message); */
       dispatch({ type: AUTH_ERROR });
     });
 };
@@ -82,7 +83,7 @@ export const createUser = (user) => (dispatch) => {
   return axios
     .post("http://localhost:4000/users", userEnv)
     .then((res) => {
-      console.log(res.data);
+      /* console.log(res.data); */
       dispatch({ type: REGISTER_SUCCESS, payload: res.data });
     })
     .catch((error) => {
@@ -98,9 +99,29 @@ export const createUser = (user) => (dispatch) => {
       }
     });
 };
-export const resetPassword = (newPassword) => {
-  return axios.post("http://localhost:4000/users/passwordReset", newPassword);
-};
+export const resetPassword = (newPassword) => (dispatch, getState) => {
+  
+  const config = {
+    headers: {
+      "Content-type": "Application/json",
+    },
+  };
+
+  const token = getState().userReducer.token;
+
+  if (token) {
+    config.headers["x-auth-token"] = token;
+  }
+  console.log('que hay dentro??', newPassword, token, config.headers)
+  return axios
+  .post("http://localhost:4000/users/passwordReset", { newPassword: newPassword }, config)
+  .then((result) => {
+    console.log('hay resultados?', result) 
+    dispatch({ type: PASSWORD_RESET })
+}).catch((error)=>{
+  console.log('hay algun error?', error)
+})
+}
 
 export const loginUser = (user) => (dispatch) => {
   const userEnv = {
@@ -144,7 +165,7 @@ export const logout = () => {
 };
 
 export const promoteUser = (id) => (dispatch, getState) => {
-  console.log(id);
+  /* console.log(id); */
   const config = {
     headers: {
       "Content-type": "Application/json",
@@ -156,7 +177,7 @@ export const promoteUser = (id) => (dispatch, getState) => {
   if (token) {
     config.headers["x-auth-token"] = token;
   }
-  console.log(config);
+ /*  console.log(config); */
 
   axios
     .post("http://localhost:4000/auth/promote", { id: id }, config)
@@ -179,11 +200,11 @@ export const promoteUser = (id) => (dispatch, getState) => {
 /*--------------------------------------------------*/
 
 export const setImageForUser = (img, idUser) => async (dispatch) => {
-  console.log("ima del actions", img);
+ /*  console.log("ima del actions", img); */
   const res = await axios.post(`http://localhost:4000/users/${idUser}/image`, {
     img: img,
   });
-  console.log(res);
+  /* console.log(res); */
   dispatch({ type: "IMAGE_PROFILE_USER", payload: res.data });
 };
 
