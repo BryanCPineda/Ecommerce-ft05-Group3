@@ -189,7 +189,6 @@ export function getProductsForCheckout(idUser){
     return Axios.get(`http://localhost:4000/users/${idUser}/checkout`)
     .then( res => res.data)
      .then((res) => { 
-       console.log('resssssss', res)
           dispatch({ type: GET_PRODUCTS_FOR_CHECKOUT, payload: res });
  })
 }

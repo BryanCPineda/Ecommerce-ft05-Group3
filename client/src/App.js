@@ -60,7 +60,7 @@ function App({ loadUser }) {
           <Route exact path="/admin/orders" component={AdminOrders} />
           <Route exact path="/user/product/:id" component={PrductsMati} />
           <Route path="/user/cart" component={CartUse} />
-          <Route pach="/user/checkout" component={Checkout} />
+          <Route path="/user/checkout" component={Checkout} />
           <Route path="/error404" component={Error404} />
           <Route path="/user/profile" component={UserProfile} />
 
