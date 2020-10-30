@@ -216,13 +216,13 @@ function productsSeeder()               //This function create several products
             stock: 50,
         },
         {
-            name: 'Mancuerna engomada 5 Kgs',
+            name: 'Mancuerna engomada 5Kgs',
             description: 'Par de Mancuernas circulares recubiertas de Neoprene de 5 Kgs',
             price: 10,
             stock: 50,
         },
         {
-            name: 'Kettlebell 10 Kgs',
+            name: 'Kettlebell 10Kgs',
             description: 'La pesa rusa o kettlebell es una pesa tradicional que consiste de una bola de hierro fundido, semejante a una bala de cañón con un asa. Algunos modelos modernos se caracterizan por contar con pesos ajustables.',
             //Los entrenamientos con pesas rusas aumentan la fuerza, resistencia, agilidad y equilibrio, desafiando tanto la fuerza muscular como el sistema cardiovascular.',
             price: 10,
@@ -235,13 +235,13 @@ function productsSeeder()               //This function create several products
             stock: 50,
         },
         {
-            name: 'Mat Yoga/Pilates 6 mm',
+            name: 'Mat Yoga/Pilates 6mm',
             description: 'Yoga Mat Premium 6 mm colores a elección + Bolso Porta Mat NEGRO O CELESTE. Confeccionado con materiales de primera calidad Correa regulable para colgar del hombro.',
             price: 10,
             stock: 50,
         },
         {
-            name: 'Mancuerna Engomada 15 kg',
+            name: 'Mancuerna Engomada 15kg',
             description: 'Mancuerna Hexagonal con recubrimiento de caucho y agarre cromado y corrugado para mejor sugesión.',
             price: 10,
             stock: 50,
@@ -279,7 +279,7 @@ function productsSeeder()               //This function create several products
             stock: 50,
         },
         {
-            name: 'Botella Termo 750ml ',
+            name: 'Botella Termo 750ml',
             description: 'Termo Erece original 750 ml acero inoxidable doble capa siliconado, modelo sport con cepillo de limpieza, posee gancho para colgarla donde prefieras. Viene en caja. Medida ideal para transportar. Engomado antideslizante.',
             price: 10,
             stock: 50,
@@ -358,7 +358,7 @@ function categoriesSeeder(){            //This function create several categorie
             description: 'Se incluye en esta categoría la ropa y el calzado especializados para las activadades incluidas en el resto de las categorías',
         },
         {
-            name: 'Maquinaria',
+            name: 'Maquinarias',
             description: 'Equipos pesados de entrenamiento tales como bicicletas estáticas, cintas para caminar/correr, elípticos, etc.',
         },
         {
@@ -371,7 +371,7 @@ function categoriesSeeder(){            //This function create several categorie
 function reviewsSeeder() {              //This function create several categories
     Reviews.bulkCreate([
         {
-            qualification: '1', 
+            qualification: '2', 
             description: 'Impresentable, he tirado mi plata!|@#~€¬=(¿}]^*)=/%$·$%!ª',
         },
         {
@@ -435,7 +435,7 @@ function reviewsSeeder() {              //This function create several categorie
             description: 'Un desastre, he malgastado mi plata!|@#~€¬=(¿}]^*)=/%$·$%!ª',
         },
         {
-            qualification: '1', 
+            qualification: '2', 
             description: 'Pesimo en su terminación, no lo recomiendo',
         },
         {
@@ -497,7 +497,7 @@ function reviews_productSeeder() {      // This function create several relation
     var userid = 1;
     var j = 1;
     for (let i = 1; i < 29; i++) {
-        if(userid>4){
+        if(userid>6){
             userid=1;
         }
         if(j>14){
@@ -516,7 +516,6 @@ function reviews_productSeeder() {      // This function create several relation
 }
 
 function categoy_productSederr(){             // This function create several relationships between categories and products
-    
     for (let i = 1; i < 14; i++) {
         Product.findByPk(i)
             .then((product)=>{

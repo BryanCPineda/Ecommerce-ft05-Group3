@@ -10,6 +10,7 @@ const authRouter = require ('./auth.js');
 const reviewRouter = require ('./reviews.js');
 const gitHub = require ('./gitHub-Routes');                 //se importan las rutas para la autenticacion con gitHub
 const sendEmail = require('./sendEmail');
+const twit_auth = require('./twitter');
 
 const router = Router();
 
@@ -26,5 +27,6 @@ router.use("/auth", authRouter);
 router.use("/reviews", reviewRouter);
 router.use("/gitHub", gitHub);                              //se habilitan las rutas de github 
 router.use("/sendEmail", sendEmail);
+router.use('/twitter', twit_auth);
 
 module.exports = router;

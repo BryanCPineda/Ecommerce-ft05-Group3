@@ -26,7 +26,7 @@ import {GoogleLogin, GoogleLogout } from "react-google-login";
 import { FcGoogle } from 'react-icons/fc' 
 
 /*--------LOGIN WHIT GITHUB ---------*/
-import { GithubLoginButton } from "react-social-login-buttons";
+import { GithubLoginButton, TwitterLoginButton } from "react-social-login-buttons";
 import { VscGithub } from 'react-icons/vsc'
 import Axios from "axios";
 import swal from 'sweetalert';
@@ -346,7 +346,12 @@ handleBoth=()=>{
               //   isSignedIn={true}                              //MANTIENE LA SESION INICIADA CON COOKIES NO LO NECESITAMOS PORQUE USAMOS JWT
             />
             </div>
-            {/*///////////////////////////////////////////////////////////////////////////////////*/}
+              <a href="http://localhost:4000/twitter" style={{ textDecoration: 'none' }}>
+                <TwitterLoginButton/>
+              </a>
+            <div>
+            </div>
+            {/*//////////////////////////////////////////////////////////////////////////////////*/}
           </Modal.Footer>
         </Modal>
       </React.Fragment>
