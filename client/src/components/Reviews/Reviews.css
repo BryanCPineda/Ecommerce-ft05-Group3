@@ -32,6 +32,10 @@ li{
 .bsStars{
   color: #8a2be2;
 }
+.big-Stars{
+  color: #8a2be2;
+  font-size: 2.5em;
+}
 .ops{
   display: 'flex';
   text-align: 'center'

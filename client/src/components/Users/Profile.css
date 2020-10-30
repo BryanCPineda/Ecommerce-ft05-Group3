@@ -6,5 +6,13 @@
 .table-responsive{
   margin: 15px;
 }
-
+.nav-link {
+  text-decoration: none;
+  text-align: left;
+  width: fit-content;
+  color: aliceblue;
+}
+th{
+  color: rgb(180, 130, 238);
+}
 
