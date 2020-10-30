@@ -35,43 +35,46 @@ function NavbarGeneral({ isAuthenticated, user }) {
     </div>
   );
 
+
+
   return (
-    // 		<div style={{backgroundColor: 'blue'}} className="navegacion-general">
-    // 			<head>
-    //     {/* <meta charset="UTF-8">
-    //     <meta name="viewport"
-    //           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    //     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    //     <title>Document</title>
-    //     <link rel="stylesheet" href="styles.css"> */}
-    // </head>
-    // <body className='fontuse'>
-    //     <header>
-    //         <div class="container">
     <div className="background-al-nav-general navbar">
-      <div className="d-flex justify-content-center container">
-        <Link to="/user/catalogo">
-          <div class="logo">
-            <img
-              style={{ width: "150px", height: "150px" }}
-              class="image-brand"
-              src={"/images/brand4.png"}
-              alt="logo"
-            ></img>
-          </div>
-        </Link>
-        {user && user.rol === "admin" ? (
-          <div
-            className="d-flex align-items-center"
-            style={{ height: "50px", width: "70px", fontSize: "20px" }}
-          >
-            <Link to="/admin" class="nav-link admin-icono-navbar">
+        <div className="d-flex justify-content-center container" >
+        
+          <Link to="/user/catalogo">
+            <div className="logo">
+              <img
+                style={{width: '150px', height: '150px'}}
+                className="image-brand"
+                src={"/images/brand4.png"}
+                alt="logo"
+              ></img>
+            </div>
+          </Link>
+          {user && user.rol === "admin" ? 
+            <div className="d-flex align-items-center" style={{height: "50px", width: '70px', fontSize: '20px'}}>
+            <Link to="/admin" className="nav-link admin-icono-navbar">
               Admin
             </Link>
           </div>
-        ) : null}
-        <div className="searchbar-navbar">
-          <SearchBar />
+          :
+          null
+          }  
+          <div className="searchbar-navbar">
+            <SearchBar />
+          </div>
+          <div className="d-flex">
+            <Link to="/user/cart" className="nav-link cart-icono-navbar d-flex">
+              <span className="cart-navbar-letters" style={{color: 'white'}}>Cart </span>
+              <span style={{ fontSize: "35px", color: 'white' }}>
+                <IoIosCart />
+              </span>
+            </Link>
+            <div >
+              {isAuthenticated ? null : guest}
+            </div>
+            {isAuthenticated && <UserLoged id="UserLoged" user={user} />}
+          </div>
         </div>
         <div className="d-flex">
           <Link to="/user/cart" class="nav-link cart-icono-navbar d-flex">
@@ -86,7 +89,6 @@ function NavbarGeneral({ isAuthenticated, user }) {
           {isAuthenticated && <UserLoged id="UserLoged" user={user} />}
         </div>
       </div>
-    </div>
   );
 }
 

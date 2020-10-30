@@ -13,11 +13,22 @@ function ReviewCard({reviewDescription, reviewid, reviewQualification, deleteRev
   console.log('reviewid', id)
   
   const handleOnDelete = (e) => {
-    deleteReview(id);
-    swal("Review deleted successfully!", {
-      icon: "success",
-    });
-    setShow(false);
+    swal({
+      title: "Are you sure?",
+      text: "You are about to delete this Review\nThere's no going back!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+    .then(accepted=>{
+      if(accepted){
+        deleteReview(id);
+        swal("Review deleted successfully!", {
+          icon: "success",
+        })
+        setShow(false);
+      } 
+    })
   }
   const handleOnclick = (e) => {
     e.preventDefault();
@@ -25,7 +36,7 @@ function ReviewCard({reviewDescription, reviewid, reviewQualification, deleteRev
   }
   var qualification = reviewQualification;
   var stars;
-  let errMsg = 'Ups! something went wrong';
+  let errMsg = 'Ups! something went wrong :(';
 
   function myStars(qualification) {
     if (qualification == 1) { return stars = oneStar}
@@ -51,7 +62,7 @@ function ReviewCard({reviewDescription, reviewid, reviewQualification, deleteRev
             style={{backgroundColor: '#8a2be2', border: '#8a2be2', marginTop: '-20px', height: '40px'}}
             className="m-1"
             disabled={false}
-          >Show Review
+          ><b>Show Review</b>
           </Button>)
       }
       <Modal 
@@ -67,9 +78,7 @@ function ReviewCard({reviewDescription, reviewid, reviewQualification, deleteRev
           closeButton={true} 
           closeLabel={'Close'}
         >
-          <Modal.Title>
-            Your products review
-          </Modal.Title>
+          <Modal.Title>Your products review</Modal.Title>
         </Modal.Header>
         <Modal.Body>
         <h5>Qualification</h5>

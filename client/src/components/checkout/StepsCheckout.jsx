@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -12,6 +12,13 @@ import Typography from "@material-ui/core/Typography";
 import AddAddress from "./AddAdress";
 import Payment from "./Payment";
 import Review from "./Review";
+import swal from 'sweetalert'
+import { connect } from "react-redux";
+import {sendPurchase} from './../../actions/sendEmail'
+import {
+  cambioEstadoCarrito,
+  getProductsForCheckout
+} from "../../actions/order";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -60,12 +67,57 @@ function getStepContent(step) {
   }
 }
 
-export default function Checkout() {
+function Checkout({sendPurchase, user, getProductsForCheckout, cambioEstadoCarrito,cart}) {
   const classes = useStyles();
-  const [activeStep, setActiveStep] = React.useState(0);
+  const [activeStep, setActiveStep] = useState(0);
+
+  useEffect(()=>{ 
+    if(user){
+        getProductsForCheckout(user.id)
+    }
+  },[user]) 
+
+  useEffect(()=>{ 
+     
+  },[getProductsForCheckout]) 
 
   const handleNext = () => {
-    setActiveStep(activeStep + 1);
+    setActiveStep(activeStep + 1)
+    const address = JSON.parse(localStorage.getItem('adress'))
+    if (activeStep === steps.length - 1)
+    { 
+      const userSend = {
+        name: address.name,
+        lastname: address.lastname,
+        email: user.email,
+        address: address.address1,
+        city: address.city,
+        zip: address.zip,
+        countre: address.country                         
+      }
+      const productos = cart && cart.product.map(e => {
+        let product = {
+          id: e.id,
+          name: e.name,
+          price: e.price,
+          quantity: e.orderline.quantity
+        }
+        return product
+      })
+      const info = {
+        orderId: cart.orderId,
+        products: productos,
+        totalPrice: cart.totalPrice
+      }
+      cambioEstadoCarrito(cart.orderId, 'Complete', cart.totalPrice)
+      swal("Order Completed! Thank you for your purchase", {
+        icon: "success",
+      }).then(() => {
+      sendPurchase(userSend, info)
+      localStorage.clear()}
+      ) 
+    
+  }
   };
 
   const handleBack = () => {
@@ -122,3 +174,21 @@ export default function Checkout() {
     </React.Fragment>
   );
 }
+
+
+function mapStateToProps(state) {
+  return {
+    user: state.userReducer.user,
+    cart: state.orderReducer.cartProducts,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    sendPurchase: (user, info) => dispatch(sendPurchase(user, info)),
+    getProductsForCheckout: (idUser) => dispatch(getProductsForCheckout(idUser)),
+    cambioEstadoCarrito: (id, status, totalPrice) => dispatch(cambioEstadoCarrito(id, status, totalPrice)),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Checkout);

@@ -87,7 +87,11 @@ function AddReview({addReview, user, product, productId, idUser, reviewQualifica
             style={{backgroundColor: '#8a2be2', border: '#8a2be2', marginTop: '-20px', height: '40px'}}
             className="m-1"
             disabled={false}
+<<<<<<< HEAD
           >Add review
+=======
+          ><b>Add review</b>
+>>>>>>> f7e96b7bd39a02ee121882235d752e8a6f6fdc52
           </Button>)
       }
       &nbsp;

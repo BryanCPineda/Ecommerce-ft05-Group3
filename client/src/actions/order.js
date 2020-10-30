@@ -100,7 +100,11 @@ export function getOrder(idUser) {
 
 export function cambioEstadoCarrito(id, status, totalPrice){
     let estado = {
+<<<<<<< HEAD
         state : "Created",
+=======
+        state : status,
+>>>>>>> f7e96b7bd39a02ee121882235d752e8a6f6fdc52
         totalPrice: totalPrice
     }
 

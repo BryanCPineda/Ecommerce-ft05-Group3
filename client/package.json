@@ -11,9 +11,14 @@
     "bcryptjs": "^2.4.3",
     "bootstrap": "^4.5.3",
     "cors": "^2.8.5",
+    "login-with-twitter": "^1.2.3",
     "moment": "^2.29.1",
     "multiselect-react-dropdown": "^1.6.1",
     "node-sass": "^4.14.1",
+<<<<<<< HEAD
+=======
+    "passport-twitter": "^1.0.4",
+>>>>>>> f7e96b7bd39a02ee121882235d752e8a6f6fdc52
     "paypal-checkout": "^4.0.318",
     "popper": "^1.0.1",
     "popper.js": "^1.16.1",
@@ -23,7 +28,11 @@
     "react-bootstrap-multiselect": "^2.4.1",
     "react-bootstrap-sweetalert": "^5.2.0",
     "react-cookie": "^4.0.3",
+<<<<<<< HEAD
     "react-dom": "^16.14.0",
+=======
+    "react-dom": "^16.13.1",
+>>>>>>> f7e96b7bd39a02ee121882235d752e8a6f6fdc52
     "react-google-login": "^5.1.22",
     "react-hook-form": "^6.9.2",
     "react-icons": "^3.11.0",

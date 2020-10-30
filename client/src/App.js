@@ -14,7 +14,7 @@ import Footer from "./components/Footer";
 import NavbarAdmin from "./components/NavbarAdmin";
 import UserProfile from "./components/Users/Profile";
 import UserForgotPassword from "./components/Users/UserForgotPassword";
-import passwordResetLink from "./components/Users/passwordResetLink";
+import passwordResetLink from './components/Users/passwordResetLink';
 
 import AdminOrders from "./components/Admin/adminOrders";
 import AdminUsers from "./components/Admin/adminUsers";

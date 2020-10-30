@@ -15,6 +15,14 @@ export default function sendEmailReducer(state = initialState, action) {
                 ...state,
                 forgotPassword: true
             }
+<<<<<<< HEAD
+=======
+        case 'SEND_PURCHASE':
+            return {
+                ...state,
+                response: action.payload
+            }
+>>>>>>> f7e96b7bd39a02ee121882235d752e8a6f6fdc52
         default:
             return state;
     }
