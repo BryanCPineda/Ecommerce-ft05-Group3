@@ -54,9 +54,54 @@ server.post('/', (req, res) =>{
  
  
 
-    }
+    } else if(emailType === 'sendPurchase') {
+        console.log('llega  ', req.body)
+        const {user, info} = req.body
+        mailOptions = {
+            from: 'Cyberfitness@gmail.com',
+            to: user.email,
+            subject: 'Purchase Detail',
+            html: 
+            `<div id="container" style="width: 100%; font-family: sans-serif; font-weight: normal;">
+                <div style="width: 100%; max-width: 700px; margin: auto;">
+                    <div style="background-color: #8e2de2; text-align: center; padding: 0.7rem 0;">
+                        <h1 style="color: white; font-family: sans-serif; font-weight: normal;">CyberFitness</h1>
+                     </div>
+            
+          <div style="text-align: center; padding: 0 0.72rem; padding-top: 2.5rem; background-color:white">
+          <p style="color: #4f5154; margin-bottom: 1.4rem; font-size: 1rem;">&iexcl;
+                                    Hi ${user.name}  ${user.lastname}  !
+             <h3>Your Purchase: </h3>
+             Oder N° ${info.orderId}
+             <hr>
+             <h3>Your Products:</h3>
+
+             <table>
+                <thead>
+                <tr>
+                    <th>id</th>
+                    <th>Name</th>
+                    <th>price</th>
+                    <th>quantity</th>
+                    <th>total</th>
+                </tr>
+                </thead>
+                <tbody>
+                    ${info.products && info.products.map( e => 
+                        e.name + '  ' +
+                        e.quantity + '  '+
+                        e. price + '   '
+                    )}
+                        
+                </tbody>
+                </table>
+                <hr>
+                <h3>Total Price: ${info.totalPrice}</h3>
+             
+             Thank you for your purchase!!`
+        };
  
-    
+    }
     
  
 

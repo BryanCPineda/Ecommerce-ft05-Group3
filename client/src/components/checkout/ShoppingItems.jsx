@@ -17,7 +17,7 @@ import {
   cambioEstadoCarrito,
   getProductsForCheckout
 } from "../../actions/order";
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 const useStyles = makeStyles({
   table: {
@@ -31,6 +31,8 @@ function ShoppingItems({ cart, user, getProductsForCheckout}) {
 
   const classes = useStyles();
 
+    const [state, setState] = useState({})
+
   useEffect(()=>{ 
     if(user){
         getProductsForCheckout(user.id)
@@ -40,6 +42,12 @@ function ShoppingItems({ cart, user, getProductsForCheckout}) {
   useEffect(()=>{ 
       
   },[getProductsForCheckout]) 
+
+  useEffect(()=>{ 
+      if(!localStorage) return
+      setState(JSON.parse(localStorage.getItem('adress')))
+      console.log('st',state)
+  },[user]) 
 
   return (
     <TableContainer component={Paper} >
