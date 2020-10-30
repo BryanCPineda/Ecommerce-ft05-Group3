@@ -6,7 +6,6 @@ server.get('/twithome', (req, res) => {
         location: "home in twitter strategy"
     })
 })
-
 server.get('/',
     passport.authenticate('twitter'))
 

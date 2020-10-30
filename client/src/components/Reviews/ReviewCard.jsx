@@ -22,7 +22,7 @@ function ReviewCard({reviewDescription, reviewid, reviewQualification, deleteRev
     })
     .then(accepted=>{
       if(accepted){
-        deleteReview(id) 
+        deleteReview(id);
         swal("Review deleted successfully!", {
           icon: "success",
         })
@@ -36,7 +36,7 @@ function ReviewCard({reviewDescription, reviewid, reviewQualification, deleteRev
   }
   var qualification = reviewQualification;
   var stars;
-  let errMsg = 'Ups! something went wrong';
+  let errMsg = 'Ups! something went wrong :(';
 
   function myStars(qualification) {
     if (qualification == 1) { return stars = oneStar}

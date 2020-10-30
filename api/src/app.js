@@ -7,7 +7,7 @@ const cors = require('cors');
 const passport = require('passport');                   //se importa passport para autenticacion con gitHub
 const session = require("express-session");             //se importa session para el manejo de sesiones con passport
 require('./routes/gitHub-Passport-setup');              //se importa para toda la app, la estructura de passport con gitHub
-require('./routes/tiwtter-config');              //se importa para toda la app, la estructura de passport con gitHub
+require('./routes/twitter-config');                     //se importa para toda la app, la estructura de passport con twitter
 
 require('./db.js');
 

@@ -346,9 +346,9 @@ handleBoth=()=>{
               //   isSignedIn={true}                              //MANTIENE LA SESION INICIADA CON COOKIES NO LO NECESITAMOS PORQUE USAMOS JWT
             />
             </div>
-              <a href="http://localhost:4000/twitter"
-                style={{ textDecoration: 'none' }}
-              ><TwitterLoginButton/></a>
+              <a href="http://localhost:4000/twitter" style={{ textDecoration: 'none' }}>
+                <TwitterLoginButton/>
+              </a>
             <div>
             </div>
             {/*///////////////////////////////////////////////////////////////////////////////////*/}

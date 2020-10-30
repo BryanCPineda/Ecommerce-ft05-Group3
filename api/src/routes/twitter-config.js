@@ -8,7 +8,6 @@ passport.use(new TwitterStrategy({
   consumerSecret: process.env.TWIT_SECRET,
   callbackURL: "http://localhost:4000/twitter/callback",
   includeEmail: true,
-  // profileFields: ['email', 'name', 'lastname']
 },
   function (accessToken, refreshToken, profile, cb) {
       console.log('profile', JSON.stringify(profile))
@@ -20,7 +19,6 @@ passport.use(new TwitterStrategy({
 passport.serializeUser(function (user, done) {
   done(null, user);
 });
-
 passport.deserializeUser(function (obj, done) {
   done(null, obj);
 });
