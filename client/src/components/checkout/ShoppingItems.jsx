@@ -51,10 +51,10 @@ function ShoppingItems({ cart, user, getProductsForCheckout}) {
                 </Typography>
             </TableRow>
           <TableRow className='boton'>
-            <TableCell align="center">Name</TableCell>
-            <TableCell align="right">Price</TableCell>
-            <TableCell align="right">Quantity</TableCell>
-            <TableCell align="right">Total</TableCell>
+            <TableCell align="center" style={{color: 'white'}}>Name</TableCell>
+            <TableCell align="right" style={{color: 'white'}}>Price</TableCell>
+            <TableCell align="right" style={{color: 'white'}}>Quantity</TableCell>
+            <TableCell align="right" style={{color: 'white'}}>Total</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

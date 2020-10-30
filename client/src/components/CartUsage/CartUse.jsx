@@ -259,7 +259,7 @@ const handleFinCompra =() =>{
     )
     return
   } 
-  cambioEstadoCarrito(order.orderId, 'Created')
+  cambioEstadoCarrito(order.orderId, 'Created', state.total)
   swal("Order Created!", {
     icon: "success",
   }).then(() => {
@@ -456,8 +456,8 @@ function mapDispatchToProps(dispatch) {
   return {
     getOrder: (idUser) => dispatch(getOrder(idUser)),
     getProducts: () => dispatch(getProducts()),
-    cambioEstadoCarrito: (id, status) =>
-    dispatch(cambioEstadoCarrito(id, status)),
+    cambioEstadoCarrito: (id, status, totalPrice) =>
+    dispatch(cambioEstadoCarrito(id, status, totalPrice)),
     updateProductToCart: (idUser, body) => dispatch(updateProductToCart(idUser, body)),
     // updateProduct: (id, prod) => dispatch(updateProduct(id, prod)),
     vaciarCarrito: (idUser) => dispatch(vaciarCarrito(idUser)),
