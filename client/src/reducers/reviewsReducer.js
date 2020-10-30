@@ -61,21 +61,21 @@ export default function reviewsReducer(state = initialState, action) {
     case DELETE_REVIEW:
       return {
         ...state,
-      }
-    case MATCH_REVIEW:
-      // console.log('actionPayload', action.payload)
-      // const {productId, userId, response} = action.payload;
-      // const key = productId + '_' + userId
-      return {
-        ...state,
-        review: [...state.review, action.payload]
+        review: action.payload
       }
     case USER_REVIEWS:
-      console.log('actionPayload', action.payload)
       return {
         ...state,
         userReviews: action.payload
       }
+    // case MATCH_REVIEW:
+    //   console.log('actionPayload', action.payload)
+    //   const {productId, userId, response} = action.payload;
+    //   const key = productId + '_' + userId
+    //   return {
+    //     ...state,
+    //     review: [...state.review, action.payload]
+    //   }
       default:
         return state;
       }

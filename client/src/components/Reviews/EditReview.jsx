@@ -1,11 +1,12 @@
-import React,  {useEffect} from 'react';
+import React from 'react';
 import { useState } from 'react';
 import { Button, Container, Modal, Col, Row, Form, InputGroup, FormControl } from 'react-bootstrap';
 import ReactStars from 'react-stars';
 import {editReview} from '../../actions/reviewsActions';
 import {connect} from 'react-redux';
+import swal from 'sweetalert';
 
-function EditReview({editReview, user, product}) {
+function EditReview({editReview, user, product, reviewid, reviewDescription }, ) {
   const[show, setShow] = useState(false);
   const [stars, setStars] = useState(0);
   const [description, setDescription] = useState('');
@@ -19,18 +20,21 @@ function EditReview({editReview, user, product}) {
     setDescription(e.target.value)
     console.log(e.target.value)
   }
-  
+  const id = reviewid;
+  console.log('reviewid', id)
+
   const handleOnSubmit = (e) => {
-    e.preventDefault();
     const review = {
       description: description,
       qualification: Math.round(stars),
-      userdId: user.id
     };
-    const id = product.id
     editReview(id, review);
+    swal('Review edited successfully!',{
+      icon: 'success'
+    })
     setShow(false);
   }
+
   const star = {
     count:5,
     onChange: stars=>setStars(stars),
@@ -42,9 +46,12 @@ function EditReview({editReview, user, product}) {
     <React.Fragment>
       <Button 
         onClick={(e)=>handleOnclick(e)}
-        className=""
-      >Edit review
+        className="m-1"
+        style={{backgroundColor: '#8a2be2', border: '#8a2be2', marginTop: '-20px', height: '40px'}}
+      >Edit
       </Button>
+      &nbsp;
+      &nbsp;
       <Modal 
         show={show} 
         onHide={()=>setShow(false)}
@@ -60,11 +67,15 @@ function EditReview({editReview, user, product}) {
           <Modal.Title>Change your review</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          <h4>Current Review</h4>
+          <p>
+            {reviewDescription ? reviewDescription : 'Ups! something went wrong'}
+          </p>
           <h4>Rate the product.</h4>
           <Form>
             <ReactStars {...star}/>
             <hr/>
-            <h4>The new product review?</h4>
+            <h4>Type a new product review</h4>
             <InputGroup>
               <InputGroup.Prepend>
                 <InputGroup.Text>Your review</InputGroup.Text>
@@ -72,7 +83,7 @@ function EditReview({editReview, user, product}) {
               <FormControl 
                 as="textarea"  
                 aria-label="Description" 
-                placeholder="I hope it's for better"
+                placeholder="We hope it's for better!"
                 onChange={e=>handleOnChange(e)}
               />
             </InputGroup>
@@ -114,7 +125,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    editReview: (user, review) => dispatch(editReview(user, review))
+    editReview: (productId, review) => dispatch(editReview(productId, review))
   }
 }
 

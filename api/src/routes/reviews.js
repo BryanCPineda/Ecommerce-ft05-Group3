@@ -107,13 +107,13 @@ server.post("/product/:id/review",(req,res)=>{
     });
 })
 
-server.put("/:id", (req, res, next) => {
+server.put("/:idReview", (req, res, next) => {
   /* and this other one is for modifying one existing review */
-  const { idReview } = req.params;
-  const {
-    description,
-    qualification,
-  } = req.body; 
+  const idReview = req.params.idReview;
+  const { description, qualification } = req.body; 
+  console.log('idReview', idReview)
+  console.log('description', description)
+  console.log('qualification', qualification)
   Reviews.update(
     {
       description: description,
