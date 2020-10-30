@@ -46,7 +46,7 @@ Product.belongsToMany(Order, { through: { model: Orderline }, foreignKey: 'produ
 Order.belongsToMany(Product, { through: { model: Orderline }, foreignKey: 'orderId' });
 
 Product.hasMany(Image,{foreignKey:'productId'});
-Users.hasMany(Order, { foreignKey: 'userId' });
+Users.hasMany(Order, );
 
 Order.belongsTo(Users, {foreignKey: 'userId'});
 
@@ -54,6 +54,7 @@ Reviews.belongsTo(Users);
 
 Product.hasOne(Orderline);
 Orderline.belongsTo(Product);
+Orderline.belongsTo(Users, { foreignKey: 'userId' });
 
 Orderline.belongsTo(Order);
 Order.hasMany(Orderline);

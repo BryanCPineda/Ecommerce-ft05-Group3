@@ -158,7 +158,6 @@ const [state, setState] = useState({
           <div className="d-flex justify-content-around products-container flex-wrap" style={{width: '1500px'}}>
             <div className="products-image-div">
             <div className="products-image-div-second">
-              {console.log('que hay enproductoimagenes', product.images)}
               {product.images && product.images[0]? <Carousel>
                   {
                     product.images.map((image, index) => {

@@ -107,13 +107,13 @@ server.post("/product/:id/review",(req,res)=>{
     });
 })
 
-server.put("/:id", (req, res, next) => {
+server.put("/:idReview", (req, res, next) => {
   /* and this other one is for modifying one existing review */
-  const { idReview } = req.params;
-  const {
-    description,
-    qualification,
-  } = req.body; 
+  const idReview = req.params.idReview;
+  const { description, qualification } = req.body; 
+  console.log('idReview', idReview)
+  console.log('description', description)
+  console.log('qualification', qualification)
   Reviews.update(
     {
       description: description,
@@ -157,10 +157,30 @@ server.post('/user/product', async (req, res) => {
       where: {
         userId: userId,
         productId: productId
-      }
+      },
     })
     if(!review){
       res.send(`No se encuenta una review del userId ${userId} para el productId ${productId}`)
+    }
+    res.send(review)
+  } 
+  catch (err) {
+    console.log('reviewERROR', err)
+    return res.send({data: err}).status(400);
+  }
+})
+// All reviews from one User
+server.get('/user/:userId', async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const review = await Reviews.findAll({
+      where: {
+        userId: userId,
+      },
+      order: [['productId', 'ASC']]
+    })
+    if(!review){
+      res.send(`El userId ${userId} no tiene reviews`)
     }
     res.send(review)
   } 
