@@ -14,6 +14,7 @@ import Payment from "./Payment";
 import Review from "./Review";
 import swal from 'sweetalert'
 import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 import {sendPurchase} from './../../actions/sendEmail'
 import {
   cambioEstadoCarrito,
@@ -71,6 +72,8 @@ function Checkout({sendPurchase, user, getProductsForCheckout, cambioEstadoCarri
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
 
+  const [stateRedirect, setRedirect] = useState({ redirect: null })
+
   useEffect(()=>{ 
     if(user){
         getProductsForCheckout(user.id)
@@ -116,13 +119,17 @@ function Checkout({sendPurchase, user, getProductsForCheckout, cambioEstadoCarri
       sendPurchase(userSend, info)
       localStorage.clear()}
       ) 
-    
+      setRedirect({ redirect: "/user/checkout" })
   }
   };
 
   const handleBack = () => {
     setActiveStep(activeStep - 1);
   };
+
+  if (stateRedirect.redirect) {
+    return <Redirect to={stateRedirect.redirect} />
+  }
 
   return (
     <React.Fragment>

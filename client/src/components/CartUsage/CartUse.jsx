@@ -263,7 +263,7 @@ const handleFinCompra =() =>{
   swal("Order Created!", {
     icon: "success",
   }).then(() => {
-      setRedirect({ redirect: "/user/catalogo" });
+      setRedirect({ redirect: "/user/checkout" });
     }
   )
     
