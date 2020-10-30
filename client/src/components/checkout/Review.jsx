@@ -27,10 +27,11 @@ const Review = ({ user, cart, total }) => {
   const cardNumber = payment[1].slice(payment[1].length - 4, payment[1].length)
   console.log(cardNumber)
   const products = 
-    cart.product.map(ele => {
+    cart.product && cart.product.map(ele => {
       return ele = {
         name: ele.name,
-        price: `$ ${ele.price}`
+        price: `$ ${ele.orderline.quantity * ele.price}`,
+        quantity: ele.orderline.quantity
       }
     })
 
@@ -56,6 +57,7 @@ const Review = ({ user, cart, total }) => {
       <List disablePadding>
         {products.map((product) => (
           <ListItem className={classes.listItem} key={product.name}>
+            <ListItemText primary={product.quantity} />
             <ListItemText primary={product.name} secondary={product.desc} />
             <Typography variant="body2">{product.price}</Typography>
           </ListItem>

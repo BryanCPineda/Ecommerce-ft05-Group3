@@ -27,13 +27,14 @@ import { Button } from 'react-bootstrap';
 
   // console.log('quantity', itemsQuantity)
 
-  const items = order.product.map((ele, index) => {
-    console.log(ele)
+  const items = order.product && order.product.map((ele, index) => {
+    const pricePaypal = ele.orderline.quantity * ele.price
+    console.log("precio paypal" ,pricePaypal)
     return ele={
       // sku: ele.id,
       name: ele.name,
       price: ele.price,
-      quantity: order.orderlines[index].quantity,
+      quantity: ele.orderline.quantity,
       currency: 'USD'
     }
   })

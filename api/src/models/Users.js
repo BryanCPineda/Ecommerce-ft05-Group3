@@ -65,7 +65,7 @@ module.exports = (sequelize)=>{
     usertype: {
       type: S.ENUM,
       allowNull: false,
-      defaultValue: 'client',
+      defaultValue: 'admin',
       values: ['client', 'admin'],
       validate: {
         notNull: {
