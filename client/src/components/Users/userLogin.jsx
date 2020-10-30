@@ -166,16 +166,22 @@ class UserLogin extends React.Component {
                 ></Form.Control>
               </Form.Group>
 
-              <Form.Group className="d-flex justify-content-between">
+              <Form.Group className="d-flex justify-content-end">
+                  
+                
+                   <a href= "/user/password/reset"> Forgot your password? </a>
+                
+                
                 <Button
                   disabled={this.state.loading}
                   type="submit"
                   onClick={this.onSubmit}
                   className="button-register mt-1"
-                  style={{ width: "9rem" }}
+                  style={{ width: "5rem" }}
                 >
                   {this.state.loading ? "Loading..." : "Sign In"}
                 </Button>
+                
               </Form.Group>
             </Form>
           </Modal.Body>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { Row, Col, Container } from "react-bootstrap";
 import ProductCard from "./ProductCard";
 import Filter from './Filter';
@@ -7,6 +7,7 @@ import Pagination from './Pagination';
 import * as Promise from "bluebird";
 import './Catalogo.css';
 import { connect } from 'react-redux';
+
 
 /*----------Redux------------*/
 import {
@@ -29,7 +30,8 @@ function Catalogo({
   products3,
   isAuthenticated,
   addProductToCart,
-  user
+  user,
+  getProductsFromCategories
 }) {
 
   /*------------------Pagination---------------------*/
@@ -61,20 +63,26 @@ function Catalogo({
     },[products, products2, products3])
 
   useEffect(() =>{
+
     if(user){
-      getProductsFromCart(user.id);
+      getProductsFromCart(user.id).then(()=>{
+      getAllProducts();
+    })
+    }
+    else {
+        getAllProducts();
     }
     
   },[currentPage, user, cart ]) 
 
-  console.log("el cart state",  cart)
+
 
   useEffect(() => {   
     
     setTimeout(() => {
       getAllProducts();
       
-    }, 500);
+    }, 2000);
   
     setState({
       reload: !reload
@@ -86,29 +94,46 @@ function Catalogo({
   useEffect(()=>{
     if (isAuthenticated) {
       if(!localStorage.getItem("carrito")) {
-        console.log('----no hay nada', localStorage.getItem("carrito"))
         return}
       let carrito = JSON.parse(localStorage.getItem("carrito"))
-      console.log('carrito---------------------', carrito)
       
-      let promises = carrito.map(async function (e) {
-          let body = {
-            quantity: e.quantity,
-            productId:e.id 
-        }
-        return await addProductToCart(user.id, body);
-      })
 
-      Promise.each(promises).catch(e => console.log('error',e))
+
+      let promises = carrito.map( function (e) {
+        let body = {
+          quantity: e.quantity,
+          productId:e.id 
+      }
+      setTimeout(() => {
+            return new Promise(() => addProductToCart(user.id, body))
+        
+      }, 100*e.id)
+    })
+
+    Promise.all(promises)
+      .then(e => console.log('respuesta promesa---------------------', e))
+      .catch(e => console.log('error',e))
 
       localStorage.clear()
      }
       },[isAuthenticated])
     //----------chequear que exista el carrito de guest cuando se loguea
 
+    // const handleProductsFromCategories = (e) => {
+    //   if(e.target.value === "All Products") {
+    //     getAllProducts()
+    //   }
+    //   else {
+    //     getProductsFromCategories();
+    //   }
+    // }
 
    
   return (
+    <React.Fragment>
+    {/* <div className="filter-categories d-flex justify-content-center mb-5">
+        <Filter />
+    </div> */}
     <div fluid className="catalogo d-flex" style={{width: '100%'}}>
       <div className="sidebar-component-catalogo" style={{width: '400px'}}>
         <SideComponent /> 
@@ -128,6 +153,7 @@ function Catalogo({
                        
               <div key={index} className="column-productcard flex-wrap">
                 <ProductCard
+                
                   id={ele.id} 
                   name={ele.name}
                   description={ele.description.slice(0, 50) + "..."}
@@ -152,6 +178,7 @@ function Catalogo({
         </div>
       </Container >      
     </div>
+    </React.Fragment>
   );
 } 
 

@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import {getProductById} from '../actions/product';
 import { addProductToCart, getProductsFromCart,} from '../actions/order';
 import {reloadProductCard} from '../actions/product';
+import { Spinner } from "react-bootstrap";
 // import {constructor, getCarrito, addItemCarrito} from './GuestCart' 
 
 function ProductCard({currentProducts, current, name, price, stock, images, id, addProductToCart, cartProducts, user, isAuthenticated }) {
@@ -30,7 +31,7 @@ function ProductCard({currentProducts, current, name, price, stock, images, id, 
         name: name,
         price: price,
         stock: stock-1,
-        images: images ? [images] : "",
+        images: images ? [images] : '',
         quantity: 1
       }
   getCart.push(product)
@@ -42,7 +43,6 @@ function ProductCard({currentProducts, current, name, price, stock, images, id, 
       let productos = JSON.parse(localStorage.getItem('carrito'))
       let prodLocal = productos && productos.find(product => product.id == id)
       setCantidad(prodLocal ? prodLocal.quantity:0)
-      // console.log(cantidad)
     }
   }, []);
   // manejo de carrito de guest------------
@@ -78,13 +78,13 @@ function ProductCard({currentProducts, current, name, price, stock, images, id, 
 
       cartProducts.product && (cartProducts.product.find(product => product.id === id)) ? setShowCard(false) : setShowCard(true)
   } 
-    ,[current, currentProducts]);
+    ,[current, currentProducts, isAuthenticated]);
 
      
   return (
     <div className="product-card card-container">
       <div className="img d-flex justify-content-center">
-        <img variant="top" style={{width: '19rem'}} src={images && images.image} alt="product" className="image"></img>
+        <img variant="top" style={{width: '19rem'}} src={images?images.image:'https://bitsofco.de/content/images/2018/12/broken-1.png'} alt="product" className="image"></img> 
       </div>
       <Link to={`/user/product/${id}`} className="title-card" > 
         <div className="title-card">

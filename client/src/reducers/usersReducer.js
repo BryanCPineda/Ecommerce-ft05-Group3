@@ -11,7 +11,10 @@ import {
   LOGOUT_SUCCESS,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
-  USER_COMPLETED
+  USER_COMPLETED,
+  PROMOTE_USER,
+  PASSWORD_RESET,
+  USER_FORGOT_PASSWORD
 } from "../constants/userConstants";
 
 const initialState = {
@@ -20,10 +23,22 @@ const initialState = {
   isAuthenticated: false,
   user: null,
   allUsers: [],
+  imageUser: null,
+  promoteUser: '',
+  passwordChanged: false
 };
 
 export default function userReducer(state = initialState, action) {
   switch (action.type) {
+    case DELETE_USER:
+      return{
+        ...state 
+      }
+    case PROMOTE_USER:
+      return{
+        ...state,
+        promoteUser: action.payload
+      }
     case GET_ALL_USERS: // trae todos los usuarios
       return {
         ...state,
@@ -71,6 +86,25 @@ export default function userReducer(state = initialState, action) {
         ...state,
         allUsers: action.payload,
       };
+    case 'IMAGE_PROFILE_USER':
+      return {
+        ...state,
+        imageUser: action.payload
+      }
+    case 'GET_IMAGE_PROFILE_USER':
+      return {
+        ...state,
+        imageUser: action.payload
+      }
+      case PASSWORD_RESET:
+        return {
+          ...state,
+          passwordChanged: true
+        }
+     case USER_FORGOT_PASSWORD:
+      return {
+        ...state,
+      }
     default:
       return state;
   }

@@ -19,6 +19,7 @@ import {
   createOrder,
   updateOrder,
   deleteOrder,
+  filterOrders,
 } from "../../actions/orders";
 
 function Orders({
@@ -27,6 +28,7 @@ function Orders({
   createOrder,
   updateOrder,
   deleteOrder,
+  filterOrders,
 }) {
   const DATE_FORMAT = "DD/MM/YYYY - HH:mm:ss";
 
@@ -83,13 +85,34 @@ function Orders({
       }
     });
   };
+
+  const stateOrders = [ " ", "-", "Cart", "Created", "Processing", "Canceled", "Complete" ]
+
+  const handleFilterOrders = (e) => {
+    if(e.target.value === "-") {
+      getAllOrders();
+      window.location.reload();
+    }
+    filterOrders(e.target.value)
+  }
+
   return (
     <Container >
       <div>
         <div>
           <div>
-            <div className="d-flex p-2 justify-content-between aling-items-center mt-4">
+            <div className="d-flex p-2 justify-content-between aling-items-center mt-5">
               <h1 style={{ color: "white" }}>Orders</h1>
+              <Form>
+                <Form.Group className="d-flex">
+                  <Form.Label className="mr-2" style={{color: 'white', fontSize: '25px', width: '300px'}}>Filter Orders:</Form.Label>
+                  <Form.Control style={{color: 'black'}} as="select" value={stateOrders} onChange={handleFilterOrders}>
+                  {stateOrders.map((order, index) => (
+                    <option style={{color: 'black'}} key={index}>{order}</option>
+                  ))}
+                  </Form.Control>
+                </Form.Group>
+              </Form>
             </div>
           </div>
         </div>
@@ -119,7 +142,7 @@ function Orders({
                     allOrders.map((order, index) => {
                       return (
                         <tr key={index} className="text-center">
-                          <td>{order.id}</td>
+                          <td>{order.id && order.id}</td>
                           <td>{order.user.name}</td>
                           <td>{order.user.email}</td>
                           <td>{moment(order.createdAt).format(DATE_FORMAT)}</td>
@@ -188,6 +211,7 @@ function mapDispatchToProps(dispatch) {
     getAllOrders: () => dispatch(getAllOrders()),
     updateOrder: (state) => dispatch(updateOrder(state)),
     deleteOrder: (id) => dispatch(deleteOrder(id)),
+    filterOrders: (state) => dispatch(filterOrders(state)),
   };
 }
 

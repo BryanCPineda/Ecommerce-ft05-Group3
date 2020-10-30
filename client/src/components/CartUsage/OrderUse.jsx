@@ -9,7 +9,7 @@ import './CartUse.css'
 import { connect } from 'react-redux'
 
 function OrderUse(prod) {
-    let cantidad = []
+    // let cantidad = []
     const [state, setState] = useState({
         cantidad: prod.orderline.orderline.quantity
     })
@@ -21,18 +21,21 @@ function OrderUse(prod) {
     }, [state])
 
     const handleCant = (value) => {
-      if (value <= prod.orderline.stock+prod.orderline.orderline.quantity){
-      setState({
+       setState({
         ...state,
-        cantidad: value})}
-        else{
-          setState({
-            ...state,
-            cantidad})
-            swal("insufficient Stock!", {
-              icon: "warning",
-            })
-        }
+        cantidad: value})
+      // if (value <= prod.orderline.stock+prod.orderline.orderline.quantity){
+      // setState({
+      //   ...state,
+      //   cantidad: value})}
+      //   else{
+      //     setState({
+      //       ...state,
+      //       cantidad})
+      //       swal("insufficient Stock!", {
+      //         icon: "warning",
+      //       })
+      //   }
     }
     
     return (
@@ -41,7 +44,7 @@ function OrderUse(prod) {
           <Card.Body className="bg-light text-center class-card">
             <Row>
               <Col xs={3} md={2}>
-                <img alt={'Imagen del producto: '+prod.orderline.name} className="w-75" src={prod.orderline.images.length > 0 ? prod.orderline.images[0].image : 'sin imagen'} /> 
+                <img alt={'Imagen del producto: '+prod.orderline.name} className="w-75" src={prod.orderline.images.length > 0 ? prod.orderline.images[0].image : 'https://bitsofco.de/content/images/2018/12/broken-1.png'} /> 
               </Col>
               <Col>
                 <Row>
@@ -49,7 +52,11 @@ function OrderUse(prod) {
                       <h4 >{prod.orderline.name} </h4>
                   </Col>
                   <Col xs={6} md={3} className="mb-3 text-center">
-                  <NumericInput className={'numberformat'} min={0} max={prod.orderline.stock+ prod.orderline.orderline.quantity} value={state.cantidad} onChange={value => handleCant(value)}/>
+                    {console.log('stock------', prod.orderline.stock, 'cantidad------', prod.orderline.orderline.quantity)}
+                  <NumericInput className={'numberformat'} min={0} max={50} value={
+                    prod.logueado?
+                    prod.orderline.orderline.quantity: state.cantidad
+                    } onChange={value => handleCant(value)}/>
                   </Col>
                   <Col className="text-left">
                     <span className="h6">
