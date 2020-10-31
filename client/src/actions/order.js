@@ -10,6 +10,8 @@ const GET_PRODUCTS_FROM_CART = "GET_PRODUCTS_FROM_CART"
 const RELOAD_CART = "RELOAD_CART"
 const UPDATE_PRODUCT_TO_CART = 'UPDATE_PRODUCT_TO_CART'
 const GET_PRODUCTS_FOR_CHECKOUT = 'GET_PRODUCTS_FOR_CHECKOUT'
+const ADD_PRODUCT_TO_CART_ORDER = 'ADD_PRODUCT_TO_CART_ORDER'
+const ADD_PRODUCT_TO_CART_ORDERLINE = 'ADD_PRODUCT_TO_CART_ORDERLINE'
 
 
 export function reloadCart() {
@@ -193,3 +195,42 @@ export function getProductsForCheckout(idUser){
  })
 }
 };
+
+// server.post("/:idUser/carrito", async (req, res) => {
+//   try {
+//     const { idUser } = req.params;
+//     const order = await Order.findOrCreate({
+//       where: { userId: idUser, state: "Cart" },
+//     });
+//     return res.status(200).send(order);
+//   } catch (error) {
+//     return res.status(400).send({ data: error });
+//   }
+// });
+
+// server.post("/:idUser/carrito/:idOrder", async (req, res) => {
+//   try {
+//     const { idUser, idOrder } = req.params;
+//     const { quantity, productId } = req.body;
+
+// Add product to cart order y orderlines separated------------------------------------
+
+export function addProductToCartOrder (idUser) {
+  return (dispatch) => {
+ 
+      return Axios.post(`http://localhost:4000/users/${idUser}/carrito`)
+      .then( res => res.data)
+      .then((res) => {
+        dispatch({ type: ADD_PRODUCT_TO_CART_ORDER, payload: res});
+      });
+  }};
+
+  export function addProductToCartOrderline (idUser, body) {
+    return (dispatch) => {
+   
+        return Axios.post(`http://localhost:4000/users/${idUser}/carritoOrderline`, body)
+        .then( res => res.data)
+        .then((res) => {
+          dispatch({ type: ADD_PRODUCT_TO_CART_ORDERLINE, payload: res});
+        });
+    }};

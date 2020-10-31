@@ -62,6 +62,21 @@ export default function orderReducer(state = initialState, action) {
                 ...state,
                 cartProducts: action.payload
             }
+        case 'ADD_PRODUCT_TO_CART_ORDER':
+            return {
+                ...state,
+                cart: {
+                    orderId: action.payload
+                }
+            }
+        case 'ADD_PRODUCT_TO_CART_ORDERLINE':
+            return {
+                ...state,
+                cart: {
+                    orderlines: action.payload
+                }
+            }
+
         default:
             return state;
     }
