@@ -50,7 +50,7 @@ const Cart = ({order,
     
 
   const [state, setState] = useState({ 
-    products: order.product,
+    products: cartProducts.product,
     bandera: true,
     total: ''
     })
@@ -138,24 +138,39 @@ useEffect(()=>{
         quantity: e.quantity,
         productId:e.id 
       }
-      addProductToCartOrderline (user.id, body)
+      addProductToCartOrderline (user.id, body).then(() =>  reloadCart())
   })
-    }).then(() => localStorage.setItem('carrito',JSON.stringify([])))
-    reloadCart()
+    }).then(() => {localStorage.setItem('carrito',JSON.stringify([]))
+        reloadCart()
+  })
+    
   }
   
     },[isAuthenticated])
   //----------chequear que exista el carrito de guest cuando se loguea
+  useEffect(()=>{ 
+    if(user){
+    getProductsFromCart(user.id).then( ()=>{
+      let totalCost2 = 0;
+        cartProducts.orderlines && cartProducts.orderlines.map(e => {
+            totalCost2 = totalCost2 +  (e.price * e.quantity) 
+        })
+        setState({
+          ...state,
+          total: totalCost2})
+        })
+    }
+  },[user, reload]) 
 
-useEffect(() => {
-  if(user) {   
-    getOrder(user.id)
-    setState({
-    products: order.product
-    })
-  }
+// useEffect(() => {
+//   if(user) {   
+//     getOrder(user.id)
+//     setState({
+//     products: order.product
+//     })
+//   }
   
-}, [])
+// }, [])
 
 const quantityChange = (e, id) =>{
   let cantCambiada = e
@@ -193,7 +208,7 @@ const quantityChange = (e, id) =>{
   }
   let updateProd = {}
   let diferencia = 0
-  prod = order.product
+  prod = cartProducts.product
   prod ? prod.forEach( e => {
     if (e.orderline.id === id){
        if(cantCambiada === e.orderline.quantity) return;
@@ -268,8 +283,8 @@ const handleFinCompra =() =>{
         })
         return
       } 
-      console.log('order  ',order.orderId, ' state total', state.total)
-      cambioEstadoCarrito(order.orderId, 'Created', state.total)
+     
+      cambioEstadoCarrito(cartProducts.orderId, 'Created', state.total)
       swal("Order Created!", {
         icon: "success",
       }).then(() => {
@@ -375,8 +390,8 @@ if (stateRedirect.redirect) {
                       </p>
                     </div>
                   )): ""}
-                  {logueado? (products ? (
-                    products.map((e) => (
+                  {logueado? (cartProducts.product ? (
+                    cartProducts.product.map((e) => (
                       <OrderUse
                         logueado={logueado}
                         orderline={e}
