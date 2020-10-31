@@ -7,7 +7,7 @@ import SignIn from "./Users/userLogin"; //importamos el componente UserLogin (me
 import Logout from "./Users/Logout"; //importamos el componente Logout (boton)
 import { Button, Row, Col, Container, Nav, Navbar } from "react-bootstrap";
 import { IoIosCart } from "react-icons/io";
-import UserLoged from "./Users/UserLoged";
+import UserLoged from './Users/UserLoged'
 import AddReview from "./Reviews/AddReview";
 import { connect } from "react-redux";
 import UserProfile from "./Users/Profile";
@@ -19,10 +19,10 @@ function NavbarGeneral({ isAuthenticated, user }) {
   // 	header.classList.toggle('scrolling-active', windowPosition);
   // })
 
-  const [state, setState] = useState({ modal: "" });
-  function handleOpenLoginCloseReg() {
-    setState({ modal: true });
-  }
+const [state, setState] = useState({modal:''})
+ function handleOpenLoginCloseReg(){
+    setState({modal:true})
+ }
 
   const guest = (
     <div className="d-flex mt-3">
@@ -30,7 +30,7 @@ function NavbarGeneral({ isAuthenticated, user }) {
         <SignIn state={state} />
       </span>
       <span className="ml-2">
-        <SignUp handler={handleOpenLoginCloseReg} />
+        <SignUp handler={handleOpenLoginCloseReg}/>
       </span>
     </div>
   );
@@ -76,19 +76,7 @@ function NavbarGeneral({ isAuthenticated, user }) {
             {isAuthenticated && <UserLoged id="UserLoged" user={user} />}
           </div>
         </div>
-        <div className="d-flex">
-          <Link to="/user/cart" class="nav-link cart-icono-navbar d-flex">
-            <span className="cart-navbar-letters" style={{ color: "white" }}>
-              Cart{" "}
-            </span>
-            <span style={{ fontSize: "35px", color: "white" }}>
-              <IoIosCart />
-            </span>
-          </Link>
-          <div>{isAuthenticated ? null : guest}</div>
-          {isAuthenticated && <UserLoged id="UserLoged" user={user} />}
         </div>
-      </div>
   );
 }
 
