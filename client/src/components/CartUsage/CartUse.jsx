@@ -43,7 +43,7 @@ const Cart = ({order,
     
 
   const [state, setState] = useState({ 
-    products: order.product,
+    products: cartProducts.product,
     bandera: true,
     total: ''
     })
@@ -104,10 +104,16 @@ let totalCost = 0;
 
 /***********************CALCULO DEL PRECIO POR MEDIO DE LAS ORDER LINE******************************** */
 const token = localStorage.getItem("token")
+
+const userId = user && user.id
+
+useEffect(() => {
+  getProductsFromCart(userId)
+}, [user])
+
  
 useEffect(()=>{ 
-  if(user){
-  getProductsFromCart(user.id).then( ()=>{
+  getProductsFromCart(userId).then( ()=>{
     let totalCost2 = 0;
       cartProducts.orderlines && cartProducts.orderlines.map(e => {
           totalCost2 = totalCost2 +  (e.price * e.quantity) 
@@ -116,20 +122,17 @@ useEffect(()=>{
         ...state,
         total: totalCost2})
       })
-  }
-},[reload]) 
+},[reload, user]) 
 
 /***********************CALCULO DEL PRECIO POR MEDIO DE LAS ORDER LINE******************************** */
 
 useEffect(() => {
-  if(user) {   
-    getOrder(user.id)
+    getOrder(userId)
     setState({
-    products: order.product
+    products: cartProducts.product
     })
-  }
   
-}, [])
+}, [user])
 
 const quantityChange = (e, id) =>{
   let cantCambiada = e
@@ -154,7 +157,6 @@ const quantityChange = (e, id) =>{
         }
         itemsChange.push(item)
     }) : ''
-    console.log('items cambiados', itemsChange)
     localStorage.setItem("carrito", JSON.stringify(itemsChange))
     item = itemsCart ? itemsCart.forEach( e=>{
         totalCost += e.price * e.orderline.quantity
@@ -163,13 +165,13 @@ const quantityChange = (e, id) =>{
       ...state,
       total: totalCost
     })
-
+    localStorage.setItem("totalCost", JSON.stringify(totalCost))
     return
   }
   let updateProd = {}
   let diferencia = 0
-  prod = order.product
-  console.log('productooooo', order.product)
+  prod = cartProducts.product
+  console.log('productooooo', cartProducts.product)
   prod ? prod.forEach( e => {
     if (e.orderline.id === id){
        if(cantCambiada === e.orderline.quantity) return;
@@ -196,7 +198,6 @@ const quantityChange = (e, id) =>{
     products: prod,
     total: totalCost
   })
-
 }
 
 
@@ -259,7 +260,7 @@ const handleFinCompra =() =>{
     )
     return
   } 
-  cambioEstadoCarrito(order.orderId, 'Created', state.total)
+  cambioEstadoCarrito(cartProducts.orderId, 'Created', state.total)
   swal("Order Created!", {
     icon: "success",
   }).then(() => {
@@ -281,7 +282,8 @@ const handleVaciarCarrito = () =>{
     if (willDelete) {
       if (!logueado){
         itemsCart =[]
-        localStorage.clear()
+        localStorage.removeItem('carrito')
+        localStorage.removeItem('totalCost')
         setRedirect({ redirect: "/user/catalogo" });
       } else {
         vaciarCarrito(user.id)
@@ -402,16 +404,29 @@ if (stateRedirect.redirect) {
 
           <Row className="mx-3 text-center">
             <Col xs={6} className="text-center bg-light p-3 ml-auto">
+              {isAuthenticated ?
               <h4 className="mb-4 ">
-                Total:
-                <NumberFormat
-                  prefix=" $"
-                  value={state.total}
-                  decimalScale={2}
-                  fixedDecimalScale={true}
-                  displayType={"text"}
-                />
+              Total:
+              <NumberFormat
+                prefix=" $"
+                value={state.total}
+                decimalScale={2}
+                fixedDecimalScale={true}
+                displayType={"text"}
+              />
               </h4>
+              :
+              <h4 className="mb-4 ">
+              Total:
+              <NumberFormat
+                prefix=" $"
+                value={localStorage.getItem('totalCost')}
+                decimalScale={2}
+                fixedDecimalScale={true}
+                displayType={"text"}
+              />
+            </h4>
+            } 
               <Button
                 className="btn btn-dark boton"
                 onClick={handleFinCompra}

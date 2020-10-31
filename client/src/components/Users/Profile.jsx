@@ -67,11 +67,10 @@ const UserProfile = ({
     });
   };
 
+
   useEffect(() => {
-    if (user) {
-      showCompletedOrders(user.id);
-    }
-  }, []);
+    showCompletedOrders(userId);
+  }, [user]);
 
   useEffect(() => {
     getImageOfUser(userId);
@@ -152,10 +151,10 @@ const UserProfile = ({
       <div className="d-flex justify-content-center" style={{ color: "white" }}>
         <div
           className="flex-orders d-flex flex-column"
-          style={{ marginTop: "-350px" }}
+          style={{ marginTop: "-350px", backgroundColor: 'white', width: '500px' }}
         >
-          <p style={{ color: "white", fontSize: "40px" }}>
-            Personal information:
+          <p className="d-flex justify-content-center pt-5 profileFont">
+            Profile
           </p>
           <br></br>
           <img
@@ -178,6 +177,7 @@ const UserProfile = ({
                 color: "white",
                 border: "none",
               }}
+              className="mr-5"
               onClick={handleShowImg}
             >
               Add photo +
@@ -205,18 +205,18 @@ const UserProfile = ({
             </Modal>
           </div>
           <div>
-            <p style={{ fontSize: "25px", color: "black" }}>
+            <p style={{ fontSize: "25px", color: "black" }} className="ml-5 content-profile-names">
               First Name: {user && user.name}
             </p>
-            <p style={{ fontSize: "25px", color: "black" }}>
+            <p style={{ fontSize: "25px", color: "black" }} className="ml-5 content-profile-names">
               Last Name: {user && user.lastname}
             </p>
-            <p style={{ fontSize: "25px", color: "black" }}>
+            <p style={{ fontSize: "25px", color: "black" }} className="ml-5 content-profile-names">
               Email: {user && user.email}
             </p>
-            <p style={{ fontSize: "25px", color: "black" }}>
+            <p style={{ fontSize: "25px", color: "black" }} className="ml-5 pb-5 content-profile-names">
               Reset password:{" "}
-              <Button className="button-register" onClick={handleShow}>
+              <Button className="button-register" onClick={handleShow} style={{height: '35px', width: '55px'}}>
                 Here
               </Button>
               <Modal

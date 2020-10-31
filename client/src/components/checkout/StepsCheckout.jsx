@@ -117,9 +117,10 @@ function Checkout({sendPurchase, user, getProductsForCheckout, cambioEstadoCarri
         icon: "success",
       }).then(() => {
       sendPurchase(userSend, info)
-      localStorage.clear()}
+        localStorage.removeItem('adress')
+    }
       ) 
-      setRedirect({ redirect: "/user/checkout" })
+      setRedirect({ redirect: "/user/catalogo" })
   }
   };
 

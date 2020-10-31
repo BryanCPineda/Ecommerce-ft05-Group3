@@ -1,6 +1,7 @@
 const server = require("express").Router();
 const {Product, Categories, Image, Reviews, Users, Order, Orderline, } = require("../db.js");
 const nodemailer = require("nodemailer");
+const hbs = require('nodemailer-express-handlebars');
 
 server.post('/', (req, res) =>{
 
@@ -12,12 +13,24 @@ server.post('/', (req, res) =>{
         }
     })
 
+    const options = {
+        viewEngine: {
+          partialsDir: __dirname + "/views/partials",
+          layoutsDir: __dirname + "/views/layouts",
+          extname: ".hbs"
+        },
+        extName: ".hbs",
+        viewPath: "views"
+      };
+
+      transporter.use("compile", hbs(options));
+
     const emailType = req.body.emailType
     let mailOptions;
 
     if(emailType === 'welcome'){
 
-         mailOptions = {
+        mailOptions = {
             from: 'Cyberfitness@gmail.com',
             to: req.body.user.email,
             subject: 'Welcome',
@@ -75,7 +88,6 @@ server.post('/', (req, res) =>{
              Oder N° ${info.orderId}
              <hr>
              <h3>Your Products:</h3>
-
              <table>
                 <thead>
                 <tr>
@@ -105,15 +117,7 @@ server.post('/', (req, res) =>{
     
  
 
-    transporter.sendMail(mailOptions, (err, data) =>{
-        if(err){
-            res.send(err.message)
-        }
-        else{
-            res.send("email has been send");
-        }
-    })
-    res.send("email has been send");
+    transporter.sendMail(mailOptions)
 })
 
 

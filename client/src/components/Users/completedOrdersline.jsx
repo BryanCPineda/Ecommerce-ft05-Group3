@@ -59,7 +59,7 @@ const CompletedOrderline = ({ getUserReviews, userReviews, getCompletedOrderline
   return (
     <React.Fragment>
       <Container className="mt-5">
-        <h3 style={{color: 'white'}}>Shopping History</h3>
+        <h3 style={{color: 'black'}}>Shopping History</h3>
         <div className="table-responsive">
           <Table striped hover variant='dark' style={{borderRadius: '30px', textAlign: 'center'}}>
             <thead>

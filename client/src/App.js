@@ -38,6 +38,7 @@ import { loadUser } from "./actions/userAction";
 import Reviews from "./components/Reviews/Reviews";
 import Checkout from "./components/checkout/Checkout";
 
+
 function App({ loadUser }) {
   useEffect(() => {
     loadUser();
@@ -45,7 +46,6 @@ function App({ loadUser }) {
 
   return (
     <div>
-      
         <Router>
           {/* <Route path="/user" render={() => <SearchBar />} /> */}
           <Route path="/user" component={NavBarGeneral} />

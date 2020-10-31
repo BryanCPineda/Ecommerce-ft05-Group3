@@ -73,7 +73,7 @@ function Catalogo({
         getAllProducts();
     }
     
-  },[currentPage, user, cart ]) 
+  },[currentPage, user ]) 
 
 
 
@@ -114,7 +114,8 @@ function Catalogo({
       .then(e => console.log('respuesta promesa---------------------', e))
       .catch(e => console.log('error',e))
 
-      localStorage.clear()
+      localStorage.removeItem('carrito')
+      localStorage.removeItem('totalCost')
      }
       },[isAuthenticated])
     //----------chequear que exista el carrito de guest cuando se loguea

@@ -28,6 +28,8 @@ import { useEffect } from 'react';
     addLocalStorage()
   }, [state])
 
+  console.log(state)
+
   return (
     <React.Fragment>
       <Typography variant="h6" gutterBottom>

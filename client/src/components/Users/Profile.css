@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
 .image-profile {
     position: relative;
     left: 100px;
@@ -16,3 +18,16 @@ th{
   color: rgb(180, 130, 238);
 }
 
+.profileFont {
+  font-family: 'Roboto';
+  font-weight: lighter;
+  color: black;
+  font-size: 40px;
+} 
+
+.content-profile-names {
+  font-family: 'Roboto';
+  font-weight: lighter;
+  color: black;
+  font-size: 20px;
+}
