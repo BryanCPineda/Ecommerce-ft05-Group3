@@ -22,8 +22,8 @@ function SearchBar(props) {
     <form onSubmit={handleOnSubmit}>
       <td>
         <input
-          style={{width: '300px',height: '50px'}}
-          className="search d-flex align-self-center"
+          style={{ width: "300px", height: "50px" }}
+          className="search"
           name="search"
           type="text"
           placeholder="Search Product ..."
@@ -36,7 +36,9 @@ function SearchBar(props) {
           className="button-search-bar mt-3"
           type="submit"
           variant="outline-primary"
-        >Search</button>
+        >
+          Search
+        </button>
       </td>
     </form>
   );

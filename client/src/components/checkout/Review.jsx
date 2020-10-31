@@ -1,11 +1,11 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import Grid from '@material-ui/core/Grid';
-import { connect } from 'react-redux';
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import Grid from "@material-ui/core/Grid";
+import { connect } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   listItem: {
@@ -22,25 +22,26 @@ const useStyles = makeStyles((theme) => ({
 const Review = ({ user, cart, total }) => {
   const classes = useStyles();
 
-  const payment = JSON.parse(localStorage.getItem('payment'))
-  const client = JSON.parse(localStorage.getItem('adress'))
-  
-  const cardNumber = payment[1].slice(payment[1].length - 4, payment[1].length)
-  console.log(cardNumber)
-  const products = 
-    cart.product.map(ele => {
-      return ele = {
-        name: ele.name,
-        price: `$ ${ele.price}`
-      }
-    })
+  const payment = JSON.parse(localStorage.getItem("payment"));
+  const client = JSON.parse(localStorage.getItem("adress"));
 
-  const addresses = client ? [client.address1, client.city, client.zip, client.country] : '';
+  const cardNumber = payment[1].slice(payment[1].length - 4, payment[1].length);
+  console.log(cardNumber);
+  const products = cart.product.map((ele) => {
+    return (ele = {
+      name: ele.name,
+      price: `$ ${ele.price}`,
+    });
+  });
+
+  const addresses = client
+    ? [client.address1, client.city, client.zip, client.country]
+    : "";
   const payments = [
-    { name: 'Card type', detail: payment[0] },
-    { name: 'Card holder', detail: `${user.name} ${user.lastname}` },
-    { name: 'Card number', detail: `xxxx-xxxx-xxxx-${cardNumber}` },
-    { name: 'Expiry date', detail: payment[2] },
+    { name: "Card type", detail: payment[0] },
+    { name: "Card holder", detail: `${user.name} ${user.lastname}` },
+    { name: "Card number", detail: `xxxx-xxxx-xxxx-${cardNumber}` },
+    { name: "Expiry date", detail: payment[2] },
   ];
 
   return (
@@ -67,8 +68,12 @@ const Review = ({ user, cart, total }) => {
           <Typography variant="h6" gutterBottom className={classes.title}>
             Shipping
           </Typography>
-        <Typography gutterBottom>{client && client.name} {client && client.lastname}</Typography>
-          <Typography gutterBottom>{addresses && addresses.join(',  ')}</Typography>
+          <Typography gutterBottom>
+            {client && client.name} {client && client.lastname}
+          </Typography>
+          <Typography gutterBottom>
+            {addresses && addresses.join(",  ")}
+          </Typography>
         </Grid>
         <Grid item container direction="column" xs={12} sm={6}>
           <Typography variant="h6" gutterBottom className={classes.title}>
@@ -90,14 +95,14 @@ const Review = ({ user, cart, total }) => {
       </Grid>
     </React.Fragment>
   );
-}
+};
 
 const mapStateToProps = (state) => {
   return {
     user: state.userReducer.user,
     cart: state.orderReducer.cartProducts,
     total: state.orderReducer.cartProducts.totalPrice,
-  }
-}
+  };
+};
 
-export default connect( mapStateToProps, null )(Review)
+export default connect(mapStateToProps, null)(Review);
