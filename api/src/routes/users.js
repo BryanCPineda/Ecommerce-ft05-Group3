@@ -94,6 +94,7 @@ server.post(
           email: newGoogleUser.email,
           password: newGoogleUser.password,
           image: newGoogleUser.image,
+          gRegister: true
         },
       })
         .then((sendUser) => {
