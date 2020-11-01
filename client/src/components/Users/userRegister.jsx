@@ -31,6 +31,7 @@ import { VscGithub } from 'react-icons/vsc'
 import Axios from "axios";
 import swal from 'sweetalert';
 import store from '../../store';
+import { GET_ERRORS } from "../../constants/errorConstants";
 
 class UserRegister extends React.Component {
   constructor(props) {
@@ -75,7 +76,8 @@ class UserRegister extends React.Component {
     });
   };
 
-  handleClose = () => {
+  handleClose = (e) => {
+   // e.preventDefault();
     this.props.clearErrors();
     this.setState({
       modal: false,
@@ -92,23 +94,31 @@ class UserRegister extends React.Component {
     this.setState({
       [e.target.name]: e.target.value,
     });
+    this.props.clearErrors();
   };
 
   onSubmit = (e) => {
     e.preventDefault();
     const { name, lastname, email, password } = this.state;
     const newUser = { name, lastname, email, password };
-    this.props.createUser(newUser)
-    .then(()=>{                                                   //SE APLICA EL ENVIO DE MAILS A PARTIR DE AQUI
-      swal({
-        title: "We send You a Email, Please check your inbox",    //SE ENVIA EL SWEET ALERT CON EL MENSAJE DE QUE EL MAIL FUE ENVIADO
-      }).then(()=>{                                               
-        const user = store.getState().userReducer.user            //OJO A ESTA PARTE, se debe conectar al store de redux de esta forma                                                           
-                                                                  //para que traiga el estado actualizado del usuario, si no traera el 
-                                                                  //estado anterior osea "null"
-          this.props.welcomeEmail(user);                          //se despacha la accion welcomeEmail y se le envia el usuario
-        })                                                          
-    })
+    this.props.createUser(newUser) 
+    .then(()=>{
+        let status = store.getState().error.status
+          if(status === 400) {
+             console.log("error al ingresar datos no enviar correo")        
+            }
+          else{
+            swal({                                                      //SE APLICA EL ENVIO DE MAILS A PARTIR DE AQUI
+              title: "We send You a Email, Please check your inbox",    //SE ENVIA EL SWEET ALERT CON EL MENSAJE DE QUE EL MAIL FUE ENVIADO
+            }).then(()=>{                                               
+              const user = store.getState().userReducer.user            //OJO A ESTA PARTE, se debe conectar al store de redux de esta forma                                                           
+                                                                        //para que traiga el estado actualizado del usuario, si no traera el 
+                                                                        //estado anterior osea "null"
+                this.props.welcomeEmail(user);                          //se despacha la accion welcomeEmail y se le envia el usuario
+              })                                
+          } 
+    })    
+     
   };
 
 handleBoth=()=>{
@@ -119,31 +129,64 @@ handleBoth=()=>{
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                                 //////////////////////// LOGIN WITH GOOGLE  ////////////////////////
    responseGoogle = (response) =>{                      //la respuesta son los datos del usuario de google autenticado
-                                    console.log(response) //si consologuean la respuesta van a ver todos los datos que devuevle google
-  if (response.error){
-    return alert('cookies are blocked, please enable them')
-  } else {
-    let newGoogleUser = {                               //se arma un nuevo objeto con los datos que requerimos para nuesra DB
-      name: response.profileObj.givenName,          
-      lastname: response.profileObj.familyName,
-      email: response.profileObj.email,
-      password: "$2a$10$KtUH0poKeLEQ8WqZ8hjcruwXPcA7.W8O1WDtcMoAFJweRGMQxDWam", //esta password es generica para todas las cuentas de google y gitHub pues es un campo obligatorio para nuestra DB
-      image: response.profileObj.imageUrl,
-      whitGoogle: true                                  // esta ultima propiedad funciona como bandera, para indicarle a la accion "createUser" que el usuario que esta ingresando es externo a nuestra web
-    }
-    this.props.createUser(newGoogleUser)
-    .then(()=>{                                                   //SE APLICA EL ENVIO DE MAILS A PARTIR DE AQUI
-      swal({
-        title: "We send You a Email, Please check your inbox",    //SE ENVIA EL SWEET ALERT CON EL MENSAJE DE QUE EL MAIL FUE ENVIADO
-      }).then(()=>{                                               
-        const user = store.getState().userReducer.user            //OJO A ESTA PARTE, se debe conectar al store de redux de esta forma                                                           
-                                                                  //para que traiga el estado actualizado del usuario, si no traera el 
-                                                                  //estado anterior osea "null"
-          this.props.welcomeEmail(user);                          //se despacha la accion welcomeEmail y se le envia el usuario
-        })                                                          
-    })
-
-  }
+                                   // console.log(response) //si consologuean la respuesta van a ver todos los datos que devuevle google
+      const allUsers = store.getState().userReducer.allUsers      //aqui traigo todos los usuarios existentes en la DB
+      if (response.error){                                        //si google responde con un error, puede ser por cookies inhabilitadas
+          return alert('An error has ocurred, check if cookies are blocked, please enable them')  //se pide al usuario que habilite las cookies
+      }
+                    //SE BUSCA SI EL EMAIL DEL LOGGIN DE GOOGLE YA SE ENCUENTRA EN LA BASE DE DATOS
+      const emailIn =  allUsers.filter(user => user.email === response.profileObj.email)
+                    //SI SE ENCUENTRA, HAY QUE VERIFICAR SI EL USUARIO INGRESO ANTERIORMENTE CON GOOGLE O SE INSCRIBIO A TRAVES DEL FORMULARIO
+      if(emailIn.length > 0) { 
+        let newGoogleUser;
+             emailIn && emailIn[0].gRegister === null ?     //SI SE INSCRIBIO A TRAVES DEL FORMULARIO DEBE LOGEARSE CON SU USUARIO Y CONTRASEñA
+                swal({
+                  title: "This Account Has been Register by form, Please login",
+                  text: "remember if you forgot the password, can recovery click on `forgot your password?`",
+                  icon: "warning",
+                  buttons: true,
+                  dangerMode: true,
+                })
+                    .then((response) => {
+                        if(response){
+                              return
+                        }
+                    })
+                  :                                                //DE LO CONTRARIO SE DESPACHA LA ACCION CREAR USUARIO QUE LO BUSCA EN LA DB Y LO RETORNA AUTENTICADO 
+                   newGoogleUser = {                               //se arma un nuevo objeto con los datos que requerimos para nuesra DB
+                    name: response.profileObj.givenName,          
+                    lastname: response.profileObj.familyName,
+                    email: response.profileObj.email,
+                    password: "$2a$10$KtUH0poKeLEQ8WqZ8hjcruwXPcA7.W8O1WDtcMoAFJweRGMQxDWam", //esta password es generica para todas las cuentas de google y gitHub pues es un campo obligatorio para nuestra DB
+                    image: response.profileObj.imageUrl,
+                    whitGoogle: true                                  // esta ultima propiedad funciona como bandera, para indicarle a la accion "createUser" que el usuario que esta ingresando es externo a nuestra web
+                  }
+                  this.props.createUser(newGoogleUser)  
+        }else {                                                 //SI ES LA PRIMERA VEZ QUE ESTE EMAIL SE ESTA REGISTRANDO CON GOOGLE
+        
+            let newGoogleUser = {                               //se arma un nuevo objeto con los datos que requerimos para nuesra DB
+              name: response.profileObj.givenName,          
+              lastname: response.profileObj.familyName,
+              email: response.profileObj.email,
+              password: "$2a$10$KtUH0poKeLEQ8WqZ8hjcruwXPcA7.W8O1WDtcMoAFJweRGMQxDWam", //esta password es generica para todas las cuentas de google y gitHub pues es un campo obligatorio para nuestra DB
+              image: response.profileObj.imageUrl,
+              whitGoogle: true                                  // esta ultima propiedad funciona como bandera, para indicarle a la accion "createUser" que el usuario que esta ingresando es externo a nuestra web
+            }
+            this.props.createUser(newGoogleUser)
+            .then(()=>{                                                   //SE APLICA EL ENVIO DE MAILS A PARTIR DE AQUI
+              swal({
+                title: "We send You a Email, Please check your inbox",    //SE ENVIA EL SWEET ALERT CON EL MENSAJE DE QUE EL MAIL FUE ENVIADO
+              }).then(()=>{                                               
+                const user = store.getState().userReducer.user            //OJO A ESTA PARTE, se debe conectar al store de redux de esta forma                                                           
+                                                                          //para que traiga el estado actualizado del usuario, si no traera el 
+                                                                          //estado anterior osea "null"
+                  this.props.welcomeEmail(user);                          //se despacha la accion welcomeEmail y se le envia el usuario
+                })                                                          
+            })
+        
+          }
+     
+    
   }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   
@@ -151,8 +194,12 @@ handleBoth=()=>{
 //aqui la mentalidad es diferente a la de google, pues no hay un boton que me traiga los datos de gitHub, si no, que es una serie de 
 //redireccionamientos a paginas Web de gitHub que no voy a poder leer automaticamente sin el ciclo de vida del componente; si no tendria que 
 //presionar un boton que me lleve a la pagina de github y otro que me haga el login
-  componentDidMount =  () => {            //siempre que el componente se "monte", se despacha una petion para preguntarle al back 
-                                       //si es que hay datos de un usuario de gitHub actualemente
+  componentDidMount =  () => {           
+  
+  this.props.getAllUsers();                 //primero debo hacer un get de todos los usuarios para cargarlos al store de redux
+    
+                                             //siempre que el componente se "monte", se despacha una petion para preguntarle al back 
+                                            //si es que hay datos de un usuario de gitHub actualemente
     let data;
       Axios({                             //petion para pedir los datos del usuario de github 
         method: "GET",                            //esta peticion no es un axios como los demas pues se deben habilitar las credenciales  
@@ -176,8 +223,9 @@ handleBoth=()=>{
             image: data.photos[0].value,
             whitGoogle: true              //se envia la misma bandera que indica que hay un usuario logueandose externamente, se recicla la bandera de google
           }
-          this.props.createUser(newGitHubUser).then(()=>{  //se despacha la accion que crea el nuevo usuario y lo loguea automaticamente
-                          Axios({                                     //ESTO ES MUY IMPORTANTE, como la autenticacion esta hecha por passport, hay una sesion
+          this.props.createUser(newGitHubUser).then(()=>{             //se despacha la accion que crea el nuevo usuario y lo loguea automaticamente
+                        
+                        Axios({                                     //ESTO ES MUY IMPORTANTE, como la autenticacion esta hecha por passport, hay una sesion
                             method:"POST",                            //que esta siendo manejada por cookies, entonces tenemos la sesion en la cookie, y ademas la JWT       
                             withCredentials:true,                     //que se creo cuando agregamos nuestro usuario de gitHub en la DB, por eso debemos hacer un logOut
                             url:"http://localhost:4000/github/logout" //automatico de la cookie, para que sea destruida y solo mantener la JWT para manejar la sesion del usuario.
@@ -315,7 +363,9 @@ handleBoth=()=>{
                 <button
                   className="btn"
                   style={{ backgroundColor: "#8a2be2", color: "white" }}
-                  onClick={this.handleClose}
+                  onClick={(e) => { e.preventDefault();
+                                      this.handleClose(); 
+                    }}
                 >
                   Close
                 </button>
@@ -374,6 +424,8 @@ const mapDispatchToProps = (dispatch) => {
     createUser: (user) => dispatch(createUser(user)),
     clearErrors: () => dispatch(clearErrors()),
     welcomeEmail: (user) => dispatch(welcomeEmail(user)), 
+    getAllUsers: () => dispatch(getAllUsers()),
+
   };
 };
 
