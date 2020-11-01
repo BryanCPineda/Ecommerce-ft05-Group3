@@ -1,6 +1,7 @@
 .image-profile {
     position: relative;
     left: 100px;
+    box-shadow: 3px 3px 8px -2px rgb(53, 49, 56);
 }
 
 .table-responsive{
@@ -15,4 +16,13 @@
 th{
   color: rgb(180, 130, 238);
 }
-
+.History{
+  color: rgb(106, 53, 167);
+  text-shadow: 1.5px 1.5px rgb(53, 49, 56);
+}
+.textShadow {
+  text-shadow: 3px 3px rgb(53, 49, 56);
+}
+Button{
+  box-shadow: 3px 3px 8px -2px rgb(53, 49, 56);
+}

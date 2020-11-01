@@ -154,7 +154,7 @@ const UserProfile = ({
           className="flex-orders d-flex flex-column"
           style={{ marginTop: "-350px" }}
         >
-          <p style={{ color: "white", fontSize: "40px" }}>
+          <p className="textShadow" style={{ color: "white", fontSize: "40px", fontStyle: "italic" }}>
             Personal information:
           </p>
           <br></br>
@@ -205,17 +205,25 @@ const UserProfile = ({
             </Modal>
           </div>
           <div>
+            {
+              user && user.name === user.lastname ? 
+              (<p style={{ fontSize: "25px", color: "black" }}>
+                <b>Username:</b> {user && user.name}
+              </p>) :
+                (<div>
+                  <p style={{ fontSize: "25px", color: "black" }}>
+                    <b>First Name:</b> {user && user.name}
+                  </p>
+                  <p style={{ fontSize: "25px", color: "black" }}>
+                    <b>Last Name:</b> {user && user.lastname}
+                  </p>
+                </div>)
+            }
             <p style={{ fontSize: "25px", color: "black" }}>
-              First Name: {user && user.name}
+              <b>Email:</b> {user && user.email}
             </p>
             <p style={{ fontSize: "25px", color: "black" }}>
-              Last Name: {user && user.lastname}
-            </p>
-            <p style={{ fontSize: "25px", color: "black" }}>
-              Email: {user && user.email}
-            </p>
-            <p style={{ fontSize: "25px", color: "black" }}>
-              Reset password:{" "}
+              <b>Reset password:</b>{" "}
               <Button className="button-register" onClick={handleShow}>
                 Here
               </Button>
