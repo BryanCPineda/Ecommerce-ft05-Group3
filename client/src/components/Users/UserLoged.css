@@ -62,6 +62,7 @@
   border: none;
   background: none;
   color: white;
+  display: flex;
 }
 #user-logout-button:hover {
   border: none;
