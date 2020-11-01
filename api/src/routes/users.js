@@ -638,4 +638,44 @@ server.post("/:idUser/image", async (req, res) => {
   }
 });
 
+
+// Add Orderlines to the Cart - first order, then the orderlines----------------
+server.post("/:idUser/carrito", (req, res) => {
+
+    const { idUser } = req.params;
+    console.log(idUser)
+    Order.findOrCreate({
+      where: { userId: idUser, state: "Cart" },
+    }).then((respuesta) => res.status(200).send({ data: respuesta }))
+    .catch(e =>
+       res.status(400).send({ data: e }) )
+});
+
+
+server.post("/:idUser/carritoOrderline", async (req, res) => {
+  try {
+    const { idUser } = req.params;
+    const { quantity, productId } = req.body;
+    console.log('body', req.body)
+    const order = await Order.findOne({
+      where: { userId: idUser, state: "Cart" },
+    });
+    console.log('order', order)
+    const product = await Product.findByPk(productId);
+    product.stock = product.stock - quantity;
+    const productSave = await product.save();
+
+    const orderLine = await Orderline.create({
+      price: product.price,
+      quantity: quantity,
+      orderId: order.dataValues.id,
+      productId: productId,
+      userId: idUser
+    });
+    return res.status(200).send({ data: orderLine });
+  } catch (error) {
+    return res.status(400).send({ data: error });
+  }
+});
+
 module.exports = server;

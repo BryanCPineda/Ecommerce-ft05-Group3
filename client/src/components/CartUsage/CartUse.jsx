@@ -7,6 +7,7 @@ import OrderUse from "./OrderUse";
 import swal from "sweetalert";
 import { Redirect } from "react-router-dom";
 import "./CartUse.css";
+import * as Promise from "bluebird";
 
 //-------------- Redux ------------------------
 import { connect } from "react-redux";
@@ -17,7 +18,10 @@ import {
   vaciarCarrito,
   quitarItemCarrito,
   getProductsFromCart,
-  reloadCart
+  reloadCart,
+  addProductToCart,
+  addProductToCartOrder,
+  addProductToCartOrderline
 } from "../../actions/order";
 import { getProducts, updateProduct } from "../../actions/product";
 
@@ -38,12 +42,15 @@ const Cart = ({order,
   cart,
   reload,
   reloadCart,
+  addProductToCart,
+  addProductToCartOrder,
+  addProductToCartOrderline,
   isAuthenticated
 }) => {
     
 
   const [state, setState] = useState({ 
-    products: order.product,
+    products: cartProducts.product,
     bandera: true,
     total: ''
     })
@@ -56,7 +63,7 @@ console.log("ahora el total es", total);
 const logueado = isAuthenticated
 const [cantidad, setCantidad] = useState(0)
 let inicioCart = JSON.parse(localStorage.getItem('carrito'))
-console.log('inicio',inicioCart)
+// console.log('inicio',inicioCart)
 let itemsCart = []
 inicioCart && inicioCart.map(item =>{
         let product = {
@@ -77,7 +84,6 @@ const quitarItemGuest = (id) => {
     let items = []
     let quitar = itemsCart.findIndex(e => e.id === id)
     itemsCart.splice(quitar,1)
-    console.log('quitar', quitar)
   
     quitar = itemsCart ? itemsCart.forEach(e =>{
       let item = {
@@ -121,15 +127,50 @@ useEffect(()=>{
 
 /***********************CALCULO DEL PRECIO POR MEDIO DE LAS ORDER LINE******************************** */
 
-useEffect(() => {
-  if(user) {   
-    getOrder(user.id)
-    setState({
-    products: order.product
-    })
+useEffect(()=>{
+  if (isAuthenticated) {
+    if(!localStorage.getItem("carrito")) {
+      return}
+    let carrito = JSON.parse(localStorage.getItem("carrito"))
+    addProductToCartOrder(user.id).then(res =>{
+    let promises = carrito.map( function (e) {
+      let body = {
+        quantity: e.quantity,
+        productId:e.id 
+      }
+      addProductToCartOrderline (user.id, body).then(() =>  reloadCart())
+  })
+    }).then(() => {localStorage.setItem('carrito',JSON.stringify([]))
+        reloadCart()
+  })
+    
   }
   
-}, [])
+    },[isAuthenticated])
+  //----------chequear que exista el carrito de guest cuando se loguea
+  useEffect(()=>{ 
+    if(user){
+    getProductsFromCart(user.id).then( ()=>{
+      let totalCost2 = 0;
+        cartProducts.orderlines && cartProducts.orderlines.map(e => {
+            totalCost2 = totalCost2 +  (e.price * e.quantity) 
+        })
+        setState({
+          ...state,
+          total: totalCost2})
+        })
+    }
+  },[user, reload]) 
+
+// useEffect(() => {
+//   if(user) {   
+//     getOrder(user.id)
+//     setState({
+//     products: order.product
+//     })
+//   }
+  
+// }, [])
 
 const quantityChange = (e, id) =>{
   let cantCambiada = e
@@ -154,7 +195,6 @@ const quantityChange = (e, id) =>{
         }
         itemsChange.push(item)
     }) : ''
-    console.log('items cambiados', itemsChange)
     localStorage.setItem("carrito", JSON.stringify(itemsChange))
     item = itemsCart ? itemsCart.forEach( e=>{
         totalCost += e.price * e.orderline.quantity
@@ -168,8 +208,7 @@ const quantityChange = (e, id) =>{
   }
   let updateProd = {}
   let diferencia = 0
-  prod = order.product
-  console.log('productooooo', order.product)
+  prod = cartProducts.product
   prod ? prod.forEach( e => {
     if (e.orderline.id === id){
        if(cantCambiada === e.orderline.quantity) return;
@@ -182,7 +221,6 @@ const quantityChange = (e, id) =>{
       updateProd = body
     }}
   ) : console.log('')
-  console.log(updateProd)
   //hago update del carrito y update del stock------------------------
     updateProductToCart(user.id, updateProd)
 
@@ -236,36 +274,23 @@ const handleDelete = (id) =>{
 
 const handleFinCompra =() =>{
 
-
-  // let prodEnviar = []
-  //   products.map (e => {
-  //     prodEnviar = {
-  //       name: e.name,
-  //       description: e.description,
-  //       price: e.price,
-  //       stock: e.stock,
-  //       categories:'',
-  //       images: ''
-  //     }
-  //     updateProduct(e.id, prodEnviar)}
-  //   ) 
   if (!logueado){
-    swal("Order Created!", {
-      icon: "success",
-    }).then(() => {
-        localStorage.clear()
-        setRedirect({ redirect: "/user/checkout" });
-      }
-    )
-    return
-  } 
-  cambioEstadoCarrito(order.orderId, 'Created', state.total)
-  swal("Order Created!", {
-    icon: "success",
-  }).then(() => {
-      setRedirect({ redirect: "/user/checkout" });
-    }
-  )
+    console.log('aca', logueado)
+        swal("Please sign in to continue!", {
+          icon: "warning",
+        }).then(() =>{
+          
+        })
+        return
+      } 
+     
+      cambioEstadoCarrito(cartProducts.orderId, 'Created', state.total)
+      swal("Order Created!", {
+        icon: "success",
+      }).then(() => {
+          setRedirect({ redirect: "/user/checkout" });
+        }
+      )
     
   }
 
@@ -281,7 +306,7 @@ const handleVaciarCarrito = () =>{
     if (willDelete) {
       if (!logueado){
         itemsCart =[]
-        localStorage.clear()
+        localStorage.setItem('carrito',JSON.stringify([]))
         setRedirect({ redirect: "/user/catalogo" });
       } else {
         vaciarCarrito(user.id)
@@ -318,13 +343,6 @@ if (stateRedirect.redirect) {
           </Row>
           <Row className="m-3 d-none d-md-block">
             <Col>
-              {/* <Row className="bg-light text-center py-2"> */}
-              {/* <Col xs={3} md={2}>
-                <span className="h3">
-                  <IoMdPhotos />
-                </span>
-              </Col>
-              {/* ------------------ */}
               <Col>
                 <Row>
                   <Col xs={6} md={4} className="text-center number" style={{color: 'white'}}>
@@ -352,8 +370,6 @@ if (stateRedirect.redirect) {
             <Col>
               <Row className="bg-light text-center py-2  ">
                 <Col className="mx-3">
-                  {/* {console.log("productos-----", products)}
-                  {console.log("guestproducts---", itemsCart)} */}
                   {(!logueado)? (itemsCart ? (
                     itemsCart.map((e) => (
                       <OrderUse
@@ -374,8 +390,8 @@ if (stateRedirect.redirect) {
                       </p>
                     </div>
                   )): ""}
-                  {logueado? (products ? (
-                    products.map((e) => (
+                  {logueado? (cartProducts.product ? (
+                    cartProducts.product.map((e) => (
                       <OrderUse
                         logueado={logueado}
                         orderline={e}
@@ -459,11 +475,13 @@ function mapDispatchToProps(dispatch) {
     cambioEstadoCarrito: (id, status, totalPrice) =>
     dispatch(cambioEstadoCarrito(id, status, totalPrice)),
     updateProductToCart: (idUser, body) => dispatch(updateProductToCart(idUser, body)),
-    // updateProduct: (id, prod) => dispatch(updateProduct(id, prod)),
     vaciarCarrito: (idUser) => dispatch(vaciarCarrito(idUser)),
     quitarItemCarrito: (idUser, id) => dispatch(quitarItemCarrito(idUser, id)),
     getProductsFromCart: (idUser) => dispatch(getProductsFromCart(idUser)),
     reloadCart: ()  =>  dispatch (reloadCart () ),
+    addProductToCart: (idUser, body) => dispatch(addProductToCart(idUser, body)),
+    addProductToCartOrder: (idUser) => dispatch(addProductToCartOrder(idUser)),
+    addProductToCartOrderline: (idUser, body) =>  dispatch(addProductToCartOrderline (idUser, body))
     
   };
 }
