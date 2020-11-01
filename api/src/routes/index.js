@@ -1,15 +1,16 @@
 const { Router } = require("express");
 // import all routers;
 
-const productRouter = require('./product.js');
-const categoriesRouter = require('./categories.js');
-const imageRouter = require ('./image.js');
-const orderRouter = require ('./orders.js');
-const userRouter = require ('./users.js');
-const authRouter = require ('./auth.js');
-const reviewRouter = require ('./reviews.js');
-const gitHub = require ('./gitHub-Routes');                 //se importan las rutas para la autenticacion con gitHub
-const sendEmail = require('./sendEmail');
+const productRouter = require("./product.js");
+const categoriesRouter = require("./categories.js");
+const imageRouter = require("./image.js");
+const orderRouter = require("./orders.js");
+const userRouter = require("./users.js");
+const authRouter = require("./auth.js");
+const reviewRouter = require("./reviews.js");
+const gitHub = require("./gitHub-Routes"); //se importan las rutas para la autenticacion con gitHub
+const sendEmail = require("./sendEmail");
+const twit_auth = require("./twitter");
 
 const router = Router();
 
@@ -24,7 +25,8 @@ router.use("/orders", orderRouter);
 router.use("/users", userRouter);
 router.use("/auth", authRouter);
 router.use("/reviews", reviewRouter);
-router.use("/gitHub", gitHub);                              //se habilitan las rutas de github 
+router.use("/gitHub", gitHub); //se habilitan las rutas de github
 router.use("/sendEmail", sendEmail);
+// router.use("/twitter", twit_auth);
 
 module.exports = router;

@@ -128,7 +128,6 @@ const CompletedOrderline = ({ getUserReviews, userReviews, getCompletedOrderline
   );
 };
 
-
 function mapStateToProps(state) {
   return {
     user: state.userReducer.user,

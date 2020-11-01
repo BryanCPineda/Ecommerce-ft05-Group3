@@ -7,6 +7,7 @@ import OrderUse from "./OrderUse";
 import swal from "sweetalert";
 import { Redirect } from "react-router-dom";
 import "./CartUse.css";
+import * as Promise from "bluebird";
 
 //-------------- Redux ------------------------
 import { connect } from "react-redux";
@@ -17,7 +18,10 @@ import {
   vaciarCarrito,
   quitarItemCarrito,
   getProductsFromCart,
-  reloadCart
+  reloadCart,
+  addProductToCart,
+  addProductToCartOrder,
+  addProductToCartOrderline
 } from "../../actions/order";
 import { getProducts, updateProduct } from "../../actions/product";
 
@@ -38,7 +42,10 @@ const Cart = ({order,
   cart,
   reload,
   reloadCart,
-  isAuthenticated
+  addProductToCart,
+  addProductToCartOrder,
+  addProductToCartOrderline,
+  isAuthenticated,
 }) => {
     
 
@@ -56,7 +63,7 @@ console.log("ahora el total es", total);
 const logueado = isAuthenticated
 const [cantidad, setCantidad] = useState(0)
 let inicioCart = JSON.parse(localStorage.getItem('carrito'))
-console.log('inicio',inicioCart)
+// console.log('inicio',inicioCart)
 let itemsCart = []
 inicioCart && inicioCart.map(item =>{
         let product = {
@@ -77,7 +84,6 @@ const quitarItemGuest = (id) => {
     let items = []
     let quitar = itemsCart.findIndex(e => e.id === id)
     itemsCart.splice(quitar,1)
-    console.log('quitar', quitar)
   
     quitar = itemsCart ? itemsCart.forEach(e =>{
       let item = {
@@ -107,6 +113,8 @@ const token = localStorage.getItem("token")
 
 const userId = user && user.id
 
+const totalCostStorage = localStorage.getItem('totalCost')
+
 useEffect(() => {
   getProductsFromCart(userId)
 }, [user])
@@ -126,13 +134,53 @@ useEffect(()=>{
 
 /***********************CALCULO DEL PRECIO POR MEDIO DE LAS ORDER LINE******************************** */
 
-useEffect(() => {
-    getOrder(userId)
-    setState({
-    products: cartProducts.product
-    })
+
+useEffect(()=>{
+  if (isAuthenticated) {
+    if(!localStorage.getItem("carrito")) {
+      return}
+    let carrito = JSON.parse(localStorage.getItem("carrito"))
+    addProductToCartOrder(user.id).then(res =>{
+    let promises = carrito.map( function (e) {
+      let body = {
+        quantity: e.quantity,
+        productId:e.id 
+      }
+      addProductToCartOrderline (user.id, body).then(() =>  reloadCart())
+  })
+    }).then(() => {
+      localStorage.setItem('carrito',JSON.stringify([]))
+      setTotal(totalCostStorage)
+        reloadCart()
+  })
+    
+  }
   
-}, [user])
+    },[isAuthenticated])
+  //----------chequear que exista el carrito de guest cuando se loguea
+  useEffect(()=>{ 
+    if(user){
+    getProductsFromCart(user.id).then( ()=>{
+      let totalCost2 = 0;
+        cartProducts.orderlines && cartProducts.orderlines.map(e => {
+            totalCost2 = totalCost2 +  (e.price * e.quantity) 
+        })
+        setState({
+          ...state,
+          total: totalCost2})
+        })
+    }
+  },[user, reload]) 
+
+// useEffect(() => {
+//   if(user) {   
+//     getOrder(user.id)
+//     setState({
+//     products: order.product
+//     })
+//   }
+  
+// }, [])
 
 const quantityChange = (e, id) =>{
   let cantCambiada = e
@@ -171,7 +219,7 @@ const quantityChange = (e, id) =>{
   let updateProd = {}
   let diferencia = 0
   prod = cartProducts.product
-  console.log('productooooo', cartProducts.product)
+
   prod ? prod.forEach( e => {
     if (e.orderline.id === id){
        if(cantCambiada === e.orderline.quantity) return;
@@ -184,7 +232,6 @@ const quantityChange = (e, id) =>{
       updateProd = body
     }}
   ) : console.log('')
-  console.log(updateProd)
   //hago update del carrito y update del stock------------------------
     updateProductToCart(user.id, updateProd)
 
@@ -237,36 +284,23 @@ const handleDelete = (id) =>{
 
 const handleFinCompra =() =>{
 
-
-  // let prodEnviar = []
-  //   products.map (e => {
-  //     prodEnviar = {
-  //       name: e.name,
-  //       description: e.description,
-  //       price: e.price,
-  //       stock: e.stock,
-  //       categories:'',
-  //       images: ''
-  //     }
-  //     updateProduct(e.id, prodEnviar)}
-  //   ) 
   if (!logueado){
-    swal("Order Created!", {
-      icon: "success",
-    }).then(() => {
-        localStorage.clear()
-        setRedirect({ redirect: "/user/checkout" });
-      }
-    )
-    return
-  } 
-  cambioEstadoCarrito(cartProducts.orderId, 'Created', state.total)
-  swal("Order Created!", {
-    icon: "success",
-  }).then(() => {
-      setRedirect({ redirect: "/user/checkout" });
-    }
-  )
+    console.log('aca', logueado)
+        swal("Please sign in to continue!", {
+          icon: "warning",
+        }).then(() =>{
+          
+        })
+        return
+      } 
+     
+      cambioEstadoCarrito(cartProducts.orderId, 'Created', state.total)
+      swal("Order Created!", {
+        icon: "success",
+      }).then(() => {
+          setRedirect({ redirect: "/user/checkout" });
+        }
+      )
     
   }
 
@@ -284,6 +318,7 @@ const handleVaciarCarrito = () =>{
         itemsCart =[]
         localStorage.removeItem('carrito')
         localStorage.removeItem('totalCost')
+        // localStorage.setItem('carrito',JSON.stringify([]))
         setRedirect({ redirect: "/user/catalogo" });
       } else {
         vaciarCarrito(user.id)
@@ -309,10 +344,7 @@ if (stateRedirect.redirect) {
     
 
   return (
-    <Row>
-      <Col xs={2}></Col>
-      <Col>
-        <Container className="container-cart-use">
+        <Container className="container-cart-use" style={{width: '1300px'}}>
           <Row className="m-3 d-none d-md-block cart-text ">
             <Col className=" text-center py-2" style={{ color: "white" }}>
               My Cart <IoIosCart />
@@ -320,19 +352,12 @@ if (stateRedirect.redirect) {
           </Row>
           <Row className="m-3 d-none d-md-block">
             <Col>
-              {/* <Row className="bg-light text-center py-2"> */}
-              {/* <Col xs={3} md={2}>
-                <span className="h3">
-                  <IoMdPhotos />
-                </span>
-              </Col>
-              {/* ------------------ */}
               <Col>
                 <Row>
-                  <Col xs={6} md={4} className="text-center number" style={{color: 'white'}}>
-                    <span className="h6">Products</span>
+                  <Col xs={6} md={4} className="text-center number products-checkout" style={{color: 'white'}}>
+                    <span className="h6" style={{marginLeft: '100px'}}>Products</span>
                   </Col>
-                  <Col xs={6} md={3} className="text-left ml-2 number" style={{color: 'white'}}>
+                  <Col xs={6} md={3} className="text-left ml-2 number " style={{color: 'white', marginLeft: '500px'}}>
                     <span className="h6">Quantity</span>
                   </Col>
                   <Col className="text-center number" style={{color: 'white'}}>
@@ -354,8 +379,6 @@ if (stateRedirect.redirect) {
             <Col>
               <Row className="bg-light text-center py-2  ">
                 <Col className="mx-3">
-                  {/* {console.log("productos-----", products)}
-                  {console.log("guestproducts---", itemsCart)} */}
                   {(!logueado)? (itemsCart ? (
                     itemsCart.map((e) => (
                       <OrderUse
@@ -376,8 +399,8 @@ if (stateRedirect.redirect) {
                       </p>
                     </div>
                   )): ""}
-                  {logueado? (products ? (
-                    products.map((e) => (
+                  {logueado? (cartProducts.product ? (
+                    cartProducts.product.map((e) => (
                       <OrderUse
                         logueado={logueado}
                         orderline={e}
@@ -387,12 +410,12 @@ if (stateRedirect.redirect) {
                     ))
                   ) : (
                     <div>
-                      <p>
+                      <p style={{color: 'black'}}>
                         <img
                           src="../images/shopping_Sad-512.png"
                           alt="sad cart"
                         ></img>
-                        <h3> Your cart is empty!</h3> <br></br> Add something to
+                        <h3 style={{color: 'black'}}> Your cart is empty!</h3> <br></br> Add something to
                         make me happy :)
                       </p>
                     </div>
@@ -404,29 +427,17 @@ if (stateRedirect.redirect) {
 
           <Row className="mx-3 text-center">
             <Col xs={6} className="text-center bg-light p-3 ml-auto">
-              {isAuthenticated ?
-              <h4 className="mb-4 ">
+              <h4 className="mb-4 " style={{color: 'black'}}>
               Total:
               <NumberFormat
                 prefix=" $"
+                style={{color: 'black'}}
                 value={state.total}
                 decimalScale={2}
                 fixedDecimalScale={true}
                 displayType={"text"}
               />
               </h4>
-              :
-              <h4 className="mb-4 ">
-              Total:
-              <NumberFormat
-                prefix=" $"
-                value={localStorage.getItem('totalCost')}
-                decimalScale={2}
-                fixedDecimalScale={true}
-                displayType={"text"}
-              />
-            </h4>
-            } 
               <Button
                 className="btn btn-dark boton"
                 onClick={handleFinCompra}
@@ -448,9 +459,6 @@ if (stateRedirect.redirect) {
             </Col>
           </Row>
         </Container>
-      </Col>
-      <Col xs={2}></Col>
-    </Row>
   );
 };
 
@@ -474,11 +482,13 @@ function mapDispatchToProps(dispatch) {
     cambioEstadoCarrito: (id, status, totalPrice) =>
     dispatch(cambioEstadoCarrito(id, status, totalPrice)),
     updateProductToCart: (idUser, body) => dispatch(updateProductToCart(idUser, body)),
-    // updateProduct: (id, prod) => dispatch(updateProduct(id, prod)),
     vaciarCarrito: (idUser) => dispatch(vaciarCarrito(idUser)),
     quitarItemCarrito: (idUser, id) => dispatch(quitarItemCarrito(idUser, id)),
     getProductsFromCart: (idUser) => dispatch(getProductsFromCart(idUser)),
     reloadCart: ()  =>  dispatch (reloadCart () ),
+    addProductToCart: (idUser, body) => dispatch(addProductToCart(idUser, body)),
+    addProductToCartOrder: (idUser) => dispatch(addProductToCartOrder(idUser)),
+    addProductToCartOrderline: (idUser, body) =>  dispatch(addProductToCartOrderline (idUser, body))
     
   };
 }

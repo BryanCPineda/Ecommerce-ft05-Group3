@@ -87,5 +87,9 @@ module.exports = (sequelize)=>{
       type: S.TEXT,
       allowNull: true,
     },
+    gRegister:{
+      type: S.BOOLEAN,
+      allowNull: true
+    }
   }, { timestamps: false })
 }

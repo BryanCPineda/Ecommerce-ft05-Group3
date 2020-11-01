@@ -20,6 +20,7 @@ import {
   cambioEstadoCarrito,
   getProductsForCheckout
 } from "../../actions/order";
+import { updateOrder } from '../../actions/orders';
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -68,7 +69,7 @@ function getStepContent(step) {
   }
 }
 
-function Checkout({sendPurchase, user, getProductsForCheckout, cambioEstadoCarrito,cart}) {
+function Checkout({ sendPurchase, user, getProductsForCheckout, cambioEstadoCarrito, cart, updateOrder, orderId }) {
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
 
@@ -124,6 +125,15 @@ function Checkout({sendPurchase, user, getProductsForCheckout, cambioEstadoCarri
   }
   };
 
+  const handleCancelOrder = () => {
+    let state = {
+      status: 'Canceled',
+      orderId: orderId
+    }
+    updateOrder(state)
+    setRedirect({ redirect: "/user/catalogo" })
+  }
+
   const handleBack = () => {
     setActiveStep(activeStep - 1);
   };
@@ -159,12 +169,14 @@ function Checkout({sendPurchase, user, getProductsForCheckout, cambioEstadoCarri
             ) : (
               <React.Fragment>
                 {getStepContent(activeStep)}
+                
                 <div className={classes.buttons}>
                   {activeStep !== 0 && (
                     <Button onClick={handleBack} className={classes.button}>
                       Back
                     </Button>
                   )}
+                  <Button onClick={handleCancelOrder} style={{marginRight: '460px', backgroundColor: '#8a2be2', color: 'white'}}>Cancel Order</Button>
                   <Button
                     variant="contained"
                     color="primary"
@@ -188,6 +200,7 @@ function mapStateToProps(state) {
   return {
     user: state.userReducer.user,
     cart: state.orderReducer.cartProducts,
+    orderId: state.orderReducer.cartProducts.orderId
   };
 }
 
@@ -196,6 +209,7 @@ function mapDispatchToProps(dispatch) {
     sendPurchase: (user, info) => dispatch(sendPurchase(user, info)),
     getProductsForCheckout: (idUser) => dispatch(getProductsForCheckout(idUser)),
     cambioEstadoCarrito: (id, status, totalPrice) => dispatch(cambioEstadoCarrito(id, status, totalPrice)),
+    updateOrder: (state) => dispatch(updateOrder(state))
   };
 }
 

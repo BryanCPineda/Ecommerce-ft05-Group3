@@ -31,6 +31,7 @@
     "nodemailer-express-handlebars": "^4.0.0",
     "passport": "^0.4.1",
     "passport-github2": "^0.1.12",
+    "passport-twitter": "^1.0.4",
     "pg": "^8.3.0",
     "sequelize": "^6.3.4"
   },

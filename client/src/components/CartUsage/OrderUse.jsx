@@ -49,11 +49,11 @@ function OrderUse(prod) {
               <Col>
                 <Row>
                   <Col xs={6} md={4} className="mb-3 text-left number">
-                      <h4 >{prod.orderline.name} </h4>
+                      <h4 style={{color: 'black'}}>{prod.orderline.name} </h4>
                   </Col>
                   <Col xs={6} md={3} className="mb-3 text-center">
                     {console.log('stock------', prod.orderline.stock, 'cantidad------', prod.orderline.orderline.quantity)}
-                  <NumericInput className={'numberformat'} min={0} max={50} value={
+                  <NumericInput style={{color: 'black'}} className={'numberformat'} min={0} max={50} value={
                     prod.logueado?
                     prod.orderline.orderline.quantity: state.cantidad
                     } onChange={value => handleCant(value)}/>
@@ -61,6 +61,7 @@ function OrderUse(prod) {
                   <Col className="text-left">
                     <span className="h6">
                       <NumberFormat
+                      style={{color: 'black'}}
                         prefix="$"
                         value={prod.orderline.price}
                         decimalScale={2}

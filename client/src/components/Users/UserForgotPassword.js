@@ -85,9 +85,10 @@ if (stateRedirect.redirect) {
   }
 
   return (
-     <div>
+     <Container style={{marginTop: '-300px', width: '600px', height: '200px', backgroundColor: 'white'}} className="d-flex justify-content-center">
+       <div style={{width: '400px'}}>
          <Form.Group>
-                <Form.Label>Please Whrite your Email </Form.Label>
+                <Form.Label className="pt-5" style={{fontSize: '20px'}}>Please Whrite your Email </Form.Label>
                 <Form.Control
                     onChange={(e) => onChange(e)}
                     autoComplete="off"
@@ -107,14 +108,14 @@ if (stateRedirect.redirect) {
               <Button
                 type="submit"
                 onClick={() => submitEmail() }
-                className="button-register mt-1"
+                className="button-register mt-1 ml-3"
                 style={{ width: "5rem" }}
               >
                SUBMIT
               </Button>
             </Form.Group>
-           
-     </div>
+            </div>
+     </Container>
   );
 };
 function mapStateToProps(state) {
