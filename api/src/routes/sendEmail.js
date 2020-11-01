@@ -84,35 +84,16 @@ server.post("/", (req, res) => {
           <p style="color: #4f5154; margin-bottom: 1.4rem; font-size: 1rem;">&iexcl;
                                     Hi ${user.name}  ${user.lastname}  !
              <h3>Your Purchase: </h3>
-             Oder N° ${info.orderId}
+             Order N° ${info.orderId}
              <hr>
-             <h3>Your Products:</h3>
-
-             <table>
-                <thead>
-                <tr>
-                    <th>id</th>
-                    <th>Name</th>
-                    <th>price</th>
-                    <th>quantity</th>
-                    <th>total</th>
-                </tr>
-                </thead>
-                <tbody>
-                    ${
-                      info.products &&
-                      info.products.map(
-                        (e) =>
-                          e.name + "  " + e.quantity + "  " + e.price + "   "
-                      )
-                    }
-                        
-                </tbody>
-                </table>
-                <hr>
                 <h3>Total Price: ${info.totalPrice}</h3>
-             
-             Thank you for your purchase!!`,
+                <hr>
+                <p> If you wanna see the details of your order, please come back to owr page!! </p>
+             <p>
+             Thank you for your purchase!!</p>
+             <hr>
+             <small>For any inconvenience please contact to us: CiberFitness.com</small>
+             `,
     };
   }
 

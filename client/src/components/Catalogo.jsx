@@ -14,7 +14,7 @@ import {
   getAllProducts,
   setProductsLoading,
 } from "../actions/catalogoActions";
-import { addProductToCart, getProductsFromCart,} from '../actions/order';
+import { addProductToCart, getProductsFromCart,  addProductToCartOrderline, addProductToCartOrder} from '../actions/order';
 
 
 function Catalogo({
@@ -31,7 +31,9 @@ function Catalogo({
   isAuthenticated,
   addProductToCart,
   user,
-  getProductsFromCategories
+  getProductsFromCategories,
+  addProductToCartOrderline,
+  addProductToCartOrder
 }) {
 
   /*------------------Pagination---------------------*/
@@ -90,34 +92,56 @@ function Catalogo({
     
   }, [reload, state.reload, cartProducts,  ]);
 
-  //----------chequear que exista el carrito de guest cuando se loguea
-  useEffect(()=>{
-    if (isAuthenticated) {
-      if(!localStorage.getItem("carrito")) {
-        return}
-      let carrito = JSON.parse(localStorage.getItem("carrito"))
+  //-------------------------- este codigo hace el vuelco del carrito del guest en la base de datos ------/
+useEffect(()=>{
+  if (isAuthenticated) {
+    if(!localStorage.getItem("carrito")) {
+      return}
+    let carrito = JSON.parse(localStorage.getItem("carrito"))
+    addProductToCartOrder(user.id).then(res =>{
+    let promises = carrito.map( function (e) {
+      let body = {
+        quantity: e.quantity,
+        productId:e.id 
+      }
+      addProductToCartOrderline (user.id, body)
+  })
+    }).then(() => {localStorage.setItem('carrito',JSON.stringify([]))
+  })
+    
+  }
+  
+    },[isAuthenticated])
+//-------------------------- este codigo hace el vuelco del carrito del guest en la base de datos ------/
+
+  // //----------chequear que exista el carrito de guest cuando se loguea
+  // useEffect(()=>{
+  //   if (isAuthenticated) {
+  //     if(!localStorage.getItem("carrito")) {
+  //       return}
+  //     let carrito = JSON.parse(localStorage.getItem("carrito"))
       
 
 
-      let promises = carrito.map( function (e) {
-        let body = {
-          quantity: e.quantity,
-          productId:e.id 
-      }
-      setTimeout(() => {
-            return new Promise(() => addProductToCart(user.id, body))
+  //     let promises = carrito.map( function (e) {
+  //       let body = {
+  //         quantity: e.quantity,
+  //         productId:e.id 
+  //     }
+  //     setTimeout(() => {
+  //           return new Promise(() => addProductToCart(user.id, body))
         
-      }, 100*e.id)
-    })
+  //     }, 100*e.id)
+  //   })
 
-    Promise.all(promises)
-      .then(e => console.log('respuesta promesa---------------------', e))
-      .catch(e => console.log('error',e))
+  //   Promise.all(promises)
+  //     .then(e => console.log('respuesta promesa---------------------', e))
+  //     .catch(e => console.log('error',e))
 
-      localStorage.clear()
-     }
-      },[isAuthenticated])
-    //----------chequear que exista el carrito de guest cuando se loguea
+  //     localStorage.clear()
+  //    }
+  //     },[isAuthenticated])
+  //   //----------chequear que exista el carrito de guest cuando se loguea
 
     // const handleProductsFromCategories = (e) => {
     //   if(e.target.value === "All Products") {
@@ -202,6 +226,8 @@ const mapDispatchToProps = (dispatch) => {
     getAllProducts: () => dispatch(getAllProducts()),
     getProductsFromCart: (idUser) => dispatch(getProductsFromCart(idUser)),
     addProductToCart: (idUser, body) => dispatch(addProductToCart(idUser, body)),
+    addProductToCartOrder: (idUser) =>  dispatch(addProductToCartOrder(idUser)),
+    addProductToCartOrderline: (idUser, body) => dispatch(addProductToCartOrderline (idUser, body))
   }
 }
 
