@@ -15,6 +15,7 @@ import Review from "./Review";
 import swal from 'sweetalert'
 import { connect } from "react-redux";
 import {sendPurchase} from './../../actions/sendEmail'
+import { Redirect } from "react-router-dom";
 import {
   cambioEstadoCarrito,
   getProductsForCheckout
@@ -80,6 +81,10 @@ function Checkout({sendPurchase, user, getProductsForCheckout, cambioEstadoCarri
 const handleBan = (ban) => {
   setBandera(ban)
 }
+
+// ------------------redireccionar --------------
+const [stateRedirect, setRedirect] = useState({ redirect: null })
+// ------------------redireccionar --------------
   
 
   const classes = useStyles();
@@ -144,9 +149,19 @@ const handleBan = (ban) => {
   }
   };
 
+  const handleClick = () => {
+    setRedirect({ redirect: "/user/catalogo" });
+  }
+
   const handleBack = () => {
     setActiveStep(activeStep - 1);
   };
+
+  
+    if (stateRedirect.redirect) {
+      return <Redirect to={stateRedirect.redirect} />
+    }
+
 
   return (
     <React.Fragment>
@@ -171,6 +186,9 @@ const handleBan = (ban) => {
                   confirmation, and will send you an update when your order has
                   shipped.
                 </Typography>
+                <Button className='boton' onClick={handleClick}>
+                  Thank you!!
+                </Button>
               </React.Fragment>
             ) : (
               <React.Fragment>
