@@ -12,6 +12,7 @@ const Terms = () => {
         <Container>
           <div className="title">
             <h2 className="title-1">Terms and Conditions</h2>
+            <br></br>
             <h4 className="main-1">
               AGREEMENT TO TERMS These Terms and Conditions constitute a legally
               binding agreement made between you, whether personally or on

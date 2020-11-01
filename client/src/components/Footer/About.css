@@ -25,6 +25,7 @@
   max-width: 100%;
   width: 200px;
   height: 220px;
+  box-shadow: 3px 3px 8px -2px rgb(53, 49, 56);
 }
 
 .images-title {
@@ -36,4 +37,10 @@
   padding-bottom: 5px;
   padding-left: 150px;
   padding-right: 150px;
+}
+.a-about {
+  color: white;
+}
+.a-about:hover {
+  color: white;
 }
