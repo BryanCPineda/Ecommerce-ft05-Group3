@@ -24,6 +24,7 @@
     "react-bootstrap-multiselect": "^2.4.1",
     "react-bootstrap-sweetalert": "^5.2.0",
     "react-cookie": "^4.0.3",
+    "react-credit-cards": "^0.8.3",
     "react-dom": "^16.14.0",
     "react-google-login": "^5.1.22",
     "react-hook-form": "^6.9.2",

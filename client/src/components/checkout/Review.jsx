@@ -41,7 +41,6 @@ const Review = ({ user, cart, total }) => {
     : "";
   const payments = [
     { name: "Card type", detail: payment[0] },
-    { name: "Card holder", detail: `${user.name} ${user.lastname}` },
     { name: "Card number", detail: `xxxx-xxxx-xxxx-${cardNumber}` },
     { name: "Expiry date", detail: payment[2] },
   ];

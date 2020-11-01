@@ -171,12 +171,14 @@ function Checkout({ sendPurchase, user, getProductsForCheckout, cambioEstadoCarr
                 {getStepContent(activeStep)}
                 
                 <div className={classes.buttons}>
+                <Button onClick={handleCancelOrder} className={classes.button}
+                 style={{marginRight: '460px', backgroundColor: '#8a2be2', color: 'white', width: '80px', height: '50px'}}>Cancel Order</Button>
                   {activeStep !== 0 && (
-                    <Button onClick={handleBack} className={classes.button}>
+                    <Button onClick={handleBack} style={{color: 'white'}} className={classes.button}>
                       Back
                     </Button>
                   )}
-                  <Button onClick={handleCancelOrder} style={{marginRight: '460px', backgroundColor: '#8a2be2', color: 'white'}}>Cancel Order</Button>
+                  
                   <Button
                     variant="contained"
                     color="primary"

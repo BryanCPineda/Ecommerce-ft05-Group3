@@ -6,17 +6,22 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import { connect } from 'react-redux';
 import PaypalCheckoutButton from './PaypalCheckoutButton';
-import { Button } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
+import Cards from 'react-credit-cards'
+import 'react-credit-cards/es/styles-compiled.css'
 
  const PaymentForm = ({ order, user, total }) => {
 
   const [card, setCard] = useState(false)
   const [state, setState] = useState({
     name: "",
-    cardNumber: "",
+    number: "",
     expiry: "",
-    cvv: ""
+    cvc: ""
   })
+  const [focus, setFocus] = useState('')
+
+  const [errors, setErrors] = useState({});
 
   const totalPrice = total
   const customer = `${user.name} ${user.lastname}`
@@ -70,72 +75,98 @@ import { Button } from 'react-bootstrap';
   }
 
   const handleOnChange = (e) => {
-    setState({ ...state,
-      [e.target.name]: e.target.value})
-    }
+    setState({ ...state, [e.target.name]: e.target.value });
+  };
 
-    const { name, cardNumber, expiry, cvv } = state
+    const { name, number, expiry, cvc } = state
 
-    const arrayPayment = [ name, cardNumber, expiry, cvv ]
+    const arrayPayment = [ name, number, expiry, cvc ]
     localStorage.setItem('payment', JSON.stringify(arrayPayment))
 
   return (
     <React.Fragment>
       <div>
-      <div>
-        <PaypalCheckoutButton order={orderPaypal}/> 
+        <div>
+          <PaypalCheckoutButton order={orderPaypal} />
+        </div>
+        <div>
+          <Button style={{backgroundColor: '#8a2be2', border: 'none'}} onClick={() => setCard(!card)}>Credit/Debit Card</Button>
+        </div>
       </div>
-      <div>
-        <Button onClick={() => setCard(!card)}>Credit/Debit Card</Button>
-      </div>
-      </div>
-      {card ?
-      <>
-        <Typography variant="h6" gutterBottom>
-        Payment method
-      </Typography>
-      <Grid container spacing={3}>
-        <Grid item xs={12} md={6}>
-          <TextField required id="cardName" label="Name on card" fullWidth autoComplete="cc-name" name="name" onChange={handleOnChange}/>
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <TextField
-            required
-            name="cardNumber"
-            id="cardNumber"
-            label="Card number"
-            fullWidth
-            autoComplete="cc-number"
-            onChange={handleOnChange}
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <TextField required id="expDate" label="Expiry date" fullWidth autoComplete="cc-exp" name="expiry" onChange={handleOnChange}/>
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <TextField
-            required
-            name="cvv"
-            id="cvv"
-            label="CVV"
-            helperText="Last three digits on signature strip"
-            fullWidth
-            autoComplete="cc-csc"
-            onChange={handleOnChange}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <FormControlLabel
-            control={<Checkbox color="secondary" name="saveCard" value="yes" />}
-            label="Remember credit card details for next time"
-          />
-        </Grid>
-      </Grid>
-      </>
-        : 
-        null
-      }
-      
+      {card ? (
+        <>
+        <div className="mt-3">
+        <Cards number={state.number} name={state.name} expiry={state.expiry} cvc={state.cvc} focused={focus} />
+        </div>
+          <Typography variant="h6" gutterBottom>
+            Payment method
+          </Typography>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={6}>
+              <TextField
+                required
+                id="cardName"
+                label="Name on card"
+                fullWidth
+                autoComplete="cc-name"
+                name="name"
+                value={state.name}
+                onChange={handleOnChange}
+                onFocus={(e) => setFocus(e.target.name)}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <TextField
+                required
+                name="number"
+                id="number"
+                label="Card number"
+                type="tel"
+                fullWidth
+                value={state.number}
+                autoComplete="cc-number"
+                onChange={handleOnChange}
+                onFocus={(e) => setFocus(e.target.name)}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <TextField
+                required
+                id="expDate"
+                label="Expiry date"
+                fullWidth
+                autoComplete="cc-exp"
+                name="expiry"
+                value={state.expiry}
+                onChange={handleOnChange}
+                onFocus={(e) => setFocus(e.target.name)}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <TextField
+                required
+                name="cvc"
+                id="cvc"
+                label="CVC"
+                helperText="Last three digits on signature strip"
+                fullWidth
+                value={state.cvc}
+                autoComplete="cc-csc"
+                onChange={handleOnChange}
+                onFocus={(e) => setFocus(e.target.name)}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <FormControlLabel
+                control={
+                  <Checkbox color="secondary" name="saveCard" value="yes" />
+                }
+                label="Remember credit card details for next time"
+              />
+            </Grid>
+          </Grid>
+        </>
+      ) : null}
     </React.Fragment>
   );
 }
