@@ -29,9 +29,9 @@ function Footer() {
           </div>
           <div className="mt-5">
             <h4 className="text-center">Follow</h4>
-            <h6 className="text-center mt-4">Facebook</h6>
-            <h6 className="text-center mt-1">Instagram</h6>
-            <h6 className="text-center mt-1">Twitter</h6>
+            <h6 className="text-center mt-4 link-w"><a href="https://www.facebook.com/" className='a-about'>Facebook</a></h6>
+            <h6 className="text-center mt-1 link-w"><a href="https://www.instagram.com/" className='a-about'>Instagram</a></h6>
+            <h6 className="text-center mt-1 link-w"><a href="https://twitter.com/?lang=en" className='a-about'>Twitter</a></h6>
           </div>
           <div className="mt-5">
             <h4 className="text-center">Legal</h4>
@@ -47,14 +47,14 @@ function Footer() {
       <div>
         <div className="d-flex justify-content-center mt-5">
           <div className="d-flex m-2">
-            <h6 className="mr-3 h2">
-              <FaFacebook />
+            <h6 className="mr-3 h2"><a href="https://www.facebook.com/" className='a-about'>
+              <FaFacebook /></a>
             </h6>
-            <h6 className="h2">
-              <GrInstagram />
+            <h6 className="h2"><a href="https://www.instagram.com/" className='a-about'>
+              <GrInstagram /></a>
             </h6>
-            <h6 className="ml-3 h2">
-              <AiFillTwitterCircle />
+            <h6 className="ml-3 h2"><a href="https://twitter.com/?lang=en" className='a-about'>
+              <AiFillTwitterCircle /></a>
             </h6>
           </div>
         </div>

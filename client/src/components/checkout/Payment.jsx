@@ -3,14 +3,17 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Input from '@material-ui/core/Input';
 import Checkbox from '@material-ui/core/Checkbox';
 import { connect } from 'react-redux';
 import PaypalCheckoutButton from './PaypalCheckoutButton';
 import { Button, Form } from 'react-bootstrap';
 import Cards from 'react-credit-cards'
 import 'react-credit-cards/es/styles-compiled.css'
+import { IoMdSend } from "react-icons/io";
+import { useForm } from "react-hook-form";
 
- const PaymentForm = ({ order, user, total }) => {
+ const PaymentForm = ({ order, user, total, handleBan }) => {
 
   const [card, setCard] = useState(false)
   const [state, setState] = useState({
@@ -20,8 +23,6 @@ import 'react-credit-cards/es/styles-compiled.css'
     cvc: ""
   })
   const [focus, setFocus] = useState('')
-
-  const [errors, setErrors] = useState({});
 
   const totalPrice = total
   const customer = `${user.name} ${user.lastname}`
@@ -44,35 +45,19 @@ import 'react-credit-cards/es/styles-compiled.css'
     }
   })
 
-  console.log(items)
- 
-
    const orderPaypal = {
      total: totalPrice,
      customer: customer,
      items: items,
    }
+   const { register, errors, handleSubmit } = useForm({
+    mode: "onChange"
+  });
 
-  const we = {
-    customer: '123456',
-    total: '550.00',
-    items: [
-      {
-        // sku: '112',
-        name: 'Camisa ReactJS',
-        price: '300.00',
-        quantity: 1,
-        currency: 'USD'
-      },
-      {
-        // sku: '99',
-        name: 'Camisa JS',
-        price: '125.00',
-        quantity: 2,
-        currency: 'USD'
-      }
-    ]
-  }
+   const onSubmit = () => {
+     console.log("hola")
+    handleBan(false)
+  }; 
 
   const handleOnChange = (e) => {
     setState({ ...state, [e.target.name]: e.target.value });
@@ -87,10 +72,13 @@ import 'react-credit-cards/es/styles-compiled.css'
     <React.Fragment>
       <div>
         <div>
-          <PaypalCheckoutButton order={orderPaypal} />
+          <PaypalCheckoutButton order={orderPaypal} handleBan={handleBan}/>
         </div>
         <div>
           <Button style={{backgroundColor: '#8a2be2', border: 'none'}} onClick={() => setCard(!card)}>Credit/Debit Card</Button>
+        </div>
+        <div>
+        <Button className="mt-3" style={{backgroundColor: '#8a2be2', border: 'none'}} onClick={onSubmit}>Send</Button>
         </div>
       </div>
       {card ? (
@@ -164,6 +152,7 @@ import 'react-credit-cards/es/styles-compiled.css'
                 label="Remember credit card details for next time"
               />
             </Grid>
+            
           </Grid>
         </>
       ) : null}

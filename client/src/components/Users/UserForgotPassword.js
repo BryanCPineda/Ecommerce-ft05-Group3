@@ -15,9 +15,7 @@ import { connect } from "react-redux";
 import swal from 'sweetalert'; 
 import {getAllUsers} from '../../actions/userAction';
 import {forgotPasswordEmail} from '../../actions/sendEmail';
-
-const bcrypt = require('bcryptjs');
- 
+import bcrypt from 'bcryptjs' 
 
 function UserForgotPassword ({getAllUsers, allUsers, forgotPasswordEmail} ) {
   

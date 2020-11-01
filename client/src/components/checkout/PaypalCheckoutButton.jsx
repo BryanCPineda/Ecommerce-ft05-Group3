@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import paypal from 'paypal-checkout';
 
-function PaypalCheckoutButton({ order }) {
+function PaypalCheckoutButton({ order, handleBan }) {
 
     // const itemsList = order.items.map(element => (
     //         element.props.children.map(elements => (
@@ -51,6 +51,7 @@ function PaypalCheckoutButton({ order }) {
         .then(response => {
             console.log(response)
             alert(`Payment processed correctly, ID: ${response.id}`)
+            handleBan(false)
         })
         .catch(error => {
             console.log(error)

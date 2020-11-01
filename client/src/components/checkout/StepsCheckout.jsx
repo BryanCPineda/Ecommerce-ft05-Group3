@@ -54,14 +54,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
+
 const steps = ["Shipping address", "Payment details", "Review your order"];
 
-function getStepContent(step) {
+
+
+function getStepContent(step, handleBan) {
+
+
   switch (step) {
     case 0:
-      return <AddAddress />;
+      return <AddAddress handleBan={handleBan} />;
     case 1:
-      return <Payment />;
+      return <Payment  handleBan={handleBan}/>;
     case 2:
       return <Review />;
     default:
@@ -70,6 +76,13 @@ function getStepContent(step) {
 }
 
 function Checkout({ sendPurchase, user, getProductsForCheckout, cambioEstadoCarrito, cart, updateOrder, orderId }) {
+
+  const [bandera, setBandera] = useState(true)
+
+const handleBan = (ban) => {
+  setBandera(ban)
+}
+  
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
 
@@ -84,6 +97,15 @@ function Checkout({ sendPurchase, user, getProductsForCheckout, cambioEstadoCarr
   useEffect(()=>{ 
      
   },[getProductsForCheckout]) 
+
+  useEffect(()=>{ 
+    console.log('steps', activeStep)
+    if (activeStep === 2) { 
+      setBandera(false) 
+      return
+    }
+    setBandera(true)
+  },[activeStep]) 
 
   const handleNext = () => {
     setActiveStep(activeStep + 1)
@@ -119,9 +141,9 @@ function Checkout({ sendPurchase, user, getProductsForCheckout, cambioEstadoCarr
       }).then(() => {
       sendPurchase(userSend, info)
         localStorage.removeItem('adress')
+
     }
       ) 
-      setRedirect({ redirect: "/user/catalogo" })
   }
   };
 
@@ -161,15 +183,15 @@ function Checkout({ sendPurchase, user, getProductsForCheckout, cambioEstadoCarr
                   Thank you for your order.
                 </Typography>
                 <Typography variant="subtitle1">
-                  Your order number is #2001539. We have emailed your order
+                  Your order number is #{cart.orderId}. We have emailed your order
                   confirmation, and will send you an update when your order has
                   shipped.
                 </Typography>
               </React.Fragment>
             ) : (
               <React.Fragment>
-                {getStepContent(activeStep)}
-                
+
+                {getStepContent(activeStep, handleBan)}
                 <div className={classes.buttons}>
                 <Button onClick={handleCancelOrder} className={classes.button}
                  style={{marginRight: '460px', backgroundColor: '#8a2be2', color: 'white', width: '80px', height: '50px'}}>Cancel Order</Button>
@@ -182,6 +204,7 @@ function Checkout({ sendPurchase, user, getProductsForCheckout, cambioEstadoCarr
                   <Button
                     variant="contained"
                     color="primary"
+                    disabled={bandera ? "disabled" : ""}
                     onClick={handleNext}
                     className={classes.button}
                   >

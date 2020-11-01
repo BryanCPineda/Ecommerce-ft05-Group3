@@ -42,7 +42,7 @@
     width: 200px;
     height: 15px;
     color: white;
-    background-color: transparent;   
+    background-color:  #8a2be2;   
 }
 .claseform {
     display: inline-flex;
@@ -84,28 +84,31 @@
 
 .button-search-bar {
     border: none;
-    height: 2.7rem;
+    height: 2.9rem;
     width: 5rem;
     background-color: #8a2be2;
     color: white;
     border-radius: 5px;
     font-size: 17px;
+    border: 2px solid #c0c0c0;
 }
 .button-search-bar:hover {
     border: none;
-    height: 2.7rem;
+    height: 2.9rem;
     width: 5rem;
     background-color: darkviolet;
     color: white;
     border-radius: 5px;
+    border: 2px solid #c0c0c0;
 }
 .button-search-bar:focus {
     border: none;
-    height: 2.7rem;
+    height: 2.9rem;
     width: 5rem;
     background-color: darkviolet;
     color: white;
     border-radius: 5px;
+    border: 2px solid #c0c0c0;
 }
 
 .sign-up-button {
