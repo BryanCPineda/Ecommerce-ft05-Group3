@@ -6,7 +6,7 @@ import {editReview} from '../../actions/reviewsActions';
 import {connect} from 'react-redux';
 import swal from 'sweetalert';
 
-function EditReview({editReview, user, product, reviewid, reviewDescription }, ) {
+function EditReview({editReview, productName, reviewid, reviewDescription }, ) {
   const[show, setShow] = useState(false);
   const [stars, setStars] = useState(0);
   const [description, setDescription] = useState('');
@@ -70,6 +70,8 @@ function EditReview({editReview, user, product, reviewid, reviewDescription }, )
     color2: '#8a2be2',
     half: false,
   }
+  const productNames = productName && productName;
+
   return (
     <React.Fragment>
       <Button 
@@ -92,7 +94,7 @@ function EditReview({editReview, user, product, reviewid, reviewDescription }, )
           closeButton={true} 
           closeLabel={'Close'}
         >
-          <Modal.Title>Change your review</Modal.Title>
+          <Modal.Title>Change the review of <br/>{productNames}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <h4>Current Review</h4>
