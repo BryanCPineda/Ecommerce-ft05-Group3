@@ -3,12 +3,15 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Input from '@material-ui/core/Input';
 import Checkbox from '@material-ui/core/Checkbox';
 import { connect } from 'react-redux';
 import PaypalCheckoutButton from './PaypalCheckoutButton';
+import { IoMdSend } from "react-icons/io";
 import { Button } from 'react-bootstrap';
+import { useForm } from "react-hook-form";
 
- const PaymentForm = ({ order, user, total }) => {
+ const PaymentForm = ({ order, user, total, handleBan }) => {
 
   const [card, setCard] = useState(false)
   const [state, setState] = useState({
@@ -38,7 +41,6 @@ import { Button } from 'react-bootstrap';
     }
   })
 
-  console.log(items)
  
 
    const orderPaypal = {
@@ -46,27 +48,13 @@ import { Button } from 'react-bootstrap';
      customer: customer,
      items: items,
    }
+   const { register, errors, handleSubmit } = useForm({
+    mode: "onChange"
+  });
 
-  const we = {
-    customer: '123456',
-    total: '550.00',
-    items: [
-      {
-        // sku: '112',
-        name: 'Camisa ReactJS',
-        price: '300.00',
-        quantity: 1,
-        currency: 'USD'
-      },
-      {
-        // sku: '99',
-        name: 'Camisa JS',
-        price: '125.00',
-        quantity: 2,
-        currency: 'USD'
-      }
-    ]
-  }
+   const onSubmit = () => {
+    handleBan(false)
+  }; 
 
   const handleOnChange = (e) => {
     setState({ ...state,
@@ -82,7 +70,7 @@ import { Button } from 'react-bootstrap';
     <React.Fragment>
       <div>
       <div>
-        <PaypalCheckoutButton order={orderPaypal}/> 
+        <PaypalCheckoutButton order={orderPaypal} handleBan={handleBan}/> 
       </div>
       <div>
         <Button onClick={() => setCard(!card)}>Credit/Debit Card</Button>
@@ -93,6 +81,7 @@ import { Button } from 'react-bootstrap';
         <Typography variant="h6" gutterBottom>
         Payment method
       </Typography>
+      <form onSubmit={handleSubmit(onSubmit)}>
       <Grid container spacing={3}>
         <Grid item xs={12} md={6}>
           <TextField required id="cardName" label="Name on card" fullWidth autoComplete="cc-name" name="name" onChange={handleOnChange}/>
@@ -130,6 +119,10 @@ import { Button } from 'react-bootstrap';
           />
         </Grid>
       </Grid>
+      <Button className='boton'>
+         <Input value='Send' type="submit" disableUnderline={true} />    <IoMdSend />
+      </Button>
+      </form>
       </>
         : 
         null

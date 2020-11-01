@@ -52,14 +52,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
+
 const steps = ["Shipping address", "Payment details", "Review your order"];
 
-function getStepContent(step) {
+
+
+function getStepContent(step, handleBan) {
+
+
   switch (step) {
     case 0:
-      return <AddAddress />;
+      return <AddAddress handleBan={handleBan} />;
     case 1:
-      return <Payment />;
+      return <Payment  handleBan={handleBan}/>;
     case 2:
       return <Review />;
     default:
@@ -68,6 +74,14 @@ function getStepContent(step) {
 }
 
 function Checkout({sendPurchase, user, getProductsForCheckout, cambioEstadoCarrito,cart}) {
+
+  const [bandera, setBandera] = useState(true)
+
+const handleBan = (ban) => {
+  setBandera(ban)
+}
+  
+
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
 
@@ -80,6 +94,15 @@ function Checkout({sendPurchase, user, getProductsForCheckout, cambioEstadoCarri
   useEffect(()=>{ 
      
   },[getProductsForCheckout]) 
+
+  useEffect(()=>{ 
+    console.log('steps', activeStep)
+    if (activeStep === 2) { 
+      setBandera(false) 
+      return
+    }
+    setBandera(true)
+  },[activeStep]) 
 
   const handleNext = () => {
     setActiveStep(activeStep + 1)
@@ -114,7 +137,8 @@ function Checkout({sendPurchase, user, getProductsForCheckout, cambioEstadoCarri
         icon: "success",
       }).then(() => {
       sendPurchase(userSend, info)
-      localStorage.clear()}
+      // localStorage.clear()
+    }
       ) 
     
   }
@@ -143,14 +167,14 @@ function Checkout({sendPurchase, user, getProductsForCheckout, cambioEstadoCarri
                   Thank you for your order.
                 </Typography>
                 <Typography variant="subtitle1">
-                  Your order number is #2001539. We have emailed your order
+                  Your order number is #{cart.orderId}. We have emailed your order
                   confirmation, and will send you an update when your order has
                   shipped.
                 </Typography>
               </React.Fragment>
             ) : (
               <React.Fragment>
-                {getStepContent(activeStep)}
+                {getStepContent(activeStep, handleBan)}
                 <div className={classes.buttons}>
                   {activeStep !== 0 && (
                     <Button onClick={handleBack} className={classes.button}>
@@ -160,6 +184,7 @@ function Checkout({sendPurchase, user, getProductsForCheckout, cambioEstadoCarri
                   <Button
                     variant="contained"
                     color="primary"
+                    disabled={bandera ? "disabled" : ""}
                     onClick={handleNext}
                     className={classes.button}
                   >
