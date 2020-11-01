@@ -18,13 +18,13 @@ function Footer() {
             />
           </div>
           <div className="mt-5">
-            <h4 className="text-center">Explore</h4>
+            <h4 className="text-center ">Explore</h4>
             <Link to="/user/catalogo">
-              <h6 className="text-center mt-4">Home</h6>
+              <h6 className="text-center link-w mt-4">Home</h6>
             </Link>
 
             <Link to="/user/about">
-              <h6 className="text-center mt-1">About</h6>
+              <h6 className="text-center link-w mt-1">About</h6>
             </Link>
           </div>
           <div className="mt-5">
@@ -36,10 +36,10 @@ function Footer() {
           <div className="mt-5">
             <h4 className="text-center">Legal</h4>
             <Link to="/user/terms">
-              <h6 className="text-center mt-4">Terms</h6>
+              <h6 className="text-center link-w mt-4">Terms</h6>
             </Link>
             <Link to="/user/privacy">
-              <h6 className="text-center mt-1">Privacy</h6>
+              <h6 className="text-center link-w mt-1">Privacy</h6>
             </Link>
           </div>
         </div>
