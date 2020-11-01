@@ -213,22 +213,22 @@ function productsSeeder() {
       description:
         "Las bandas de resistencia conocidas como TheraBand por el fabricante pionero, ayudan a los usuarios a rehabilitar lesiones, mejorar la vida funcional, mejorar el rendimiento deportivo. Las TheraBand son fáciles de usar, convenientes",
       //portables y son una alternativa eficaz a las pesas libres y las máquinas de pesas. Se pueden usar en la clínica, en el hogar o en movimiento. Están disponibles en diferentes niveles codificados por colores de resistencia progresiva según el fabricante, lo que nos posibilita una  documentación fácil del progreso de un nivel al siguiente y ayuda al practicante a progresar a medida que se fortalece.',
-      price: 10,
-      stock: 50,
+      price: 100,
+      stock: 0,
     },
     {
       name: "Banda Circular",
       description:
         "La banda circular de Resistencia media es una opción similar a la Theraband pero con diferentes aplicaciones. Esta permite realizar ejercicios de fuerza sin necesidad de mantener el agarre ocupado en la misma",
       //lo que posibilita incluso usar dicho agarre en otros implementos superficies etc. Tambien tienen diferentes tamaños, colores y resistencias segun el fabricante',
-      price: 10,
+      price: 130,
       stock: 50,
     },
     {
       name: "Mancuerna engomada 5Kgs",
       description:
         "Par de Mancuernas circulares recubiertas de Neoprene de 5 Kgs",
-      price: 10,
+      price: 300,
       stock: 50,
     },
     {
@@ -236,28 +236,28 @@ function productsSeeder() {
       description:
         "La pesa rusa o kettlebell es una pesa tradicional que consiste de una bola de hierro fundido, semejante a una bala de cañón con un asa. Algunos modelos modernos se caracterizan por contar con pesos ajustables.",
       //Los entrenamientos con pesas rusas aumentan la fuerza, resistencia, agilidad y equilibrio, desafiando tanto la fuerza muscular como el sistema cardiovascular.',
-      price: 10,
+      price: 600,
       stock: 50,
     },
     {
       name: "Soga de salto con contador",
       description:
         "Soga para saltar con contador Digital, material PVC, de logitud 274 cm",
-      price: 10,
-      stock: 50,
+      price: 100,
+      stock: 0,
     },
     {
       name: "Mat Yoga/Pilates 6mm",
       description:
         "Yoga Mat Premium 6 mm colores a elección + Bolso Porta Mat NEGRO O CELESTE. Confeccionado con materiales de primera calidad Correa regulable para colgar del hombro.",
-      price: 10,
+      price: 410,
       stock: 50,
     },
     {
       name: "Mancuerna Engomada 15kg",
       description:
         "Mancuerna Hexagonal con recubrimiento de caucho y agarre cromado y corrugado para mejor sugesión.",
-      price: 10,
+      price: 310,
       stock: 50,
     },
     {
@@ -265,7 +265,7 @@ function productsSeeder() {
       description:
         'La "FITAGE GC-273" es una cinta segura, sólida, con un motor de potencia pico 4hpp preparado para correr a 16 km/h reales. 3 niveles de inclinación y diseño ergonómico. MODELO 2020 con Space Just Automático.',
       // MOTOR DC: 4.0 hpp. ANCHO DE BANDA: 42 cm. LARGO DE BANDA: 125 cm. INCLINACIÓN: Manual de 3 niveles. PESO MÁXIMO: 120 kg.'
-      price: 10,
+      price: 15000,
       stock: 50,
     },
     {
@@ -273,42 +273,42 @@ function productsSeeder() {
       description:
         "Las zapatillas Petra Vr conjugan el uso convencional de una zapatilla con la capacidad de aplicarse en una traba automatica de una bicicleta y es, sobre todo, muy elegida para spinning. Características principales: Talle: 38 (24 cm de plantilla).",
       //Exterior de material sintético de gran calidad traspirable. Cierre con cordones. Posibilidad de incorporar trabas de pedal. Suela de Vibram. Plantilla EVA. Peso aproximado: 405 gr (talles 39-42).',
-      price: 10,
+      price: 4700,
       stock: 50,
     },
     {
       name: "Steps superficie de goma",
       description:
         "Marca	GMP. Modelo	Profesional largo. Cantidad de steps para gimnasia 1. Otras características:  Altura 15 cm. Largo x Ancho: 110 cm x 37 cm. Con superficie antideslizante de caucho",
-      price: 10,
+      price: 960,
       stock: 50,
     },
     {
       name: "Banco plano reforzado",
       description:
         "Banco para pecho y abdominales caño reforzado color negro. Tapizado en vinil (color a elección)",
-      price: 10,
+      price: 2110,
       stock: 50,
     },
     {
       name: "Chaleco Running Kalenji",
       description:
         "Chaleco rompeviento running Kalenji by decathlon con capucha y Ventilacion. Tejido principal: 100% Poliéster, Tejido de la espalda: 100% Poliéster",
-      price: 10,
+      price: 1310,
       stock: 50,
     },
     {
       name: "Botella Termo 750ml",
       description:
         "Termo Erece original 750 ml acero inoxidable doble capa siliconado, modelo sport con cepillo de limpieza, posee gancho para colgarla donde prefieras. Viene en caja. Medida ideal para transportar. Engomado antideslizante.",
-      price: 10,
+      price: 710,
       stock: 50,
     },
     {
       name: "Bandas De Suspension, TRX",
       description:
         "Bandas de suspension profesional para gym fitness entrenamiento funcional etc... Excelente calidad. Incluye bolsa antitraspirante y adaptador para puerta.",
-      price: 10,
+      price: 830,
       stock: 50,
     },
   ]);

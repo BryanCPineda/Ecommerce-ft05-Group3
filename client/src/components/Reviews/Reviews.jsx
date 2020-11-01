@@ -2,14 +2,14 @@ import React from 'react';
 import './Reviews.css';
 import { connect } from 'react-redux';
 import { Container, Row, Col } from "react-bootstrap";
-import {oneStar, towStars, threeStars, fourStars, fiveStars} from './stars';
+import {oneStar, oneAndaHalfStar, towStars, towAndaHalfStars, threeStars, threeAndaHalfStars, fourStars, fourAndaHalfStars, fiveStars} from './stars';
 import {BsStarFill, BsStarHalf, BsStar} from 'react-icons/bs';
 import moment from "moment";
 
 function Review({reviews, oneStarReviews, twoStarsReviews, threeStarsReviews, fourStarsReviews, fiveStarsReviews}) {
 // var promedio = Math.floor(Math.random()*(5*10-1*10)+1*10)/(1*10); 
   
-  const DATE_FORMAT = "DD/MM/YYYY - HH:mm:ss";
+  const DATE_FORMAT = "DD/MM/YYYY - HH:mm";
   const totalReviews = 
     fiveStarsReviews+
     fourStarsReviews+
@@ -70,60 +70,44 @@ function Review({reviews, oneStarReviews, twoStarsReviews, threeStarsReviews, fo
             </div>
             <div>
               {
-                promedio===1 ? (
+                promedio==1 ? (
                   <div className='bigStars'>
                     {oneStar}
                   </div>
                 ) :
                   promedio<2 ? (
                     <div className='bigStars'>
-                    <BsStarFill/>
-                    <BsStarHalf/>
-                    <BsStar/>
-                    <BsStar/>
-                    <BsStar/>
+                      {oneAndaHalfStar}
                     </div>
                   ) :
-                    promedio===2 ? (
+                    promedio==2 ? (
                       <div className='bigStars'>
                         {towStars}
                       </div>
                     ) :
                       promedio<3 ? (
                       <div className='bigStars'>
-                        <BsStarFill/>
-                        <BsStarFill/>
-                        <BsStarHalf/>
-                        <BsStar/>
-                        <BsStar/>
+                        {towAndaHalfStars}
                       </div>
                       ) : 
-                        promedio===3 ? (
+                        promedio==3 ? (
                         <div className='bigStars'>
                           {threeStars}
                         </div>
                         ) : 
                           promedio<4 ? (
                             <div className='bigStars'>
-                            <BsStarFill/>
-                            <BsStarFill/>
-                            <BsStarFill/>
-                            <BsStarHalf/>
-                            <BsStar/>
+                              {threeAndaHalfStars}
                             </div>
                           ) : 
-                            promedio===4 ? (
+                            promedio==4 ? (
                               <div className='bigStars'>
                                 {fourStars}
                               </div>
                             ) : 
                               promedio<5 ? (
                                 <div className='bigStars'>
-                                <BsStarFill/>
-                                <BsStarFill/>
-                                <BsStarFill/>
-                                <BsStarFill/>
-                                <BsStarHalf/>
+                                  {fourAndaHalfStars}
                                 </div>
                               ) : 
                                 (
@@ -250,7 +234,10 @@ function Review({reviews, oneStarReviews, twoStarsReviews, threeStarsReviews, fo
                       <Col lg='4'><b>{moment(obj.date).format(DATE_FORMAT)}</b></Col>
                     </Row>
                     <Row>
-                      <Col lg='3'><b>{obj.name} {obj.lastname}</b></Col>
+                      <Col lg='3'>
+                        <b>{obj.name} </b>
+                        <b>{obj.lastname === obj.name ? '': obj.lastname}</b>
+                      </Col>
                       <Col lg='9'></Col>
                     </Row>
                     <hr/>
@@ -272,7 +259,10 @@ function Review({reviews, oneStarReviews, twoStarsReviews, threeStarsReviews, fo
                         <Col lg='4'><b>{moment(obj.date).format(DATE_FORMAT)}</b></Col>
                       </Row>
                       <Row>
-                        <Col lg='3'><b>{obj.name} {obj.lastname}</b></Col>
+                        <Col lg='3'>
+                          <b>{obj.name} </b>
+                          <b>{obj.lastname === obj.name ? '': obj.lastname}</b>
+                        </Col>
                         <Col lg='9'></Col>
                       </Row>
                       <hr/>
@@ -296,7 +286,10 @@ function Review({reviews, oneStarReviews, twoStarsReviews, threeStarsReviews, fo
                           <Col lg='4'><b>{moment(obj.date).format(DATE_FORMAT)}</b></Col>
                         </Row>
                         <Row>
-                          <Col lg='3'><b>{obj.name} {obj.lastname}</b></Col>
+                          <Col lg='3'>
+                            <b>{obj.name} </b>
+                            <b>{obj.lastname === obj.name ? '': obj.lastname}</b>
+                          </Col>
                           <Col lg='9'></Col>
                         </Row>
                         <hr/>
@@ -320,7 +313,10 @@ function Review({reviews, oneStarReviews, twoStarsReviews, threeStarsReviews, fo
                             <Col lg='4'><b>{moment(obj.date).format(DATE_FORMAT)}</b></Col>
                           </Row>
                           <Row>
-                            <Col lg='3'><b>{obj.name} {obj.lastname}</b></Col>
+                            <Col lg='3'>
+                              <b>{obj.name} </b>
+                              <b>{obj.lastname === obj.name ? '': obj.lastname}</b>
+                            </Col>
                             <Col lg='9'></Col>
                           </Row>
                           <hr/>
@@ -344,7 +340,10 @@ function Review({reviews, oneStarReviews, twoStarsReviews, threeStarsReviews, fo
                               <Col lg='4'><b>{moment(obj.date).format(DATE_FORMAT)}</b></Col>
                             </Row>
                             <Row>
-                              <Col lg='3'><b>{obj.name} {obj.lastname}</b></Col>
+                              <Col lg='3'>
+                                <b>{obj.name} </b>
+                                <b>{obj.lastname === obj.name ? '': obj.lastname}</b>
+                              </Col>
                               <Col lg='9'></Col>
                             </Row>
                             <hr/>

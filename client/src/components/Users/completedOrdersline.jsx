@@ -61,7 +61,7 @@ const CompletedOrderline = ({ getUserReviews, userReviews, getCompletedOrderline
       <Container className="mt-5">
         <h3 style={{color: 'black'}}>Shopping History</h3>
         <div className="table-responsive">
-          <Table striped hover variant='dark' style={{borderRadius: '30px', textAlign: 'center'}}>
+          <Table striped borderless hover variant='dark' style={{borderRadius: '30px', textAlign: 'center'}}>
             <thead>
               <tr>
                 <th scope="col"><h4>Products ({orderlines.count})</h4></th>
@@ -74,7 +74,6 @@ const CompletedOrderline = ({ getUserReviews, userReviews, getCompletedOrderline
             </thead>
             <tbody>
               {myTable && myTable.map((row, index)=>{
-                  console.log('MAP ', row.reviewid)
                 return (
                   <tr>
                       <td>
@@ -106,6 +105,7 @@ const CompletedOrderline = ({ getUserReviews, userReviews, getCompletedOrderline
                             productId={row.id} 
                             idUser={idUser} 
                             reviewQualification={row.qualification}
+                            productName={row.name}
                           />}
                         </span>
                         <span>{
@@ -113,6 +113,7 @@ const CompletedOrderline = ({ getUserReviews, userReviews, getCompletedOrderline
                             reviewid={row.reviewid} 
                             reviewQualification={row.qualification}
                             reviewDescription={row.description}
+                            productName={row.name}
                           />}
                         </span>
                       </div>

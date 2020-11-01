@@ -22,6 +22,7 @@ function AddReview({
   productId,
   idUser,
   reviewQualification,
+  productName
 }) {
   const [show, setShow] = useState(false);
   const [stars, setStars] = useState(0);
@@ -92,6 +93,7 @@ function AddReview({
     half: false,
   };
   let qualification = reviewQualification && reviewQualification;
+  const productNames = productName && productName;
 
   return (
     <React.Fragment>
@@ -137,7 +139,7 @@ function AddReview({
           closeButton={true}
           closeLabel={"Close"}
         >
-          <Modal.Title>Product review</Modal.Title>
+          <Modal.Title>Add a review to <br/>{productNames}</Modal.Title>
         </Modal.Header>
         <Modal.Body style={{ textAlign: "center" }}>
           <h4>Rate your product.</h4>

@@ -7,10 +7,10 @@ import {oneStar, towStars, threeStars, fourStars, fiveStars} from './stars';
 import swal from 'sweetalert';
 
 
-function ReviewCard({reviewDescription, reviewid, reviewQualification, deleteReview}) {
+function ReviewCard({reviewDescription, reviewid, reviewQualification, deleteReview, productName}) {
   const[show, setShow] = useState(false);
   const id = reviewid;
-  console.log('reviewid', id)
+  const productNames = productName && productName;
   
   const handleOnDelete = (e) => {
     swal({
@@ -78,7 +78,7 @@ function ReviewCard({reviewDescription, reviewid, reviewQualification, deleteRev
           closeButton={true} 
           closeLabel={'Close'}
         >
-          <Modal.Title>Your products review</Modal.Title>
+          <Modal.Title>{productNames}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
         <h5>Qualification</h5>
@@ -106,7 +106,8 @@ function ReviewCard({reviewDescription, reviewid, reviewQualification, deleteRev
                   reviewDescription={reviewDescription}
                   reviewQualification={reviewQualification}
                   reviewid={id}
-                />
+                  productName={productNames}
+                  />
               </Col>
               <Col lg='3'>
                 <Button 
