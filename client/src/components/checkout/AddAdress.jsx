@@ -2,18 +2,32 @@ import React, {useState} from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
+import Input from '@material-ui/core/Input';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import { IoMdSend } from "react-icons/io";
+
+import { useForm } from "react-hook-form";
 
 import { connect } from "react-redux";
 import { useEffect } from 'react';
+import { Button } from 'react-bootstrap';
 
- function AddressForm({user}) {
+ function AddressForm({user, handleBan}) {
+
+  console.log('ban in adress', handleBan)
+
+  const { register, errors, handleSubmit } = useForm({
+    mode: "onChange"
+  });
+  const onSubmit = () => {
+    handleBan(false)
+  };
 
   const [state, setState] = useState(JSON.parse(localStorage.getItem('adress')))
 
   const handleChange = (e) => {
-
+    e.preventDefault();
     setState({ ...state,
       [e.target.name]: e.target.value})
     }
@@ -33,9 +47,11 @@ import { useEffect } from 'react';
       <Typography variant="h6" gutterBottom>
         Shipping address
       </Typography>
+      <form onSubmit={handleSubmit(onSubmit)}>
       <Grid container spacing={3}>
         <Grid item xs={12} sm={6}>
           <TextField
+            required
             id="name"
             name="name"
             defaultValue={state ? state.name : user && user.name}
@@ -43,7 +59,11 @@ import { useEffect } from 'react';
             autoComplete='Name'
             fullWidth
             onChange={handleChange}
+            ref={register({
+              required: "this is a required",
+            })}
           />
+          {errors.firstName && <p>{errors.firstName.message}</p>}
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
@@ -63,7 +83,7 @@ import { useEffect } from 'react';
             id="address1"
             name="address1"
             defaultValue={state ? state.address1 : ''}
-            helperText="Adress"
+            helperText="Address"
             fullWidth
             autoComplete="shipping address-line1" 
             onChange={handleChange}
@@ -82,7 +102,11 @@ import { useEffect } from 'react';
           />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <TextField id="state" name="state" helperText="State/Province/Region" fullWidth />
+          <TextField 
+          required
+          id="state" name="state" helperText="State/Province/Region" 
+          defaultValue={state ? state.state : ''}
+          fullWidth onChange={handleChange} />
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
@@ -109,12 +133,12 @@ import { useEffect } from 'react';
           />
         </Grid>
         <Grid item xs={12}>
-          <FormControlLabel
-            control={<Checkbox color="secondary" name="saveAddress" value="yes" />}
-            label="Use this address for payment details"
-          />
         </Grid>
       </Grid>
+      <Button className='boton'>
+         <Input value='Send' type="submit" disableUnderline={true} />    <IoMdSend />
+      </Button>
+      </form>
     </React.Fragment>
   );
 }
