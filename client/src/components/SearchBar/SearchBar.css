@@ -42,7 +42,8 @@
     width: 200px;
     height: 15px;
     color: white;
-    background-color: transparent;   
+    background-color:  #a046f0;   
+    box-shadow: inset 2px 2px 5px 0px rgb(53, 49, 56);
 }
 .claseform {
     display: inline-flex;
