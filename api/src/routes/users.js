@@ -119,7 +119,7 @@ server.post(
     } else {
       /******HASTA AQUI SE CREA UN NUEVO USUARIO EN LA DB CON LOS DATOS DE GOOGLE, O SE BUSCA Y SE RETORNA CON UN JWT *******/
       try {
-        const { name, lastname, email, password } = req.body;
+        const { name, lastname, email, password, usertype } = req.body;
 
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -139,6 +139,7 @@ server.post(
           lastname,
           email,
           password,
+          usertype,
         });
 
         const salt = await bcrypt.genSalt(10);
