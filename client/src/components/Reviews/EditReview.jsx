@@ -40,7 +40,11 @@ function EditReview({editReview, productName, reviewid, reviewDescription }, ) {
         icon: "success",
       })
       setShow(false);
+      setTimeout(() => {
+        window.location.reload()
+      }, 1000);
     }
+    
   }
   function validateForm(){
     setErr({starsErr:"",  descriptionErr:""});
@@ -54,9 +58,9 @@ function EditReview({editReview, productName, reviewid, reviewDescription }, ) {
     if(description.length == ""){
       descriptionNullErr = " Description can not be empty";
     }
-    if(description.length < 20){
-      descriptionShortErr = (<p> Please be more verbose ;)<br/> At least 20 characters</p>);
-    }
+    // if(description.length < 20){
+    //   descriptionShortErr = (<p> Please be more verbose ;)<br/> At least 20 characters</p>);
+    // }
     if(starsErr || descriptionShortErr || descriptionNullErr) {
       setErr({ starsErr, descriptionShortErr, descriptionNullErr });
       return false;

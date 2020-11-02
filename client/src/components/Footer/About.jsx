@@ -16,8 +16,8 @@ const About = () => {
             </h4>
           </div>
 
-          <Row>
-             <Col className="mr-auto" md="2" sm="3">
+          <Row >
+             <Col className="mr-auto" style={{marginLeft: '110px'}} md="2" sm="3">
               <h4 className="title-1">Santiago Barrios</h4>
               <img
                 alt="..."
@@ -27,16 +27,16 @@ const About = () => {
               <p className="title-1">
               </p>
             </Col>
-            <Col className="mr-auto" md="2" sm="3">
+            <Col className="mr-auto" style={{marginLeft: '110px'}} md="2" sm="3">
               <h4 className="title-1">Matias Funes</h4>
               <img
                 alt="..."
                 className="img-circle img-responsive"
                 src={"/images/about/mati.jpeg"}
               />
-              <p className="title-1">console.log("acaaaaa", res.data)<br></br>console.log("soy el bodyyyyy", req.body)</p>
+              <p className="title-1"></p>
             </Col>
-            <Col className="mr-auto" md="2" sm="3">
+            <Col className="mr-auto" style={{marginLeft: '110px'}} md="2" sm="3">
               <h4 className="title-1">Cinthia Pardos</h4>
               <img
                 alt="..."
@@ -46,8 +46,8 @@ const About = () => {
               <p className="title-1"></p>
             </Col>
           </Row>
-          <Row>
-            <Col className="mr-auto" md="2" sm="3">
+          <Row className="pb-5">
+            <Col className="mr-auto" style={{marginLeft: '110px'}} md="2" sm="3">
               <h4 className="title-1">Bryan Pineda</h4>
               <img
                 alt="..."
@@ -56,7 +56,7 @@ const About = () => {
               />
               <p className="title-1"></p>
             </Col>
-            <Col className="mr-auto" md="2" sm="3">
+            <Col className="mr-auto" style={{marginLeft: '110px'}} md="2" sm="3">
               <h4 className="title-1">Veronica Valdez</h4>
               <img
                 alt="..."
@@ -65,7 +65,7 @@ const About = () => {
               />
               <p className="title-1"></p>
             </Col>
-            <Col className="mr-auto" md="2" sm="3">
+            <Col className="mr-auto" style={{marginLeft: '110px'}} md="2" sm="3">
               <h4 className="title-1">Lianel Artiles </h4>
               <img
                 alt="..."
