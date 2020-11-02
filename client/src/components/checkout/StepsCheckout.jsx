@@ -15,12 +15,10 @@ import Review from "./Review";
 import swal from 'sweetalert'
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
-import {sendPurchase} from './../../actions/sendEmail'
-import {
-  cambioEstadoCarrito,
-  getProductsForCheckout
-} from "../../actions/order";
+import {sendPurchase} from './../../actions/sendEmail';
 import { updateOrder } from '../../actions/orders';
+import {cambioEstadoCarrito,getProductsForCheckout} from "../../actions/order";
+
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -82,11 +80,14 @@ function Checkout({ sendPurchase, user, getProductsForCheckout, cambioEstadoCarr
 const handleBan = (ban) => {
   setBandera(ban)
 }
+
+// ------------------redireccionar --------------
+const [stateRedirect, setRedirect] = useState({ redirect: null })
+// ------------------redireccionar --------------
   
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
 
-  const [stateRedirect, setRedirect] = useState({ redirect: null })
 
   useEffect(()=>{ 
     if(user){
@@ -156,6 +157,10 @@ const handleBan = (ban) => {
     setRedirect({ redirect: "/user/catalogo" })
   }
 
+  const handleClick = () => {
+    setRedirect({ redirect: "/user/catalogo" });
+  }
+
   const handleBack = () => {
     setActiveStep(activeStep - 1);
   };
@@ -163,6 +168,7 @@ const handleBan = (ban) => {
   if (stateRedirect.redirect) {
     return <Redirect to={stateRedirect.redirect} />
   }
+
 
   return (
     <React.Fragment>
@@ -187,6 +193,9 @@ const handleBan = (ban) => {
                   confirmation, and will send you an update when your order has
                   shipped.
                 </Typography>
+                <Button className='boton' style={{backgroundColor: '#8a2be2', color: 'white' }} onClick={handleClick}>
+                  Thank you, go back to home!
+                </Button>
               </React.Fragment>
             ) : (
               <React.Fragment>

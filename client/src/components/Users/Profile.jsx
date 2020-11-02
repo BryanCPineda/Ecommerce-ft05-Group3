@@ -128,6 +128,8 @@ const UserProfile = ({
     }
     resetPassword(pass1);
     swal("Success!", "Password changed!", "success");
+    e.preventDefault();
+    handleClose()
   };
 
   const handleClose = () => {

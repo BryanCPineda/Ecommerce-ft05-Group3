@@ -13,12 +13,18 @@
   text-decoration: none;
   text-align: left;
   width: fit-content;
-  color: aliceblue;
+  color: white;
 }
+.nav-link:hover {
+  text-decoration: none;
+  text-align: left;
+  width: fit-content;
+  color: white;
+}
+
 th{
   color: rgb(180, 130, 238);
 }
-<<<<<<< HEAD
 
 .profileFont {
   font-family: 'Roboto';

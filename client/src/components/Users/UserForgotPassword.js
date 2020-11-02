@@ -86,7 +86,7 @@ if (stateRedirect.redirect) {
      <Container style={{marginTop: '-300px', width: '600px', height: '200px', backgroundColor: 'white'}} className="d-flex justify-content-center">
        <div style={{width: '400px'}}>
          <Form.Group>
-                <Form.Label className="pt-5" style={{fontSize: '20px'}}>Please Whrite your Email </Form.Label>
+                <Form.Label className="pt-5" style={{fontSize: '20px'}}>Please Write your Email </Form.Label>
                 <Form.Control
                     onChange={(e) => onChange(e)}
                     autoComplete="off"

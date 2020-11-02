@@ -27,6 +27,6 @@ router.use("/auth", authRouter);
 router.use("/reviews", reviewRouter);
 router.use("/gitHub", gitHub); //se habilitan las rutas de github
 router.use("/sendEmail", sendEmail);
-// router.use("/twitter", twit_auth);
+router.use("/twitter", twit_auth);
 
 module.exports = router;

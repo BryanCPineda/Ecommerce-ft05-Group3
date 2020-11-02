@@ -63,7 +63,7 @@ console.log("ahora el total es", total);
 const logueado = isAuthenticated
 const [cantidad, setCantidad] = useState(0)
 let inicioCart = JSON.parse(localStorage.getItem('carrito'))
-// console.log('inicio',inicioCart)
+
 let itemsCart = []
 inicioCart && inicioCart.map(item =>{
         let product = {
@@ -135,6 +135,7 @@ useEffect(()=>{
 /***********************CALCULO DEL PRECIO POR MEDIO DE LAS ORDER LINE******************************** */
 
 
+//-------------------------- este codigo hace el vuelco del carrito del guest en la base de datos ------/
 useEffect(()=>{
   if (isAuthenticated) {
     if(!localStorage.getItem("carrito")) {
@@ -150,13 +151,15 @@ useEffect(()=>{
   })
     }).then(() => {
       localStorage.setItem('carrito',JSON.stringify([]))
-      setTotal(totalCostStorage)
+      // setTotal(totalCostStorage)
         reloadCart()
   })
     
   }
   
     },[isAuthenticated])
+//-------------------------- este codigo hace el vuelco del carrito del guest en la base de datos ------/
+  
   //----------chequear que exista el carrito de guest cuando se loguea
   useEffect(()=>{ 
     if(user){
@@ -172,15 +175,6 @@ useEffect(()=>{
     }
   },[user, reload]) 
 
-// useEffect(() => {
-//   if(user) {   
-//     getOrder(user.id)
-//     setState({
-//     products: order.product
-//     })
-//   }
-  
-// }, [])
 
 const quantityChange = (e, id) =>{
   let cantCambiada = e
@@ -427,6 +421,7 @@ if (stateRedirect.redirect) {
 
           <Row className="mx-3 text-center">
             <Col xs={6} className="text-center bg-light p-3 ml-auto">
+            {isAuthenticated ? 
               <h4 className="mb-4 " style={{color: 'black'}}>
               Total:
               <NumberFormat
@@ -438,6 +433,20 @@ if (stateRedirect.redirect) {
                 displayType={"text"}
               />
               </h4>
+              :
+              <h4 className="mb-4 " style={{color: 'black'}}>
+              Total:
+              <NumberFormat
+                prefix=" $"
+                style={{color: 'black'}}
+                value={localStorage.getItem('totalCost')}
+                decimalScale={2}
+                fixedDecimalScale={true}
+                displayType={"text"}
+              />
+              </h4>
+            }
+              
               <Button
                 className="btn btn-dark boton"
                 onClick={handleFinCompra}
