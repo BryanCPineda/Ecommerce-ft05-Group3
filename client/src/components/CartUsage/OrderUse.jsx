@@ -53,7 +53,7 @@ function OrderUse(prod) {
                   </Col>
                   <Col xs={6} md={3} className="mb-3 text-center">
                     {console.log('stock------', prod.orderline.stock, 'cantidad------', prod.orderline.orderline.quantity)}
-                  <NumericInput style={{color: 'black'}} className={'numberformat'} min={0} max={50} value={
+                  <NumericInput style={{color: 'black'}} className={'numberformat'} min={1} max={50} value={
                     prod.logueado?
                     prod.orderline.orderline.quantity: state.cantidad
                     } onChange={value => handleCant(value)}/>
