@@ -12,7 +12,7 @@ const About = () => {
           <div className="title">
             <h2 className="title-1">About us</h2>
             <h4 className="title-1">
-              Henry's ecommerce group 3 members.
+              Henry's ecommerce Group 03 members.
             </h4>
           </div>
 
@@ -24,7 +24,7 @@ const About = () => {
                 className="img-circle img-responsive"
                 src={"/images/about/santi.jpeg"}
               />
-              <p className="title-1">
+              <p className="title-1">Licenciado en Psicologia<br></br>Profesor de Yoga<br></br>
               </p>
             </Col>
             <Col className="mr-auto" md="2" sm="3">
@@ -34,7 +34,7 @@ const About = () => {
                 className="img-circle img-responsive"
                 src={"/images/about/mati.jpeg"}
               />
-              <p className="title-1">console.log("acaaaaa", res.data)<br></br>console.log("soy el bodyyyyy", req.body)</p>
+              <p className="title-1">Ingeniero Industrial<br></br><br></br></p>
             </Col>
             <Col className="mr-auto" md="2" sm="3">
               <h4 className="title-1">Cinthia Pardos</h4>
@@ -43,7 +43,7 @@ const About = () => {
                 className="img-circle img-responsive"
                 src={"/images/about/cin.jpg"}
               />
-              <p className="title-1"></p>
+              <p className="title-1">Abogada<br></br>Docente<br></br>Bibliotecaria</p>
             </Col>
           </Row>
           <Row>
@@ -54,7 +54,7 @@ const About = () => {
                 className="img-circle img-responsive"
                 src={"/images/about/bryan.jpeg"}
               />
-              <p className="title-1"></p>
+              <p className="title-1">Profesor Universitario<br></br><br></br></p>
             </Col>
             <Col className="mr-auto" md="2" sm="3">
               <h4 className="title-1">Veronica Valdez</h4>
@@ -63,7 +63,7 @@ const About = () => {
                 className="img-circle img-responsive"
                 src={"/images/about/index.jpeg"}
               />
-              <p className="title-1"></p>
+              <p className="title-1">Docente</p>
             </Col>
             <Col className="mr-auto" md="2" sm="3">
               <h4 className="title-1">Lianel Artiles </h4>
@@ -72,7 +72,7 @@ const About = () => {
                 className="img-circle img-responsive"
                 src={"/images/about/lia.jpeg"}
               />
-              <p className="title-1"></p>
+              <p className="title-1">Entrenador Fisico<br></br>Masoterapeuta</p>
             </Col>
           </Row>
         </Container>

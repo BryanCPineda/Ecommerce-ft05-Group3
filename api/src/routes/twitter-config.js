@@ -6,8 +6,8 @@ require("dotenv").config();
 passport.use(
   new TwitterStrategy(
     {
-      consumerKey: process.env.TWIT_ID,
-      consumerSecret: process.env.TWIT_SECRET,
+      consumerKey: 'process.env.TWIT_ID',
+      consumerSecret: 'process.env.TWIT_SECRET',
       callbackURL: "http://localhost:4000/twitter/callback",
       includeEmail: true,
     },
