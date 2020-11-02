@@ -42,6 +42,8 @@ import { Button } from 'react-bootstrap';
     addLocalStorage()
   }, [state])
 
+  console.log(state)
+
   return (
     <React.Fragment>
       <Typography variant="h6" gutterBottom>

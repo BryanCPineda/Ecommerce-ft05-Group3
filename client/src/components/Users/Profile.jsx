@@ -67,15 +67,14 @@ const UserProfile = ({
     });
   };
 
+
   useEffect(() => {
-    if (user) {
-      showCompletedOrders(user.id);
-    }
-  }, []);
+    showCompletedOrders(userId);
+  }, [user]);
 
   useEffect(() => {
     getImageOfUser(userId);
-  }, []);
+  }, [user]);
 
   const handleCloseImg = () => setShow(false);
   const handleShowImg = () => setShow(true);
@@ -129,6 +128,8 @@ const UserProfile = ({
     }
     resetPassword(pass1);
     swal("Success!", "Password changed!", "success");
+    e.preventDefault();
+    handleClose()
   };
 
   const handleClose = () => {
@@ -152,9 +153,10 @@ const UserProfile = ({
       <div className="d-flex justify-content-center" style={{ color: "white" }}>
         <div
           className="flex-orders d-flex flex-column"
-          style={{ marginTop: "-350px" }}
+          style={{ marginTop: "-350px", backgroundColor: 'white', width: '500px' }}
         >
-          <p className="textShadow" style={{ color: "white", fontSize: "40px", fontStyle: "italic" }}>
+
+          <p className="textShadow" style={{ color: "black", fontSize: "40px" }}>
             Personal information:
           </p>
           <br></br>
@@ -178,6 +180,7 @@ const UserProfile = ({
                 color: "white",
                 border: "none",
               }}
+              className="mr-5"
               onClick={handleShowImg}
             >
               Add photo +

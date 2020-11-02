@@ -22,24 +22,25 @@ const useStyles = makeStyles((theme) => ({
 const Review = ({ user, cart, total }) => {
   const classes = useStyles();
 
-  const payment = JSON.parse(localStorage.getItem("payment"));
-  const client = JSON.parse(localStorage.getItem("adress"));
-
-  const cardNumber = payment[1].slice(payment[1].length - 4, payment[1].length);
-  console.log(cardNumber);
-  const products = cart.product.map((ele) => {
-    return (ele = {
-      name: ele.name,
-      price: `$ ${ele.price}`,
-    });
-  });
+  const payment = JSON.parse(localStorage.getItem('payment'))
+  const client = JSON.parse(localStorage.getItem('adress'))
+  
+  const cardNumber = payment[1].slice(payment[1].length - 4, payment[1].length)
+  console.log(cardNumber)
+  const products = 
+    cart.product && cart.product.map(ele => {
+      return ele = {
+        name: ele.name,
+        price: `$ ${ele.orderline.quantity * ele.price}`,
+        quantity: ele.orderline.quantity
+      }
+    })
 
   const addresses = client
     ? [client.address1, client.city, client.zip, client.country]
     : "";
   const payments = [
     { name: "Card type", detail: payment[0] },
-    { name: "Card holder", detail: `${user.name} ${user.lastname}` },
     { name: "Card number", detail: `xxxx-xxxx-xxxx-${cardNumber}` },
     { name: "Expiry date", detail: payment[2] },
   ];
@@ -52,6 +53,7 @@ const Review = ({ user, cart, total }) => {
       <List disablePadding>
         {products.map((product) => (
           <ListItem className={classes.listItem} key={product.name}>
+            <ListItemText primary={product.quantity} />
             <ListItemText primary={product.name} secondary={product.desc} />
             <Typography variant="body2">{product.price}</Typography>
           </ListItem>

@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
 .image-profile {
     position: relative;
     left: 100px;
@@ -11,18 +13,37 @@
   text-decoration: none;
   text-align: left;
   width: fit-content;
-  color: aliceblue;
+  color: white;
 }
+.nav-link:hover {
+  text-decoration: none;
+  text-align: left;
+  width: fit-content;
+  color: white;
+}
+
 th{
   color: rgb(180, 130, 238);
+}
+
+.profileFont {
+  font-family: 'Roboto';
+  font-weight: lighter;
+  color: black;
+  font-size: 40px;
+} 
+
+.content-profile-names {
+  font-family: 'Roboto';
+  font-weight: lighter;
+  color: black;
+  font-size: 20px;
 }
 .History{
   color: rgb(106, 53, 167);
   text-shadow: 1.5px 1.5px rgb(53, 49, 56);
 }
 .textShadow {
-  text-shadow: 3px 3px rgb(53, 49, 56);
 }
 Button{
-  box-shadow: 3px 3px 8px -2px rgb(53, 49, 56);
 }

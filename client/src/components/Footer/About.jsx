@@ -2,12 +2,11 @@ import React from "react";
 import "./About.css";
 
 // reactstrap components
-import { Container, Row, Col } from "reactstrap";
+import { Container, Row, Col } from "react-bootstrap";
 
 const About = () => {
   return (
     <Container className="container-about-use">
-      <Col xs={2}></Col>
       <div id="about">
         <Container>
           <div className="title">
@@ -16,6 +15,7 @@ const About = () => {
               Henry's ecommerce group 3 members.
             </h4>
           </div>
+
           <Row>
              <Col className="mr-auto" md="2" sm="3">
               <h4 className="title-1">Santiago Barrios</h4>
@@ -34,7 +34,7 @@ const About = () => {
                 className="img-circle img-responsive"
                 src={"/images/about/mati.jpeg"}
               />
-              <p className="title-1"></p>
+              <p className="title-1">console.log("acaaaaa", res.data)<br></br>console.log("soy el bodyyyyy", req.body)</p>
             </Col>
             <Col className="mr-auto" md="2" sm="3">
               <h4 className="title-1">Cinthia Pardos</h4>
@@ -77,7 +77,6 @@ const About = () => {
           </Row>
         </Container>
       </div>
-      <Col xs={2}></Col>
     </Container>
   );
 };

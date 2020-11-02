@@ -14,12 +14,11 @@ import Payment from "./Payment";
 import Review from "./Review";
 import swal from 'sweetalert'
 import { connect } from "react-redux";
-import {sendPurchase} from './../../actions/sendEmail'
 import { Redirect } from "react-router-dom";
-import {
-  cambioEstadoCarrito,
-  getProductsForCheckout
-} from "../../actions/order";
+import {sendPurchase} from './../../actions/sendEmail';
+import { updateOrder } from '../../actions/orders';
+import {cambioEstadoCarrito,getProductsForCheckout} from "../../actions/order";
+
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -74,7 +73,7 @@ function getStepContent(step, handleBan) {
   }
 }
 
-function Checkout({sendPurchase, user, getProductsForCheckout, cambioEstadoCarrito,cart}) {
+function Checkout({ sendPurchase, user, getProductsForCheckout, cambioEstadoCarrito, cart, updateOrder, orderId }) {
 
   const [bandera, setBandera] = useState(true)
 
@@ -86,9 +85,9 @@ const handleBan = (ban) => {
 const [stateRedirect, setRedirect] = useState({ redirect: null })
 // ------------------redireccionar --------------
   
-
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
+
 
   useEffect(()=>{ 
     if(user){
@@ -142,12 +141,21 @@ const [stateRedirect, setRedirect] = useState({ redirect: null })
         icon: "success",
       }).then(() => {
       sendPurchase(userSend, info)
-      // localStorage.clear()
+        localStorage.removeItem('adress')
+
     }
       ) 
-    
   }
   };
+
+  const handleCancelOrder = () => {
+    let state = {
+      status: 'Canceled',
+      orderId: orderId
+    }
+    updateOrder(state)
+    setRedirect({ redirect: "/user/catalogo" })
+  }
 
   const handleClick = () => {
     setRedirect({ redirect: "/user/catalogo" });
@@ -157,10 +165,9 @@ const [stateRedirect, setRedirect] = useState({ redirect: null })
     setActiveStep(activeStep - 1);
   };
 
-  
-    if (stateRedirect.redirect) {
-      return <Redirect to={stateRedirect.redirect} />
-    }
+  if (stateRedirect.redirect) {
+    return <Redirect to={stateRedirect.redirect} />
+  }
 
 
   return (
@@ -186,19 +193,23 @@ const [stateRedirect, setRedirect] = useState({ redirect: null })
                   confirmation, and will send you an update when your order has
                   shipped.
                 </Typography>
-                <Button className='boton' onClick={handleClick}>
-                  Thank you!!
+                <Button className='boton' style={{backgroundColor: '#8a2be2', color: 'white' }} onClick={handleClick}>
+                  Thank you, go back to home!
                 </Button>
               </React.Fragment>
             ) : (
               <React.Fragment>
+
                 {getStepContent(activeStep, handleBan)}
                 <div className={classes.buttons}>
+                <Button onClick={handleCancelOrder} className={classes.button}
+                 style={{marginRight: '460px', backgroundColor: '#8a2be2', color: 'white', width: '80px', height: '50px'}}>Cancel Order</Button>
                   {activeStep !== 0 && (
-                    <Button onClick={handleBack} className={classes.button}>
+                    <Button onClick={handleBack} style={{color: 'white'}} className={classes.button}>
                       Back
                     </Button>
                   )}
+                  
                   <Button
                     variant="contained"
                     color="primary"
@@ -223,6 +234,7 @@ function mapStateToProps(state) {
   return {
     user: state.userReducer.user,
     cart: state.orderReducer.cartProducts,
+    orderId: state.orderReducer.cartProducts.orderId
   };
 }
 
@@ -231,6 +243,7 @@ function mapDispatchToProps(dispatch) {
     sendPurchase: (user, info) => dispatch(sendPurchase(user, info)),
     getProductsForCheckout: (idUser) => dispatch(getProductsForCheckout(idUser)),
     cambioEstadoCarrito: (id, status, totalPrice) => dispatch(cambioEstadoCarrito(id, status, totalPrice)),
+    updateOrder: (state) => dispatch(updateOrder(state))
   };
 }
 

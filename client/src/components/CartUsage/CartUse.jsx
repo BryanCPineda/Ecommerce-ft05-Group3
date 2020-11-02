@@ -45,7 +45,7 @@ const Cart = ({order,
   addProductToCart,
   addProductToCartOrder,
   addProductToCartOrderline,
-  isAuthenticated
+  isAuthenticated,
 }) => {
     
 
@@ -110,10 +110,18 @@ let totalCost = 0;
 
 /***********************CALCULO DEL PRECIO POR MEDIO DE LAS ORDER LINE******************************** */
 const token = localStorage.getItem("token")
+
+const userId = user && user.id
+
+const totalCostStorage = localStorage.getItem('totalCost')
+
+useEffect(() => {
+  getProductsFromCart(userId)
+}, [user])
+
  
 useEffect(()=>{ 
-  if(user){
-  getProductsFromCart(user.id).then( ()=>{
+  getProductsFromCart(userId).then( ()=>{
     let totalCost2 = 0;
       cartProducts.orderlines && cartProducts.orderlines.map(e => {
           totalCost2 = totalCost2 +  (e.price * e.quantity) 
@@ -122,10 +130,10 @@ useEffect(()=>{
         ...state,
         total: totalCost2})
       })
-  }
-},[reload]) 
+},[reload, user]) 
 
 /***********************CALCULO DEL PRECIO POR MEDIO DE LAS ORDER LINE******************************** */
+
 
 //-------------------------- este codigo hace el vuelco del carrito del guest en la base de datos ------/
 useEffect(()=>{
@@ -141,7 +149,9 @@ useEffect(()=>{
       }
       addProductToCartOrderline (user.id, body).then(() =>  reloadCart())
   })
-    }).then(() => {localStorage.setItem('carrito',JSON.stringify([]))
+    }).then(() => {
+      localStorage.setItem('carrito',JSON.stringify([]))
+      // setTotal(totalCostStorage)
         reloadCart()
   })
     
@@ -197,12 +207,13 @@ const quantityChange = (e, id) =>{
       ...state,
       total: totalCost
     })
-
+    localStorage.setItem("totalCost", JSON.stringify(totalCost))
     return
   }
   let updateProd = {}
   let diferencia = 0
   prod = cartProducts.product
+
   prod ? prod.forEach( e => {
     if (e.orderline.id === id){
        if(cantCambiada === e.orderline.quantity) return;
@@ -228,7 +239,6 @@ const quantityChange = (e, id) =>{
     products: prod,
     total: totalCost
   })
-
 }
 
 
@@ -300,7 +310,9 @@ const handleVaciarCarrito = () =>{
     if (willDelete) {
       if (!logueado){
         itemsCart =[]
-        localStorage.setItem('carrito',JSON.stringify([]))
+        localStorage.removeItem('carrito')
+        localStorage.removeItem('totalCost')
+        // localStorage.setItem('carrito',JSON.stringify([]))
         setRedirect({ redirect: "/user/catalogo" });
       } else {
         vaciarCarrito(user.id)
@@ -326,10 +338,7 @@ if (stateRedirect.redirect) {
     
 
   return (
-    <Row>
-      <Col xs={2}></Col>
-      <Col>
-        <Container className="container-cart-use">
+        <Container className="container-cart-use" style={{width: '1300px'}}>
           <Row className="m-3 d-none d-md-block cart-text ">
             <Col className=" text-center py-2" style={{ color: "white" }}>
               My Cart <IoIosCart />
@@ -339,10 +348,10 @@ if (stateRedirect.redirect) {
             <Col>
               <Col>
                 <Row>
-                  <Col xs={6} md={4} className="text-center number" style={{color: 'white'}}>
-                    <span className="h6">Products</span>
+                  <Col xs={6} md={4} className="text-center number products-checkout" style={{color: 'white'}}>
+                    <span className="h6" style={{marginLeft: '100px'}}>Products</span>
                   </Col>
-                  <Col xs={6} md={3} className="text-left ml-2 number" style={{color: 'white'}}>
+                  <Col xs={6} md={3} className="text-left ml-2 number " style={{color: 'white', marginLeft: '500px'}}>
                     <span className="h6">Quantity</span>
                   </Col>
                   <Col className="text-center number" style={{color: 'white'}}>
@@ -395,12 +404,12 @@ if (stateRedirect.redirect) {
                     ))
                   ) : (
                     <div>
-                      <p>
+                      <p style={{color: 'black'}}>
                         <img
                           src="../images/shopping_Sad-512.png"
                           alt="sad cart"
                         ></img>
-                        <h3> Your cart is empty!</h3> <br></br> Add something to
+                        <h3 style={{color: 'black'}}> Your cart is empty!</h3> <br></br> Add something to
                         make me happy :)
                       </p>
                     </div>
@@ -412,16 +421,32 @@ if (stateRedirect.redirect) {
 
           <Row className="mx-3 text-center">
             <Col xs={6} className="text-center bg-light p-3 ml-auto">
-              <h4 className="mb-4 ">
-                Total:
-                <NumberFormat
-                  prefix=" $"
-                  value={state.total}
-                  decimalScale={2}
-                  fixedDecimalScale={true}
-                  displayType={"text"}
-                />
+            {isAuthenticated ? 
+              <h4 className="mb-4 " style={{color: 'black'}}>
+              Total:
+              <NumberFormat
+                prefix=" $"
+                style={{color: 'black'}}
+                value={state.total}
+                decimalScale={2}
+                fixedDecimalScale={true}
+                displayType={"text"}
+              />
               </h4>
+              :
+              <h4 className="mb-4 " style={{color: 'black'}}>
+              Total:
+              <NumberFormat
+                prefix=" $"
+                style={{color: 'black'}}
+                value={localStorage.getItem('totalCost')}
+                decimalScale={2}
+                fixedDecimalScale={true}
+                displayType={"text"}
+              />
+              </h4>
+            }
+              
               <Button
                 className="btn btn-dark boton"
                 onClick={handleFinCompra}
@@ -443,9 +468,6 @@ if (stateRedirect.redirect) {
             </Col>
           </Row>
         </Container>
-      </Col>
-      <Col xs={2}></Col>
-    </Row>
   );
 };
 

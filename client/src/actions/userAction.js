@@ -81,6 +81,7 @@ export const loadUser = () => (dispatch, getState) => {
       // return Promise.reject(error.response);
       // }
       /* console.log(error.message); */
+      console.log(error, "errorrrrrrrrrrrrr")
       dispatch({ type: AUTH_ERROR });
     });
 };

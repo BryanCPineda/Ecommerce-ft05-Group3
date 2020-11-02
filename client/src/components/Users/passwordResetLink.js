@@ -115,7 +115,8 @@ if (stateRedirect.redirect) {
   }
 
   return (
-     <div>
+    <Container style={{marginTop: '-300px', width: '600px', height: '200px', backgroundColor: 'white'}} className="d-flex justify-content-center">
+     <div style={{width: '400px'}}>
           <Form>
               <Form.Group>
                 <IconContext.Provider
@@ -125,7 +126,7 @@ if (stateRedirect.redirect) {
                       : { className: "icon" }
                   }
                 >
-                  <Form.Label>
+                  <Form.Label className="pt-5" style={{fontSize: '20px'}}>
                     <span
                       style={{
                         marginRight: "0.125rem",
@@ -168,7 +169,7 @@ if (stateRedirect.redirect) {
                 <Button
                 type="submit"
                 onClick={(e) => handleClick(e.preventDefault()) }
-                className="button-register mt-1"
+                className="button-register mt-1 ml-3"
                 style={{ width: "5rem" }}
                 >
                  Submit
@@ -177,6 +178,7 @@ if (stateRedirect.redirect) {
             </Form>
            
      </div>
+     </Container>
   );
 };
 function mapStateToProps(state) {

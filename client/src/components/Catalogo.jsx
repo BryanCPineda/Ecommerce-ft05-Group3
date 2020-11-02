@@ -75,7 +75,7 @@ function Catalogo({
         getAllProducts();
     }
     
-  },[currentPage, user, cart ]) 
+  },[currentPage, user ]) 
 
 
 
@@ -93,25 +93,7 @@ function Catalogo({
   }, [reload, state.reload, cartProducts,  ]);
 
   //-------------------------- este codigo hace el vuelco del carrito del guest en la base de datos ------/
-useEffect(()=>{
-  if (isAuthenticated) {
-    if(!localStorage.getItem("carrito")) {
-      return}
-    let carrito = JSON.parse(localStorage.getItem("carrito"))
-    addProductToCartOrder(user.id).then(res =>{
-    let promises = carrito.map( function (e) {
-      let body = {
-        quantity: e.quantity,
-        productId:e.id 
-      }
-      addProductToCartOrderline (user.id, body)
-  })
-    }).then(() => {localStorage.setItem('carrito',JSON.stringify([]))
-  })
-    
-  }
-  
-    },[isAuthenticated])
+
 //-------------------------- este codigo hace el vuelco del carrito del guest en la base de datos ------/
 
   // //----------chequear que exista el carrito de guest cuando se loguea
@@ -138,6 +120,13 @@ useEffect(()=>{
   //     .then(e => console.log('respuesta promesa---------------------', e))
   //     .catch(e => console.log('error',e))
 
+    //   localStorage.removeItem('carrito')
+    //   localStorage.removeItem('totalCost')
+    //  }
+    //   },[isAuthenticated])
+
+    
+    //----------chequear que exista el carrito de guest cuando se loguea
   //     localStorage.clear()
   //    }
   //     },[isAuthenticated])

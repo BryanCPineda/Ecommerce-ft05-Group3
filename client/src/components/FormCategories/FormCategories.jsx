@@ -40,9 +40,6 @@ function FormCategories({
   const handleShowUpdate = () => setUpdateShow(true);
   //----------------Modal------------------//
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [elementsPerPage] = useState(5);
-
   useEffect(() => getAllCategories(), []);
 
   useEffect(() => {
@@ -82,12 +79,6 @@ function FormCategories({
       categories.map((element) => (element.id === id ? newCategory : element))
     );
   };
-
-  const indexOfLastProduct = currentPage * elementsPerPage;
-  const indexOfFirstProduct = indexOfLastProduct - elementsPerPage;
-  const currentProducts = allCategories.slice(indexOfFirstProduct, indexOfLastProduct);
-
-  const paginate = (pageNumber) => setCurrentPage(pageNumber); 
 
   return (
     <Container className="table-categories mt-4">
@@ -131,8 +122,8 @@ function FormCategories({
               </tr>
             </thead>
             <tbody>
-              {currentProducts.length > 0 ? (
-                currentProducts.map((element) => (
+              {allCategories.length > 0 ? (
+                allCategories.map((element) => (
                   <tr key={element.id}>
                     <td>{element.id}</td>
                     <td>{element.name}</td>
@@ -183,9 +174,6 @@ function FormCategories({
               )}
             </tbody>
           </Table>
-        </div>
-        <div className="d-flex justify-content-center mt-5">
-          <Pagination elementsPerPage={elementsPerPage} totalElements={allCategories.length} paginate={paginate}/>
         </div>
       </div>
     </Container>

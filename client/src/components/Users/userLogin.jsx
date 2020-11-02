@@ -168,9 +168,7 @@ class UserLogin extends React.Component {
 
               <Form.Group className="d-flex justify-content-end">
                   
-                
-                   <a href= "/user/password/reset"> Forgot your password? </a>
-                
+                   <a href= "/user/password/reset" className="mr-3 mt-2"> Forgot your password? </a>
                 
                 <Button
                   disabled={this.state.loading}

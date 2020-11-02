@@ -45,6 +45,7 @@ class UserRegister extends React.Component {
       lastname: "",
       email: "",
       password: "",
+      redirect: null
     };
   }
 
@@ -101,6 +102,7 @@ class UserRegister extends React.Component {
     e.preventDefault();
     const { name, lastname, email, password } = this.state;
     const newUser = { name, lastname, email, password };
+    this.setState({ redirect: "/user/catalogo" })
     this.props.createUser(newUser) 
     .then(()=>{
         let status = store.getState().error.status
@@ -114,7 +116,8 @@ class UserRegister extends React.Component {
               const user = store.getState().userReducer.user            //OJO A ESTA PARTE, se debe conectar al store de redux de esta forma                                                           
                                                                         //para que traiga el estado actualizado del usuario, si no traera el 
                                                                         //estado anterior osea "null"
-                this.props.welcomeEmail(user);                          //se despacha la accion welcomeEmail y se le envia el usuario
+                this.props.welcomeEmail(user);
+                                          //se despacha la accion welcomeEmail y se le envia el usuario
               })                                
           } 
     })    
@@ -236,7 +239,12 @@ handleBoth=()=>{
     })   
   }
 
+  
+
   render() {
+    if (this.state.redirect) {
+    return <Redirect to={this.state.redirect} />
+  }
     return (
       <React.Fragment>
         <Button className="button-register" onClick={this.handleShow}>

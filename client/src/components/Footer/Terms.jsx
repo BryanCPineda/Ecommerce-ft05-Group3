@@ -2,7 +2,7 @@ import React from "react";
 import "./About.css";
 
 // reactstrap components
-import { Container, Row, Col } from "reactstrap";
+import { Container, Row, Col } from "react-bootstrap";
 
 const Terms = () => {
   return (

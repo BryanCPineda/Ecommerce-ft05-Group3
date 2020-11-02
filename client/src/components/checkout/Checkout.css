@@ -46,3 +46,17 @@
     font-style: bold;
 }
   
+
+.title-checkout-component {
+  font-weight: 200;
+  color: blue;
+}
+
+.input-payment-danger {
+  border: 2px solid red;
+}
+
+.p-payment-danger {
+  color: red;
+  font-size: 10px;
+}

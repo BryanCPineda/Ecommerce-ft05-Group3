@@ -9,6 +9,7 @@ const {
   Orderline,
 } = require("../db.js");
 const nodemailer = require("nodemailer");
+const hbs = require('nodemailer-express-handlebars');
 
 server.post("/", (req, res) => {
   let transporter = nodemailer.createTransport({
@@ -86,6 +87,7 @@ server.post("/", (req, res) => {
              <h3>Your Purchase: </h3>
              Order N° ${info.orderId}
              <hr>
+             
                 <h3>Total Price: ${info.totalPrice}</h3>
                 <hr>
                 <p> If you wanna see the details of your order, please come back to owr page!! </p>

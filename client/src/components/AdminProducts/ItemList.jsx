@@ -139,7 +139,7 @@ function ItemList({ product, updateProduct, deleteProduct, deleteImageToProduct,
             <Edit allCategories={categorias} updateProduct={handleUpdate} show={state.editing} product={product} handleClose={handleEditing} />
             <td className="align-middle" width="150">
                 {images && images.map(e => 
-                 <span className='d-flex' className="align-middle"> <img alt={'Imagen del producto' + name} width="64" className="img-thumbnail" src={e.image} />
+                 <span className='d-flex' className="align-middle"> <img alt={'Imagen del producto' + name} style={{height: '100px', width: '100px'}} src={e.image} />
                 <Button size="sm" 
                 style={{backgroundColor: '#767474', color: '#ffffff', border: '#767474',
                     padding: '0px 5px 0px 5px', margin: '2px'}}
