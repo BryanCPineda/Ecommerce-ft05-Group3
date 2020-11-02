@@ -57,7 +57,6 @@ const Cart = ({order,
 
 const [total, setTotal] = useState();
 
-console.log("ahora el total es", total);
 
 // manejo de carrito de guest------------
 const logueado = isAuthenticated
@@ -107,33 +106,33 @@ const [stateRedirect, setRedirect] = useState({ redirect: null })
 // ------------------redireccionar --------------
 let prod = []
 let totalCost = 0;
+let totalCost2=0;
 
-/***********************CALCULO DEL PRECIO POR MEDIO DE LAS ORDER LINE******************************** */
+/********CALCULO DEL PRECIO POR MEDIO DE LAS ORDER LINE*********** */
 const token = localStorage.getItem("token")
 
 const userId = user && user.id
 
 const totalCostStorage = localStorage.getItem('totalCost')
 
-useEffect(() => {
-  getProductsFromCart(userId)
-}, [user])
+// useEffect(() => {
+//   getProductsFromCart(userId)
+// }, [user])
 
  
-useEffect(()=>{ 
-  getProductsFromCart(userId).then( ()=>{
-    let totalCost2 = 0;
-      cartProducts.orderlines && cartProducts.orderlines.map(e => {
-          totalCost2 = totalCost2 +  (e.price * e.quantity) 
-      })
-      setState({
-        ...state,
-        total: totalCost2})
-      })
-},[reload, user]) 
+// useEffect(()=>{ 
+//   getProductsFromCart(userId).then( ()=>{
+//     let totalCost2 = 0;
+//       cartProducts.orderlines && cartProducts.orderlines.map(e => {
+//           totalCost2 = totalCost2 +  (e.price * e.quantity) 
+//       })
+//       setState({
+//         ...state,
+//         total: totalCost2})
+//       })
+// },[reload, user]) 
 
-/***********************CALCULO DEL PRECIO POR MEDIO DE LAS ORDER LINE******************************** */
-
+/********CALCULO DEL PRECIO POR MEDIO DE LAS ORDER LINE*********** */
 
 //-------------------------- este codigo hace el vuelco del carrito del guest en la base de datos ------/
 useEffect(()=>{
@@ -153,10 +152,7 @@ useEffect(()=>{
       localStorage.setItem('carrito',JSON.stringify([]))
       // setTotal(totalCostStorage)
         reloadCart()
-  })
-    
-  }
-  
+  })}
     },[isAuthenticated])
 //-------------------------- este codigo hace el vuelco del carrito del guest en la base de datos ------/
   
@@ -164,16 +160,28 @@ useEffect(()=>{
   useEffect(()=>{ 
     if(user){
     getProductsFromCart(user.id).then( ()=>{
-      let totalCost2 = 0;
         cartProducts.orderlines && cartProducts.orderlines.map(e => {
+            totalCost2 = totalCost2 +  (e.price * e.quantity) 
+        })
+        // console.log('total cost', totalCost2)
+        // console.log('cart products', cartProducts.orderlines)
+        // setState({
+        //   ...state,
+        //   total: totalCost2})
+        })
+    }
+  },[user, reload]) 
+
+  useEffect(()=>{ 
+    if(user){
+          cartProducts.orderlines && cartProducts.orderlines.map(e => {
             totalCost2 = totalCost2 +  (e.price * e.quantity) 
         })
         setState({
           ...state,
           total: totalCost2})
-        })
-    }
-  },[user, reload]) 
+        }
+  },[getProductsFromCart, reload]) 
 
 
 const quantityChange = (e, id) =>{
@@ -257,6 +265,14 @@ const handleDelete = (id) =>{
         setState({
           bandera: !state.bandera
         })
+          let item = itemsCart ? itemsCart.forEach( e=>{
+              totalCost += e.price * e.orderline.quantity
+          }) : ""
+          setState({
+            ...state,
+            total: totalCost
+          })
+          localStorage.setItem("totalCost", JSON.stringify(totalCost))
       } else {
               quitarItemCarrito(user.id, id).then(()=>{
               getProductsFromCart(user.id).then(()=>{
@@ -279,7 +295,6 @@ const handleDelete = (id) =>{
 const handleFinCompra =() =>{
 
   if (!logueado){
-    console.log('aca', logueado)
         swal("Please sign in to continue!", {
           icon: "warning",
         }).then(() =>{
