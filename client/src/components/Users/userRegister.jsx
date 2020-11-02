@@ -102,7 +102,7 @@ class UserRegister extends React.Component {
     e.preventDefault();
     const { name, lastname, email, password } = this.state;
     const newUser = { name, lastname, email, password };
-    this.setState({ redirect: "/user/catalogo" })
+    // this.setState({ redirect: "/user/catalogo" })
     this.props.createUser(newUser) 
     .then(()=>{
         let status = store.getState().error.status
@@ -242,9 +242,9 @@ handleBoth=()=>{
   
 
   render() {
-    if (this.state.redirect) {
-    return <Redirect to={this.state.redirect} />
-  }
+  //   if (this.state.redirect) {
+  //   return <Redirect to={this.state.redirect} />
+  // }
     return (
       <React.Fragment>
         <Button className="button-register" onClick={this.handleShow}>
