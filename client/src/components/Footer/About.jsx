@@ -16,8 +16,8 @@ const About = () => {
             </h4>
           </div>
 
-          <Row>
-             <Col className="mr-auto" md="2" sm="3">
+          <Row >
+             <Col className="mr-auto" style={{marginLeft: '110px'}} md="2" sm="3">
               <h4 className="title-1">Santiago Barrios</h4>
               <img
                 alt="..."
@@ -27,7 +27,7 @@ const About = () => {
               <p className="title-1">Licenciado en Psicologia<br></br>Profesor de Yoga<br></br>
               </p>
             </Col>
-            <Col className="mr-auto" md="2" sm="3">
+            <Col className="mr-auto" style={{marginLeft: '110px'}} md="2" sm="3">
               <h4 className="title-1">Matias Funes</h4>
               <img
                 alt="..."
@@ -36,7 +36,7 @@ const About = () => {
               />
               <p className="title-1">Ingeniero Industrial<br></br><br></br></p>
             </Col>
-            <Col className="mr-auto" md="2" sm="3">
+            <Col className="mr-auto" style={{marginLeft: '110px'}} md="2" sm="3">
               <h4 className="title-1">Cinthia Pardos</h4>
               <img
                 alt="..."
@@ -46,8 +46,8 @@ const About = () => {
               <p className="title-1">Abogada<br></br>Docente<br></br>Bibliotecaria</p>
             </Col>
           </Row>
-          <Row>
-            <Col className="mr-auto" md="2" sm="3">
+          <Row className="pb-5">
+            <Col className="mr-auto" style={{marginLeft: '110px'}} md="2" sm="3">
               <h4 className="title-1">Bryan Pineda</h4>
               <img
                 alt="..."
@@ -56,7 +56,7 @@ const About = () => {
               />
               <p className="title-1">Profesor Universitario<br></br><br></br></p>
             </Col>
-            <Col className="mr-auto" md="2" sm="3">
+            <Col className="mr-auto" style={{marginLeft: '110px'}} md="2" sm="3">
               <h4 className="title-1">Veronica Valdez</h4>
               <img
                 alt="..."
@@ -65,7 +65,7 @@ const About = () => {
               />
               <p className="title-1">Docente</p>
             </Col>
-            <Col className="mr-auto" md="2" sm="3">
+            <Col className="mr-auto" style={{marginLeft: '110px'}} md="2" sm="3">
               <h4 className="title-1">Lianel Artiles </h4>
               <img
                 alt="..."

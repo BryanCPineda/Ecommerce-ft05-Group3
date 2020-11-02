@@ -152,11 +152,11 @@ const UserProfile = ({
       {!token && !user ? <Redirect to="/user/catalogo" /> : null}
       <div className="d-flex justify-content-center" style={{ color: "white" }}>
         <div
-          className="flex-orders d-flex flex-column"
+          className="flex-orders d-flex flex-column lianel"
           style={{ marginTop: "-350px", backgroundColor: 'white', width: '500px' }}
         >
 
-          <p className="textShadow" style={{ color: "black", fontSize: "40px" }}>
+          <p className="textShadow d-flex justify-content-center" style={{ color: "black", fontSize: "40px" }}>
             Personal information:
           </p>
           <br></br>
@@ -210,22 +210,22 @@ const UserProfile = ({
           <div>
             {
               user && user.name === user.lastname ? 
-              (<p style={{ fontSize: "25px", color: "black" }}>
+              (<p className="ml-3" style={{ fontSize: "25px", color: "black" }}>
                 <b>Username:</b> {user && user.name}
               </p>) :
                 (<div>
-                  <p style={{ fontSize: "25px", color: "black" }}>
+                  <p className="ml-3" style={{ fontSize: "25px", color: "black" }}>
                     <b>First Name:</b> {user && user.name}
                   </p>
-                  <p style={{ fontSize: "25px", color: "black" }}>
+                  <p className="ml-3" style={{ fontSize: "25px", color: "black" }}>
                     <b>Last Name:</b> {user && user.lastname}
                   </p>
                 </div>)
             }
-            <p style={{ fontSize: "25px", color: "black" }}>
+            <p className="ml-3" style={{ fontSize: "25px", color: "black" }}>
               <b>Email:</b> {user && user.email}
             </p>
-            <p style={{ fontSize: "25px", color: "black" }}>
+            <p className="ml-3" style={{ fontSize: "25px", color: "black" }}>
               <b>Reset password:</b>{" "}
               <Button className="button-register" onClick={handleShow}>
                 Here

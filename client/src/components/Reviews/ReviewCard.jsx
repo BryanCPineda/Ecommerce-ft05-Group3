@@ -27,7 +27,11 @@ function ReviewCard({reviewDescription, reviewid, reviewQualification, deleteRev
           icon: "success",
         })
         setShow(false);
-      } 
+        setTimeout(() => {
+          window.location.reload()
+        }, 1000); 
+      }
+      
     })
   }
   const handleOnclick = (e) => {

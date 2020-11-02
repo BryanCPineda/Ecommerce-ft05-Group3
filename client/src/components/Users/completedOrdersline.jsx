@@ -27,7 +27,7 @@ const CompletedOrderline = ({ getUserReviews, userReviews, getCompletedOrderline
       getCompletedOrderlines(idUser);
       getUserReviews(idUser);
     }
-  }, [reviews]);
+  }, []);
   
   const createMyTable = () =>{
     for (let i = 0; i < orderLines.length; i++) {
