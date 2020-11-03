@@ -193,7 +193,7 @@ const [stateRedirect, setRedirect] = useState({ redirect: null })
                   confirmation, and will send you an update when your order has
                   shipped.
                 </Typography>
-                <Button className='boton' style={{backgroundColor: '#8a2be2', color: 'white' }} onClick={handleClick}>
+                <Button className='boton mt-3' style={{backgroundColor: '#8a2be2', color: 'white' }} onClick={handleClick}>
                   Thank you, go back to home!
                 </Button>
               </React.Fragment>
@@ -203,7 +203,7 @@ const [stateRedirect, setRedirect] = useState({ redirect: null })
                 {getStepContent(activeStep, handleBan)}
                 <div className={classes.buttons}>
                 <Button onClick={handleCancelOrder} className={classes.button}
-                 style={{marginRight: '460px', backgroundColor: '#8a2be2', color: 'white', width: '80px', height: '50px'}}>Cancel Order</Button>
+                 style={{marginRight: '680px', backgroundColor: '#8a2be2', color: 'white', width: '80px', height: '50px'}}>Cancel Order</Button>
                   {activeStep !== 0 && (
                     <Button onClick={handleBack} style={{color: 'white'}} className={classes.button}>
                       Back
