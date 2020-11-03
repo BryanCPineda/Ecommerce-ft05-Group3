@@ -22,7 +22,8 @@ function AddReview({
   productId,
   idUser,
   reviewQualification,
-  productName
+  productName,
+  onRenderRequest
 }) {
   const [show, setShow] = useState(false);
   const [stars, setStars] = useState(0);
@@ -74,11 +75,8 @@ function AddReview({
         icon: "success",
       });
       setShow(false);
-      setTimeout(() => {
-        window.location.reload()
-      }, 1000);
     }
-    
+    onRenderRequest()
   };
 
   const handleOnclick = (e) => {

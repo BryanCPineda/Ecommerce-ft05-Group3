@@ -40,9 +40,6 @@ function EditReview({editReview, productName, reviewid, reviewDescription }, ) {
         icon: "success",
       })
       setShow(false);
-      setTimeout(() => {
-        window.location.reload()
-      }, 1000);
     }
     
   }

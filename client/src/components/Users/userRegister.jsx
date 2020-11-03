@@ -221,7 +221,7 @@ handleBoth=()=>{
           let newGitHubUser = {           //que me crea un nuevo usuario en mi DB con los datos entregados por gitHub
             name: data.username,       //lastname se debe poner igual que el name, pues gitHub entrega solo un display Name, y necesitamos pasar
             lastname: data.username,   //la validacion de sequelize que pide que el lastname no sea null
-            email: data.username+"@cyberfitness.com", //gitHub no retorna un correo electronico por lo cual se le crea un nuevo correo al usuario con el username de github
+            email: data.emails ? data.emails[0].value : data.username+"@cyberfitness.com", //gitHub no retorna un correo electronico por lo cual se le crea un nuevo correo al usuario con el username de github
             password: "$2a$10$KtUH0poKeLEQ8WqZ8hjcruwXPcA7.W8O1WDtcMoAFJweRGMQxDWam", //esta password es generica para todas las cuentas de google y gitHub para pasar la validacion de sequelize
             image: data.photos[0].value,
             whitGoogle: true              //se envia la misma bandera que indica que hay un usuario logueandose externamente, se recicla la bandera de google
