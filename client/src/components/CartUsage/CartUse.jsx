@@ -366,7 +366,7 @@ if (stateRedirect.redirect) {
                   <Col xs={6} md={4} className="text-center number products-checkout" style={{color: 'white'}}>
                     <span className="h6" style={{marginLeft: '100px'}}>Products</span>
                   </Col>
-                  <Col xs={6} md={3} className="text-left ml-2 number " style={{color: 'white', marginLeft: '500px'}}>
+                  <Col xs={6} md={3} className="text-left ml-2 number " style={{color: 'white' }}>
                     <span className="h6">Quantity</span>
                   </Col>
                   <Col className="text-center number" style={{color: 'white'}}>

@@ -19,7 +19,7 @@ import {
 
 const initialState = {
 
-  token: localStorage.getItem('token'),
+  token: localStorage.getItem('token'),   //busco en el localstorage el token (lo seteo mas abajo)
   isAuthenticated: false,
   user: null,
   allUsers: [],
@@ -57,27 +57,27 @@ export default function userReducer(state = initialState, action) {
     case USER_LOADED:
       return {
         ...state,
-        isAuthenticated: true,
-        user: action.payload,
+        isAuthenticated: true,    //si se logueo cambio la propiedad isAuthenticated a true
+        user: action.payload,     //guardo en user lo que recibo del back
       };
 
-    case LOGIN_SUCCESS:
-    case REGISTER_SUCCESS:
-      localStorage.setItem("token", action.payload.token);
+    case LOGIN_SUCCESS:       
+    case REGISTER_SUCCESS:    //cualquiera de estos 2 casos hace lo mismo por eso se agrupan
+      localStorage.setItem("token", action.payload.token);  //si el login o register salio bien seteo el token en el localstorage
       return {
         ...state,
-        token: action.payload.token,
+        token: action.payload.token,  
         user: action.payload.user,
         isAuthenticated: true,
       };
-    case REGISTER_FAIL:
-    case LOGIN_FAIL:
+    case REGISTER_FAIL:     
+    case LOGIN_FAIL:        //cualquiera de estos 4 casos hace lo mismo por eso se agrupan
     case LOGOUT_SUCCESS:
     case AUTH_ERROR:
-      localStorage.removeItem("token");
+      localStorage.removeItem("token"); //para cualquiera de los 4 casos tengo que remover el token del localStorage
       return {
         ...state,
-        token: null,
+        token: null,      //tengo que poner en null y falso todas estas propiedades
         isAuthenticated: false,
         user: null,
       };

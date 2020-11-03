@@ -77,9 +77,7 @@ import { useForm } from "react-hook-form";
         <div>
           <Button style={{backgroundColor: '#8a2be2', border: 'none'}} onClick={() => setCard(!card)}>Credit/Debit Card</Button>
         </div>
-        <div>
-        <Button className="mt-3" style={{backgroundColor: '#8a2be2', border: 'none'}} onClick={onSubmit}>Send</Button>
-        </div>
+        
       </div>
       {card ? (
         <>
@@ -154,6 +152,9 @@ import { useForm } from "react-hook-form";
             </Grid>
             
           </Grid>
+          <div>
+        <Button className="mt-3" style={{backgroundColor: '#8a2be2', border: 'none'}} onClick={onSubmit}>Send</Button>
+        </div>
         </>
       ) : null}
     </React.Fragment>

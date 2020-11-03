@@ -53,17 +53,18 @@ export function getAllUsers(){
   }
 }
 
+//-----------------------autenticacion------------------------//
 export const loadUser = () => (dispatch, getState) => {
   const config = {
     headers: {
-      "Content-type": "Application/json",
+      "Content-type": "Application/json",   //creo un objeto config con los headers
     },
   };
 
-  const token = getState().userReducer.token;
+  const token = getState().userReducer.token; //busco el token en el store de redux con getState()
 
   if (token) {
-    config.headers["x-auth-token"] = token;
+    config.headers["x-auth-token"] = token;   //si hay token se lo paso en el header para que le llegue al back
   }
   /* console.log(config); */
 
@@ -120,9 +121,9 @@ export const createUser = (user) => (dispatch) => {
     .catch((error) => {
       if (error.response.status === 400) {
         dispatch(
-          returnErrors(
-            error.response.data,
-            error.response.status,
+          returnErrors(               //en caso de haber un error dispacha esta funcion para el manejo de errores
+            error.response.data,      //todo esto lo hago para mostrarlo en el componente login o register
+            error.response.status,    //no es necesario para autenticacion
             "REGISTER_FAIL"
           )
         );
@@ -130,29 +131,7 @@ export const createUser = (user) => (dispatch) => {
       }
     });
 };
-export const resetPassword = (newPassword) => (dispatch, getState) => {
-  
-  const config = {
-    headers: {
-      "Content-type": "Application/json",
-    },
-  };
 
-  const token = getState().userReducer.token;
-
-  if (token) {
-    config.headers["x-auth-token"] = token;
-  }
-  console.log('que hay dentro??', newPassword, token, config.headers)
-  return axios
-  .post("http://localhost:4000/users/passwordReset", { newPassword: newPassword }, config)
-  .then((result) => {
-    console.log('hay resultados?', result) 
-    dispatch({ type: PASSWORD_RESET })
-}).catch((error)=>{
-  console.log('hay algun error?', error)
-})
-}
 
 export const loginUser = (user) => (dispatch) => {
   const userEnv = {
@@ -166,12 +145,18 @@ export const loginUser = (user) => (dispatch) => {
       dispatch({ type: LOGIN_SUCCESS, payload: res.data });
     })
     .catch((error) => {
-      dispatch(
-        returnErrors(error.response.data, error.response.status, "LOGIN_FAIL")
-      );
+      dispatch(               //en caso de haber un error dispacha esta funcion para el manejo de errores
+        returnErrors(error.response.data, error.response.status, "LOGIN_FAIL") //todo esto lo hago para mostrarlo en el componente login o register
+      );                  //no es necesario para autenticacion
       dispatch({ type: LOGIN_FAIL });
     });
 };
+
+export const logout = () => {
+  return { type: LOGOUT_SUCCESS };
+};
+
+//-----------------------autenticacion------------------------//
 
 export const showCompletedOrders = (idUser) => async (dispatch, getState) => {
   // const config = {
@@ -191,9 +176,7 @@ export const showCompletedOrders = (idUser) => async (dispatch, getState) => {
 };
 /*-------------------------profile-------------------------*/
 
-export const logout = () => {
-  return { type: LOGOUT_SUCCESS };
-};
+
 
 export const promoteUser = (id) => (dispatch, getState,) => {
   const config = {
@@ -237,9 +220,31 @@ export const deleteUser = (id) => (dispatch, getState) => {
     console.log(error.message)
    }
   )
-
-
 }  
+
+export const resetPassword = (newPassword) => (dispatch, getState) => {
+  
+  const config = {
+    headers: {
+      "Content-type": "Application/json",
+    },
+  };
+
+  const token = getState().userReducer.token;
+
+  if (token) {
+    config.headers["x-auth-token"] = token;
+  }
+  console.log('que hay dentro??', newPassword, token, config.headers)
+  return axios
+  .post("http://localhost:4000/users/passwordReset", { newPassword: newPassword }, config)
+  .then((result) => {
+    console.log('hay resultados?', result) 
+    dispatch({ type: PASSWORD_RESET })
+}).catch((error)=>{
+  console.log('hay algun error?', error)
+})
+}
 
  
 

@@ -56,7 +56,6 @@ import { Button } from 'react-bootstrap';
             required
             id="name"
             name="name"
-            defaultValue={state ? state.name : user && user.name}
             helperText="Name"
             autoComplete='Name'
             fullWidth
@@ -72,7 +71,6 @@ import { Button } from 'react-bootstrap';
             required
             id="lastName"
             name='lastname'
-            defaultValue={state ? state.lastname : user && user.lastname}
             helperText="Last Name"
             autoComplete='Last Name'
             fullWidth

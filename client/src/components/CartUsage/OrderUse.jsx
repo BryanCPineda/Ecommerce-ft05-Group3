@@ -76,7 +76,7 @@ function OrderUse(prod) {
                       size="sm"
                       className="btn"
                       style={{backgroundColor: '#8a2be2', color: 'white'}}
-                      onClick={() => prod.handleDelete(prod.orderline.orderline.productId)}
+                      onClick={() => prod.logueado? prod.handleDelete(prod.orderline.orderline.productId):prod.handleDelete(prod.orderline.orderline.id) }
                       
                     >
                       Eliminar
