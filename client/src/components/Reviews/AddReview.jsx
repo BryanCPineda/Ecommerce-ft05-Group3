@@ -76,7 +76,9 @@ function AddReview({
       });
       setShow(false);
     }
-    onRenderRequest()
+    setTimeout(() => {
+      onRenderRequest()
+    }, 100);
   };
 
   const handleOnclick = (e) => {

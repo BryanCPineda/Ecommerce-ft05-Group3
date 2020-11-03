@@ -7,7 +7,7 @@ import {oneStar, towStars, threeStars, fourStars, fiveStars} from './stars';
 import swal from 'sweetalert';
 
 
-function ReviewCard({reviewDescription, reviewid, reviewQualification, deleteReview, productName}) {
+function ReviewCard({reviewDescription, onRenderRequest, reviewid, reviewQualification, deleteReview, productName}) {
   const[show, setShow] = useState(false);
   const id = reviewid;
   const productNames = productName && productName;
@@ -28,7 +28,9 @@ function ReviewCard({reviewDescription, reviewid, reviewQualification, deleteRev
         })
         setShow(false);
       }
-      
+      setTimeout(() => {
+        onRenderRequest()
+      }, 100);
     })
   }
   const handleOnclick = (e) => {
@@ -108,6 +110,7 @@ function ReviewCard({reviewDescription, reviewid, reviewQualification, deleteRev
                   reviewQualification={reviewQualification}
                   reviewid={id}
                   productName={productNames}
+                  onRenderRequest={onRenderRequest}
                   />
               </Col>
               <Col lg='3'>

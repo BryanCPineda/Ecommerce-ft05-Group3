@@ -6,7 +6,7 @@ import {editReview} from '../../actions/reviewsActions';
 import {connect} from 'react-redux';
 import swal from 'sweetalert';
 
-function EditReview({editReview, productName, reviewid, reviewDescription }, ) {
+function EditReview({editReview, onRenderRequest, productName, reviewid, reviewDescription }, ) {
   const[show, setShow] = useState(false);
   const [stars, setStars] = useState(0);
   const [description, setDescription] = useState('');
@@ -41,7 +41,9 @@ function EditReview({editReview, productName, reviewid, reviewDescription }, ) {
       })
       setShow(false);
     }
-    
+    setTimeout(() => {
+      onRenderRequest()
+    }, 100);
   }
   function validateForm(){
     setErr({starsErr:"",  descriptionErr:""});

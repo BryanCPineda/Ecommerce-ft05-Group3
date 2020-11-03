@@ -22,18 +22,17 @@ const CompletedOrderline = ({ getUserReviews, userReviews, getCompletedOrderline
   const DATE_FORMAT = "DD/MM/YYYY - HH:mm";
   const reviews = userReviews;
 
-  
   useEffect(() => {
     if(user){
       getCompletedOrderlines(idUser);
     }
-  }, []);
-  
+  }, [state.render]);
+
   useEffect(() => {
-    if(reviews){
+    if(user){
       getUserReviews(idUser);
     }
-  }, [state]);
+  }, [state.render]);
 
   const createMyTable = () =>{
     for (let i = 0; i < orderLines.length; i++) {
@@ -124,6 +123,9 @@ const CompletedOrderline = ({ getUserReviews, userReviews, getCompletedOrderline
                             reviewQualification={row.qualification}
                             reviewDescription={row.description}
                             productName={row.name}
+                            onRenderRequest={() => {
+                              setState(({render})=>({render: render+1}));
+                            }}
                           />}
                         </span>
                       </div>
