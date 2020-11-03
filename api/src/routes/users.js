@@ -61,9 +61,9 @@ server.get("/", (req, res, next) => {
 server.post(
   "/",
   [
-    check("name")
-      .isLength({ min: 2, max: 30 })
-      .withMessage("Name must have at least 2 characters"),
+    check("name")                                               //validaciones de todos los campos que el usuario 
+      .isLength({ min: 2, max: 30 })                            //tiene que llenar en el front sino sale el cartelito
+      .withMessage("Name must have at least 2 characters"),     //rojo de que introduzca bien el campo
     check("lastname", "Lastname is empty")
       .isLength({ min: 2, max: 50 })
       .withMessage("Lastname must have at least 2 characters"),
@@ -121,9 +121,9 @@ server.post(
       try {
         const { name, lastname, email, password, usertype } = req.body;
 
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-          return res
+        const errors = validationResult(req);           //valido todo el req body con la libreria express-validator
+        if (!errors.isEmpty()) {                        // que use al principio y si hay errores me crea un array
+          return res                                    // con esos errores y los mapeo para mostrarlos en el front
             .status(400)
             .json({ errors: errors.array().map((ele) => ele.msg) });
         }
@@ -131,31 +131,31 @@ server.post(
         const user = await Users.findOne({ where: { email: email } });
 
         if (user) {
-          return res.status(400).json({ errors: ["User already exists!"] });
-        }
+          return res.status(400).json({ errors: ["User already exists!"] });  //chequeo si un usuario ya existe para 
+        }                                                                     // enviarle el msj de que ya existe
 
         const userCreate = await Users.create({
           name,
           lastname,
-          email,
+          email,                                    //creo el usuario con el req.body que me envian desde el front
           password,
           usertype,
         });
 
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(password, salt);
-        userCreate.password = hashedPassword;
+        const salt = await bcrypt.genSalt(10);               //creo el salt para hashear la passwort, es un numero del 1 al 10
+        const hashedPassword = await bcrypt.hash(password, salt); //mientras mas alto mas dificil es que me hackeen la password
+        userCreate.password = hashedPassword;                   //piso la password que me envian en texto plano por esta hasheada
 
         await userCreate.save();
 
-        jwt.sign(
-          { id: userCreate.id },
-          DB_KEY,
-          { expiresIn: "1d" },
-          (err, token) => {
-            if (err) throw err;
+        jwt.sign(                                         //creo el token mediante la firma
+          { id: userCreate.id },                           //guardo el id del usuario en el token
+          DB_KEY,                                         //la palabra secreta para hashearlo
+          { expiresIn: "1d" },                            //el tiempo de expiracion
+          (err, token) => {                               //un callback con un error y el token
+            if (err) throw err;                           //si hubo error muestro el error sino envio el token
             res.status(200).send({
-              token,
+              token,                                      //mando el token al front y los datos del usuario
               user: {
                 id: userCreate.id,
                 name: userCreate.name,

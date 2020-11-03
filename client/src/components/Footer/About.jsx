@@ -54,7 +54,7 @@ const About = () => {
                 className="img-circle img-responsive"
                 src={"/images/about/bryan.jpeg"}
               />
-              <p className="title-1">soy el señor ego y voy a ir a trabajar a la agencia ego con mi amiguito alan<br></br><br></br></p>
+              <p className="title-1">Profesor Universitario<br></br><br></br></p>
             </Col>
             <Col className="mr-auto" style={{marginLeft: '110px'}} md="2" sm="3">
               <h4 className="title-1">Veronica Valdez</h4>
@@ -72,7 +72,7 @@ const About = () => {
                 className="img-circle img-responsive"
                 src={"/images/about/lia.jpeg"}
               />
-              <h1>Soy un pesado</h1>
+              <p className="title-1">Entrenador Fisico<br></br>Masoterapeuta</p>
             </Col>
           </Row>
         </Container>
