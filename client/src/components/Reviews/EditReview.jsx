@@ -33,9 +33,9 @@ function EditReview({editReview, onRenderRequest, productName, reviewid, reviewD
       description: description,
       qualification: Math.round(stars),
     };
-    editReview(id, review);
     const valid = validateForm();
     if(valid){
+      editReview(id, review);
       swal("Review edited successfully!", {
         icon: "success",
       })
@@ -57,9 +57,9 @@ function EditReview({editReview, onRenderRequest, productName, reviewid, reviewD
     if(description.length == ""){
       descriptionNullErr = " Description can not be empty";
     }
-    // if(description.length < 20){
-    //   descriptionShortErr = (<p> Please be more verbose ;)<br/> At least 20 characters</p>);
-    // }
+    if(description.length < 20){
+      descriptionShortErr = (<p> Please be more verbose ;)<br/> At least 20 characters</p>);
+    }
     if(starsErr || descriptionShortErr || descriptionNullErr) {
       setErr({ starsErr, descriptionShortErr, descriptionNullErr });
       return false;

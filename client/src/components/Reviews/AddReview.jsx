@@ -46,15 +46,15 @@ function AddReview({
     if (description.length == "") {
       descriptionNullErr = " Description can not be empty";
     }
-    // if (description.length < 20) {
-    //   descriptionShortErr = (
-    //     <p>
-    //       {" "}
-    //       Please be more verbose ;)
-    //       <br /> At least 20 characters
-    //     </p>
-    //   );
-    // }
+    if (description.length < 20) {
+      descriptionShortErr = (
+        <p>
+          {" "}
+          Please be more verbose ;)
+          <br /> At least 20 characters
+        </p>
+      );
+    }
     if (starsErr || descriptionShortErr || descriptionNullErr) {
       setErr({ starsErr, descriptionShortErr, descriptionNullErr });
       return false;
@@ -68,9 +68,9 @@ function AddReview({
   };
   const handleOnSubmit = (e, productId) => {
     e.preventDefault();
-    addReview(productId, review);
     const valid = validateForm();
     if (valid) {
+      addReview(productId, review);
       swal("Review added successfully!", {
         icon: "success",
       });
