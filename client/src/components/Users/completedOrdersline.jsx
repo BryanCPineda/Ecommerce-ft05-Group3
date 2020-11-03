@@ -13,22 +13,27 @@ import { Link } from "react-router-dom";
 
 
 const CompletedOrderline = ({ getUserReviews, userReviews, getCompletedOrderlines, user, orderlines }) => {
+  const [state, setState] = useState({ render: 0 })
+  console.log('STATE', state)
+
   const idUser = user && user.id;
   const orderLines = orderlines.rows ? orderlines.rows : [];
   const myTable = []
   const DATE_FORMAT = "DD/MM/YYYY - HH:mm";
   const reviews = userReviews;
 
-  console.log('reviewsssss', reviews)
-  console.log('orderLines', orderLines)
-
   useEffect(() => {
     if(user){
       getCompletedOrderlines(idUser);
+    }
+  }, [state.render]);
+
+  useEffect(() => {
+    if(user){
       getUserReviews(idUser);
     }
-  }, []);
-  
+  }, [state.render]);
+
   const createMyTable = () =>{
     for (let i = 0; i < orderLines.length; i++) {
       myTable.push({
@@ -42,7 +47,7 @@ const CompletedOrderline = ({ getUserReviews, userReviews, getCompletedOrderline
     return myTable;
   }
   createMyTable();
-  console.log('myTable', myTable)
+  // console.log('myTable', myTable)
   
   function matching(){
     for (let i = 0; i < orderLines.length; i++) {
@@ -107,6 +112,9 @@ const CompletedOrderline = ({ getUserReviews, userReviews, getCompletedOrderline
                             idUser={idUser} 
                             reviewQualification={row.qualification}
                             productName={row.name}
+                            onRenderRequest={() => {
+                              setState(({render})=>({render: render+1}));
+                            }}
                           />}
                         </span>
                         <span>{
@@ -115,6 +123,9 @@ const CompletedOrderline = ({ getUserReviews, userReviews, getCompletedOrderline
                             reviewQualification={row.qualification}
                             reviewDescription={row.description}
                             productName={row.name}
+                            onRenderRequest={() => {
+                              setState(({render})=>({render: render+1}));
+                            }}
                           />}
                         </span>
                       </div>
@@ -140,7 +151,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     getCompletedOrderlines: (id) => dispatch(getCompletedOrderlines(id)),
-    getUserReviews: (userId) => dispatch(getUserReviews(userId))
+    getUserReviews: (userId) => dispatch(getUserReviews(userId)),
   };
 }
 

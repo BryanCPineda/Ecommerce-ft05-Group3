@@ -22,7 +22,8 @@ function AddReview({
   productId,
   idUser,
   reviewQualification,
-  productName
+  productName,
+  onRenderRequest
 }) {
   const [show, setShow] = useState(false);
   const [stars, setStars] = useState(0);
@@ -45,15 +46,15 @@ function AddReview({
     if (description.length == "") {
       descriptionNullErr = " Description can not be empty";
     }
-    // if (description.length < 20) {
-    //   descriptionShortErr = (
-    //     <p>
-    //       {" "}
-    //       Please be more verbose ;)
-    //       <br /> At least 20 characters
-    //     </p>
-    //   );
-    // }
+    if (description.length < 20) {
+      descriptionShortErr = (
+        <p>
+          {" "}
+          Please be more verbose ;)
+          <br /> At least 20 characters
+        </p>
+      );
+    }
     if (starsErr || descriptionShortErr || descriptionNullErr) {
       setErr({ starsErr, descriptionShortErr, descriptionNullErr });
       return false;
@@ -67,18 +68,17 @@ function AddReview({
   };
   const handleOnSubmit = (e, productId) => {
     e.preventDefault();
-    addReview(productId, review);
     const valid = validateForm();
     if (valid) {
+      addReview(productId, review);
       swal("Review added successfully!", {
         icon: "success",
       });
       setShow(false);
-      setTimeout(() => {
-        window.location.reload()
-      }, 1000);
     }
-    
+    setTimeout(() => {
+      onRenderRequest()
+    }, 100);
   };
 
   const handleOnclick = (e) => {
