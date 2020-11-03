@@ -6,7 +6,7 @@ import {editReview} from '../../actions/reviewsActions';
 import {connect} from 'react-redux';
 import swal from 'sweetalert';
 
-function EditReview({editReview, productName, reviewid, reviewDescription }, ) {
+function EditReview({editReview, onRenderRequest, productName, reviewid, reviewDescription }, ) {
   const[show, setShow] = useState(false);
   const [stars, setStars] = useState(0);
   const [description, setDescription] = useState('');
@@ -33,18 +33,17 @@ function EditReview({editReview, productName, reviewid, reviewDescription }, ) {
       description: description,
       qualification: Math.round(stars),
     };
-    editReview(id, review);
     const valid = validateForm();
     if(valid){
+      editReview(id, review);
       swal("Review edited successfully!", {
         icon: "success",
       })
       setShow(false);
-      setTimeout(() => {
-        window.location.reload()
-      }, 1000);
     }
-    
+    setTimeout(() => {
+      onRenderRequest()
+    }, 100);
   }
   function validateForm(){
     setErr({starsErr:"",  descriptionErr:""});
@@ -58,9 +57,9 @@ function EditReview({editReview, productName, reviewid, reviewDescription }, ) {
     if(description.length == ""){
       descriptionNullErr = " Description can not be empty";
     }
-    // if(description.length < 20){
-    //   descriptionShortErr = (<p> Please be more verbose ;)<br/> At least 20 characters</p>);
-    // }
+    if(description.length < 20){
+      descriptionShortErr = (<p> Please be more verbose ;)<br/> At least 20 characters</p>);
+    }
     if(starsErr || descriptionShortErr || descriptionNullErr) {
       setErr({ starsErr, descriptionShortErr, descriptionNullErr });
       return false;
