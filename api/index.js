@@ -25,14 +25,18 @@ const { productsSeeder, categoriesSeeder , imageSeeder, categoy_productSederr, u
 
 
 // Syncing all the models at once.
-conn.sync({ force: true }).then(() => {
-  productsSeeder();
-  categoriesSeeder();
- // imageSeeder();
-  categoy_productSederr();
-  usersSeeder();
-  reviews_productSeeder(); 
-  reviewsSeeder(); 
+conn.sync({ force: false }).then(() => {
+
+  usersSeeder();  //se genera el usuario administrador para testing
+
+/**** FUNCIONES QUE GENERAN DATOS AUTOMATICOS EN LA DB ******* */
+// DESCOMENTAR LOS 'seeders' para llenar automaticamente la base de datos
+//  productsSeeder();
+//  categoriesSeeder();
+//  imageSeeder();
+//  categoy_productSederr(); 
+//  reviews_productSeeder(); 
+//  reviewsSeeder(); 
   
   server.listen(4000, () => {
     console.log("%s listening at 4000"); // eslint-disable-line no-console

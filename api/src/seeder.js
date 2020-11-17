@@ -317,41 +317,11 @@ function productsSeeder() {
 function usersSeeder() {
   Users.bulkCreate([
     {
-      name: "Master",
+      name: "Admin",
       lastname: "Master",
-      email: "master@master.com",
+      email: "admin@cyberfitness.com",
       password: "$2a$10$aZTF9aJ9VVxQeay7RafikuEvwsf87SKy0HhF4zsnPbw7tniAESDEa", //masterpass
-      userType: "admin",
-    },
-    {
-      name: "Matías",
-      lastname: "Lires",
-      email: "mati@lires.com",
-      password: "$2a$10$NbdBSL8O5UY91h8AnWv8w.wVw2U2KLvOUNkOQ34alTc0R/V6x4/BW", //testpass
-    },
-    {
-      name: "Verónica",
-      lastname: "Jujuy",
-      email: "vero@juju.com",
-      password: "$2a$10$4/hynp5ZAKwbxXeZ8gD5EOUKZB0igrdOxRwwR5XwUpK9XwpSIdHrq", //testpass
-    },
-    {
-      name: "Matías",
-      lastname: "Funes",
-      email: "mati@funes.com",
-      password: "$2a$10$NbdBSL8O5UY91h8AnWv8w.wVw2U2KLvOUNkOQ34alTc0R/V6x4/BW", //testpass
-    },
-    {
-      name: "Test4",
-      lastname: "User",
-      email: "test4@test.com",
-      password: "$2a$10$NbdBSL8O5UY91h8AnWv8w.wVw2U2KLvOUNkOQ34alTc0R/V6x4/BW", //testpass
-    },
-    {
-      name: "Test5",
-      lastname: "User",
-      email: "test5@test.com",
-      password: "$2a$10$NbdBSL8O5UY91h8AnWv8w.wVw2U2KLvOUNkOQ34alTc0R/V6x4/BW", //testpass
+      usertype: "admin",
     },
   ]);
 }
@@ -564,6 +534,8 @@ function categoy_productSederr() {
     });
   }
 }
+
+
 
 module.exports = {
   // exporting the functions

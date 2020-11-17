@@ -4,185 +4,122 @@
 
 # Henry
 
-## Objetivos del Proyecto
+# Cyber Fitness
 
-- Construir una App JavaScript desde cero.
-- Afirmar y conectar los conceptos aprendidos en la carrera.
-- Aprender mejores prácticas.
-- Aprender y practicar el workflow de GIT.
-- Utilizar Metodologías Ágiles.
-- Trabajar en equipo.
-- Usar y practicar testing.
+## Introduction
 
-## Trabajo en Equipo
+This is a student group project done as a first big assigment, in wich join all the technologies learned at SoyHenry bootcamp.
 
-En este proyecto, van a trabajar en equipo de 4 a 6 personas. Van a trabajar siempre en pares, al terminar una tarea, van a cambiar de pareja para llegar a trabajar con todos los compañeros.
-Ninguna tarea debería llevar más de dos días en terminar, si esto sucede contactar con tu PM.
 
-Vamos a usar **GIT** para gestionar el código y **Trello** para gestionar el proyecto y facilitar la colaboración. Recomendamos el siguiente *workflow* para una tarea dada:
+## Project Objetives
 
-- Crear una Card de Trello para una tarea.
-- Asignar un equipo de dos para trabajar en la tarea.
-- Hacer un `branch` por cada card de trello (incluir el nombre o ID de la card en el nombre de la branch).
-- Codear en equipo hasta completar la tarea (con tests).
-- Pullear de master a nuestra branch (para mergear código nuevo de master).
-- Pushear nuestra Branch a git y hacer un `PR` indicando la Card que cierra.
-- Mover la Card de trello a `Review`.
-- Asignar a otro equipo de dos para que revise el `PR`.
-- Iterar hasta que no haya más comentarios:
-    + Si hay un comentario, el equipo original debe codear de nuevo la solución y volver a subir el código a github.
-    + Si no hay comentarios, se aprueba el `PR` y se mergea a master
-- Mergear el `PR` a master.
-- Volver al punto 1 hasta terminar el proyecto.
+- Build a JavaScript App from scratch
+- Afirm and conect all the learned concepts in the Carreer 
+- Learn and practice GIT workflow / team work
+- Use scrum agile methodology
 
-## Horarios y Fechas
+## Stack of Technologies
 
-El proyecto dura cuatro semanas. El lunes siguiente al terminar el sprint se realiza una demo donde se muestra al TL el progreso de esa semana. La última semana tiene el `demo final` donde se muestra el proyecto a todo el cohorte.
+### Front End:
+HTML, CSS, Javascript, React, React-Bootstrap, Redux
 
-El horario de trabajo sigue siendo de 9AM a 18PM.
-Todos los días a un horario a definir con su TL habrá un STAND UP para revisar las tareas del día, el progreso y si están bloqueados y/o necesitan ayuda.
+### Back End:
+Node.js, Express, Passport, Json web token authentication, Nodemailer, Sequelize.
 
-## Comenzando
+### Database:
+PostgreSQL
 
-Vamos iniciar clonando el repo de Github que se les indicará llamado: `ec-{Cohorte}-{Grupo}`. Donde vamos a invitar a todos colaboradores del proyecto.
+## **Starting Instructions** 
 
-Nosotros te vamos a dar un `boilerplate` con los modelos de Usuario y el flow de autenticación funcionando. Sobre este código vas a branchear para empezar a agregar tus propias features.
+__IMPORTANT:__ Necesary version of node and NPM 
 
-__IMPORTANTE:__ Es necesario contar minimamente con la última versión estable de Node y NPM. Asegurarse de contar con ella para poder instalar correctamente las dependecias necesarias para correr el proyecto.
+ * __Node__: 12.18.3 or higher
+ * __NPM__: 6.14.16 or higher
 
-Actualmente las versiónes necesarias son:
-
- * __Node__: 12.18.3 o mayor
- * __NPM__: 6.14.16 o mayor
-
-Para verificar que versión tienen instalada:
-
-> node -v
->
-> npm -v
-
+ 
 ## BoilerPlate
 
-El boilerplate cuenta con dos carpetas: `api` y `client`. En estas carpetas estará el código del back-end y el front-end respectivamente.
+The boilerPlate has two folders: `api` and `client`.
 
-En `api` vas a tener que crear un archivo llamado: `.env` que tenga la siguiente forma:
+Inside `api` you must have to create a file called: `.env` 
+that has the following form: 
 
 ```
-DB_USER=usuariodepostgres
-DB_PASSWORD=passwordDePostgres
+DB_USER=postgresuser
+DB_PASSWORD=postgrespassword
 DB_HOST=localhost
+
+DB_KEY=keyword
+
+TWIT_ID=10hJi7gdjODCavCqGJ08vfYCf
+TWIT_SECRET=xgBMzGvj6TPt9Kmb8SxcuFP4WFhZLx3O4jgY7ySleENKhDNpMd
 ```
 
-Tenés que reemplazar `usuariodepostgres` y `passwordDePostgres` con tus propias credenciales para conectarte a postgres. Este archivo va ser ignorado por github, ya que contiene información sensible (las credenciales).
+You have to replace `postgresuser` and `postgrespassword` with your own credentials to connect to postgres database. This file will be ignored by github, as it contains sensitive information (the credentials).
 
-El contenido de `client` fue creado usando: Create React App.
+The DB_KEY is a random security keyword, you can change or keep it.  
 
-### Requerimientos
+The TWIT_ID and TWIT_SECRET info is important to keep it. 
 
-La aplicación del e-commerce va a contar con los siguientes requerimientos:
+## Next 
+### _Connect the data base_
 
-### Usuarios no Autenticados
+ - Go to your postgres database manager and create a new   database called `development`, this is the name of the database to which we will connect.
 
-Un Visitante anónimo debería poder navegar tu e-commerce, ver y buscar productos.
+### _Install the necesary package to run it_
 
-###### Como un Guest yo quiero...
+- Open the project console
+    + Inside `api` folder, run the command line, `npm install`
+    + Inside `client` folder, run the command line, `npm install` 
 
-- PRODUCTOS:
-    + ...ver la lista completa de productos (catálogo), para ver todo lo disponible para comprar.
-    + ...refinar el listado por categorías, para poder ver los items en los que estoy interesado.
-    + ...buscas productos, para poder encontrar rápido los productos que quiero comprar.
-    + ...ver los detalles de un producto individual (incluida las fotos, descripciones, reviews, etc...), asi puede determinar si quiero ese producto o no.
+### _Run the project_
 
-- CARRITO:
-    + ...poder agregar items a mi carrito de compras desde el listado o desde a página de detalles de un producto, para poder comprarlos despues.
-    + ...sacar items de mi carrito, en caso que decida no quererlos.
-    + ...editar cantidades de los items de mi carrito, en caso que quiera mas o menos cantidad de un item en particular.
-    + ...refrescar la página, o irme y volver, y todavía tener mi carrito de compras (sin haberme creado una cuenta). (Podés usar sessionStorage, localStorage, cookies, o JWT).
-    + ...poder crearme una cuenta, loguearme y seguir editando ese mismo carrito, asi no pierdo los items seleccionados.
-- CHECKOUT:
-    + ...poder comprar todos los items de un mi carrito.
-    + ...especificar una dirección de envio y un email cuando hago el checkout, asi me envien la compra a lugar que dije.
-    + ...recibir un email de confirmación que hice la compra.
-    + ...recibir un email de notificación cuando la orden fue despachada.
-- GESTION DE CUENTA:
-    + ...poder crear una cuenta, asi puede hacer otras cosas como dejar un review.
-    + ...poder logearme usando Google o Github, para no tener que acordarme de un password nuevo.
+- Open the project console
+    + Inside `api` folder, run the command line, `npm start`
+        
+    + Inside `client` folder, run the command line, `npm start` (go to http://localhost:3000/) 
 
-### Usuarios Autenticados
+# For testing
 
-Los usuarios que hayan creado su cuenta, podrán hacer todo lo que puede hacer un usuario guest y además:
+- You can find in `api/index.js`
+    + `conn.sync({ force: false })`, switch it between " true " ( if you want reset database in each loaded ) or " false "( if you dont want reset database in each loaded ) 
 
-###### Como un Usuario Autenticado yo quiero...
+- You can use a testing admin user with login credentials:
+    + username : `admin@cyberfitness.com`
+    + password : `masterpass`
 
-- GESTION DE CUENTA:
-    + ...poder desloguearme, asi nadie más pueda usar mi sesión.
-    + ...ver el historial de ordenes previas, asi puede reever las ordenes que hice en el pasado.
-    + ...ver los detalles de una orden que hice en el pasado, incluyendo:
-        * Los items comprados, con sus cantidades.
-        * Links a la página del producto comprado.
-        * Fecha y hora de la compra.
-- REVIEWS:
-    + ...poder dejar reviews a los productos, que incluyan texto y un sistema de cinco estrellas.
 
-### Admin
+# Project Screens 
 
-Los usuarios administradores pueden manejar el sitio, los productos que se listan y los items que están disponibles.
+- Landing-Page
+![Landing-ecommerce](https://user-images.githubusercontent.com/66705822/99189972-c6b4e200-2742-11eb-89c1-399e42481fd1.png)
 
-###### Como un administrador yo quiero...
+- Register, we can do it using the ecommerce platform (by form) or authenticate with github, google or twitter.
+![register](https://user-images.githubusercontent.com/66705822/99189999-e5b37400-2742-11eb-8dbd-dd80f80039e8.png)
 
-- GESTION DE PRODUCTOS:
-    + ...poder crear y editar productos, con nombre, descripción, precio y uno o más fotos, tal que los visitantes puedan ver la última información de lo que se vende.
-    + ...poder crear categorías, para que los usuarios puedan filtrar los items.
-    + ...poder agregar o sacar categorías de los items (los items deben poder aceptar múltiples categorías).
-    + ...gestionar la disponibilidad de un item. (un item que no esta disponible, no deberá estar listado en la página, pero su detalle debe seguir siendo accesible desde el historial de compras o con su URL, pero debe mencionar que el item no está disponible).
+ - Welcome message when we get registered
+![mail](https://user-images.githubusercontent.com/66705822/99190023-01b71580-2743-11eb-80fc-66901ab019d8.png)
 
-- GESTION DE ORDENES:
-    + ...poder ver una lista de todas las ordenes, para poder ver y revisar las ordener.
-    + ...poder filtrar as ordenes por su estado (creada, procesando, cancelada, completa).
-    + ver los detalles de una orden específica, asi puedo revisarla y actualizar su estado.
-    + ...poder cambiar el estado de una orden (creada => procesando, procesando => cancelada || completa).
+ - Catalogue with products
+![Catalogue-ecommerce](https://user-images.githubusercontent.com/66705822/99189993-db917580-2742-11eb-83df-dab0391da063.png)
 
-- GESTION DE USUARIOS:
-    + ...poder hacer que un usuario se convierta en admin.
-    + ...borrar a un usuario, asi no puedan logearse más.
-    + ...forzar una password reset para un usuario.
+ - Products in detail
+![Products-detail](https://user-images.githubusercontent.com/66705822/99190009-f8c64400-2742-11eb-84f9-682887512d27.png)
 
-### Validación de Datos
+ - Cart
+![cart](https://user-images.githubusercontent.com/66705822/99190035-0d0a4100-2743-11eb-8a89-d1a00ffd13ca.png)
 
-Cuando crees los modelos, debes considerar los tipos de datos que vas a recibir, qué cosas van a ser requeridas y cómo vas a devolver los errores a los usuarios.
-Algunas constrains qué deberás implementar:
+- Checkout. You can pay using paypal or with a debit/credit card
+![Checkout](https://user-images.githubusercontent.com/66705822/99190228-2790ea00-2744-11eb-82d8-8663ba6dfc9b.png)
 
-- Productos:
-    + Deben tener `titulo`, `descripcion`, `precio`, `cantidad`
-    + Deben pertenecer a por lo menos una categoría.
-    + Deben tener una foto, si no tienen una foto, deben tener un placeholder de foto por defecto.
-- Usuarios:
-    + Deben tener una dirección de mail válida.
-    + Su email debe ser único.
-- Ordenes:
-    + Una orden debe pertenecer a un usuario o a un guest (autenticado vs no autenticado).
-    + Las ordenes deben tener línea de orden que contiene el `precio`, `productId`, y `cantidad`.
-    + Si un usuario completa una orden, esa orden debe mantener el precio del item al momento de la compra, sin importar que el precio del producto cambie después.
-- Reviews:
-    + Todas las reviews deben pertenecer a un producto.
-    + Todas las reviews deben pertenecer a un usuario.
-    + Todas las reviews deben tener por lo menos x caractéres.
+- Profile
+![profile](https://user-images.githubusercontent.com/66718960/99322129-103e2380-284e-11eb-8d1d-9e1bf4365633.JPG) 
 
-### Milestones
+ - We can add reviews to the products that we had purchase
+![add-review](https://user-images.githubusercontent.com/66705822/99190564-f31e2d80-2745-11eb-80d8-e53ae7cc1ab2.png)
 
-Este proyecto tiene muchas tareas para realizar, asi que es fácil sentirse abrumado. Estas son las features que esperamos que muestres en cada demo:
+ - After add a review we can see it in products-detail
+![reviews-footer](https://user-images.githubusercontent.com/66705822/99190568-f74a4b00-2745-11eb-92db-e8ff50a8e951.png)
 
-- Demo **1**: Catálogo de productos
-    + Los usuarios pueden ver los productos y filtrar por categoría.
-    + Los administradores pueden editar y agregar productos
-- Demo **2**:
-    + Los usuarios pueden buscar productos en el catálogo.
-    + El catálogo está paginado.
-    + Los usuarios tienen un carrito al que pueden agregar productos.
-- Demo **3**:
-    + Los usuarios pueden ver su historial de compras.
-    + Los usuarios tienen su carrito en cualquier device al que se logueen.
-- Demo **Final**:
-    + Los usuarios pueden hacer el checkout.
-    + Los admins pueden ver las ordenes pendientes.
-    + Los usuarios reciben mails de notificaciones.
+- There is an admin section where we have a CRUD of products, categories, orders and users.
+![Admin-panel](https://user-images.githubusercontent.com/66705822/99190252-47281280-2744-11eb-92bb-210656defceb.png)
