@@ -9,7 +9,7 @@ const {
   Orderline,
 } = require("../db.js");
 const nodemailer = require("nodemailer");
-const hbs = require('nodemailer-express-handlebars');
+const hbs = require("nodemailer-express-handlebars");
 
 server.post("/", (req, res) => {
   let transporter = nodemailer.createTransport({
@@ -69,7 +69,6 @@ server.post("/", (req, res) => {
         `Do not share this link`,
     };
   } else if (emailType === "sendPurchase") {
-    console.log("llega  ", req.body);
     const { user, info } = req.body;
     mailOptions = {
       from: "Cyberfitness@gmail.com",

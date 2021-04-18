@@ -2,8 +2,8 @@ const server = require("express").Router();
 const { Sequelize } = require("sequelize");
 const { Product, Categories, Image } = require("../db.js");
 const Op = Sequelize.Op;
-const isAdmin = require('../middleware/isAdmin')
-const auth = require('../middleware/auth')
+const isAdmin = require("../middleware/isAdmin");
+const auth = require("../middleware/auth");
 
 // Checking for a match in database and create the product.
 // Of succeed, it create the product, return 201 status and product information, else return error and status 400!
@@ -30,7 +30,7 @@ server.get("/", (req, res) => {
     // This function brings all the products and the it count'em.
     include: [
       {
-        model: Image
+        model: Image,
         //se puede añadir un where para condicionar las busquedas
       },
       {
@@ -64,16 +64,16 @@ server.get("/search", (req, res) => {
           },
         },
       ],
-	},
-	include: [
-		{
-		  model: Image,
-		  //se puede añadir un where para condicionar las busquedas
-		},
-		{
-      model: Categories,
-		},
-	  ]
+    },
+    include: [
+      {
+        model: Image,
+        //se puede añadir un where para condicionar las busquedas
+      },
+      {
+        model: Categories,
+      },
+    ],
   })
     .then((product) => {
       res.send(product);
@@ -146,7 +146,8 @@ server.delete("/:id", auth, isAdmin, (req, res) => {
     },
   })
     .then((confirmation) => {
-      if (confirmation === 0) {            // checking if the id passed its correct
+      if (confirmation === 0) {
+        // checking if the id passed its correct
         return res.send({ data: "Product not found!" }).status(400); // Show proper error in DevTool to the FrontEnd guys.
       }
       return res.send("Product Deleted");
@@ -156,76 +157,84 @@ server.delete("/:id", auth, isAdmin, (req, res) => {
     });
 });
 
-server.post("/:idProducto/category/:idCategoria", auth, isAdmin, (req, res, next) => {
-  //add the category to the product
-  const { idProducto, idCategoria } = req.params;
-  Product.findByPk(idProducto).then((singleProduct) => {
-    Categories.findByPk(idCategoria)
-      .then((newcategory) => {
-        console.log(newcategory);
-        singleProduct.addCategory(newcategory);
-      })
-      .then((product) => {
-        return res.json(product).status(201);
-      })
-      .catch((err) => {
-        return res.send({ data: err }).status(400);
-      });
-  });
-});
+server.post(
+  "/:idProducto/category/:idCategoria",
+  auth,
+  isAdmin,
+  (req, res, next) => {
+    //add the category to the product
+    const { idProducto, idCategoria } = req.params;
+    Product.findByPk(idProducto).then((singleProduct) => {
+      Categories.findByPk(idCategoria)
+        .then((newcategory) => {
+          singleProduct.addCategory(newcategory);
+        })
+        .then((product) => {
+          return res.json(product).status(201);
+        })
+        .catch((err) => {
+          return res.send({ data: err }).status(400);
+        });
+    });
+  }
+);
 
-server.delete("/:idProducto/category/:idCategoria", auth, isAdmin, (req, res, next) => {
-  /* this one is for deleting the product category;) */
-  const { idProducto, idCategoria } = req.params;
+server.delete(
+  "/:idProducto/category/:idCategoria",
+  auth,
+  isAdmin,
+  (req, res, next) => {
+    /* this one is for deleting the product category;) */
+    const { idProducto, idCategoria } = req.params;
 
-  Product.findByPk(idProducto).then((singleProduct) => {
-    Categories.findByPk(idCategoria)
-      .then((oldcategory) => {
-        console.log(oldcategory);
-        singleProduct.removeCategory(oldcategory);
-      })
-      .then(() => {
-        return res.send("Category deleted").status(201);
-      })
-      .catch((err) => {
-        return res.send({ data: err }).status(400);
-      });
-  });
-});
+    Product.findByPk(idProducto).then((singleProduct) => {
+      Categories.findByPk(idCategoria)
+        .then((oldcategory) => {
+          singleProduct.removeCategory(oldcategory);
+        })
+        .then(() => {
+          return res.send("Category deleted").status(201);
+        })
+        .catch((err) => {
+          return res.send({ data: err }).status(400);
+        });
+    });
+  }
+);
 
 // GET /products/categoria/:nombreCat
 // Retorna todos los productos de {nombreCat} Categoría.
-server.get('/category/:category', (req, res)=>{
-	const category = req.params.category;
+server.get("/category/:category", (req, res) => {
+  const category = req.params.category;
   Categories.findOne({
-    where:{
-      name: category
-    }
+    where: {
+      name: category,
+    },
   })
-  .then(cat=>{
-    let catId = cat.id;
-    return Product.findAll({         // This function brings all the products from an specific category. 
-      include: [
-        {
-          model: Image,
-          //se puede añadir un where para condicionar las busquedas
-        },
-        {
-          model: Categories,
-          where:{
-            id: catId
-          }
-        },
-      ],
+    .then((cat) => {
+      let catId = cat.id;
+      return Product.findAll({
+        // This function brings all the products from an specific category.
+        include: [
+          {
+            model: Image,
+            //se puede añadir un where para condicionar las busquedas
+          },
+          {
+            model: Categories,
+            where: {
+              id: catId,
+            },
+          },
+        ],
+      });
     })
-  })
-  .then(products=>{
-    
-    res.send(products)
-  })
-  .catch((err)=>{
-    return res.send({data: err}).status(400); // Show proper error in DevTool to the FrontEnd guys.
-  })
-})
+    .then((products) => {
+      res.send(products);
+    })
+    .catch((err) => {
+      return res.send({ data: err }).status(400); // Show proper error in DevTool to the FrontEnd guys.
+    });
+});
 
 module.exports = server;

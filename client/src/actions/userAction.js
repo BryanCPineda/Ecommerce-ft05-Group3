@@ -1,7 +1,7 @@
 import {
   GET_ALL_USERS,
   CREATE_USER,
-   DELETE_USER,
+  DELETE_USER,
   UPDATE_USER,
   USER_LOADING,
   USER_LOADED,
@@ -19,54 +19,55 @@ import {
 import { returnErrors } from "./errorActions";
 import axios from "axios";
 import swal from "sweetalert";
-import {welcomeEmail} from './sendEmail';
+import { welcomeEmail } from "./sendEmail";
 
-export function userForgotPassword(id,newPassword){
-       
-        return dispatch => {
-          return axios.post("http://localhost:4000/users/forgotPassword/"+id, {newPassword:newPassword})
-            .then(res => res.data)
-            .then(res => {
-                  dispatch({ type: USER_FORGOT_PASSWORD, payload: res });
-            })
-        }
+export function userForgotPassword(id, newPassword) {
+  return (dispatch) => {
+    return axios
+      .post("http://localhost:4000/users/forgotPassword/" + id, {
+        newPassword: newPassword,
+      })
+      .then((res) => res.data)
+      .then((res) => {
+        dispatch({ type: USER_FORGOT_PASSWORD, payload: res });
+      });
+  };
 }
 
-
-
-export function getAllUsers(){
-  return dispatch => { 
-    return axios.get("http://localhost:4000/users")
-            .then( res => res.data)
-            .then( res => {console.log('en actions', res)
-                    const users = res.rows.sort(function (a, b) { 
-            if (a.id > b.id) {
+export function getAllUsers() {
+  return (dispatch) => {
+    return axios
+      .get("http://localhost:4000/users")
+      .then((res) => res.data)
+      .then((res) => {
+        console.log("en actions", res);
+        const users = res.rows.sort(function (a, b) {
+          if (a.id > b.id) {
             return 1;
-            }
-            if (a.id < b.id) {
+          }
+          if (a.id < b.id) {
             return -1;
-            }
-            return 0;
-                         })
-                dispatch({ type: GET_ALL_USERS, payload: users }); 
-              });
-  }
+          }
+          return 0;
+        });
+        dispatch({ type: GET_ALL_USERS, payload: users });
+      });
+  };
 }
 
 //-----------------------autenticacion------------------------//
 export const loadUser = () => (dispatch, getState) => {
   const config = {
     headers: {
-      "Content-type": "Application/json",   //creo un objeto config con los headers
+      "Content-type": "Application/json", //creo un objeto config con los headers
     },
   };
 
   const token = getState().userReducer.token; //busco el token en el store de redux con getState()
 
   if (token) {
-    config.headers["x-auth-token"] = token;   //si hay token se lo paso en el header para que le llegue al back
+    config.headers["x-auth-token"] = token; //si hay token se lo paso en el header para que le llegue al back
   }
-  /* console.log(config); */
 
   axios
     .get("http://localhost:4000/auth", config)
@@ -74,15 +75,6 @@ export const loadUser = () => (dispatch, getState) => {
       dispatch({ type: USER_LOADED, payload: res.data });
     })
     .catch((error) => {
-      // if(error.response.status === 401) {
-      // if(error) {
-      //   dispatch({ type: AUTH_ERROR })
-      // }
-      //   console.log('unauthorized, logging out ...');
-      // return Promise.reject(error.response);
-      // }
-      /* console.log(error.message); */
-      console.log(error, "errorrrrrrrrrrrrr")
       dispatch({ type: AUTH_ERROR });
     });
 };
@@ -105,7 +97,7 @@ export const createUser = (user) => (dispatch) => {
       lastname: user.lastname,
       email: user.email,
       password: user.password,
-      usertype: 'client'
+      usertype: "client",
       //EL USERTYPE NO SE AGREGA SOLO UN ADMIN PUEDE HACER A OTRO USER ADMIN, ASI QUE NO SE ENVIA CUANDO SE CREA EL USUARIO POR DEFAULT ES CLIENT
       //EL ADREESS SOLO SE PEDIA CUANDO EL USUARIO HAGA UN CHECKOUT
       //EL USUARIO DECIDIRA SI QUIERE O NO SUBIR UNA IMAGEN
@@ -115,15 +107,15 @@ export const createUser = (user) => (dispatch) => {
   return axios
     .post("http://localhost:4000/users", userEnv)
     .then((res) => {
-     
-      dispatch({ type: REGISTER_SUCCESS, payload: res.data }) 
+      dispatch({ type: REGISTER_SUCCESS, payload: res.data });
     })
     .catch((error) => {
       if (error.response.status === 400) {
         dispatch(
-          returnErrors(               //en caso de haber un error dispacha esta funcion para el manejo de errores
-            error.response.data,      //todo esto lo hago para mostrarlo en el componente login o register
-            error.response.status,    //no es necesario para autenticacion
+          returnErrors(
+            //en caso de haber un error dispacha esta funcion para el manejo de errores
+            error.response.data, //todo esto lo hago para mostrarlo en el componente login o register
+            error.response.status, //no es necesario para autenticacion
             "REGISTER_FAIL"
           )
         );
@@ -131,7 +123,6 @@ export const createUser = (user) => (dispatch) => {
       }
     });
 };
-
 
 export const loginUser = (user) => (dispatch) => {
   const userEnv = {
@@ -145,9 +136,10 @@ export const loginUser = (user) => (dispatch) => {
       dispatch({ type: LOGIN_SUCCESS, payload: res.data });
     })
     .catch((error) => {
-      dispatch(               //en caso de haber un error dispacha esta funcion para el manejo de errores
+      dispatch(
+        //en caso de haber un error dispacha esta funcion para el manejo de errores
         returnErrors(error.response.data, error.response.status, "LOGIN_FAIL") //todo esto lo hago para mostrarlo en el componente login o register
-      );                  //no es necesario para autenticacion
+      ); //no es necesario para autenticacion
       dispatch({ type: LOGIN_FAIL });
     });
 };
@@ -176,9 +168,7 @@ export const showCompletedOrders = (idUser) => async (dispatch, getState) => {
 };
 /*-------------------------profile-------------------------*/
 
-
-
-export const promoteUser = (id) => (dispatch, getState,) => {
+export const promoteUser = (id) => (dispatch, getState) => {
   const config = {
     headers: {
       "Content-type": "Application/json",
@@ -190,17 +180,18 @@ export const promoteUser = (id) => (dispatch, getState,) => {
   if (token) {
     config.headers["x-auth-token"] = token;
   }
-  axios.post("http://localhost:4000/auth/promote", {id: id}, config).then(res => {
-    dispatch({ type: PROMOTE_USER, payload: res.data })
-  })
-  .catch(error => { 
-    console.log(error.message)
-   }
-  )
-}
+  axios
+    .post("http://localhost:4000/auth/promote", { id: id }, config)
+    .then((res) => {
+      dispatch({ type: PROMOTE_USER, payload: res.data });
+    })
+    .catch((error) => {
+      console.log(error.message);
+    });
+};
 
 export const deleteUser = (id) => (dispatch, getState) => {
-  console.log(id)
+  console.log(id);
   const config = {
     headers: {
       "Content-type": "Application/json",
@@ -212,18 +203,18 @@ export const deleteUser = (id) => (dispatch, getState) => {
   if (token) {
     config.headers["x-auth-token"] = token;
   }
-  
-  axios.delete("http://localhost:4000/users/delete/"+id, config).then(res => {
-    dispatch({ type: DELETE_USER, payload: res.data })
-  })
-  .catch(error => { 
-    console.log(error.message)
-   }
-  )
-}  
+
+  axios
+    .delete("http://localhost:4000/users/delete/" + id, config)
+    .then((res) => {
+      dispatch({ type: DELETE_USER, payload: res.data });
+    })
+    .catch((error) => {
+      console.log(error.message);
+    });
+};
 
 export const resetPassword = (newPassword) => (dispatch, getState) => {
-  
   const config = {
     headers: {
       "Content-type": "Application/json",
@@ -235,24 +226,26 @@ export const resetPassword = (newPassword) => (dispatch, getState) => {
   if (token) {
     config.headers["x-auth-token"] = token;
   }
-  console.log('que hay dentro??', newPassword, token, config.headers)
+  console.log("que hay dentro??", newPassword, token, config.headers);
   return axios
-  .post("http://localhost:4000/users/passwordReset", { newPassword: newPassword }, config)
-  .then((result) => {
-    console.log('hay resultados?', result) 
-    dispatch({ type: PASSWORD_RESET })
-}).catch((error)=>{
-  console.log('hay algun error?', error)
-})
-}
-
- 
-
+    .post(
+      "http://localhost:4000/users/passwordReset",
+      { newPassword: newPassword },
+      config
+    )
+    .then((result) => {
+      console.log("hay resultados?", result);
+      dispatch({ type: PASSWORD_RESET });
+    })
+    .catch((error) => {
+      console.log("hay algun error?", error);
+    });
+};
 
 /*--------------------------------------------------*/
 
 export const setImageForUser = (img, idUser) => async (dispatch) => {
- /*  console.log("ima del actions", img); */
+  /*  console.log("ima del actions", img); */
   const res = await axios.post(`http://localhost:4000/users/${idUser}/image`, {
     img: img,
   });

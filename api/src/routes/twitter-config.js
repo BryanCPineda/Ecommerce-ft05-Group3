@@ -12,8 +12,6 @@ passport.use(
       includeEmail: true,
     },
     function (accessToken, refreshToken, profile, cb) {
-      console.log("profile", JSON.stringify(profile));
-      console.log("Access Token: " + accessToken);
       cb(null, profile);
     }
   )

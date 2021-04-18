@@ -61,9 +61,9 @@ server.get("/", (req, res, next) => {
 server.post(
   "/",
   [
-    check("name")                                               //validaciones de todos los campos que el usuario 
-      .isLength({ min: 2, max: 30 })                            //tiene que llenar en el front sino sale el cartelito
-      .withMessage("Name must have at least 2 characters"),     //rojo de que introduzca bien el campo
+    check("name") //validaciones de todos los campos que el usuario
+      .isLength({ min: 2, max: 30 }) //tiene que llenar en el front sino sale el cartelito
+      .withMessage("Name must have at least 2 characters"), //rojo de que introduzca bien el campo
     check("lastname", "Lastname is empty")
       .isLength({ min: 2, max: 50 })
       .withMessage("Lastname must have at least 2 characters"),
@@ -94,7 +94,7 @@ server.post(
           email: newGoogleUser.email,
           password: newGoogleUser.password,
           image: newGoogleUser.image,
-          gRegister: true
+          gRegister: true,
         },
       })
         .then((sendUser) => {
@@ -121,9 +121,10 @@ server.post(
       try {
         const { name, lastname, email, password, usertype } = req.body;
 
-        const errors = validationResult(req);           //valido todo el req body con la libreria express-validator
-        if (!errors.isEmpty()) {                        // que use al principio y si hay errores me crea un array
-          return res                                    // con esos errores y los mapeo para mostrarlos en el front
+        const errors = validationResult(req); //valido todo el req body con la libreria express-validator
+        if (!errors.isEmpty()) {
+          // que use al principio y si hay errores me crea un array
+          return res // con esos errores y los mapeo para mostrarlos en el front
             .status(400)
             .json({ errors: errors.array().map((ele) => ele.msg) });
         }
@@ -131,31 +132,33 @@ server.post(
         const user = await Users.findOne({ where: { email: email } });
 
         if (user) {
-          return res.status(400).json({ errors: ["User already exists!"] });  //chequeo si un usuario ya existe para 
-        }                                                                     // enviarle el msj de que ya existe
+          return res.status(400).json({ errors: ["User already exists!"] }); //chequeo si un usuario ya existe para
+        } // enviarle el msj de que ya existe
 
         const userCreate = await Users.create({
           name,
           lastname,
-          email,                                    //creo el usuario con el req.body que me envian desde el front
+          email, //creo el usuario con el req.body que me envian desde el front
           password,
           usertype,
         });
 
-        const salt = await bcrypt.genSalt(10);               //creo el salt para hashear la passwort, es un numero del 1 al 10
+        const salt = await bcrypt.genSalt(10); //creo el salt para hashear la passwort, es un numero del 1 al 10
         const hashedPassword = await bcrypt.hash(password, salt); //mientras mas alto mas dificil es que me hackeen la password
-        userCreate.password = hashedPassword;                   //piso la password que me envian en texto plano por esta hasheada
+        userCreate.password = hashedPassword; //piso la password que me envian en texto plano por esta hasheada
 
         await userCreate.save();
 
-        jwt.sign(                                         //creo el token mediante la firma
-          { id: userCreate.id },                           //guardo el id del usuario en el token
-          DB_KEY,                                         //la palabra secreta para hashearlo
-          { expiresIn: "1d" },                            //el tiempo de expiracion
-          (err, token) => {                               //un callback con un error y el token
-            if (err) throw err;                           //si hubo error muestro el error sino envio el token
+        jwt.sign(
+          //creo el token mediante la firma
+          { id: userCreate.id }, //guardo el id del usuario en el token
+          DB_KEY, //la palabra secreta para hashearlo
+          { expiresIn: "1d" }, //el tiempo de expiracion
+          (err, token) => {
+            //un callback con un error y el token
+            if (err) throw err; //si hubo error muestro el error sino envio el token
             res.status(200).send({
-              token,                                      //mando el token al front y los datos del usuario
+              token, //mando el token al front y los datos del usuario
               user: {
                 id: userCreate.id,
                 name: userCreate.name,
@@ -195,7 +198,6 @@ server.put("/:id", auth, (req, res) => {
     { where: { id: id } }
   )
     .then((value) => {
-      console.log("el value", value);
       const result = value[0];
       if (result) {
         return res.status(202).send("Element updated");
@@ -306,7 +308,6 @@ server.get("/:idUser/checkout", (req, res) => {
     include: [
       {
         model: Product,
-
       },
     ],
   })
@@ -320,7 +321,7 @@ server.get("/:idUser/checkout", (req, res) => {
           product: order.products,
           orderlines: orderlines,
           orderId: order.id,
-          totalPrice: order.totalPrice
+          totalPrice: order.totalPrice,
         };
         res.send(orderLinePlusProduct);
       });
@@ -348,7 +349,7 @@ server.post("/:idUser/cart", async (req, res) => {
       quantity: quantity,
       orderId: order[0].dataValues.id,
       productId: productId,
-      userId: idUser
+      userId: idUser,
     });
     return res.status(200).send(orderLine);
   } catch (error) {
@@ -465,7 +466,6 @@ server.get("/:id/orders", (req, res) => {
     },
   })
     .then((orders) => {
-      console.log(orders);
       const ordersAll = orders;
       if (ordersAll) {
         return res.status(200).json(orders);
@@ -473,18 +473,17 @@ server.get("/:id/orders", (req, res) => {
       return res.status(400).send("Not Orders");
     })
     .catch((err) => {
-      console.log(err);
       return res.send({ data: err }).status(400);
     });
 });
 
 // delete a user
-server.delete("/delete/:id", auth, isAdmin, (req, res) => { //RECUERDE PONER LA AUTENTICACION Y ISADMIN
-  
-  const  {id}  = req.params; 
-  Users.destroy({ where: { id: id } }) 
-    .then((value) => { 
-      console.log("User delete:", value);
+server.delete("/delete/:id", auth, isAdmin, (req, res) => {
+  //RECUERDE PONER LA AUTENTICACION Y ISADMIN
+
+  const { id } = req.params;
+  Users.destroy({ where: { id: id } })
+    .then((value) => {
       if (value === 1) {
         return res.status(202).send("User deleted");
       }
@@ -497,8 +496,8 @@ server.delete("/delete/:id", auth, isAdmin, (req, res) => { //RECUERDE PONER LA 
 
 //password Reset
 server.post("/passwordReset", auth, (req, res) => {
- const { newPassword } = req.body;
- const  {id}  = req.user;
+  const { newPassword } = req.body;
+  const { id } = req.user;
 
   const hashedPassword = bcrypt.hash(newPassword, 10).then((hashedPassword) => {
     Users.update(
@@ -545,29 +544,27 @@ server.post("/forgotPassword/:id", (req, res) => {
   });
 });
 
-
-
 // Profile route
 server.get("/:idUser/profile", async (req, res) => {
-  const {idUser} = req.params;
+  const { idUser } = req.params;
   Order.findAll({
-    where:{
+    where: {
       userId: idUser,
-      state: 'Complete'
+      state: "Complete",
     },
     include: {
       model: Product,
       include: {
-        model: Users
-      }
-    }
+        model: Users,
+      },
+    },
   })
-  .then((orders)=>{
-    res.send(orders)
-  })
-  .catch((err)=>{
-    res.send(err)
-  })
+    .then((orders) => {
+      res.send(orders);
+    })
+    .catch((err) => {
+      res.send(err);
+    });
 });
 
 // This function brings necesary data for the completedOrderlines component
@@ -576,42 +573,19 @@ server.get("/:userId/completedOrderlines", async (req, res) => {
   try {
     const orderlines = await Orderline.findAndCountAll({
       include: [
-        { model: Order, where: { userId: userId, state: 'Complete' }},
+        { model: Order, where: { userId: userId, state: "Complete" } },
         { model: Product },
       ],
-      order: [['productId', 'ASC']]
-    })
-    if(!orderlines){
-      res.send('This user has no completed orders').status(406)
+      order: [["productId", "ASC"]],
+    });
+    if (!orderlines) {
+      res.send("This user has no completed orders").status(406);
     }
     res.send(orderlines);
   } catch (error) {
     res.send(error);
   }
 });
-
-// server.get("/:idUser/profile", (req, res) => {
-//   const { idUser } = req.params;
-
-//   Order.findAll({ where: { userId: idUser, state: "Complete" } })
-//     .then((orders) => {
-//       const ordersIds = orders.map(ele => ele.dataValues.id)
-//       ordersIds.map(ele => Orderline.findAll({ where: { orderId: ele } }).then(orderlines => {
-//         const productsIds = orderlines.map(ele => ele.dataValues.productId)
-//         productsIds.map(ele => Reviews.findAll({ where: { productId: ele, userId: idUser }}).then(products => {
-//           console.log(products)
-//         })
-
-//         )
-//       })
-
-//       )
-
-//     })
-//     .catch((err) => {
-//       res.send(err);
-//     });
-// });
 
 server.get("/:idUser/image", async (req, res) => {
   try {
@@ -624,11 +598,10 @@ server.get("/:idUser/image", async (req, res) => {
   }
 });
 
-
 server.post("/:idUser/image", async (req, res) => {
   try {
     const { idUser } = req.params;
-    const { img } = req.body
+    const { img } = req.body;
 
     const user = await Users.findOne({ where: { id: idUser } });
     user.image = img;
@@ -639,29 +612,23 @@ server.post("/:idUser/image", async (req, res) => {
   }
 });
 
-
 // Add Orderlines to the Cart - first order, then the orderlines----------------
 server.post("/:idUser/carrito", (req, res) => {
-
-    const { idUser } = req.params;
-    console.log(idUser)
-    Order.findOrCreate({
-      where: { userId: idUser, state: "Cart" },
-    }).then((respuesta) => res.status(200).send({ data: respuesta }))
-    .catch(e =>
-       res.status(400).send({ data: e }) )
+  const { idUser } = req.params;
+  Order.findOrCreate({
+    where: { userId: idUser, state: "Cart" },
+  })
+    .then((respuesta) => res.status(200).send({ data: respuesta }))
+    .catch((e) => res.status(400).send({ data: e }));
 });
-
 
 server.post("/:idUser/carritoOrderline", async (req, res) => {
   try {
     const { idUser } = req.params;
     const { quantity, productId } = req.body;
-    console.log('body', req.body)
     const order = await Order.findOne({
       where: { userId: idUser, state: "Cart" },
     });
-    console.log('order', order)
     const product = await Product.findByPk(productId);
     product.stock = product.stock - quantity;
     const productSave = await product.save();
@@ -671,7 +638,7 @@ server.post("/:idUser/carritoOrderline", async (req, res) => {
       quantity: quantity,
       orderId: order.dataValues.id,
       productId: productId,
-      userId: idUser
+      userId: idUser,
     });
     return res.status(200).send({ data: orderLine });
   } catch (error) {

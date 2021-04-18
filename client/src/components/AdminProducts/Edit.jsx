@@ -60,10 +60,10 @@ function Edit({ allCategories, updateProduct, show, product, handleClose, addCat
     let categoriesError = "";
     let imagesError = "";
 
-    if(state.name.length < 5 || state.name.length > 40) {
+    if (state.name.length < 5 || state.name.length > 40) {
       nameError = "Name must have at least 5 characters and max 40"
     }
-    if(state.description.length < 20 || state.description.length > 255) {
+    if (state.description.length < 20 || state.description.length > 255) {
       descriptionError = "Description must have at least 20 characters and max 255"
     }
     if (state.price > 100000000 || state.price <= 0 || typeof state.price === 'number') {
@@ -79,7 +79,7 @@ function Edit({ allCategories, updateProduct, show, product, handleClose, addCat
       imagesError = "Cannot be empty";
     }
 
-    if(nameError || descriptionError || priceError || stockError || categoriesError || imagesError){
+    if (nameError || descriptionError || priceError || stockError || categoriesError || imagesError) {
       setErrors({ nameError, descriptionError, priceError, stockError, categoriesError, imagesError });
       return false;
     }
@@ -101,36 +101,18 @@ function Edit({ allCategories, updateProduct, show, product, handleClose, addCat
     });
   };
 
-  const handleCategories = (e) => {
-    let options = e.target.options;
-    let value = [];
-    let toDelete = [];
-    for (var i = 0, l = options.length; i < l; i++) {
-      if (options[i].selected) {
-        value.push(options[i].value * 1);
-      } else {
-        toDelete.push(options[i].value * 1);
-      }
-    }
-    setState({
-      ...state,
-      [e.target.name]: value,
-      categoriesToDelete: toDelete,
-    });
-  };
-
-  const onSelect = (selectedList, selectedItem) => {
+  const onSelect = (selectedItem) => {
     addCategoryToProduct(selectedItem.id, product.id);
   };
 
-  const onRemove = (selectedList, removedItem) => {
+  const onRemove = (removedItem) => {
     deleteCategoryToProduct(removedItem.id, product.id);
   };
 
   return (
     <Modal size="lg" show={show} onHide={handleClose}>
-      <Modal.Header style={{backgroundColor: '#8a2be2'}} className="border-0 bg-dark2" closeButton>
-        <Modal.Title style={{color: 'white'}}>Edit Product</Modal.Title>
+      <Modal.Header style={{ backgroundColor: '#8a2be2' }} className="border-0 bg-dark2" closeButton>
+        <Modal.Title style={{ color: 'white' }}>Edit Product</Modal.Title>
       </Modal.Header>
       <Modal.Body className="bg-dark2">
         <form>
@@ -238,20 +220,20 @@ function Edit({ allCategories, updateProduct, show, product, handleClose, addCat
 }
 
 function mapStateToProps(state) {
-    return {
-            products: state.productReducer.products,
-    }
+  return {
+    products: state.productReducer.products,
+  }
 }
 
 
 function mapDispatchToProps(dispatch) {
-    return {
-            addCategoryToProduct: (cat, id) => dispatch(addCategoryToProduct(cat, id) ),
-            deleteCategoryToProduct: (cat, id) => dispatch(deleteCategoryToProduct(cat, id) )
-    }
+  return {
+    addCategoryToProduct: (cat, id) => dispatch(addCategoryToProduct(cat, id)),
+    deleteCategoryToProduct: (cat, id) => dispatch(deleteCategoryToProduct(cat, id))
+  }
 }
 
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(Edit);

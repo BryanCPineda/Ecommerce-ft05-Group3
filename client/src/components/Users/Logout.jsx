@@ -1,10 +1,7 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { logout } from "../../actions/userAction";
 import { Redirect } from 'react-router-dom';
-
-import { Button } from "react-bootstrap";
-
 import "./UserLoged.css";
 
 function Logout({ logout }) {
@@ -22,7 +19,7 @@ function Logout({ logout }) {
     setTimeout(() => {
       localStorage.clear()
       logout();
-    }, 0); 
+    }, 0);
   }
 
   if (stateRedirect.redirect) {
@@ -35,7 +32,7 @@ function Logout({ logout }) {
       <span onClick={handleLogout}>
         Logout
       </span>
-      
+
     </div>
   );
 }

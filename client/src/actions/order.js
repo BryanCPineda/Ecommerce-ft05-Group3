@@ -1,17 +1,16 @@
-
-import Axios from 'axios'
-const GET_ORDER_CART = 'GET_ORDER_CART'
-const CART_CHANGE = 'CART_CHANGE'
-const EMPTY_CART = 'EMPTY_CART'
-const DELETE_ITEM_CART = 'DELETE_ITEM_CART'
-const MODIFY_TOTAL = "MODIFY_TOTAL"
-const ADD_PRODUCT_TO_CART = "ADD_PRODUCT_TO_CART"
-const GET_PRODUCTS_FROM_CART = "GET_PRODUCTS_FROM_CART"
-const RELOAD_CART = "RELOAD_CART"
-const UPDATE_PRODUCT_TO_CART = 'UPDATE_PRODUCT_TO_CART'
-const GET_PRODUCTS_FOR_CHECKOUT = 'GET_PRODUCTS_FOR_CHECKOUT'
-const ADD_PRODUCT_TO_CART_ORDER = 'ADD_PRODUCT_TO_CART_ORDER'
-const ADD_PRODUCT_TO_CART_ORDERLINE = 'ADD_PRODUCT_TO_CART_ORDERLINE'
+import Axios from "axios";
+const GET_ORDER_CART = "GET_ORDER_CART";
+const CART_CHANGE = "CART_CHANGE";
+const EMPTY_CART = "EMPTY_CART";
+const DELETE_ITEM_CART = "DELETE_ITEM_CART";
+const MODIFY_TOTAL = "MODIFY_TOTAL";
+const ADD_PRODUCT_TO_CART = "ADD_PRODUCT_TO_CART";
+const GET_PRODUCTS_FROM_CART = "GET_PRODUCTS_FROM_CART";
+const RELOAD_CART = "RELOAD_CART";
+const UPDATE_PRODUCT_TO_CART = "UPDATE_PRODUCT_TO_CART";
+const GET_PRODUCTS_FOR_CHECKOUT = "GET_PRODUCTS_FOR_CHECKOUT";
+const ADD_PRODUCT_TO_CART_ORDER = "ADD_PRODUCT_TO_CART_ORDER";
+const ADD_PRODUCT_TO_CART_ORDERLINE = "ADD_PRODUCT_TO_CART_ORDERLINE";
 
 export function reloadCart() {
   return (dispatch) => {
@@ -94,8 +93,6 @@ export function getOrder(idUser) {
     return Axios.get(`http://localhost:4000/users/${idUser}/cart`)
       .then((res) => res.data)
       .then((res) => {
-        console.log("get order", res);
-
         dispatch({ type: GET_ORDER_CART, payload: res });
       });
   };
@@ -125,8 +122,6 @@ export function cambioEstadoCarrito(id, status, totalPrice) {
     return Axios.put("http://localhost:4000/orders/checkout/" + id, estado)
       .then((res) => res.data)
       .then((res) => {
-        console.log("compra creada", res);
-
         dispatch({ type: CART_CHANGE, payload: res });
       })
       .catch((error) => console.log(error));
@@ -195,23 +190,25 @@ export function getProductsForCheckout(idUser) {
 
 // Add product to cart order y orderlines separated------------------------------------
 
-export function addProductToCartOrder (idUser) {
+export function addProductToCartOrder(idUser) {
   return (dispatch) => {
- 
-      return Axios.post(`http://localhost:4000/users/${idUser}/carrito`)
-      .then( res => res.data)
+    return Axios.post(`http://localhost:4000/users/${idUser}/carrito`)
+      .then((res) => res.data)
       .then((res) => {
-        dispatch({ type: ADD_PRODUCT_TO_CART_ORDER, payload: res});
+        dispatch({ type: ADD_PRODUCT_TO_CART_ORDER, payload: res });
       });
-  }};
+  };
+}
 
-  export function addProductToCartOrderline (idUser, body) {
-    return (dispatch) => {
-   
-        return Axios.post(`http://localhost:4000/users/${idUser}/carritoOrderline`, body)
-        .then( res => res.data)
-        .then((res) => {
-          dispatch({ type: ADD_PRODUCT_TO_CART_ORDERLINE, payload: res});
-        });
-    }};
-
+export function addProductToCartOrderline(idUser, body) {
+  return (dispatch) => {
+    return Axios.post(
+      `http://localhost:4000/users/${idUser}/carritoOrderline`,
+      body
+    )
+      .then((res) => res.data)
+      .then((res) => {
+        dispatch({ type: ADD_PRODUCT_TO_CART_ORDERLINE, payload: res });
+      });
+  };
+}
